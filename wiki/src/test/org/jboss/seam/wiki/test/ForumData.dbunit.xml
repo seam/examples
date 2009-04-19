@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <!-- Forums directory -->
+    <WIKI_NODE
+        NODE_ID="100" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="100" NAME="Forums" WIKINAME="Forums"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="100" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="101"
+        NS_LEFT="100" NS_RIGHT="105" NS_THREAD="1"/>
+    <FEED
+        FEED_ID = "100"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/Forums"
+        TITLE = "Forums"
+        AUTHOR = "System Administrator"
+        PUBLISHED_ON = "2006-09-25 13:45:00"
+        DIRECTORY_ID = "100"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="100" DISPLAY_POSITION="2"/>
+
+    <!-- Forums directory start page, forums list -->
+    <WIKI_NODE
+        NODE_ID="101" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="100"
+        AREA_NR="100" NAME="Seam Forums" WIKINAME="SeamForums"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_FILE
+        NODE_ID="101" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="101"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]"
+        CONTENT="[&lt;=forumList]"
+        FOOTER="[NULL]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory"
+        CONTENT_MACROS="forumList"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"/>
+
+
+    <!-- First forum directory -->
+    <WIKI_NODE
+        NODE_ID="102" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="100"
+        AREA_NR="100" NAME="Seam Users" WIKINAME="SeamUsers"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="102" DESCRIPTION="Seam usage discussions go here." DEFAULT_FILE_ID="103"
+        NS_LEFT="101" NS_RIGHT="102" NS_THREAD="1"/>
+    <FEED
+        FEED_ID = "101"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/Forums/SeamUsers"
+        TITLE = "Seam Users"
+        AUTHOR = "System Administrator"
+        PUBLISHED_ON = "2006-09-25 13:45:00"
+        DIRECTORY_ID = "102"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="102" DISPLAY_POSITION="0"/>
+
+    <!-- First form start page, topic list -->
+    <WIKI_NODE
+        NODE_ID="103" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="102"
+        AREA_NR="100" NAME="Seam Users Forum" WIKINAME="SeamUsersForum"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_FILE
+        NODE_ID="103" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="103"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]"
+        CONTENT="[&lt;=forumTopics]"
+        FOOTER="[NULL]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory"
+        CONTENT_MACROS="forumTopics"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"/>
+    
+
+    <!-- First posting -->
+    <WIKI_NODE
+        NODE_ID="104" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="102"
+        AREA_NR="100" NAME="The first posting" WIKINAME="TheFirstPosting"
+        CREATED_ON="2007-04-01 13:02:03" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="104" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="104"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=disableContentMacros]&#xA;[&lt;=forumPosting]"
+        CONTENT="This the first posting in the forum.&#xA;There is not much text here."
+        FOOTER="&#xA;[&lt;=forumReplies]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory forumPosting"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="forumReplies"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+
+    <!-- Reply to first posting -->
+    <WIKI_NODE
+        NODE_ID="105" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="104"
+        AREA_NR="100" NAME="The First Posting.Comment119672933218230" WIKINAME="TheFirstPostingComment119672933218230"
+        CREATED_ON="2007-04-02 13:02:03" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="105"
+        SUBJECT="This is a first test comment"
+        CONTENT="Collaboration-oriented websites require a human-friendly markup language for easy entry of formatted text in forum posts, wiki pages, blogs, comments, etc. Seam provides the |&lt;s:formattedText/>| control for display of formatted text that conforms to the Seam Text language. Seam Text is implemented using an ANTLR-based parser. You do not need to know anything about ANTLR to use it, however."
+        USE_WIKI_TEXT="true"
+        FROM_USER_NAME="Regular Member" FROM_USER_EMAIL="[NULL]" FROM_USER_HOMEPAGE="[NULL]"
+        NS_LEFT="1" NS_RIGHT="4" NS_THREAD="105"/>
+
+    <!-- Reply to first posting -->
+    <WIKI_NODE
+        NODE_ID="106" OBJ_VERSION="0" RATING="5" PARENT_NODE_ID="105"
+        AREA_NR="100" NAME="The First Posting.Comment119672933218233" WIKINAME="TheFirstPostingComment119672933218233"
+        CREATED_ON="2007-04-10 10:00:00" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="106"
+        SUBJECT="The first posting"
+        CONTENT="Collaboration-oriented websites require a human-friendly markup language for easy entry of formatted text in forum posts, wiki pages, blogs, comments, etc. Seam provides the |&lt;s:formattedText/>| control for display of formatted text that conforms to the Seam Text language. &#xA;&#xA;Seam Text is implemented using an ANTLR-based parser. You do not need to know anything about ANTLR to use it, however."
+        USE_WIKI_TEXT="true"
+        FROM_USER_NAME="Regular Member" FROM_USER_EMAIL="[NULL]" FROM_USER_HOMEPAGE="[NULL]"
+        NS_LEFT="2" NS_RIGHT="3" NS_THREAD="105"/>
+
+    <WIKI_DOCUMENT_LAST_COMMENT
+        WIKI_DOCUMENT_ID="104"
+        LAST_COMMENT_CREATED_ON="2007-04-10 10:00:00"
+        LAST_COMMENT_ID="106"/>
+
+    <!-- Second (sticky) posting -->
+    <WIKI_NODE
+        NODE_ID="107" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="102"
+        AREA_NR="100" NAME="A second (sticky) posting with a longer title" WIKINAME="ASecondStickyPostingWithALongerTitle"
+        CREATED_ON="2007-04-03 08:01:00" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="107" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="107"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=disableContentMacros]&#xA;[&lt;=forumStickyPosting]"
+        CONTENT="This the second (sticky) posting in the forum.&#xA;There is not much text here."
+        FOOTER="&#xA;[&lt;=forumReplies]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory forumStickyPosting"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="forumReplies"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+
+    <!-- Reply to second posting -->
+    <WIKI_NODE
+        NODE_ID="108" OBJ_VERSION="0" RATING="4" PARENT_NODE_ID="107"
+        AREA_NR="100" NAME="A second (sticky) posting with a longer title.Comment119672933211234" WIKINAME="ASecondStickyPostingWithALongerTitle.Comment119672933211234"
+        CREATED_ON="2007-04-04 08:01:00" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="108"
+        SUBJECT="This is a third test comment"
+        CONTENT="Collaboration-oriented websites require a human-friendly markup language for easy entry of formatted text in forum posts, wiki pages, blogs, comments, etc. Seam provides the |&lt;s:formattedText/>| control for display of formatted text that conforms to the Seam Text language. Seam Text is implemented using an ANTLR-based parser. You do not need to know anything about ANTLR to use it, however."
+        USE_WIKI_TEXT="true"
+        FROM_USER_NAME="Regular Member" FROM_USER_EMAIL="[NULL]" FROM_USER_HOMEPAGE="[NULL]"
+        NS_LEFT="1" NS_RIGHT="2" NS_THREAD="108"/>
+
+    <WIKI_DOCUMENT_LAST_COMMENT
+        WIKI_DOCUMENT_ID="107"
+        LAST_COMMENT_CREATED_ON="2007-04-04 08:01:00"
+        LAST_COMMENT_ID="108"/>
+
+    <!-- Third posting
+    <WIKI_NODE
+        NODE_ID="112" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="102"
+        AREA_NR="100" NAME="The third posting" WIKINAME="TheThirdPosting"
+        CREATED_ON="2007-04-25 13:02:03" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="112" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="112"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=disableContentMacros]&#xA;[&lt;=forumPosting]"
+        CONTENT="This the third posting in the forum.&#xA;There is not much text here."
+        FOOTER="&#xA;[&lt;=forumReplies]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory forumPosting"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="forumReplies"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+    -->
+
+
+    <!-- Second forum directory -->
+    <WIKI_NODE
+        NODE_ID="109" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="100"
+        AREA_NR="100" NAME="Seam Developers" WIKINAME="SeamDevelopers"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="1" WRITE_ACCESS_LEVEL="1" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="109" DESCRIPTION="Only for Seam developers or people interested in Seam development." DEFAULT_FILE_ID="110"
+        NS_LEFT="103" NS_RIGHT="104" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="109" DISPLAY_POSITION="1"/>
+    <FEED
+        FEED_ID = "102"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/Forums/SeamDevelopers"
+        TITLE = "Seam Developers"
+        AUTHOR = "System Administrator"
+        PUBLISHED_ON = "2006-09-25 13:45:00"
+        DIRECTORY_ID = "109"/>
+
+    <!-- Second forum start page, topic list -->
+    <WIKI_NODE
+        NODE_ID="110" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="109"
+        AREA_NR="100" NAME="Seam Developers Forum" WIKINAME="SeamDevelopersForum"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="1" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_FILE
+        NODE_ID="110" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="110"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]"
+        CONTENT="[&lt;=forumTopics]"
+        FOOTER="[NULL]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory"
+        CONTENT_MACROS="forumTopics"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"/>
+
+    <!-- Posting second forum -->
+    <WIKI_NODE
+        NODE_ID="111" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="109"
+        AREA_NR="100" NAME="A third thread with no replies" WIKINAME="AThirdThreadWithNoReplies"
+        CREATED_ON="2007-04-05 09:01:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="1" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="111" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="111"
+        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=disableContentMacros]&#xA;[&lt;=forumPosting]"
+        CONTENT="This the third  posting in the forum.&#xA;There is not much text here."
+        FOOTER="&#xA;[&lt;=forumReplies]"
+        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory forumPosting"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="forumReplies"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+
+    
+
+</dataset>
+

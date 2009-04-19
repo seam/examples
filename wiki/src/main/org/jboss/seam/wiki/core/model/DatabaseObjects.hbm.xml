@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <filter-def name="accessLevelFilter">
+        <filter-param name="currentAccessLevel" type="integer"/>
+    </filter-def>
+
+    <!-- TODO: Re-creating FK constraints with options not supported by Hibernate's @ForeignKey
+    This sucks big time... especially for MySQL which is too dumb to recognize two commands separated with a semicolon...
+    http://opensource.atlassian.com/projects/hibernate/browse/ANN-598
+
+    You have to wonder how horrible MySQL really is deep inside:
+    http://www.verysimple.com/blog/2006/10/22/mysql-error-number-1005-cant-create-table-mydbsql-328_45frm-errno-150
+    -->
+
+    <!-- ############################### HSQL DB ############################### -->
+
+    <database-object>
+        <create>
+            alter table WIKI_TAG drop constraint FK_WIKI_TAG_FILE_ID;
+            alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK drop constraint FK_SOURCE_WIKI_FILE_ID;
+            alter table WIKI_FILE_LINK add constraint FK_SOURCE_WIKI_FILE_ID foreign key (SOURCE_WIKI_FILE_ID) references WIKI_FILE on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK drop constraint FK_TARGET_WIKI_FILE_ID;
+            alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_DOCUMENT_LAST_COMMENT add constraint FK_WIKI_DOCUMENT_LAST_COMMENT_DOCUMENT_ID foreign key (WIKI_DOCUMENT_ID) references WIKI_DOCUMENT (NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <!-- ############################### MySQL ############################### -->
+
+
+    <database-object>
+        <create>
+            alter table WIKI_TAG drop foreign key FK_WIKI_TAG_FILE_ID;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK drop foreign key FK_SOURCE_WIKI_FILE_ID;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK add constraint FK_SOURCE_WIKI_FILE_ID foreign key (SOURCE_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK drop foreign key FK_TARGET_WIKI_FILE_ID;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_DOCUMENT_LAST_COMMENT add index FK_WIKI_DOCUMENT_LAST_COMMENT_DOCUMENT_ID (WIKI_DOCUMENT_ID), add constraint FK_WIKI_DOCUMENT_LAST_COMMENT_DOCUMENT_ID foreign key (WIKI_DOCUMENT_ID) references WIKI_DOCUMENT (NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME)
+        </create>
+        <drop>
+            drop index IDX_PREFERENCE_ENTITY_NAME
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_PREFERENCE_ENTITY_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, ENTITY_NAME)
+        </create>
+        <drop>
+            drop index IDX_PREFERENCE_ENTITY_PROPERTY_NAME
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_NODE_RATING on WIKI_NODE (RATING)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_RATING
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_NODE_READ_ACCESS_LEVEL on WIKI_NODE (READ_ACCESS_LEVEL)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_READ_ACCESS_LEVEL
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_NODE_CREATED_ON on WIKI_NODE (CREATED_ON)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_CREATED_ON
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_LEFT on WIKI_DIRECTORY (NS_LEFT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_LEFT
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_RIGHT on WIKI_DIRECTORY (NS_RIGHT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_RIGHT
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_THREAD on WIKI_DIRECTORY (NS_THREAD)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_THREAD
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_LEFT on WIKI_COMMENT (NS_LEFT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_LEFT
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_RIGHT on WIKI_COMMENT (NS_RIGHT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_RIGHT
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_THREAD on WIKI_COMMENT (NS_THREAD)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_THREAD
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DOCUMENT_HEADER_MACROS on WIKI_DOCUMENT (HEADER_MACROS)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DOCUMENT_HEADER_MACROS
+        </drop>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+    </database-object>
+
+</hibernate-mapping>
+

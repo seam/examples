@@ -1,0 +1,180 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">#{directoryBrowser.instance.name}</ui:define>
+
+<ui:define name="control">
+
+    <s:fragment rendered="#{!empty directoryBrowser.instance.parent}">
+
+        <s:link id="createDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.CreateSubdirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.CreateSubdirectory']}"/>
+            <f:param name="directoryId"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+        &#160;
+        <s:link id="editDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditDirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'edit', directoryBrowser.instance)}">
+            <f:param name="directoryId" value="#{directoryBrowser.instance.id}"/>
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditDirectory']}"/>
+        </s:link>
+        &#160;
+        <s:link id="createDoc" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.NewDocument.accesskey']}"
+                view="/docEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.NewDocument']}"/>
+            <f:param name="documentId"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+        &#160;
+        <s:link id="uploadFile" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.UploadFile.accesskey']}"
+                view="/uploadCreate_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.UploadFile']}"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+        &#160;
+
+    </s:fragment>
+
+    <s:fragment rendered="#{empty directoryBrowser.instance.parent}">
+        <s:link id="createArea" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.NewArea.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.NewArea']}"/>
+            <f:param name="directoryId"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+
+        <s:link id="editRoot" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditWikiRoot.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'edit', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditWikiRoot']}"/>
+            <f:param name="parentDirectoryId"/>
+        </s:link>
+
+    </s:fragment>
+
+    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(directoryBrowser.instance.feed, null, null)}"
+                  styleClass="linkNavigation" rendered="#{not empty directoryBrowser.instance.feed}">
+        <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
+    </h:outputLink>
+
+</ui:define>
+
+<ui:define name="content">
+
+<div class="directoryPathPanel">
+    <h:panelGroup>
+        <ui:repeat var="directory" value="#{directoryBrowser.instance.path}">
+            <s:link view="/dirDisplay_#{skin}.xhtml" value="#{directory.name}" propagation="none"
+                    styleClass="directoryButton" tabindex="1">
+                <f:param name="directoryId" value="#{directory.id}"/>
+            </s:link>
+            <h:outputText value=" / " styleClass="directorySeparator" rendered="#{directory != directoryBrowser.instance}"/>
+        </ui:repeat>
+    </h:panelGroup>
+</div>
+
+<s:div styleClass="directoryEmpty" rendered="#{empty directoryBrowser.childNodes}">
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="." propagation="none"
+                rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read', directoryBrowser.instance.parent)}">
+            <f:param name="directoryId" value="#{directoryBrowser.instance.parent.id}"/>
+            <h:panelGrid columns="2">
+                <h:graphicImage value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
+                <h:outputText value=".."/>
+            </h:panelGrid>
+        </s:link>
+    <h:outputText rendered="#{empty directoryBrowser.instance.parent or !s:hasPermission('Node','read', directoryBrowser.instance.parent)}"
+                  value="#{messages['lacewiki.label.dirDisplay.DirectoryIsEmpty']}"/>
+
+</s:div>
+
+<!-- TODO: Add pager -->
+
+<h:dataTable id="directoryTable" var="node"
+             value="#{directoryBrowser.childNodes}"
+             rendered="#{!empty directoryBrowser.childNodes}"
+             styleClass="datatable topLeftBottomBorder"
+             headerClass="regularHeader rightBorder"
+             columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft"
+             rowClasses="rowOdd,rowEven"
+             cellpadding="0" cellspacing="0" border="0">
+
+    <h:column>
+        <f:facet name="header">
+            <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="." propagation="none"
+                    rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read',directoryBrowser.instance.parent)}">
+                <f:param name="directoryId" value="#{directoryBrowser.instance.parent.id}"/>
+                <h:graphicImage value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
+            </s:link>
+        </f:facet>
+
+        <h:graphicImage value="#{imagePath}/#{wikiDirectoryIconHandler.getIconName(node)}"
+                        width="18" height="20"
+                        rendered="#{node.isInstance('WikiDirectory')}"/>
+
+        <h:graphicImage value="#{imagePath}/#{wikiDocumentIconHandler.getIconName(node)}"
+                        width="18" height="20"
+                        rendered="#{node.isInstance('WikiDocument')}"/>
+
+        <h:graphicImage value="#{imagePath}/#{wikiUploadIconHandler.getIconName(node)}"
+                        width="18" height="20"
+                        rendered="#{node.isInstance('WikiUpload')}"/>
+    </h:column>
+
+    <h:column>
+
+        <s:span rendered="#{node.isInstance('WikiDirectory')}">
+            <s:link id="browseDirectory" value="#{wiki:truncateString(node.name, 40, '...')}"
+                    view="/dirDisplay_#{skin}.xhtml" propagation="none"
+                    rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
+                <f:param name="directoryId" value="#{node.id}"/>
+            </s:link>
+            <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+        </s:span>
+
+        <s:span rendered="#{node.isInstance('WikiDocument')}">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
+                <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
+            </h:outputLink>
+            <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+        </s:span>
+
+        <s:span rendered="#{node.isInstance('WikiUpload') and s:hasPermission('Node', 'edit', node)}">
+            <s:link id="editFile" value="#{wiki:truncateString(node.name, 30, '...')}"
+                    tabindex="2" view="/uploadEdit_#{skin}.xhtml" propagation="none">
+                <f:param name="uploadId" value="#{node.id}"/>
+                <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+            </s:link>
+            <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
+        </s:span>
+        <h:panelGroup rendered="#{node.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', node)}">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
+                <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
+            </h:outputLink>
+        </h:panelGroup>
+
+    </h:column>
+
+</h:dataTable>
+
+</ui:define>
+
+</ui:composition>

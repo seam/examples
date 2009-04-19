@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="numberGuess" width="748" height="787">
+  <node name="displayGuess" x="276" y="12" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="126" h1="-18" w2="-126" h2="-18"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="evaluateGuess" x="276" y="288" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="evaluateRemainingGuesses" x="504" y="288" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="giveup" x="528" y="12" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="92" h1="0" w2="128" h2="-348"/>
+      <bendpoint w1="91" h1="347" w2="127" h2="-1"/>
+    </edge>
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="-127" h1="32" w2="125" h2="32"/>
+    </edge>
+  </node>
+  <node name="cheat" x="60" y="288" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="win" x="276" y="360" width="132" height="36"/>
+  <node name="lose" x="492" y="360" width="132" height="36"/>
+</root-container>

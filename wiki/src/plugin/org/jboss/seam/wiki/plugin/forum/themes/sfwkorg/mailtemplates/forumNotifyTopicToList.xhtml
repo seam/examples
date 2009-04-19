@@ -1,0 +1,55 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:wiki="http://jboss.com/products/seam/wiki"
+            xmlns:c="http://java.sun.com/jstl/core"
+            messageId="#{topicHome.instance.messageId}">
+
+    <m:header name="X-Sent-From" value="SeamFramework.org" />
+    <m:header name="Precedence" value="list"/>
+
+    <m:header name="From" value="#{topicHome.instance.createdBy.fullname} &lt;do-not-reply@jboss.com>"/>
+    <m:to name="SeamFramework.org Forums List">#{topicHome.mailingList}</m:to>
+
+    <m:subject>#{topicHome.instance.name}</m:subject>
+
+    <m:body>
+        <html>
+            <body>
+            <p>
+              This <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">new topic</a> was posted
+              by #{topicHome.instance.createdBy.fullname}:
+            </p>
+
+            <hr/>
+
+            <c:if test="#{not topicHome.instance.macroPresent('disableContentMarkup')}">
+                <wiki:formattedText value="#{topicHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </c:if>
+            <c:if test="#{topicHome.instance.macroPresent('disableContentMarkup')}">
+                <div style="font-family: Andale Mono, Courier New, monospace;">
+                    <h:outputText escape="false" value="#{wiki:escapeHTML(topicHome.instance.content, true, true)}"/>
+                </div>
+            </c:if>
+
+            <hr/>
+            <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">Click here</a> to reply...
+            <br/>
+
+            </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Please see the HTML portion of this e-mail.
+</h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

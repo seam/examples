@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam PDF Fill-in-forms</title>
+    <ui:remove><link href="screen.css" rel="stylesheet" type="text/css" /></ui:remove>
+</head>
+<body>      
+	<h:form>
+		<h:messages globalOnly="true" styleClass="message" />
+		<h:panelGrid columns="2">
+			<h:outputText value="Your name:" />
+			<h:inputText value="#{fillInForms.name}" />
+			<h:outputText value="Your home address" />
+			<h:inputText value="#{fillInForms.address}" />
+			<h:outputText value="Postal code:" />
+			<h:inputText value="#{fillInForms.postalCode}" />
+			<h:outputText value="Your email address:" />
+			<h:inputText value="#{fillInForms.email}" />
+			<h:outputText value="Programming skills:" />
+			<h:selectManyListbox value="#{fillInForms.programming}">
+				<f:selectItems value="#{fillInForms.programmingLanguages}" />
+			</h:selectManyListbox>
+			<h:outputText value="Mother tongue" />
+			<h:selectOneMenu value="#{fillInForms.language}">
+				<f:selectItems value="#{fillInForms.languages}" />
+			</h:selectOneMenu>
+			<h:outputText value="Preferred language" />
+			<h:selectOneRadio layout="pageDirection" value="#{fillInForms.preferred}">
+				<f:selectItems value="#{fillInForms.languages}" />
+			</h:selectOneRadio>
+			<h:outputText value="Knowledge of" />
+			<h:selectManyCheckbox layout="pageDirection" value="#{fillInForms.knowledge}">
+				<f:selectItems value="#{fillInForms.languages}" />
+			</h:selectManyCheckbox>
+			<h:commandButton value="Submit" action="#{fillInForms.submit}"/>
+		</h:panelGrid>
+	</h:form>
+	</body>
+</html>	
+		
+

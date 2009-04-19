@@ -1,0 +1,102 @@
+#blogDirectoryPlugin\:blogEntries .boxheader {
+    padding-bottom: 0;
+}
+
+#blogDirectoryPlugin\:blogEntries .boxContent {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#blogDirectoryPlugin\:blogEntries .boxContent .wikiPara:first-child {
+    padding-top: 5px;
+    margin-top: 0;
+}
+
+.blogEntryHeader .title {
+    text-align: left;
+    line-height: 200%;
+    font-size: 120%;
+}
+
+.blogEntryHeader .dateAuthor {
+    text-align: right;
+    white-space: nowrap;
+    font-weight: normal;
+    line-height: 100%;
+}
+
+.blogEntryContent {
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 150%;
+    text-align: justify;
+}
+
+.blogEntryContent .documentTags {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+    font-size: 85%;
+}
+
+.blogEntryContent .wikiHeadline1 a,
+.blogEntryContent .wikiHeadline2 a,
+.blogEntryContent .wikiHeadline3 a,
+.blogEntryContent .wikiHeadline4 a {
+    color: black;
+}
+
+.blogEntryFooter {
+    font-size: 85%;
+}
+
+.blogEntryFooterTable {
+    margin-right: auto;
+}
+
+.blogEntryCommentCount,
+.blogEntryCommentLink,
+.blogEntryAttachmentsLink,
+.blogEntryPermLink,
+.blogEntryWikiLink {
+    padding-right: 25px;
+    text-align:left;
+}
+.blogEntryCommentCountText,
+.blogEntryCommentLinkText,
+.blogEntryAttachmentsLinkText,
+.blogEntryPermLinkText,
+.blogEntryWikiLinkText {
+    color: #d75525;
+}
+.blogEntryCommentCountText:hover,
+.blogEntryCommentLinkText:hover,
+.blogEntryAttachmentsLinkText:hover,
+.blogEntryPermLinkText:hover,
+.blogEntryWikiLinkText:hover {
+    color: #666;
+}
+
+.blogEntrySeparator {
+    height: 25px;
+}
+
+.blogPagerTable {
+    width: 100%;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    text-align: center;
+}
+
+.blogPagerColumn {
+    width: 10%;
+}
+.blogPagerTextColumn {
+    width: 60%;
+}

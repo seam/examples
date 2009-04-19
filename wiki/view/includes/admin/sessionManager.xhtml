@@ -1,0 +1,175 @@
+<s:fragment
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<script type="text/javascript">
+
+    function switchSessionControl() {
+        var sessionControlsEnabled = false
+        jQuery(".wikiSessionSelect").each(
+            function checkSelected() {
+                if (jQuery(this).attr("checked")) {
+                    sessionControlsEnabled = true;
+                }
+            }
+        );
+        if (sessionControlsEnabled) {
+            jQuery(".sessionControl").show();
+        } else {
+            jQuery(".sessionControl").hide();
+        }
+    }
+</script>
+
+<s:div id="sessionManager">
+
+    <h:panelGrid columns="3" style="width:100%;"
+                 columnClasses="twentyPercentColumn alignLeft,
+                                twentyPercentColumn alignLeft,
+                                defaultColumn alignRight">
+
+        <h:panelGroup styleClass="undecoratedLink">
+            <h:outputText value="Select:&#160;"/>
+
+            <h:outputLink value="javascript:selectCheckBoxes('wikiSessionSelect'); switchSessionControl();">
+                <h:outputText value="All"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink value="javascript:selectCheckBoxes('wikiSessionSelectGuest'); switchSessionControl();">
+                <h:outputText value="Guests"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink value="javascript:selectCheckBoxes('wikiSessionSelectRegularUser'); switchSessionControl();">
+                <h:outputText value="Regular Users"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink value="javascript:deselectCheckBoxes('wikiSessionSelect'); switchSessionControl();">
+                <h:outputText value="None"/>
+            </h:outputLink>
+
+        </h:panelGroup>
+
+        <h:panelGroup styleClass="sessionControl" style="display:none;">
+
+            <a:commandLink action="#{wikiHttpSessionManager.calculateSelectedSessionsSize}"
+                           reRender="sessionManager, messageBoxContainer"
+                           status="globalStatus"
+                           oncomplete="onAjaxRequestComplete()"
+                           eventsQueue="ajaxEventQueue"
+                           styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" value="Calculate Size"/>
+            </a:commandLink>
+
+            <!--
+            <a:commandLink action="#{wikiHttpSessionManager.invalidateSelectedSessions}"
+                           reRender="sessionManager, messageBoxContainer"
+                           status="globalStatus"
+                           oncomplete="onAjaxRequestComplete()"
+                           eventsQueue="ajaxEventQueue"
+                           styleClass="button">
+                <h:outputText styleClass="buttonLabel" value="Invalidate"/>
+            </a:commandLink>
+            -->
+
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:outputText value="Active sessions: #{wikiHttpSessionManager.sessions.size()}"/>
+
+            <a:commandLink action="#{wikiHttpSessionManager.refresh()}"
+                           reRender="sessionManager, messageBoxContainer"
+                           status="globalStatus"
+                           oncomplete="onAjaxRequestComplete()"
+                           eventsQueue="ajaxEventQueue"
+                           styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" value="Refresh"/>
+            </a:commandLink>
+        </h:panelGroup>
+
+    </h:panelGrid>
+
+    <h:dataTable value="#{wikiHttpSessionManager.sessions}" var="s"
+                 styleClass="datatable topLeftBottomBorder"
+                 headerClass="regularHeader rightBorder smallFont"
+                 columnClasses="onePercentColumn rightBorder alignLeft,
+                                defaultColumn rightBorder alignCenter,
+                                twentyPercentColumn rightBorder alignCenter,
+                                twentyPercentColumn rightBorder alignCenter,
+                                tenPercentColumn rightBorder alignCenter
+                                tenPercentColumn rightBorder alignCenter
+                                tenPercentColumn rightBorder alignCenter"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:column>
+            <h:selectBooleanCheckbox value="#{wikiHttpSessionManager.selectedSessions[s.id]}"
+                                     styleClass="wikiSessionSelect
+                                                #{wikiHttpSessionManager.getUsername(s.id) == 'Guest'
+                                                ? 'wikiSessionSelectGuest'
+                                                : 'wikiSessionSelectRegularUser'}"
+                                     onchange="switchSessionControl()"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="User"/>
+            </f:facet>
+            <h:outputText value="#{wikiHttpSessionManager.getUsername(s.id)}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Created"/>
+            </f:facet>
+            <h:outputText value="#{wiki:toDate(s.creationTime)}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm:ss" timeZone="#{preferences.get('Wiki').timeZone}"/>
+            </h:outputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Last Access"/>
+            </f:facet>
+            <h:outputText value="#{wiki:toDate(s.lastAccessedTime)}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm:ss" timeZone="#{preferences.get('Wiki').timeZone}"/>
+            </h:outputText>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Idle"/>
+            </f:facet>
+            <h:outputText value="#{wiki:getTimeDifferenceToCurrent(wiki:toDate(s.lastAccessedTime))}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Expires"/>
+            </f:facet>
+            <h:outputText value="#{wiki:getTimeDifferenceToCurrent(wiki:toDate(s.lastAccessedTime + s.maxInactiveInterval*1000))}"/>
+            <h:outputText value="&#160;(EXPIRED!)&#160;"
+                          rendered="#{wiki:toDate(s.lastAccessedTime + s.maxInactiveInterval*1000).time &lt; wiki:currentDate().time}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Size"/>
+            </f:facet>
+            <h:outputText rendered="#{not empty wikiHttpSessionManager.sessionsSize[s.id]}"
+                          value="#{wiki:displayFilesize(wikiHttpSessionManager.sessionsSize[s.id])}"/>
+            <h:outputText rendered="#{empty wikiHttpSessionManager.sessionsSize[s.id]}"
+                          value="-"/>
+        </h:column>
+
+    </h:dataTable>
+
+</s:div>
+
+</s:fragment>

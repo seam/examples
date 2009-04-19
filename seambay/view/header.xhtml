@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <ui:composition>
+    
+    <div id="header">
+      <s:link view="/home.xhtml" propagation="none"><div class="seambay-logo"></div></s:link>
+    
+      <div class="header_tools_top">
+        <div class="header_links">
+          <s:link view="/home.xhtml" propagation="none" value="home" styleClass="header_link"/>
+        </div>
+        
+        <div class="header_search">
+          <h:form id="search">
+            <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}"/>
+            <h:commandButton id="submit" action="#{auctionSearch.queryAllAuctions}" value="Search"/>
+          </h:form>
+        </div>
+      </div>
+
+      <div class="header_tools_bottom">    
+        <div>          
+          <s:link id="buy" view="/buy.xhtml" value="Buy" styleClass="header_action" propagation="none"
+          /><s:link id="sell" view="/sell.xhtml" value="Sell" styleClass="header_action" propagation="none"
+          /><s:link id="help" view="/help.xhtml" value="Help" styleClass="header_action" propagation="none"/>
+        </div>       
+
+      </div>
+    </div>
+    
+    <s:fragment rendered="#{not identity.loggedIn}">
+      <span>Hello! </span>
+      <s:link id="login" view="/login.seam" value="Sign in" propagation="none"/>
+      <span> or </span>
+      <s:link id="register" view="/register.seam" value="register" propagation="none"/>.
+    </s:fragment>
+    
+    <s:fragment rendered="#{identity.loggedIn}">
+      Hello, #{authenticatedAccount.name}. 
+      <span>(</span><s:link id="logout" action="#{identity.logout}" propagation="none" value="Sign out"/><span>)</span>
+    </s:fragment>
+    
+  </ui:composition>
+</html>

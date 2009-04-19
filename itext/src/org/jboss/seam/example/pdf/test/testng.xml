@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="itext" verbose="2" parallel="false">
+	<test name="pdf tests">
+		<classes>
+			<class
+				name="org.jboss.seam.example.pdf.test.DocumentTests" />
+		</classes>
+	</test>
+</suite>

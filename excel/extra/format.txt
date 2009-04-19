@@ -1,0 +1,52 @@
+Min:
+<e:workbook>
+   <e:worksheet value="#{data}" var="item">
+      <e:column>
+         <e:cell value="#{item.value}"/>
+      </e:column>
+   </e:worksheet>
+</e:workbook>
+
+
+Max:
+<e:workbook>
+	<e:cellTemplate name="global">
+		<e:font/>
+	</e:cellTemplate>
+	<e:cellTemplate name="header">
+		<e:font/>
+	</e:cellTemplate>
+	<e:cellTemplate name="data">
+		<e:font/>
+	</e:cellTemplate>
+	<e:worksheet name="first data" value="#{firstdata}" var="firstrow">
+		<e:headerFooter type="header">
+			<f:facet name="left">
+				<e:headerFooterCommands>
+					<e:headerFooterCommand type="time"/>
+				</e:headerFooterCommands>
+			</f:facet>
+		</e:headerFooter>
+		<e:printArea/>
+		<e:printTitles/>
+		<e:cell value="single cell" column="10", row="10"/>
+		<e:image column="20", row="20" URI="..."/>
+		<e:hyperLink column="30", cell="30" URL="..."/>
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="firstheader" templates="global,header"/>	
+			</f:facet>
+			<e:cell value="#{firstrow.data}" rendered="..." templates="global,data">
+				<e:validations> <!-- not yet -->
+					<e:validation operator="greater_than" value="2"/>
+				</e:validations>
+			</e:cell> 
+         	<e:cell value="#{firstrow.data}" rendered="!..." templates="global,data"/> 
+		</e:column>
+	</e:worksheet>
+	<e:worksheet name="Second data, page #0" value="#{seconddata}" var="secondrow" .../>
+ </e:workbook>
+ 
+  
+  
+ 

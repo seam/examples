@@ -1,0 +1,28 @@
+.teaserColumn {
+    padding: 10px;
+}
+
+.teaserTitle {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.teaserAuthorDate {
+    text-align: right;
+}
+
+.teaserAuthor {
+}
+
+.teaserAuthorLink {
+    color: #d75525;
+    text-decoration: none;
+}
+
+.teaserDate {
+}
+
+.teaserBody {
+    line-height: 150%;
+    text-align:justify;
+}

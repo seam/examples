@@ -1,0 +1,153 @@
+h1 {
+    font-size: 150%;
+    font-weight: normal;
+}
+
+h2, h3, h4 {
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 125%;
+}
+
+h3 {
+    font-size: 110%;
+}
+
+h4 {
+    font-size: 100%;
+}
+
+#header {
+    background-color: #f5f5f5;
+    padding: 5px;
+    color: #000;
+    font-size: 120%;
+}
+
+#control {
+    background-color: #ccc;
+    text-align: right;
+}
+
+#content {
+    background-color: #fff;
+}
+
+#footer {
+    margin-top: 5px;
+    padding: 5px;
+	background-color: #ccc;
+}
+
+.messageBoxCell {
+    padding: 5px;
+}
+
+.errorMessage {
+    color: #f00;
+}
+
+.linkNavigation {
+    text-decoration:underline;
+    padding: 2px 5px 2px 5px;
+}
+
+.regularLink{
+    text-decoration: underline;
+}
+
+.brokenLink {
+    color: #ff0000;
+    text-decoration: line-through;
+}
+
+.rowOdd {
+    background-color: #eee;
+}
+.rowEven {
+    background-color: #fff;
+}
+
+#mainMenu .level1Marker,
+#mainMenu .level2Marker,
+#mainMenu .level3Marker {
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+
+#searchControl .searchControlInput {
+    width: 120px;
+}
+
+#searchControl .searchControlLink{
+    text-decoration:underline;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.userControl {
+    margin-top: 5px;
+}
+
+.userControlPanel {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.formControls {
+    margin-top: 5px;
+    background-color: #ccc;
+    padding: 5px;
+}
+
+.diffOutput {
+    margin: 10px;
+}
+
+.diffInfo {
+    font-size: 85%;
+    font-weight: bold;
+    color: #666;
+}
+
+.diffDeleted {
+    background-color: #ffaaaa;
+}
+
+.diffAdded {
+    background-color: #aaffaa;
+}
+
+.diffLink {
+    text-decoration: underline;
+}
+
+.diffPlugin {
+    border: 1px dashed black;
+    padding: 2px;
+}
+
+.box, .blogEntry {
+    clear: both;
+    margin-top: 5px;
+}
+
+.boxHeader, .blogEntryHeader {
+    font-weight: bold;
+    background: #eee;
+    border: none;
+}
+
+.commentAuthorDate {
+    font-style: italic;
+    padding: 5px;
+}
+
+.cookieJavaScriptWarning {
+    margin: 10px;
+    color: red;
+    text-align: center;
+}

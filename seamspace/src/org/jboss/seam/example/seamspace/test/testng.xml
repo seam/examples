@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="SeamSpace" verbose="2" parallel="false">
+
+   <test name="SeamSpace: Register">
+     <classes>
+       <class name="org.jboss.seam.example.seamspace.test.RegisterTest"/>
+     </classes>
+   </test>
+   
+   <test name="SeamSpace: Blog">
+     <classes>
+       <class name="org.jboss.seam.example.seamspace.test.BlogTest"/>
+     </classes>
+   </test>
+	
+</suite>

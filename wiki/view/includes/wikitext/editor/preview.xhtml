@@ -1,0 +1,40 @@
+<s:fragment
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:div id="#{textEditor.key}Preview">
+    <s:fragment rendered="#{textEditor.previewEnabled}">
+
+        <s:div styleClass="textPreview"
+               rendered="#{not textEditor.valuePlaintext and textEditor.valid}">
+
+            <wiki:formattedText value="#{textEditor.value}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{baseDocument}"
+                                currentAreaNumber="#{baseDirectory.areaNumber}"
+                                enableMacroRendering="false"/>
+        </s:div>
+
+        <s:div styleClass="textPreview"
+               rendered="#{not textEditor.valuePlaintext and not textEditor.valid}">
+            <h:outputText value="#{messages['lacewiki.msg.wikiTextValidator.InvalidWikiText']}"/>
+        </s:div>
+
+        <s:div styleClass="textPreview"
+               rendered="#{textEditor.valuePlaintext}">
+            <s:div styleClass="plaintext">
+                <h:outputText escape="false" value="#{wiki:escapeHTML(textEditor.value, true, true)}"/>
+            </s:div>
+        </s:div>
+
+    </s:fragment>
+</s:div>
+
+</s:fragment>

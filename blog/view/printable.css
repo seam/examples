@@ -1,0 +1,58 @@
+body {
+  font-family: Lucida Grande, Tahoma, Verdana, Arial, sans-serif;
+  font-size: 1.0em;
+  line-height: 1.2em;
+  text-align: left;
+}
+td {
+  font-size: 1.0em;
+  line-height: 1.2em;
+}
+p {
+  font-size: 1.0em;
+  line-height: 1.2em;
+}
+a:link {
+  color: #4169AA;
+  text-decoration: none;
+  border-bottom: 1px dotted #4169AA;
+}
+a:visited {
+  color: gray;
+  text-decoration: none;
+  border-bottom: 1px dotted gray;
+}
+a:hover {
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+h1 {
+  font-size: 2em;
+  text-align: center;
+  color: black;
+  padding-top: 60px;
+}
+h2 {
+  font-size: 1.3em;
+  text-align: center;
+  color: black;
+  padding-bottom: 60px;
+}
+h3 {
+  font-size: 1.3em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: 1.1em;
+}
+h6 {
+  font-size: 1em;
+}
+.blogEntry {
+  margin-top: 20px;
+}
+#menu form {
+  display: inline;
+}

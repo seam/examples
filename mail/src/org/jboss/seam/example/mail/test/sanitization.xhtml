@@ -1,0 +1,14 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+           xmlns:m="http://jboss.com/products/seam/mail"
+           xmlns:h="http://java.sun.com/jsf/html">
+    
+          <m:from name="#{name}">peter@example.com
+foo</m:from>
+          <m:to name="#{name}">peter@email.tld
+bar</m:to>
+          <m:subject>Try out
+          Seam!</m:subject>
+          <m:header name="#{name}">roll
+          over</m:header>
+          <m:body>A mail message to test sanitization</m:body>
+</m:message>

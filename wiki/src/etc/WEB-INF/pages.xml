@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+
+    <page view-id="/wiki.xhtml">
+        <param name="nodeId" value="#{wikiRequestResolver.nodeId}"/>
+        <param name="areaName" value="#{wikiRequestResolver.areaName}"/>
+        <param name="nodeName" value="#{wikiRequestResolver.nodeName}"/>
+        <param name="messageKey"   value="#{wikiRequestResolver.messageKey}"/>
+        <param name="messageSeverity"   value="#{wikiRequestResolver.messageSeverity}"/>
+        <action execute="#{wikiRequestResolver.resolve}"/>
+        <navigation>
+            <rule if-outcome="docDisplay">
+                <render view-id="/docDisplay_#{skin}.xhtml"/>
+            </rule>
+            <rule if-outcome="dirDisplay">
+                <render view-id="/dirDisplay_#{skin}.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/docDisplay*">
+        <param name="documentId" value="#{documentHome.nodeId}" required="true"/>
+    </page>
+
+    <page view-id="/docHistory*" no-conversation-view-id="/wiki.xhtml">
+        <param name="fileId" value="#{documentHistory.fileId}"/>
+        <param name="historicalFileId" value = "#{documentHistory.historicalFileId}"/>
+        <action execute="#{documentHistory.init}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+        <navigation>
+            <rule if-outcome="exit">
+                <end-conversation before-redirect="true"/>
+                <redirect url="#{wikiURLRenderer.renderURL(documentHistory.currentFile)}"/>
+            </rule>
+            <rule if-outcome="purgedHistory">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/wiki.xhtml">
+                    <param name="nodeId"    value="#{documentHistory.currentFile.id}"/>
+                    <param name="messageKey"   value="lacewiki.msg.docHistory.PurgedHistory"/>
+                </redirect>
+            </rule>
+
+            <rule if-outcome="rollback">
+                <redirect view-id="/docEdit_#{skin}.xhtml">
+                    <param name="documentId"          value="#{documentHistory.currentFile.id}"/>
+                    <param name="parentDirectoryId"   value="#{documentHistory.currentFile.parent.id}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/docEdit*" no-conversation-view-id="/wiki.xhtml">
+        <param name="documentId" value="#{documentHome.nodeId}"/>
+        <param name="parentDirectoryId" value="#{documentHome.parentNodeId}"/>
+        <param name="templateType" value="#{documentHome.templateType}"/>
+        <action execute="#{documentHome.initEditor}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+
+        <navigation>
+            <rule if-outcome="exitManaged">
+                <end-conversation before-redirect="true"/>
+                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}"/>
+            </rule>
+            <rule if-outcome="exitUnmanaged">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{documentHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="removed">
+                <end-conversation/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{documentHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/dirDisplay*">
+        <param name="directoryId" value="#{directoryBrowser.directoryId}" required="true"/>
+        <navigation>
+            <rule if-outcome="removed">
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryBrowser.directoryId}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/dirEdit*" no-conversation-view-id="/wiki.xhtml">
+        <param name="directoryId" value="#{directoryHome.nodeId}"/>
+        <param name="parentDirectoryId" value="#{directoryHome.parentNodeId}"/>
+        <action execute="#{directoryHome.initEditor()}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+
+        <navigation>
+            <rule if-outcome="exitManaged">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryHome.nodeId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="exitUnmanaged">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="removed">
+                <end-conversation/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/uploadCreate*" no-conversation-view-id="/wiki.xhtml">
+        <param name="parentDirectoryId" value="#{uploader.parentDirectoryId}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+
+        <navigation>
+            <rule if-outcome="exit">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{uploader.parentDirectoryId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="WikiUpload">
+                <redirect view-id="/uploadEdit_#{skin}.xhtml">
+                    <param name="parentDirectoryId" value="#{uploader.parentDirectoryId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="WikiUploadImage">
+                <redirect view-id="/uploadEdit_#{skin}.xhtml">
+                    <param name="parentDirectoryId" value="#{uploader.parentDirectoryId}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/uploadEdit*" no-conversation-view-id="/wiki.xhtml">
+        <param name="uploadId" value="#{uploadHome.nodeId}"/>
+        <param name="parentDirectoryId" value="#{uploadHome.parentNodeId}"/>
+        <action execute="#{uploadHome.initEditor()}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+
+        <navigation>
+            <rule if-outcome="exit">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{uploadHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="removed">
+                <end-conversation/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{uploadHome.parentNodeId}"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/tagDisplay*">
+        <param name="tag" value="#{tagQuery.tag}" required="true"/>
+    </page>
+
+    <page view-id="/search*">
+        <param name="query" value="#{wikiSearch.simpleQuery}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+    </page>
+
+    <page view-id="/adminHome*" no-conversation-view-id="/wiki.xhtml">
+        <restrict>#{s:hasPermission('User', 'isAdmin', currentUser)}</restrict>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+    </page>
+
+    <page view-id="/userRegister*" no-conversation-view-id="/wiki.xhtml">
+        <action execute="#{userHome.init}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+        <navigation>
+            <rule if-outcome="persisted" if="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/userHome_#{skin}.xhtml">
+                    <param name="userId" value="#{userHome.userId}"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="persisted">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.AccountCreatedConfirmationSent"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/userHome*" no-conversation-view-id="/wiki.xhtml">
+        <param name="userId" value="#{userHome.userId}"/>
+        <action execute="#{userHome.initEdit}"/>
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+        <navigation>
+            <rule if-outcome="updatedCurrentCredentials">
+                <end-conversation before-redirect="true"/>
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.UpdatedCurrentCredentials"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="removed">
+                <end-conversation/>
+                <redirect url="#{wikiURLRenderer.renderURL(wikiStart)}"/>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/userProfile*">
+        <param name="userId" value="#{userHome.userId}"/>
+        <param name="username" value="#{userHome.requestedUsername}"/>
+        <action execute="#{userHome.initDisplay}"/>
+    </page>
+
+    <page view-id="/userList*">
+        <begin-conversation flush-mode="MANUAL" join="true"/>
+    </page>
+
+    <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
+        <param name="activationCode" value="#{authenticator.activationCode}" required="true"/>
+        <navigation>
+            <rule if-outcome="activated">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.AccountActivatedPleaseLogin"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="notFound">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageSeverity" value="WARN"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/resetPassword.xhtml" action="#{userPasswordReset.prepare}">
+        <param name="activationCode" value="#{userPasswordReset.activationCode}" required="true"/>
+        <navigation>
+            <rule if-outcome="prepared">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.resetPassword.PasswordResetPrepared"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="notFound">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="messageKey" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageSeverity" value="WARN"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/*">
+
+        <navigation>
+
+            <!-- More complex rules decide what to do after login, encapsulated in UserLogin -->
+            <rule if-outcome="loggedIn">
+                <redirect url="#{userLogin.loginRedirectURL}"/>
+            </rule>
+
+            <!-- Go to start page on logout because the session has been invalidated -->
+            <rule if-outcome="loggedOut">
+                <end-conversation before-redirect="true"/>
+                <redirect url="#{wikiURLRenderer.renderURL(wikiStart)}"/>
+            </rule>
+
+            <!-- 'search' is a POST submit, turn it into a bookmarkable nice GET -->
+            <rule if-outcome="search">
+                <redirect url="#{wikiURLRenderer.renderSearchURL(wikiSearch.simpleQuery)}"/>
+            </rule>
+
+        </navigation>
+
+    </page>
+
+    <!-- Page descriptions don't support wildcards -->
+    <page view-id="/docHistory_d.xhtml">
+        <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
+    </page>
+    <page view-id="/uploadCreate_d.xhtml">
+        <description>#{messages['lacewiki.label.upload.UploadFile']}</description>
+    </page>
+    <page view-id="/search_d.xhtml">
+        <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>
+    </page>
+    <page view-id="/adminHome_d.xhtml">
+        <description>#{messages['lacewiki.label.adminHome.Administration']}</description>
+    </page>
+    <page view-id="/userRegister_d.xhtml">
+        <description>#{identity.loggedIn
+                        ? messages['lacewiki.label.userRegister.CreateNewAccount']
+                        : messages['lacewiki.label.userRegister.RegisterNewAccount']}</description>
+    </page>
+    <page view-id="/userHome_d.xhtml">
+        <description>#{messages['lacewiki.label.userHome.EditUser']}: #{userHome.instance.username}</description>
+    </page>
+    <page view-id="/userList_d.xhtml">
+        <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
+    </page>
+
+
+    <page view-id="/docHistory_m.xhtml">
+        <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
+    </page>
+    <page view-id="/uploadCreate_m.xhtml">
+        <description>#{messages['lacewiki.label.upload.UploadFile']}</description>
+    </page>
+    <page view-id="/search_m.xhtml">
+        <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>
+    </page>
+    <page view-id="/adminHome_m.xhtml">
+        <description>#{messages['lacewiki.label.adminHome.Administration']}</description>
+    </page>
+    <page view-id="/userRegister_m.xhtml">
+        <description>#{identity.loggedIn
+                        ? messages['lacewiki.label.userRegister.CreateNewAccount']
+                        : messages['lacewiki.label.userRegister.RegisterNewAccount']}</description>
+    </page>
+    <page view-id="/userHome_m.xhtml">
+        <description>#{messages['lacewiki.label.userHome.EditUser']}: #{userHome.instance.username}</description>
+    </page>
+    <page view-id="/userList_m.xhtml">
+        <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
+    </page>
+
+    <exception class="javax.faces.application.ViewExpiredException" log="false">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.SessionTimeoutOccured']}</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.jboss.seam.wiki.core.nestedset.listener.NestedSetLockTimeoutException">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.LockTimeoutError']}</message>
+        </redirect>
+    </exception>
+
+    <!-- This occurs on concurrent delete of comments -->
+    <exception class="javax.persistence.EntityNotFoundException" log="false">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.EntityNotFound']}</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/message.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.AccessDenied']}: #{org.jboss.seam.handledException.message}</message>
+        </redirect>
+    </exception>
+
+    <exception class="javax.persistence.OptimisticLockException">
+        <end-conversation/>
+        <!-- TODO: This fails randomly, it works only once and then we don't get the message anymore?! -->
+        <redirect view-id="/message.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.OptimisticLockError']}</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.jboss.seam.core.LockTimeoutException">
+        <end-conversation before-redirect="true"/>
+        <redirect view-id="/wiki.xhtml">
+            <message severity="WARN">#{messages['lacewiki.msg.LockTimeoutError']}</message>
+        </redirect>
+    </exception>
+
+    <exception class="org.jboss.seam.framework.EntityNotFoundException" log="false">
+        <end-conversation/>
+        <http-error error-code="404"/>
+    </exception>
+
+    <exception class="org.jboss.seam.wiki.core.exception.InvalidWikiRequestException" log="false">
+        <end-conversation/>
+        <http-error error-code="400">
+            <message>#{org.jboss.seam.handledException.message}</message>
+        </http-error>
+    </exception>
+
+    <exception class="javax.faces.validator.ValidatorException" log="false">
+        <end-conversation/>
+        <http-error error-code="400">
+            <message>#{messages['lacewiki.msg.RequestError']}</message>
+        </http-error>
+    </exception>
+    
+    <!-- We send a BAD REQUEST here because we don't want the client to retry later (Googlebot...) -->
+    <exception log="true" logLevel="error">
+        <end-conversation/>
+        <http-error error-code="400">
+            <message severity="ERROR">
+                #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact}):
+                '#{org.jboss.seam.handledException.class.name},
+                #{org.jboss.seam.handledException.message}
+                in #{org.jboss.seam.handledException.stackTrace[0].className}@#{org.jboss.seam.handledException.stackTrace[0].lineNumber}'
+            </message>
+        </http-error>
+    </exception>
+
+</pages>
+
+

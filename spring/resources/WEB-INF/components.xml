@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:spring="http://jboss.com/products/seam/spring"
+            xmlns:async="http://jboss.com/products/seam/async"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                                http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-2.1.xsd
+                                http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd">
+
+
+    <core:manager conversation-timeout="120000" 
+                  concurrent-request-timeout="500" 
+                  conversation-id-parameter="cid"/>
+
+    <persistence:managed-persistence-context name="entityManager"
+                                      auto-create="true" 
+                                      entity-manager-factory="#{entityManagerFactory}" />
+    
+    <!-- Sample Hibernate Session -->
+    <persistence:managed-hibernate-session name="hibernateSession" auto-create="true" session-factory="#{sessionFactory}"/>
+     
+    <core:init debug="true"/>
+    
+    <spring:context-loader />
+
+	 <!-- Install a ThreadPoolDispatcher to handle scheduled asynchronous event -->
+	 <component name="threadPoolDispatcher" class="org.jboss.seam.async.ThreadPoolDispatcher" />
+    
+    <!-- Install the SpringDispatcher as default -->
+    <spring:spring-task-executor-dispatcher schedule-dispatcher="#{threadPoolDispatcher}" task-executor="#{springThreadPoolTaskExecutor}"/>
+    
+    <spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>
+    
+</components>

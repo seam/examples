@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:theme="http://jboss.com/products/seam/theme"
+            xmlns:cache="http://jboss.com/products/seam/cache"
+            xmlns:web="http://jboss.com/products/seam/web"           
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/theme http://jboss.com/products/seam/theme-2.1.xsd
+                 http://jboss.com/products/seam/cache http://jboss.com/products/seam/cache-2.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <core:init debug="true"/>
+        
+    <web:rewrite-filter view-mapping="/seam/*" />
+
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>               
+    
+    <theme:theme-selector>
+        <theme:available-themes>
+            <value>default</value>
+            <value>accessible</value>
+            <value>printable</value>
+        </theme:available-themes>
+    </theme:theme-selector>
+        
+    <persistence:managed-persistence-context auto-create="true" name="entityManager">
+        <persistence:persistence-unit-jndi-name>java:/blogEntityManagerFactory</persistence:persistence-unit-jndi-name>
+    </persistence:managed-persistence-context>
+
+</components>

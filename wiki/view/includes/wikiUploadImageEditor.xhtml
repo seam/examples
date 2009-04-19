@@ -1,0 +1,64 @@
+<s:div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <div class="entry sessionEventTrigger">
+        <div class="label">#{messages['lacewiki.label.uploadEdit.OriginalImageSize']}:</div>
+        <div class="output">
+            #{editor.instance.sizeX} x #{editor.instance.sizeY} #{messages['lacewiki.label.uploadEdit.Pixel']}
+        </div>
+    </div>
+
+    <s:div styleClass="entry" id="imagePreview">
+        <div class="label">#{messages['lacewiki.label.uploadEdit.ImagePreview']}:</div>
+        <div class="output">
+            <h:panelGrid columns="1">
+                <h:panelGroup>
+                    <a:region>
+                        <a:commandLink status="globalStatus" id="zoomOut" tabindex="2" action="#{editor.zoomPreviewOut}"
+                                       reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/minus.gif" width="18" height="18"/>
+                        </a:commandLink>
+                        <a:commandLink status="globalStatus" id="actualSize" tabindex="2" action="#{editor.zoomActualSize}"
+                                       reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/equals.gif" width="18" height="18"/>
+                        </a:commandLink>
+                        <a:commandLink status="globalStatus" id="zoomIn" tabindex="2" action="#{editor.zoomPreviewIn}"
+                                       reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/plus.gif" width="18" height="18"/>
+                        </a:commandLink>
+                    </a:region>
+                </h:panelGroup>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(editor.instance)}">
+                    <s:graphicImage value="#{editor.instance.data}" style="border: 1px solid black;">
+                        <s:transformImageSize width="#{editor.imagePreviewSize}" maintainRatio="true"/>
+                    </s:graphicImage>
+                </h:outputLink>
+            </h:panelGrid>
+        </div>
+    </s:div>
+
+    <div class="entry sessionEventTrigger">
+        <div class="label">#{messages['lacewiki.label.uploadEdit.ShowInDocuments']}:</div>
+        <div class="input">
+            <h:selectOneMenu value="#{editor.instance.thumbnail}" styleClass="" tabindex="4">
+                <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.SmallThumbnail']}" itemValue="S"/>
+                <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.MediumThumbnail']}" itemValue="M"/>
+                <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.LargeThumbnail']}" itemValue="L"/>
+                <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.FullSize']}" itemValue="F"/>
+                <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.AsAttachment']}" itemValue="A"/>
+                <a:support event="onchange" status="globalStatus" action="#{editor.selectThumbnail}"
+                           reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"/>
+            </h:selectOneMenu>
+        </div>
+    </div>
+
+</s:div>
+

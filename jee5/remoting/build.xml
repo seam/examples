@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<project name="Java EE 5 Remoting Example" default="archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Java EE 5 Remoting Example (GlassFish V2/JBoss AS 5)"/>
+    <property name="example.name"           value="jboss-seam-jee5-remoting"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources" />
+	<property name="dist.dir" value="dist" />
+	<property name="exploded-archives.dir" value="exploded-archives" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.remoting.lib" value="yes"/>
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="ajax4jsf.lib"   value="true"/>
+    <!-- add this for oc4j
+    <property name="jbpm.lib"   value="true"/>
+    -->
+
+    <import file="../../build.xml"/>
+
+    <fileset id="ear.lib.extras" dir="${seam.dir}">
+        <include name="lib/common*.jar"/>
+
+        <!-- add this for oc4j
+        <include name="lib/antlr-*.jar"/>
+        -->
+    </fileset>
+       
+</project>
+

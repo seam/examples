@@ -1,0 +1,18 @@
+<wiki:plugin id="forumPostingPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <ui:decorate template="forumPostingHeader.xhtml">
+        <ui:define name="subjectIcon">
+            <h:graphicImage value="#{currentMacro.requestImagePath}/icon.posting.gif"
+                            width="22" height="26"/>
+        </ui:define>
+    </ui:decorate>
+
+</wiki:plugin>

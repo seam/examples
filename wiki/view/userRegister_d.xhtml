@@ -1,0 +1,108 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userRegister.Registration']}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+<h:form id="userRegisterForm" styleClass="box">
+    <div class="form">
+
+        <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+        <div class="formHead">
+            <h:outputText rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}"
+                          value="#{messages['lacewiki.label.userRegister.RegisterNewAccount']}"/>
+            <h:outputText rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
+                          value="#{messages['lacewiki.label.userRegister.CreateNewAccount']}"/>
+        </div>
+
+        <div class="formFields formBorder wideLabels">
+
+            <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.FirstName']}</ui:define>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}"/>
+            </s:decorate>
+
+            <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.LastName']}</ui:define>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}"/>
+            </s:decorate>
+
+            <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Email']}</ui:define>
+                <h:inputText tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"/>
+            </s:decorate>
+
+            <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Username']}</ui:define>
+                <h:inputText id="username" tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"/>
+            </s:decorate>
+
+            <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Password']}</ui:define>
+                <h:inputSecret id="password" tabindex="1" size="18" maxlength="15" required="true"
+                               redisplay="true" value="#{userHome.password}"/>
+            </s:decorate>
+
+            <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.RepeatPassword']}</ui:define>
+                <h:inputSecret id="passwordControl" tabindex="1" size="18" maxlength="15" required="true"
+                               redisplay="true" value="#{userHome.passwordControl}"/>
+            </s:decorate>
+
+            <s:decorate id="verifyCaptchaEntry" template="includes/captchaEntry.xhtml">
+                <ui:param name="rendered" value="#{not s:hasPermission('User', 'isAdmin', currentUser)}"/>
+            </s:decorate>
+
+        </div>
+
+        <div class="formControls wideLabels">
+
+            <div class="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+
+                    <h:commandLink id="register" styleClass="button sessionEventTrigger" rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}"
+                                   action="#{userHome.persist}"
+                                   tabindex="1" accesskey="#{messages['lacewiki.button.userRegister.Register.accesskey']}">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userRegister.Register']}"/>
+                    </h:commandLink>
+
+                    <h:commandLink id="create" styleClass="button sessionEventTrigger" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
+                                   action="#{userHome.persist}"
+                                   tabindex="1" accesskey="#{messages['lacewiki.button.userRegister.Create.accesskey']}">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userRegister.Create']}"/>
+                    </h:commandLink>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</h:form>
+
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

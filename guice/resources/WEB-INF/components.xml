@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:core="http://jboss.com/products/seam/core"
+   xmlns:guice="http://jboss.com/products/seam/guice"
+   xsi:schemaLocation="
+      http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+      http://jboss.com/products/seam/guice http://jboss.com/products/seam/guice-2.1.xsd
+      http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+   <core:init debug="true"/>
+
+   <guice:injector name="guiceExampleInjector">
+      <guice:modules>
+         <value>org.jboss.seam.example.guice.JuiceBarModule</value>
+      </guice:modules>
+   </guice:injector>
+
+   <guice:init injector="#{guiceExampleInjector}"/>
+
+</components>

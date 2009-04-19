@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<project name="Registration" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Registration Example"/>
+    <property name="example.name"           value="jboss-seam-registration"/>
+
+    <!-- Libraries -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="facelets.lib"    value="yes"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

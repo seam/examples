@@ -1,0 +1,23 @@
+<wiki:plugin id="forumListPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:span id="forumListPluginContainer">
+
+        <ui:include src="forumListControls.xhtml"/>
+
+        <ui:include src="forumForm.xhtml"/>
+
+        <ui:include src="forumListTable.xhtml"/>
+
+        <ui:include src="forumLegend.xhtml"/>
+
+    </s:span>
+
+</wiki:plugin>

@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/sell.css" rel="stylesheet" type="text/css"/>
+    <link href="style/auction.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+     
+      <div class="content">
+        <div class="sellHeader">
+          Preview
+        </div>
+
+        <div class="sellSubHeader">
+          This is a preview of your listing.  If you are happy with your listing, click the
+          "Confirm Listing" button, otherwise click the "Previous" button to go back and make changes.
+        </div>
+
+        <div class="preview">
+          <div class="headerNav">
+            <div class="navHome">
+              <a href="#"><img src="#{facesContext.externalContext.requestContextPath}/img/arrow_left.png" border="0"/></a>
+            </div>
+            <div class="navHome">
+              <a href="#">Back to home page</a>
+            </div>
+            
+            <div class="navCategory">
+              Listed in category: 
+              <a href="#">#{auctionAction.auction.category.name}</a>
+            </div>
+            
+            <br class="clear"/>        
+          </div>
+          
+          <div id="itemHeader">
+            <div class="headerTitle">
+              #{auctionAction.auction.title}
+            </div>
+                    
+            <div class="headerStatus">
+            
+            </div>
+          </div>
+          
+          <div id="itemSummary">
+            <div class="itemImage">
+              <s:graphicImage rendered="#{auctionAction.auction.image ne null}" value="#{auctionAction.auction.image.data}">
+                <s:transformImageSize width="200" maintainRatio="true"/>
+              </s:graphicImage>        
+    
+              <div>
+                <a href="#pictures">View larger picture</a>
+              </div>          
+              
+            </div>
+          
+            <div class="itemDetails">
+              <div class="itemDetailRow">
+                <label>
+                  Starting price:
+                </label>
+                <div>
+                  $<b><h:outputText id="price" value="#{auctionAction.auction.currentPrice}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                  </h:outputText></b>
+                </div>
+              </div>
+              
+              <hr class="itemDetailSeparator" />
+              
+              <div class="itemDetailRow">
+                <label>End time:</label>
+                <div>
+                  <b>
+                    <h:outputText id="endDate" value="#{auctionAction.auction.endDate}">
+                      <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
+                    </h:outputText>
+                  </b>
+                  <span> (#{auctionAction.auction.daysHoursLeft})</span>
+                </div>
+              </div>
+              
+              <div class="itemDetailRow">
+                <label>Item location:</label>
+                <div>
+                  #{auctionAction.auction.account.location}
+                </div>
+              </div>
+              
+              <div class="itemDetailRow">
+                <label>History:</label>
+                <div>
+                  <a href="#">#{auctionAction.auction.bids} bids</a>
+                </div>
+              </div>
+    
+              <div class="itemDetailRow">
+                <label>High bidder:</label>
+                <div>
+                  <span>#{auctionAction.auction.highBid.account.name}</span>
+                  <h:outputText value="No bids" rendered="#{auctionAction.auction.highBid.account.name eq null}"/>
+                </div>
+              </div>
+    
+              <hr class="itemDetailSeparator" />
+    
+            </div>
+            
+          </div>
+          
+          <div id="sellerDetail">
+            <div class="sellerHeader">Meet the seller</div>
+            
+            <div class="sellerDetailRow">
+              <label>Seller:</label>
+              <div>#{auctionAction.auction.account.name}</div>
+            </div>
+            
+            <div class="sellerDetailRow">
+              <label>Feedback:</label>
+              <div>
+                <b>
+                  <h:outputText value="#{auctionAction.auction.account.feedbackPercent}">
+                    <f:convertNumber maxFractionDigits="0"/>
+                  </h:outputText>% Positive
+                </b>
+              </div>
+            </div>
+            
+            <div class="sellerDetailRow">
+              <label>Member:</label>
+              <div>
+                <span>since </span>
+                <h:outputText value="#{auctionAction.auction.account.memberSince}">
+                  <f:convertDateTime pattern="dd-MMM-yyyy"/>
+                </h:outputText>
+              </div>
+            </div>
+            
+            <div class="sellerHeader">Buy safely</div>        
+          
+            <div><b>1. Check the seller's reputation</b></div>
+            <div style="margin-left:16px">
+              Score: <span>#{auctionAction.auction.account.feedbackScore} | </span>
+              <h:outputText value="#{auctionAction.auction.account.feedbackPercent}">
+                <f:convertNumber maxFractionDigits="0"/>
+              </h:outputText>% Positive<br/>
+              <a href="#">Read the feedback comments</a>
+            </div>
+          </div>
+          
+          <div class="descriptionHeader">
+            Description
+          </div>
+    
+          <div id="description" class="descriptionContent">
+            <s:formattedText value="#{auctionAction.auction.description}" />
+      
+            <hr/>      
+            
+            <a name="pictures">
+              <div class="images">
+                <s:graphicImage rendered="#{auctionAction.auction.image ne null}" value="#{auctionAction.auction.image.data}"/>
+                
+              </div>
+            </a>
+          </div>
+        </div>
+                  
+        <h:form id="sellForm">
+                  
+          <div class="navBar">
+            <div class="navBarLeft">
+              <h:commandButton value="&lt; Previous" action="previous"/>
+            </div>
+            
+            <div class="navBarRight">
+              <h:commandButton id="confirm" action="#{auctionAction.confirm}" value="Confirm Listing"/>
+            </div>              
+            
+            <br class="clear"/>                          
+          </div>
+
+          <hr class="thinLine"/>
+
+          <hr class="baseLine"/>
+
+        </h:form>
+
+      </div>
+
+    </div>
+       
+  </body>
+</html>

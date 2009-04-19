@@ -1,0 +1,82 @@
+div.content {
+  margin: 16px 8px 16px 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+div.buyHeader {
+  background-color: #ffcc00;
+  padding: 4px 8px 4px 8px;
+  border-bottom: 3px solid #ff9900;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 20px;
+}
+
+div.buyContent {
+  border: 2px solid #ffcc00;
+}
+
+div.buySectionHeader {
+  background-color: #ffee88;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 13px;
+  padding: 2px 2px 2px 8px;
+  border-bottom: 1px solid #9CB5EF;
+}
+
+div.search {
+  background-color: #eeeeee;
+  padding: 4px 4px 4px 8px;
+}
+
+div.search span {
+  font-size: 10px;
+  font-family: verdana;
+}
+
+div.search input {
+  margin-right: 4px;
+}
+
+input.searchTerm {
+  width: 200px;
+}
+
+div.buyCategories {
+  padding: 2px 4px 4px 4px;
+}
+
+div.leftCategories {
+  float: left;
+  width: 49%;
+}
+
+div.rightCategories {
+  float: left;
+  width: 49%;
+}
+
+a.mainCategory, a.mainCategory:visited {
+  font-weight: bold;
+  font-size: 13px;
+  color: #0000cc;
+}
+
+a.subCategory, a.subCategory:visited {
+  font-size: 10px;
+  padding-right: 6px;  
+  color: #0000cc;  
+  font-family: verdana;
+}
+
+div.subCatContainer {
+  margin-bottom: 8px;
+}
+
+span.dot {
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, helvetica, sans-serif;
+}

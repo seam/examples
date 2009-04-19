@@ -1,0 +1,29 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:rich="http://richfaces.org/rich"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:fragment rendered="#{not editorAdaptiveTextInput.isRenderTextArea(v.preferenceProperty)}">
+        <h:inputText styleClass="ajaxSupport"
+                     value="#{v.value}"
+                     size="#{editorAdaptiveTextInput.getSize(v.preferenceProperty)}"
+                     maxlength="#{editorAdaptiveTextInput.getMaxLength(v.preferenceProperty)}">
+            <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
+                       reRender="preferenceValidationErrors"/>
+        </h:inputText>
+    </s:fragment>
+    <s:fragment rendered="#{editorAdaptiveTextInput.isRenderTextArea(v.preferenceProperty)}">
+        <h:inputTextarea value="#{v.value}"
+                         cols="#{editorAdaptiveTextInput.getTextAreaCols(v.preferenceProperty)}"
+                         rows="#{editorAdaptiveTextInput.getTextAreaRows(v.preferenceProperty)}"
+                         style="margin:5px;">
+            <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}"
+                       reRender="preferenceValidationErrors"/>
+        </h:inputTextarea>
+    </s:fragment>
+
+</s:fragment>

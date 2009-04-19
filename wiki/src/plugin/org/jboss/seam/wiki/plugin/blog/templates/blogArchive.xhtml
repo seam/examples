@@ -1,0 +1,63 @@
+<wiki:plugin
+        rendered="#{skin == 'd'}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{currentMacro.getCacheRegion('BlogArchiveList')}"
+             key="#{currentMacro.getCacheKey(blogDirectory.archiveCacheKeyAppendix)}">
+
+    <s:div styleClass="blogArchive box">
+
+        <s:div styleClass="blogArchive">
+
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog', currentMacro).archiveSubscribeIcon}">
+                <h:outputText rendered="#{empty param.tag}" value="#{messages['blog.archive.label.Archive']}"/>
+                <h:outputText rendered="#{not empty param.tag}" value="#{messages['blog.archive.label.Archive']} '#{param.tag}'"/>
+            </s:div>
+
+            <h:panelGrid rendered="#{preferences.get('Blog', currentMacro).archiveSubscribeIcon}"
+                         columns="2" cellpadding="0" cellspacing="0" border="0"
+                         styleClass="boxHeader fullWidth">
+
+                <ui:include src="/includes/feedSubscribeMenu.xhtml">
+                    <ui:param name="feed" value="#{currentDirectory.feed}"/>
+                </ui:include>
+
+                <h:outputText rendered="#{empty param.tag}" value="#{messages['blog.archive.label.Archive']}"/>
+                <h:outputText rendered="#{not empty param.tag}" value="#{messages['blog.archive.label.Archive']} '#{param.tag}'"/>
+
+            </h:panelGrid>
+
+            <div class="blogArchiveSelector boxContent">
+                <select id="blogArchiveCombo" class="blogArchiveCombo"
+                        onchange="top.location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
+                    <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.tagUrl}">#{messages['blog.archive.label.AllEntries']} (#{blogDirectory.numberOfEntriesForCurrentTag})</option>
+                    <ui:repeat var="beCount" value="#{blogDirectory.archivedEntries}">
+                        <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">
+                            <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}">
+                                #{messages[wiki:concat('lacewiki.label.', converters.monthNames[beCount.month])]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
+                            </option>
+                        </s:fragment>
+                        <s:fragment rendered="#{blogDirectory.dateUrl == beCount.asString}">
+                            <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}" selected="true">
+                                #{messages[wiki:concat('lacewiki.label.', converters.monthNames[beCount.month])]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
+                            </option>
+                        </s:fragment>
+                    </ui:repeat>
+                </select>
+            </div>
+
+            <div class="boxFooter"/>
+
+        </s:div>
+
+    </s:div>
+
+    </s:cache>
+
+</wiki:plugin>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components" xmlns:core="http://jboss.com/products/seam/core"
+    xmlns:persistence="http://jboss.com/products/seam/persistence"
+    xmlns:security="http://jboss.com/products/seam/security" xmlns:framework="http://jboss.com/products/seam/framework"
+    xmlns:transaction="http://jboss.com/products/seam/transaction"
+    xmlns:web="http://jboss.com/products/seam/web"
+    xmlns:international="http://jboss.com/products/seam/international"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.com/products/seam/core /Users/orb/proj/jboss/seam/trunk/src/main/org/jboss/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <core:init jndi-pattern="@jndiPattern@" debug="true"/>
+
+    <core:manager conversation-timeout="1200000" concurrent-request-timeout="50000" conversation-id-parameter="cid"/>
+
+    <web:rewrite-filter />
+
+    <transaction:ejb-transaction/>
+
+    <security:identity authenticate-method="#{authenticator.authenticate}"/>
+
+    <persistence:managed-persistence-context name="entityManager" auto-create="true"
+        persistence-unit-jndi-name="java:/openidEntityManagerFactory"/>
+
+    <component name="newpost" class="org.jboss.seam.example.openid.Post">
+        <property name="createDate">#{currentDate}</property>
+        <property name="creator">#{openid.validatedId}</property>
+    </component>
+    
+    <framework:entity-query name="posts">
+        <framework:ejbql>select p from Post p</framework:ejbql>
+    </framework:entity-query>
+
+    <framework:entity-home name="postHome" entity-class="org.jboss.seam.example.openid.Post" new-instance="#{newpost}"/>
+
+
+    <event type="org.jboss.seam.security.loggedOut">
+        <action execute="#{openid.logout}" />
+    </event>
+    <!-- not used here -->    
+    <event type="org.jboss.seam.openid.ok">
+        <action execute="#{openid.loginImmediately}"/>
+        <!-- 
+        <action execute="#{redirect.returnToCapturedView}" />
+        -->
+    </event>
+</components>

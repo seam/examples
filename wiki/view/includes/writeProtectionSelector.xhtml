@@ -1,0 +1,20 @@
+<s:div id="writeProtectionSelector"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib"
+     rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+
+    <s:div styleClass="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+            <h:selectBooleanCheckbox value="#{home.instance.writeProtected}" tabindex="1"/>
+            <h:outputText value="#{messages['lacewiki.label.WriteProtected']}"/>
+        </div>
+    </s:div>
+
+
+</s:div>
+

@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+        "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+
+<facelet-taglib>
+    <namespace>http://jboss.com/products/seam/wiki</namespace>
+
+    <function>
+        <function-name>generateRandomNumber</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int generateRandomNumber()</function-signature>
+    </function>
+
+    <function>
+        <function-name>showEmailAddress</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean showEmailAddress()</function-signature>
+    </function>
+
+    <function>
+        <function-name>convertToWikiName</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>truncateString</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String truncateString(java.lang.String,int,java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>truncateStringOnWordBoundary</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String truncateStringOnWordBoundary(java.lang.String,int)</function-signature>
+    </function>
+
+    <function>
+        <function-name>toDate</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.util.Date toDate(java.lang.Long)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getTimeDifference</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String getTimeDifference(java.util.Date,java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getTimeDifferenceToCurrent</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String getTimeDifferenceToCurrent(java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <function-name>currentDate</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.util.Date currentDate()</function-signature>
+    </function>
+
+
+    <function>
+        <function-name>concat</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String concat(java.lang.String,java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>resolveAccessLevel</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>org.jboss.seam.wiki.core.model.Role.AccessLevel resolveAccessLevel(java.lang.Integer)</function-signature>
+    </function>
+
+    <function>
+        <function-name>sizeOf</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int sizeOf(java.util.Collection)</function-signature>
+    </function>
+
+    <function>
+        <function-name>length</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int length(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>repeatString</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String repeatString(java.lang.String,java.lang.Integer)</function-signature>
+    </function>
+
+    <function>
+        <function-name>displayFilesize</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String displayFilesize(int)</function-signature>
+    </function>
+
+    <function>
+        <function-name>unwrap</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.Throwable unwrap(java.lang.Throwable)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getSessionTimeoutSeconds</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int getSessionTimeoutSeconds()</function-signature>
+    </function>
+
+    <function>
+        <function-name>escapeJSMessage</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeJSMessage(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>encodeURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String encodeURL(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>escapeEmailURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeEmailURL(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>escapeAtSymbol</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeAtSymbol(java.lang.String)</function-signature>
+    </function>
+
+    <!-- There is a reason why this HTML is uppercase, I forgot... -->
+    <function>
+        <function-name>escapeHTML</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeHtml(java.lang.String,boolean,boolean)</function-signature>
+    </function>
+
+    <function>
+        <function-name>removeHtml</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String removeHtml(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>disableFloats</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String disableFloats(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>isRegularUser</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isRegularUser(org.jboss.seam.wiki.core.model.User)</function-signature>
+    </function>
+
+    <function>
+        <function-name>isGuestOrAdminUsername</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isGuestOrAdminUsername(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>isLastItemInList</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isLastItemInList(java.util.List,java.lang.Object)</function-signature>
+    </function>
+
+    <function>
+        <function-name>calculateMessageId</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String calculateMessageId(java.lang.Long,java.lang.String)</function-signature>
+    </function>
+
+    <tag>
+        <tag-name>formattedText</tag-name>
+		<handler-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.WikiFormattedTextHandler</handler-class>
+    </tag>
+
+    <tag>
+        <tag-name>loadStyle</tag-name>
+        <component>
+            <component-type>org.ajax4jsf.component.html.HtmlLoadStyle</component-type>
+        </component>
+    </tag>
+
+    <!-- Map it to a <wiki:plugin> tag because <wiki:macro> sounds too complicated... -->
+    <tag>
+    	<tag-name>plugin</tag-name>
+    	<component>
+    		<component-type>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-type>
+    		<handler-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.MacroComponentHandler</handler-class>
+    	</component>
+    </tag>
+
+</facelet-taglib>

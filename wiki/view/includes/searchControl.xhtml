@@ -1,0 +1,26 @@
+<div id="searchControl"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <!-- TODO: This form doesn't work on a timed out session, not every page times it out/hides it...  -->
+    <h:form id="searchControlForm" styleClass="sessionEventTrigger">
+        <h:panelGrid columns="2" styleClass="searchControlTable" cellpadding="0" cellspacing="0" border="0">
+
+            <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{wikiSearch.simpleQuery}"
+                         onclick="clickClear(this, '#{messages['lacewiki.label.searchControl.Search']}')"
+                         onblur="clickRecall(this, '#{messages['lacewiki.label.searchControl.Search']}')"
+                         size="15" maxlength="1000" tabindex="60"/>
+
+            <h:commandButton id="submitSearch"
+                           styleClass="searchControlButton sessionEventTrigger" tabindex="61"
+                           action="search" value="#{messages['lacewiki.button.searchControl.Find']}">
+                <s:defaultAction/>
+            </h:commandButton>
+
+        </h:panelGrid>
+    </h:form>
+
+</div>

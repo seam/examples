@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<project name="Payments (Quartz)" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Payment (Quartz) Example"/>
+    <property name="example.name"           value="jboss-seam-quartz"/>
+
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="quartz.lib"     value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+    
+    <import file="../build.xml"/>
+    
+    <patternset id="test.resources.files">
+      <exclude name="import.sql" />
+      <exclude name="seam.quartz.properties" />
+    </patternset>
+	
+	<fileset id="validate.resources" dir="${validate.resources.dir}">
+		<include name="**/META-INF/application.xml" />
+		<include name="**/META-INF/ejb-jar.xml" />
+		<include name="**/META-INF/persistence.xml" />
+		<include name="**/META-INF/jboss-app.xml" />
+		<include name="**/META-INF/orm.xml" />
+		<!--<include name="**/WEB-INF/components.xml" />-->
+		<include name="**/WEB-INF/pages.xml" />
+		<include name="**/WEB-INF/faces-config.xml" />
+		<include name="**/WEB-INF/web.xml" />
+		<include name="**/WEB-INF/jboss-web.xml" />
+		<include name="**/${example.ds}" />
+		<include name="**/hibernate.cfg.xml" />
+		<include name="**/*.jpdl.xml" />
+		<exclude name="**/.gpd.*.jpdl.xml" />
+	</fileset>
+	
+</project>
+

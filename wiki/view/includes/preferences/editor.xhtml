@@ -1,0 +1,50 @@
+<s:fragment
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div rendered="#{v.preferenceProperty.fieldType.simpleName == 'Boolean'}">
+        <h:selectBooleanCheckbox value="#{v.value}"/>
+    </s:div>
+
+    <s:div rendered="#{v.preferenceProperty.fieldType.simpleName == 'String'}">
+        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="25">
+            <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
+                       reRender="preferenceValidationErrors"/>
+        </h:inputText>
+    </s:div>
+
+    <s:div rendered="#{v.preferenceProperty.fieldType.simpleName == 'Long'}">
+        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="5">
+            <f:converter converterId="javax.faces.Long"/>
+            <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
+                       reRender="preferenceValidationErrors"/>
+        </h:inputText>
+    </s:div>
+
+    <s:div rendered="#{v.preferenceProperty.fieldType.simpleName == 'Double'}">
+        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="10">
+            <f:converter converterId="javax.faces.Double"/>
+            <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
+                       reRender="preferenceValidationErrors"/>
+        </h:inputText>
+    </s:div>
+<!-- TODO: Duplicate identifiers...
+    <s:div rendered="#{v.preferenceProperty.fieldType.simpleName == 'Date'}">
+         <h:inputText styleClass="ajaxSupport" id="dt" value="#{v.value}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+             <a:support status="globalStatus" event="onchange" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
+                        reRender="preferenceValidationErrors"/>
+        </h:inputText>
+        <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
+            <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
+                            value="#{imagePath}/icon.calendar.gif"
+                            width="16" height="16"/>
+        </s:selectDate>
+    </s:div>
+-->
+
+</s:fragment>

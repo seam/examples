@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
+         version="3.0">
+
+   <enterprise-beans>
+      <!-- EJB reference required when one Seam EJB component references another Seam EJB component using @In -->
+      <!-- Not required if you inject using @EJB, but then you lose state management and client-side interceptors (e.g., security) -->
+      <session>
+         <ejb-name>RegisterAction</ejb-name>
+         <ejb-local-ref>
+            <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction/local</ejb-ref-name>
+            <ejb-ref-type>Session</ejb-ref-type>
+            <local>org.jboss.seam.example.booking.Authenticator</local>
+         </ejb-local-ref>
+      </session>
+   </enterprise-beans>
+
+   <interceptors>
+     <interceptor>
+       <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+     </interceptor>
+   </interceptors>
+
+   <assembly-descriptor>
+      <interceptor-binding>
+         <ejb-name>*</ejb-name>
+         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
+      </interceptor-binding>
+   </assembly-descriptor>
+
+</ejb-jar>

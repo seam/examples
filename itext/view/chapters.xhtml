@@ -1,0 +1,102 @@
+<p:document xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://jboss.com/products/seam/pdf">
+
+    <f:facet name="header">
+        <p:font size="12">
+            <p:footer borderWidthTop="1" borderColorTop="blue" borderWidthBottom="0" alignment="center">Why Seam? [<p:pageNumber />]</p:footer>
+        </p:font>
+    </f:facet>
+
+    <p:paragraph spacingAfter="200" />
+
+    <p:image alignment="center" value="/jboss.jpg" />
+
+    <p:font size="24"><p:paragraph spacingBefore="100" alignment="center">Ten Good Reasons To Use Seam</p:paragraph></p:font>
+
+    <p:chapter number="1">
+        <p:title>
+            <p:font size="18"><p:paragraph>It's the quickest way to get "rich"</p:paragraph></p:font>
+        </p:title>
+
+        <p:paragraph alignment="justify" spacingBefore="5">AJAX fundamentally changes the interaction model of the web. The synchronous, coarse-grained requests used by traditional web clients let many server-side applications get away with minimal caching and no session-level concurrency. The "stateless" architecture is in many cases a viable solution. But not anymore! AJAX clients hit the server with many asynchronous, concurrent, fine-grained requests, which could easily bring your database to its knees. When state is held in memory between requests, it is highly vulnerable to concurrency-related bugs, since the Java EE platform provides no constructs for dealing with session-level concurrency.</p:paragraph>
+
+        <p:paragraph alignment="justify" spacingBefore="5">Seam's totally unique concurrency model and state-management model was conceived and designed with AJAX in mind. </p:paragraph>
+
+        <p:paragraph alignment="justify" spacingBefore="5">Seam 1.1 integrates open source JSF-based AJAX solutions like ICEfaces and Ajax4JSF with Seam's state and concurrency management engine. You can add AJAX to your applications with ease, without the need to learn JavaScript, and you will be protected from potential bugs and performance problems associated with the switch to AJAX. </p:paragraph>
+    </p:chapter>
+
+
+    <p:chapter number="2">
+        <p:title>
+            <p:font size="18"><p:paragraph>It's the easiest way to get started with EJB 3.0 </p:paragraph></p:font>
+        </p:title>
+
+        <p:paragraph alignment="justify" spacingBefore="5">EJB 3.0 is a great component model for transactional business components, the highlight being the brand new Java Persistence API (JPA). But Java web and application frameworks designed before the release of EJB 3.0 lack support for the new component model, leaving you to write your own integration code, and in many cases forcing you into the use of a layered architecture that may not be right for your application. </p:paragraph>
+
+        <p:paragraph alignment="justify" spacingBefore="5">Seam was designed for use with EJB 3.0 and lets you use the new component model everywhere. Since any class in a Seam application can be an EJB component, there is no need to introduce extra unwanted layers just to keep your frameworks happy. And, of course, there is no need to write code to integrate EJB 3.0 with your web framework, since Seam already has it. </p:paragraph>
+
+        <p:paragraph alignment="justify" spacingBefore="5">Note that you don't have to use EJB 3.0 to use Seam, and if you're developing in an environment that doesn't support EJB 3.0, Seam provides alternatives. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="3">
+        <p:title>
+            <p:font size="18"><p:paragraph>It's the best way to leverage JSF </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">JSF has created a vibrant ecosystem of component libraries and other addons, that make this easily the most exciting web framework in Java. But plain JSF is heavy on XML, and misses out on a number of important features, especially for people building internet-facing applications. Seam replaces the tedious XML configuration with a handful of annotations, reducing code and making you more productive. Seam extends JSF with extra functionality for multi-window operation and workspace management, model-based validation, jBPM-based pageflow, internationalization, page fragment caching. Seam even adds facilities for handling bookmarkable (REST-style) web pages - the number one user complaint against JSF. </p:paragraph>
+
+        <p:paragraph alignment="justify" spacingBefore="5">Since JSF does not address the problem of access to transactional resources, Seam's integration of JTA, JPA and EJB 3.0 is a must-have for most JSF users. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="4">
+        <p:title>
+            <p:font size="18"><p:paragraph>And the easiest way to do BPM </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">jBPM is an intuitive and powerful solution for enterprise applications with complex human collaboration, or web applications with complex user interactions. BPM technology not only makes it easier for developers and analysts to model, implement and optimize a business process, but also makes it possible for operations and management to analyse the efficiency of the business process, and be informed of problems. </p:paragraph>
+        
+        <p:paragraph alignment="justify" spacingBefore="5">Seam deeply integrates jBPM and makes it incredibly simple to use jBPM for task management or pageflow, and is a great way to get started with BPM technology. The combination of Seam and jBPM can shrink development time of some kinds of projects by literally months. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="5">
+        <p:title>
+            <p:font size="18"><p:paragraph>But CRUD is easy too </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">Seam takes on hard problems affecting complex enterprise applications. But that doesn't mean the easy stuff is any more difficult than it should be. Seam is every bit as productive as any of the current crop of CRUD frameworks when it comes to building simple data driven applications. Seam combines a simple data access framework (built around JPA and Hibernate) with a command line code generation and database reverse engineering tool to get you started in minutes. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="6">
+        <p:title>
+            <p:font size="18"><p:paragraph>It makes persistence a breeze </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">Seam grew out of the Hibernate community, and was designed and implemented by the people who created Hibernate, the same people who coined the term "persistence context". Seam's conversation model solves a raft of persistence-related programming problems caused by traditional stateless web application architectures. Whether you use Hibernate or JPA, Seam makes it easy and natural to use extended persistence contexts, and helps you avoid unnecessary state replication when you use an extended persistence context in a clustered environment. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="7">
+        <p:title>
+            <p:font size="18"><p:paragraph>Annotations </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">Seam is the first programming model that lets you use Java 5 annotations end to end, from the persistence layer to the UI. You'll never find yourself wrestling with unnecessary, noisy XML. Which is not to say that Seam doesn't use XML when appropriate (Seam has a sophisticated XML-based component configuration facility), just that you won't get lost in reams of XML for common programming tasks. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="8">
+        <p:title>
+            <p:font size="18"><p:paragraph>Get hip to automated integration testing </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">Automated unit tests certainly have their place in any project. But it's worse than dangerous to rely solely on unit testing. Most bugs concern the interaction between components, and the interaction between a component and the container environment. Unit tests are unable to properly capture container behavior, and usually don't capture complex inter-component interactions. Seam introduces an innovative approach to automated integration testing, where you can emulate the entire flow of a request or conversation, testing all layers of Java code in the application, from presentation to persistence. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="9">
+        <p:title>
+            <p:font size="18"><p:paragraph>Marry open source with open standards </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">Seam is founded upon open source implementations of open standards like JSF and EJB 3.0, along with open source innovators like Hibernate, jBPM, Facelets, Drools, ICEfaces and Ajax4JSF. The creators of Seam are active in the EJB, JPA, Bean Validation and JSF expert groups and lead the Web Beans (JSR-299) expert group which aims to bring the ideas of Seam into the Java EE standard. The Seam project is totally committed to the idea of open source innovation driving new ideas and ehancements into the Java platform. </p:paragraph>
+    </p:chapter>
+
+    <p:chapter number="10">
+        <p:title>
+            <p:font size="18"><p:paragraph>It just works </p:paragraph></p:font>
+        </p:title>
+        <p:paragraph alignment="justify" spacingBefore="5">You'll love it if you try it.</p:paragraph>
+    </p:chapter>
+</p:document>
+

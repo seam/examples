@@ -1,0 +1,142 @@
+a:active, a:link, a:visited {
+	color: #0D5798;    
+}
+a:hover {
+	color: #8CAFCD;
+}
+
+.menuButtons {
+	background-color: #FF6600; /*#8CAFCD*/
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.menuButtons a {
+    font-weight: bold;
+    text-decoration: none;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+.menuButtons a:active, .menuButtons a:link, .menuButtons a:visited {
+	font-family: Arial,sans-serif;
+	background-color: #FF6600; /*#8CAFCD*/
+	color: white;
+	border-right: 1px solid white;
+}
+.menuButtons a:hover {
+	font-family: Arial,sans-serif;
+    background-color: white;
+    color: #FF6600; /*#8CAFCD*/
+}
+
+.actionButtons {
+	width: 100%;
+	text-align: center;
+	padding-top: 10px;
+}
+.tableControl {
+	width: 100%;
+	text-align: right;
+	padding-top: 15px;
+}
+.actionButtons a, .tableControl a {
+	font-family: Arial,sans-serif;
+	font-weight: bold;
+	color: #578BB8;
+	border: 1px solid #578BB8;
+	text-decoration: none;
+	padding: 5px;
+	margin: 5px;
+}
+.actionButtons a:hover, .tableControl a:hover {
+	color: white;
+	background-color: #578BB8;
+	margin: 5px;
+}
+
+h1 {
+	font-family: Arial,sans-serif;
+	color: #578BB8;
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+body {
+	margin: 0px;
+	font-family: Arial,sans-serif;
+	color: #616161;
+}
+
+.body {
+	padding: 30px;
+}
+
+
+table {
+	width: 100%;
+}
+th {
+	background-color: #578BB8;
+	color: white;
+	font-family: Arial,sans-serif;
+	padding: 5px;
+	
+}
+td {
+	background-color: #F0F0F0;
+	text-align: center;
+}
+.narrow {
+	width: 20%;
+}
+.wide {
+	width: 80%;
+}
+.first td {
+	background-color: #F0F0F0;
+}
+.second td {
+	background-color: white;
+}
+
+.dialog 
+{
+	padding: 15px;
+	background-color: #F0F0F0;
+	margin: 10px;	
+}
+.dialog table
+{
+	width: auto;
+}
+
+.message {
+	border: 1px solid #FFCC00;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: #F0F0F0;
+}
+
+.message:empty { display: none; }
+
+.prop {
+	padding: 5px;
+}
+.prop .name {
+	font-weight: bold;
+	text-align: left;
+	width: 115px;
+}
+.prop .value {
+	text-align: left;
+}
+.prop .errors {
+	color: red;
+	text-align: left;
+}
+.value input {
+	width:190px;
+}
+.errors input {
+	border: 1px solid red;
+}

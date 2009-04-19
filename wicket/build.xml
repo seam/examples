@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<project name="WicketBooking" default="deploy" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+	<!-- Naming -->
+	<property name="Name" value="Port of Seam Booking Example to use Wicket" />
+	<property name="example.name" value="jboss-seam-wicket-booking" />
+
+	<property name="src.java.dir" value="src/action" />
+	<property name="src.web.dir" value="src/web" />
+
+	<property name="build.web" value="build-web" />
+	<property name="build.instrumented" value="instrumented-web" />
+
+	<!-- Libraries to include -->
+
+	<property name="seam.wicket.lib" value="yes" />
+	<property name="seam.debug.lib" value="yes" />
+	<property name="wicket-extensions.lib" value="yes" />
+	<property name="wicket-datetime.lib" value="yes" />
+
+	<!-- Datasource -->
+	<property name="example.ds" value="jboss-seam-wicket-booking-ds.xml" />
+
+	<import file="../build.xml" />
+
+	<target name="compile.web" depends="compile">
+		<mkdir dir="${build.web}" />
+		<javac destdir="${build.web}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<src path="${src.web.dir}" />
+			<classpath refid="build.classpath" />
+			<classpath location="${jar.dir}" />
+		</javac>
+	</target>
+
+	<target name="instrument" depends="compile.web" unless="instrumentAtRunTime">
+		<taskdef name="instrumentWicket" classname="org.jboss.seam.wicket.ioc.WicketInstrumentationTask">
+			<classpath>
+				<pathelement location="${lib.dir}/jboss-seam-wicket-ant.jar" />
+				<pathelement location="${lib.dir}/jboss-seam-wicket.jar" />
+				<pathelement location="${lib.dir}/javassist.jar" />
+				<pathelement location="${lib.dir}/jboss-seam.jar" />
+			</classpath>
+		</taskdef>
+
+		<path id="instrument.path">
+			<path refid="build.classpath" />
+			<pathelement location="${jar.dir}" />
+			<pathelement location="${build.web}" />
+		</path>
+
+		<instrumentWicket outputDirectory="${build.instrumented}">
+			<classpath refid="instrument.path" />
+			<fileset dir="${build.web}">
+				<and>
+					<filename name="**/*.class" />
+					<!-- only instrument things that have changed since last time -->
+					<modified>
+						<param name="cache.cachefile" value="instrumentcache.properties" />
+					</modified>
+				</and>
+			</fileset>
+		</instrumentWicket>
+	</target>
+
+	<target name="copyWicketClasses" depends="compile.web" if="instrumentAtRunTime">
+		<mkdir dir="${war.dir}/WEB-INF/wicket" />
+		<copy todir="${war.dir}/WEB-INF/wicket">
+			<fileset dir="${src.web.dir}">
+				<include name="**/*.html" />
+				<include name="seam.properties" />
+			</fileset>
+			<fileset dir="${build.web}" includes="**/*.class" />
+		</copy>
+	</target>
+
+	<target name="copyWicketInstrumentedClasses" depends="instrument" unless="instrumentAtRunTime">
+		<condition property="wicketClassDestination" value="${war.dir}/WEB-INF/dev" else="${war.dir}/WEB-INF/classes">
+			<istrue value="${debug}" />
+		</condition>
+
+		<mkdir dir="${wicketClassDestination}" />
+		<copy todir="${wicketClassDestination}">
+			<fileset dir="${src.web.dir}">
+				<include name="**/*.html" />
+				<include name="seam.properties" />
+			</fileset>
+			<fileset dir="${build.instrumented}" includes="**/*.class" />
+		</copy>
+	</target>
+
+
+
+	<!-- Examples build hook point for running targets before creating the war -->
+	<target name="init.war" depends="copyWicketClasses,copyWicketInstrumentedClasses" />
+
+</project>

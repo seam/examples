@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+				template="template.xhtml">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>View Contact</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  
+    <div class="menuButtons">
+      <s:link id="search" view="/search.xhtml" value="Search Contacts"/>
+      <s:link id="create" view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
+      <s:link id="view" view="/viewContact.xhtml" value="View Contact"/>
+      <s:link id="edit" view="/editContact.xhtml" value="Edit Contact"/>
+    </div>
+    
+    <div class="body">
+    
+      <h1>View Contact</h1>
+    
+      <h:messages id="messages" styleClass="message"/>
+    
+      <!-- fields -->
+      <div class="dialog">
+        <table>
+          <tr class="prop">
+            <td class="name">First Name:</td>
+            <td class="value">#{contact.firstName}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Last Name:</td>
+            <td class="value">#{contact.lastName}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Cell Phone:</td>
+            <td class="value">#{contact.cellPhone}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Home Phone:</td>
+            <td class="value">#{contact.homePhone}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Address:</td>
+            <td class="value">#{contact.address}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">City:</td>
+            <td class="value">#{contact.city}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">State:</td>
+            <td class="value">#{contact.state}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Zip:</td>
+            <td class="value">#{contact.zip}</td>
+          </tr>
+          <tr class="prop">
+            <td class="name">Country:</td>
+            <td class="value">#{contact.country}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <!-- actions -->
+      <div class="actionButtons">
+        <s:link id="editContact" view="/editContact.xhtml" value="Edit Contact"/>
+        <s:link id="deleteContact" action="#{contactHome.remove}" value="Delete Contact" rendered="#{contactHome.managed}"/>
+      </div>
+      
+      <!-- associations -->
+      <h3>
+        <h:outputText value="Comments" rendered="#{not empty contact.comments}"/>
+        <h:outputText value="No Comments" rendered="#{empty contact.comments}"/>
+      </h3>
+      
+      <h:dataTable value="#{contact.comments}" var="c" rendered="#{not empty contact.comments}"
+          rowClasses="first,second" columnClasses="narrow,wide">
+        <h:column>
+          <f:facet name="header">Posted</f:facet>
+          <h:outputText value="#{c.created}">
+            <s:convertDateTime type="both"/>
+          </h:outputText>
+        </h:column>
+        <h:column>
+          <f:facet name="header">Comment</f:facet>
+          #{c.text}
+        </h:column>
+      </h:dataTable>
+      
+      <h:form id="commentForm">
+      	  
+  	  <!-- editable fields --> 
+        <div class="dialog">
+        <s:validateAll>
+        
+          <table>
+            <tr class="prop">
+              <td class="name">New Comment:</td>
+              <td class="value">
+                <h:inputTextarea id="text" value="#{comment.text}" rows="15" cols="100"/>
+              </td>
+            </tr>
+          </table>
+      
+        </s:validateAll>
+        </div>
+      
+        <!-- actions -->
+        <div class="actionButtons">
+          <h:commandLink id="submit" action="#{commentHome.persist}" value="Create Comment"/>
+        </div>
+        
+      </h:form>
+
+    </div>
+    
+  </body>
+</html>

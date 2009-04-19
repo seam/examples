@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Messages" verbose="2" parallel="false">
+
+   <test name="MessageList">
+     <classes>
+       <class name="org.jboss.seam.example.messages.test.MessageListTest"/>
+     </classes>
+   </test>
+	
+</suite>

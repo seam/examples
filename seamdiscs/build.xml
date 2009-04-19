@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="Seamdiscs" default="restart" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seamdiscs"/>
+    <property name="example.name"           value="jboss-seam-discs"/>
+
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+	<property name="richfaces.lib"   value="yes"/>
+	<property name="trinidad.lib"    value="yes"/>
+    
+    <import file="../build.xml"/>
+	
+	<patternset id="test.resources.files">
+      <exclude name="import.sql" />
+    </patternset>
+	
+</project>
+

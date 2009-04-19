@@ -1,0 +1,76 @@
+<s:div id="preferencesForm"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="2" columnClasses="formListGridColumn">
+
+        <a:region>
+        <h:dataTable id="preferenceEntityList"
+                     var="preferenceEntity"
+                     value="#{preferenceEntities}"
+                     styleClass="formListTable"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <s:div styleClass="#{preferenceEntity == preferenceEditor.preferenceEntity ? 'formListSelectedItem' : 'formListItem'}">
+                    <a:commandLink action="#{preferenceEditor.selectPreferenceEntity(preferenceEntity)}"
+                                   status="globalStatus"
+                                   reRender="preferenceEntityList, preferencePropertyPanel" oncomplete="onAjaxRequestComplete()">
+                            #{preferenceEntity.description}
+                    </a:commandLink>
+                </s:div>
+            </h:column>
+
+        </h:dataTable>
+        </a:region>
+
+        <s:div id="preferencePropertyPanel">
+
+            <a:region>
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0"
+                             rendered="#{not empty preferenceEditor.preferenceEntity}"
+                             styleClass="datatable topLeftBottomBorder rightBorder sessionEventTrigger"
+                             columnClasses="twentyPercentColumn alignLeft minorPadding,
+                                            twentyPercentColumn alignLeft, defaultColumn alignCenter rightBorder"
+                             rowClasses="rowEven,rowOdd">
+
+                    <c:forEach items="#{preferenceEditor.preferenceValues}" var="v">
+
+                        <s:div>
+                            <h:outputText value="#{v.preferenceProperty.description}:"/>
+                        </s:div>
+
+                        <s:div>
+                            <ui:include src="preferences/#{v.preferenceProperty.editorIncludeName}.xhtml">
+                                <ui:param name="v" value="#{v}"/>
+                            </ui:include>
+                        </s:div>
+
+                    </c:forEach>
+                </h:panelGrid>
+            </a:region>
+
+        </s:div>
+
+        <s:div id="preferenceValidationErrors">
+            <s:span rendered="#{!preferenceEditor.valid}">
+                <span id="preferenceValidationErrorMessage" style="display:none"><h:message for="preferenceValidationErrors"/></span>
+                <script type="text/javascript">jQuery(function() {
+                    formTabRaiseError("#{tabId}", "prefEditor", "Preferences, " + jQuery("#preferenceValidationErrorMessage").html())
+                });</script>
+            </s:span>
+            <s:span rendered="#{preferenceEditor.valid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabClearError("#{tabId}", "prefEditor");
+                });</script>
+            </s:span>
+        </s:div>
+
+    </h:panelGrid>
+
+</s:div>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="1.2"
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>register</from-outcome>
+            <to-view-id>/register.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>password</from-outcome>
+            <to-view-id>/password.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>main</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>hotel</from-outcome>
+            <to-view-id>/hotel.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/hotel.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>book</from-outcome>
+            <to-view-id>/book.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <from-view-id>/book.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-outcome>confirm</from-outcome>
+            <to-view-id>/confirm.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <from-view-id>/confirm.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>confirmed</from-outcome>
+            <to-view-id>/main.xhtml</to-view-id>
+
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>back</from-outcome>
+            <to-view-id>/book.xhtml</to-view-id>
+
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
+</faces-config>
+

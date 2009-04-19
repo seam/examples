@@ -1,0 +1,120 @@
+<s:fragment
+        rendered="#{not empty postingHistory.topics}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="box">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{userHome.instance.fullname}#{messages['forum.postingHistory.titlePluralSuffix']}"/>
+            <h:outputText value="&#160;#{messages['forum.postingHistory.title']}"/>
+        </s:div>
+
+        <s:div styleClass="boxContent" style="border:none">
+
+            <h:form>
+                <s:div id="topicList">
+
+                    <ui:include src="/includes/pager.xhtml">
+                        <ui:param name="pager" value="#{postingHistory.topicPager}"/>
+                        <ui:param name="pagerStyleClass" value="pagerTop smallFont"/>
+                        <ui:param name="pagerSingularLabel" value="topic"/>
+                        <ui:param name="pagerPluralLabel" value="topics"/>
+                        <ui:param name="useAjax" value="true"/>
+                        <ui:param name="renderOnSelect" value="topicList"/>
+                    </ui:include>
+
+                    <h:dataTable id="topicListTable" cellpadding="0" cellspacing="0"
+                            styleClass="datatable smallFont undecoratedLink topLeftBottomBorder"
+                            headerClass="sortableHeader alignCenter rightBorder"
+                            columnClasses="fifteenPercentColumn alignRight rightBorder,
+                                           fifteenPercentColumn alignCenter rightBorder,
+                                           defaultColumn alignLeft wrapWhitespace rightBorder,
+                                           twentyPercentColumn alignCenter rightBorder"
+                            rowClasses="rowOdd,rowEven"
+                            var="topicInfo" value="#{postingHistory.topics}">
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{messages['forum.postingHistory.date']}"/>
+                            </f:facet>
+
+                            <h:outputText value="#{topicInfo.topic.createdOn}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm"
+                                                   timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{messages['forum.postingHistory.forum']}"/>
+                            </f:facet>
+
+                            <h:outputText value="#{topicInfo.forum.name}"/>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{messages['forum.postingHistory.topic']}"/>
+                            </f:facet>
+
+                            <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.topic)}">
+                                <h:outputText value="#{wiki:truncateString(topicInfo.topic.name, 60, '...')}"/>
+                            </h:outputLink>
+
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{messages['forum.postingHistory.lastReply']}"/>
+                            </f:facet>
+
+                            <s:fragment rendered="#{not empty topicInfo.lastComment}">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.lastComment)}">
+                                    <h:outputText value="#{topicInfo.lastComment.createdOn}">
+                                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm "
+                                                           timeZone="#{preferences.get('Wiki').timeZone}"/>
+                                    </h:outputText>
+                                    <h:graphicImage styleClass="topicGotoIcon"
+                                                    value="#{currentPluginModule.imagePath}/icon.posting_goto.gif"
+                                                    width="18" height="9"/>
+                                </h:outputLink>
+
+                                <ui:include src="/includes/userProfileLink.xhtml">
+                                    <ui:param name="user" value="#{topicInfo.lastComment.createdBy}"/>
+                                </ui:include>
+
+                            </s:fragment>
+
+                            <s:fragment rendered="#{empty topicInfo.lastComment}">
+                                <s:div style="line-height:300%">
+                                    <h:outputText value="-"/>
+                                </s:div>
+                            </s:fragment>
+
+                        </h:column>
+
+                    </h:dataTable>
+
+                    <ui:include src="/includes/pager.xhtml">
+                        <ui:param name="pager" value="#{postingHistory.topicPager}"/>
+                        <ui:param name="pagerStyleClass" value="pagerBottom smallFont"/>
+                        <ui:param name="pagerSingularLabel" value="topic"/>
+                        <ui:param name="pagerPluralLabel" value="topics"/>
+                        <ui:param name="useAjax" value="true"/>
+                        <ui:param name="renderOnSelect" value="topicList"/>
+                    </ui:include>
+
+                </s:div>
+
+            </h:form>
+
+        </s:div>
+
+    </s:div>
+
+</s:fragment>

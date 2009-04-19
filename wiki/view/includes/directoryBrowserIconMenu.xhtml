@@ -1,0 +1,16 @@
+<s:div styleClass="contextMenu"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:outputLink value="javascript://no-op" tabindex="1"
+              onmouseover="jQuery(this).children('.dirItemIcon').attr('src','#{themePath}/img/menu_down.gif').toggleClass('mouseOver');
+                           jQuery(this).parent('.contextMenu').menu(); jQuery(this).children('.contextMenuItems').show();"
+              onmouseout="jQuery(this).children('.dirItemIcon').attr('src','#{themePath}/img/#{icon}').toggleClass('mouseOver')">
+        <h:graphicImage value="#{imagePath}/#{icon}" styleClass="dirItemIcon"/>
+    </h:outputLink>
+
+    <ui:insert name="menu"/>
+
+</s:div>

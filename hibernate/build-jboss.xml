@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="Hibernate Booking" default="jbosswar.deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Hibernate Example for JBoss 4.2.0.GA"/>
+    <property name="example.name"           value="jboss-seam-hibernate"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-jboss" />
+	<property name="dist.dir" value="dist-jboss" />
+	<property name="exploded-archives.dir" value="exploded-archives-jboss" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="richfaces.lib"   value="true"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

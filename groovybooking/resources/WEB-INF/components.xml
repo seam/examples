@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:mail="http://jboss.com/products/seam/mail"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd 
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+   <core:init debug="@debug@" jndi-pattern="@jndiPattern@"/>
+     
+   <core:manager concurrent-request-timeout="500" 
+                 conversation-timeout="120000" 
+                 conversation-id-parameter="cid"/>
+    
+   <persistence:entity-manager-factory name="groovyEntityManagerFactory"
+      persistence-unit-name="groovy" installed="@loadPersistenceUnits@"/>
+
+   <!-- If Seam loads the persistence unit (JBoss 4.x), the EntityManagerFactory will be resolved from #{groovyEntityManagerFactory}.
+        On JBoss AS 5, the EntityManagerFactory is retrieved from JNDI (the binding occurs during application deployment). -->
+   <persistence:managed-persistence-context name="em" auto-create="true"
+      entity-manager-factory="#{groovyEntityManagerFactory}"
+      persistence-unit-jndi-name="java:/groovyEntityManagerFactory"/>
+               
+   <security:identity authenticate-method="#{authenticator.authenticate}"
+                      remember-me="true"/>
+                              
+   <event type="org.jboss.seam.security.notLoggedIn">
+       <action execute="#{redirect.captureCurrentView}"/>
+   </event>
+   <event type="org.jboss.seam.security.loginSuccessful">
+       <action execute="#{redirect.returnToCapturedView}"/>
+   </event>
+   
+   <mail:mail-session host="localhost" port="2525" username="test" password="test" />
+        
+   <!-- For use with jBPM pageflow or process management -->
+   <!--  
+   <core:jbpm>
+      <core:process-definitions></core:process-definitions>
+      <core:pageflow-definitions></core:pageflow-definitions>
+   </core:jbpm>
+   -->
+      
+</components>

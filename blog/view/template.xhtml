@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xml:lang="en"  
+      lang="en">
+
+<f:view>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>#{blog.name}</title>
+      <link href="#{theme.css}" rel="stylesheet" type="text/css" /> 
+      <link rel="alternate" 
+            type="application/atom+xml" 
+            title="atom" 
+            href="#{request.contextPath}/seam/index.xml" />
+
+   </head>
+
+   <body>
+      <div id="menu">
+         <ui:include src="menu.xhtml"/>
+      </div>
+      <div id="container">
+         <h1>#{blog.name}</h1>
+         <h2>#{blog.description}</h2>
+         <ui:insert name="content"/>
+         <div class="blogEntry">
+            #{blog.name}: 
+            <ui:include src="nav.xhtml"/>
+            <br/>
+            Total pageviews: #{blog.hitCount.pageviews}
+         </div>
+      </div>
+   </body>
+</f:view>
+
+</html>

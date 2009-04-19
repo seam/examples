@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE facelet-taglib PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+        "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+
+<facelet-taglib>
+    <namespace>http://javascript4jsf.dev.java.net/</namespace>
+    <tag>
+        <tag-name>idProxy</tag-name>
+        <component>
+            <component-type>org.j4j.idProxy</component-type>
+        </component>
+    </tag>
+</facelet-taglib>

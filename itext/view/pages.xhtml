@@ -1,0 +1,21 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:p="http://jboss.com/products/seam/pdf">
+
+    <ui:repeat value="#{lists.numbers}" var="number">
+        <p:newPage />
+        <p:image alignment="right" value="/jboss.jpg" />
+        
+        <p:font family="Helvetica" size="36">
+            <p:paragraph alignment="center">Page #{number}</p:paragraph>
+        </p:font>
+
+        <p:font family="Helvetica">
+            <p:paragraph alignment="justify">JBoss Seam is a powerful new application framework for building next generation Web 2.0 applications by unifying and integrating technologies such as Asynchronous JavaScript and XML (AJAX), Java Server Faces (JSF), Enterprise Java Beans (EJB3), Java Portlets and Business Process Management (BPM).</p:paragraph>
+
+            <p:paragraph alignment="justify">Seam has been designed from the ground up to eliminate complexity at the architecture and the API level. It enables developers to assemble complex web applications with simple annotated Plain Old Java Objects (POJOs), componentized UI widgets and very little XML. The simplicity of Seam 1.0 will enable easy integration with the JBoss Enterprise Service Bus (ESB) and Java Business Integration (JBI) in the future.</p:paragraph>
+        </p:font>
+
+    </ui:repeat>
+</p:document>
+

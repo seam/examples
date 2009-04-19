@@ -1,0 +1,60 @@
+.forumDescriptionTopicControls {
+    width: 100%;
+}
+
+.forumDescription {
+}
+
+.topicControls {
+    text-align: right;
+    white-space: nowrap;
+    padding-left: 10px;
+}
+
+.topicFormContainer {
+}
+
+.topicTableContainer {
+}
+
+.topicPager {
+    width: 100%;
+}
+
+.topicPagerTable {
+    width: 100%;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    text-align: center;
+}
+
+.topicPagerColumn {
+    width: 10%;
+}
+.topicPagerTextColumn {
+    width: 60%;
+}
+
+.topicGotoIcon {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.forumsFeedLink {
+    margin: 10px;
+    float: right;
+    margin-top: -30px;
+}
+
+.forumsFeedLink img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.forumDescription {
+    text-align: left;
+}

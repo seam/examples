@@ -1,0 +1,3 @@
+<jboss-web>
+    <virtual-host>seam.demo.jboss.com</virtual-host>
+</jboss-web>

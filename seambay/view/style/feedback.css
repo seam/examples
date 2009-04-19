@@ -1,0 +1,88 @@
+#feedbackHeader {
+  padding: 0px;
+  margin: 8px 8px 4px 8px;
+}
+
+div.headerTitle {
+  font-family: tahoma, verdana, arial, helvetica;
+  background-color: #ccccff;
+  border-bottom: 4px solid #5566ee;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 4px 8px 8px 8px;
+}
+
+div.headerStatus {
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;
+  padding: 4px 8px 2px 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+div.feedbackBreakdown {
+  border-left: 1px solid #ccccff;
+  border-right: 1px solid #ccccff;
+  border-bottom: 1px solid #ccccff;
+  padding: 8px 8px 8px 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+}
+
+div.feedbackScore {
+  float: left;
+  width: 30%;
+}
+
+div.scoreRowBig {
+  margin-bottom: 4px;
+}
+
+div.scoreRowBig label {
+  float: left;
+  font-size: 15px;
+}
+
+div.scoreRowBig div {
+  margin-left: 180px;
+  nowrap: true;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+div.scoreRow label {
+  float: left;
+}
+
+div.scoreRow div {
+  margin-left: 180px;
+  nowrap: true;
+}
+
+div.feedback {
+  margin: 8px 8px 8px 8px;
+}
+
+table.feedbackTable {
+  border: 1px solid #cccccc;
+}
+
+table.feedbackTable th {
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  text-align: left;
+  padding: 4px 4px 4px 4px;
+}
+
+table.feedbackTable td {
+  vertical-align: top;
+  padding: 4px 4px 4px 4px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  border-top: 1px solid #cccccc;  
+}
+
+div.itemDescription {
+  margin-top: 8px;
+  color: #999999;
+}

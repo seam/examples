@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+				template="template.xhtml">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Edit Contact</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  
+    <div class="menuButtons">
+      <s:link id="search" view="/search.xhtml" value="Search Contacts"/>
+      <s:link id="create" view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
+      <s:link id="view" view="/viewContact.xhtml" value="View Contact" rendered="#{contactHome.managed}"/>
+      <s:link id="edit" view="/editContact.xhtml" value="Edit Contact" rendered="#{contactHome.managed}"/>
+    </div> 
+   
+    <div class="body">
+    
+      <h1>Edit Contact</h1>
+    
+      <h:form id="editForm">
+      
+        <h:messages id="messages" globalOnly="true" styleClass="message"/>
+  	  
+  	    <!-- editable fields --> 
+        <s:validateAll>
+        
+          <f:facet name="aroundInvalidField">
+            <s:span styleClass="errors"/>
+          </f:facet>
+          <f:facet name="afterInvalidField">
+            <s:span>&#160;<s:message/></s:span>
+          </f:facet>
+        
+          <div class="dialog">
+            <table>
+              <tr class="prop">
+                <td class="name">First Name:</td>
+                <td class="value">
+                  <s:decorate id="firstNameDecorate"><h:inputText id="firstName" value="#{contact.firstName}" required="true"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Last Name:</td>
+                <td class="value">
+                  <s:decorate id="lastNameDecorate"><h:inputText id="lastName" value="#{contact.lastName}" required="true"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Cell Phone:</td>
+                <td class="value">
+                  <s:decorate id="cellPhoneDecorate"><h:inputText id="cellPhone" value="#{contact.cellPhone}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Home Phone:</td>
+                <td class="value">
+                  <s:decorate id="homePhoneDecorate"><h:inputText id="homePhone" value="#{contact.homePhone}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Address:</td>
+                <td class="value">
+                  <s:decorate id="addressDecorate"><h:inputText id="address" value="#{contact.address}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">City:</td>
+                <td class="value">
+                  <s:decorate id="cityDecorate"><h:inputText id="city" value="#{contact.city}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">State:</td>
+                <td class="value">
+                  <s:decorate id="stateDecorate"><h:inputText id="state" value="#{contact.state}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Zip:</td>
+                <td class="value">
+                  <s:decorate id="zipDecorate"><h:inputText id="zip" value="#{contact.zip}"/></s:decorate>
+                </td>
+              </tr>
+              <tr class="prop">
+                <td class="name">Country:</td>
+                <td class="value">
+                  <s:decorate id="countryDecorate"><h:inputText id="country" value="#{contact.country}"/></s:decorate>
+                </td>
+              </tr>
+            </table>
+          </div>
+      
+        </s:validateAll>
+      
+        <!-- actions -->
+        <div class="actionButtons">
+        
+          <h:commandLink id="updateContact" action="#{contactHome.update}" value="Update Contact" rendered="#{contactHome.managed}"/>
+          <s:link id="deleteContact" action="#{contactHome.remove}" value="Delete Contact" rendered="#{contactHome.managed}"/>
+          <s:link id="cancelManaged" view="/viewContact.xhtml" value="Cancel" rendered="#{contactHome.managed}"/>
+
+          <h:commandLink id="createContact" action="#{contactHome.persist}" value="Create Contact" rendered="#{!contactHome.managed}"/>
+          <s:link id="cancel" view="/search.xhtml" value="Cancel" rendered="#{!contactHome.managed}"/>
+
+        </div>
+      
+      </h:form>
+    
+    </div>
+    
+  </body>
+</html>

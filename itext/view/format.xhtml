@@ -1,0 +1,54 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:p="http://jboss.com/products/seam/pdf"
+            title="Why Seam"
+            keywords="mykeyword"
+            subject="seam"
+            author="Seam Team"
+            creator="Seam PDF example app">
+
+    <p:image alignment="right" wrap="true" value="/jboss.jpg" /> 
+    <p:font size="24"><p:paragraph spacingBefore="16" spacingAfter="40">Order #{currentOrder.orderId} </p:paragraph></p:font>  
+
+
+    <p:paragraph>Dear #{currentOrder.customerName},</p:paragraph>
+
+    <p:paragraph>
+Your order on <p:text value=" " /><p:text value="#{currentOrder.orderDate}"><f:convertDateTime type="date" dateStyle="short" /></p:text> has been processed and will ship shortly.  Your order number is #{currentOrder.orderId}.  If you have any questions, please see our <p:anchor reference="http://www.jboss.org/index.html?module=bb&amp;op=viewforum&amp;f=231"> support forums</p:anchor>.
+    </p:paragraph>
+
+    <p:table columns="2" width="3 1" widthPercentage="35" horizontalAlignment="right" spacingBefore="40">
+        <f:facet name="defaultCell">
+            <p:cell borderWidth="0" horizontalAlignment="right"/>
+        </f:facet>
+            
+        <p:cell colspan="2" borderWidth="0" horizontalAlignment="center">
+            <p:font size="24"><p:paragraph>Order Summary</p:paragraph></p:font>
+        </p:cell>
+
+        <p:cell><p:paragraph>Order Amount:</p:paragraph></p:cell>
+        <p:cell>
+            <p:paragraph>
+                <p:text value="#{currentOrder.baseAmount}">
+                    <f:convertNumber type="currency" currencySymbol="$"/>
+                </p:text>
+            </p:paragraph>
+        </p:cell>
+        <p:cell><p:paragraph>Tax:</p:paragraph></p:cell>
+        <p:cell>
+            <p:paragraph>
+                <p:text value="#{currentOrder.tax}">
+                    <f:convertNumber type="currency" currencySymbol="$"/>
+                </p:text>
+            </p:paragraph>
+        </p:cell>
+        <p:cell><p:paragraph>Total Amount:</p:paragraph></p:cell>
+        <p:cell>
+            <p:paragraph>
+                <p:text value="#{currentOrder.totalAmount}">
+                    <f:convertNumber type="currency" currencySymbol="$"/>
+                </p:text>
+            </p:paragraph>
+        </p:cell>
+    </p:table>
+</p:document>

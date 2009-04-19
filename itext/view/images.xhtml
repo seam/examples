@@ -1,0 +1,15 @@
+<p:document xmlns:p="http://jboss.com/products/seam/pdf"
+            xmlns:s="http://jboss.com/products/seam/taglib">
+    <p:image alignment="right" wrap="true" value="/jboss.jpg" /> 
+    <p:font size="24"><p:paragraph spacingAfter="50">Dynamic Image</p:paragraph></p:font>  
+
+
+    <p:paragraph>Normal:</p:paragraph>
+    <p:image alignment="center" value="/jboss.jpg" />
+
+    <p:paragraph>Blur:</p:paragraph>
+    <p:image alignment="center" value="/jboss.jpg">
+           <s:transformImageBlur radius="3" />
+    </p:image>
+</p:document>
+

@@ -1,0 +1,68 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Lacewiki - All" verbose="1">
+
+    <parameter name="database" value="hsql"/>
+
+    <!-- MySQL also requires changes to persistence-test.xml and wiki-test-ds.xml
+    <parameter name="database" value="mysql"/>
+    -->
+
+    <parameter name="datasourceJndiName" value="java:/wikiTestDatasource"/>
+    <parameter name="binaryDir" value="META-INF/testbinaries"/>
+
+    <test name="Model">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.model"/>
+        </packages>
+    </test>
+
+    <test name="DAO">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.dao"/>
+        </packages>
+    </test>
+
+    <test name="Preferences">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.preferences"/>
+        </packages>
+    </test>
+
+    <test name="Browsing">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.browse"/>
+        </packages>
+    </test>
+
+    <test name="Feeds">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.feeds"/>
+        </packages>
+    </test>
+
+    <test name="Editing">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.editing"/>
+        </packages>
+    </test>
+
+    <test name="NestedSet">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.nestedset"/>
+        </packages>
+    </test>
+
+    <test name="User">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.user"/>
+        </packages>
+    </test>
+
+    <test name="Plugins">
+        <packages>
+            <package name="org.jboss.seam.wiki.test.plugin"/>
+        </packages>
+    </test>
+
+</suite>

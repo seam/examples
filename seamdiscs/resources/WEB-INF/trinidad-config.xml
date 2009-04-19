@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<trinidad-config xmlns="http://myfaces.apache.org/trinidad/config">
+  <!-- Disable client validation, I don't like it -->
+  <client-validation-disabled>true</client-validation-disabled>
+  <!-- Use our own skin, vaguely like the a4j blueSky skin -->
+  <skin-family>seamdiscs</skin-family>
+  <!-- Enable debug output here -->
+  <debug-output>false</debug-output>
+  <!-- Improve a4j compatibility -->
+  <accessibility-mode>inaccessible</accessibility-mode>  
+</trinidad-config>

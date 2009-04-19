@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<!--
+
+    Rewrite nice URIs to "ugly" internal URIs. This is preparation for any RESTful service layer
+    we might want to expose later.
+
+    We basically have three kinds of GET URIs:
+
+    - Wiki document/directory URIs with either numeric identifiers (/123.lace) or area/node names such as /Foo/Bar.
+      The named URIs rely on the fact that WikiWord names for area/nodes are always starting with an uppercase letter.
+      The named URIs can have various other modifiers appended, such as /Page/3 or /Tag/Foobar. The representation is
+      always human-readable HTML.
+
+    - URIs to global information pages, such as /user/johndoe or /tag/Foo+Bar. These resources usually aggregate some
+      information. The distinction between named WikiWord URIs is the lowercase first letter. The representation
+      is always humand-readable HTML.
+
+    - URIs to services, such as feeds and downloads. These always start with /service and representations can vary, e.g.
+      binary data for image downloads or Atom XML for feeds.
+
+    @author Christian Bauer
+-->
+<urlrewrite>
+
+    <!-- Disable the Red Hat crawler -->
+    <rule>
+        <from>.*</from>
+        <condition name="remote-addr">66.187.233.202</condition>
+        <to last="true" type="temporary-redirect">/robots.txt</to>
+    </rule>
+
+    <!-- Disable anything that comes out of Microsoft -->
+    <rule>
+        <from>.*</from>
+        <condition name="remote-addr">65.55.210.81</condition>
+        <to last="true" type="temporary-redirect">/robots.txt</to>
+    </rule>
+
+    <!-- Default browser -->
+    <rule>
+        <from>.*</from>
+        <set type="session" name="skin">d</set>
+    </rule>
+
+    <!-- Mobile browser -->
+    <rule>
+        <from>.*</from>
+        <condition next="or" name="user-agent">Windows CE</condition>
+        <condition next="or" name="user-agent">SonyEricsson</condition>
+        <condition name="user-agent">BlackBerry</condition>
+        <set type="session" name="skin">m</set>
+    </rule>
+
+    <!-- /123.html -->
+    <rule>
+        <from>^/([0-9]+)\.[a-zA-z]+$</from>
+        <to last="true">/wiki.seam?nodeId=$1</to>
+     </rule>
+
+    <!-- /search/Foo+Bar+No+Characters+Except+Space -->
+    <rule>
+        <from casesensitive="true">^/search/(.+)$</from>
+        <to last="true">/search_%{session-attribute:skin}.seam?query=$1</to>
+    </rule>
+
+    <!-- /user/foo -->
+    <rule>
+        <from casesensitive="true">^/user/([a-zA-Z]?[a-zA-Z0-9]+)$</from>
+        <to last="true">/userProfile_%{session-attribute:skin}.seam?username=$1</to>
+    </rule>
+
+    <!-- /tag/Foo+Bar-->
+    <rule>
+        <from casesensitive="true">^/tag/(.+)$</from>
+        <to last="true">/tagDisplay_%{session-attribute:skin}.seam?tag=$1</to>
+    </rule>
+
+    <!-- /service/Feed/atom (/Area/Foo) (/Node/Bar) (/Comments/exclude/) (/Tag/Foo+Bar) (/Aggregate/My Aggregate) -->
+    <rule>
+        <from casesensitive="true">^/service/Feed/atom(?:/Area/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Node/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Comments/([a-z]+))?(?:/Tag/(.+))?(?:/Aggregate/(.+))?$</from>
+        <to last="true">/servlets/feeds/atom.seam?areaName=$1&amp;nodeName=$2&amp;comments=$3&amp;tag=$4&amp;aggregate=$5</to>
+    </rule>
+
+    <!-- /service/File/123 -->
+    <rule>
+        <from casesensitive="true">^/service/File/([0-9]+)$</from>
+        <to last="true">/servlets/files/download.seam?fileId=$1</to>
+    </rule>
+
+    <!-- /Foo (/Bar) (/Year/2007 (/Month/08) (/Day/23) (/Page/3) (/Tag/Foo+Bar) (/Category/FooBar) -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)(?:/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Year/([0-9]{4}))?(?:/Month/([0-9]{2}))?(?:/Day/([0-9]{2}))?(?:/Page/([0-9]+))?(?:/Tag/(.+))?(?:/Category/(.+))?$</from>
+        <to>/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5&amp;page=$6&amp;tag=$7&amp;category=$8</to>
+    </rule>
+
+    <!-- /Foo (/Bar) (/Year/2007) (/Month/08) (/Day/23) /Summary -->
+    <rule>
+        <from casesensitive="true">^/([A-Z0-9]+[A-Za-z0-9]*)(?:/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Year/([0-9]{4}))?(?:/Month/([0-9]{2}))?(?:/Day/([0-9]{2}))?/Summary$</from>
+        <to>/wiki.seam?areaName=$1&amp;nodeName=$2&amp;year=$3&amp;month=$4&amp;day=$5&amp;summary=true</to>
+    </rule>
+
+    <!-- Blosxom migration from blog.hibernate.org, the best we can do (you probably can delete all of this):
+
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/2007/08/
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/2007/08/01/
+        http://blog.hibernate.org/cgi-bin/blosxom.cgi/index.rss
+    -->
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/?$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/Bloggers/Everyone/Year/$1/Month/$2</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/([0-9]{4})/([0-9]{2})/([0-9]{2})/?$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/Bloggers/Everyone/Year/$1/Month/$2/Day/$3</to>
+    </rule>
+    <rule>
+        <from casesensitive="true">^/cgi-bin/blosxom.cgi/index.rss$</from>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/service/Feed/atom</to>
+    </rule>
+
+    <!-- ROOT / -->
+    <rule>
+        <from>^/$</from>
+        <to>/wiki.seam</to>
+    </rule>
+
+</urlrewrite>
+

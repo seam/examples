@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+       login-view-id="/home.xhtml">
+
+    <page view-id="/home.xhtml">
+        <navigation from-action="#{identity.login}">
+          <rule if="#{identity.loggedIn and authenticatedMember ne null}">
+            <redirect view-id="/profile.xhtml"/>
+          </rule>
+        </navigation>
+        <navigation from-action="#{register.start}">
+          <redirect view-id="/register.xhtml"/>
+        </navigation>
+    </page>
+    
+    <page view-id="/security.xhtml" login-required="true">
+    	
+    </page>
+       
+    <page view-id="/comment.xhtml" login-required="true">
+      <restrict/>
+      
+      <navigation from-action="#{commentAction.saveComment}">
+        <redirect view-id="/blogentry.xhtml"/>
+      </navigation>
+    </page>
+    
+    <page view-id="/register.xhtml">
+      <navigation from-action="#{register.next}">
+        <rule if="#{not register.verified}">
+          <redirect view-id="/register.xhtml"/>
+        </rule>
+      
+        <rule if="#{register.verified}">
+          <redirect view-id="/register2.xhtml"/>
+        </rule>
+      </navigation>
+    </page>
+    
+    <page view-id="/register2.xhtml">
+      <navigation from-action="#{register.uploadPicture}">
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{register.member.memberName}"/>
+        </redirect>
+      </navigation>
+    </page>    
+    
+    <page view-id="/createBlog.xhtml">
+      <restrict>#{identity.loggedIn}</restrict>
+      <navigation from-action="#{blog.saveEntry}">
+        <redirect view-id="/blog.xhtml"/>
+      </navigation>
+    </page>
+    
+    <page view-id="/blog.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    </page>   
+    
+    <page view-id="/blogentry.xhtml">
+      <param name="name" value="#{blog.name}"/>
+      <param name="blogId" value="#{blog.blogId}"/>
+      
+      <navigation from-action="#{commentAction.createComment}">
+        <redirect view-id="/comment.xhtml"/>
+      </navigation>
+
+    </page>
+    
+    <page view-id="/profile.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    
+      <navigation from-action="#{friend.createComment}">
+        <redirect view-id="/friendcomment.xhtml"/>
+      </navigation>
+    </page>
+    
+    <page view-id="/pictureupload.xhtml" login-required="true">
+      <navigation from-action="#{pictureAction.savePicture}">
+        <redirect view-id="/pictures.xhtml">
+          <param name="name" value="#{authenticatedMember.memberName}"/>
+        </redirect>
+      </navigation>
+    </page>
+    
+    <page view-id="/friendcomment.xhtml">
+      <param name="name" value="#{selectedMember.memberName}"/>
+    
+      <restrict>#{identity.loggedIn}</restrict>
+      <navigation from-action="#{friend.saveComment}">        
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{friendComment.member.memberName}"/>
+        </redirect>
+      </navigation>
+    </page>
+    
+    <page view-id="/friendrequest.xhtml">
+      <restrict>#{identity.loggedIn}</restrict>
+      <param name="name" value="#{selectedMember.memberName}"/>
+      <navigation from-action="#{friend.saveRequest}">
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{friendRequest.member.memberName}"/>
+        </redirect>
+      </navigation>    
+    </page>
+    
+    <page view-id="/pictures.xhtml" action="#{pictureSearch.loadMemberPictures}">
+      <param name="name" value="#{pictureSearch.memberName}"/>
+      
+    </page>
+       
+    <page view-id="*">
+        <navigation from-action="#{identity.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{blog.createComment}">
+          <redirect view-id="/comment.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{blog.createEntry}">
+          <redirect view-id="/createBlog.xhtml"/>
+        </navigation>
+    </page>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException" log="true" log-level="info">
+        <redirect view-id="/register.xhtml">
+            <message severity="warn">You must be a member to use this feature</message>
+        </redirect>
+    </exception>
+  
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/security_error.xhtml">
+            <message severity="error">You do not have permission to do this</message>
+        </redirect>
+    </exception>
+
+</pages>

@@ -1,0 +1,10 @@
+<skins xmlns="http://myfaces.apache.org/trinidad/skin">
+	<skin>
+		<id>seamdiscs.desktop</id>
+		<family>seamdiscs</family>
+		<render-kit-id>org.apache.myfaces.trinidad.desktop</render-kit-id>
+		<style-sheet-name>stylesheet/skin.css</style-sheet-name>
+		<bundle-name>messages</bundle-name>
+		
+	</skin>
+</skins>

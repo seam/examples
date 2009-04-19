@@ -1,0 +1,53 @@
+<s:div id="breadcrumb" styleClass="breadcrumb"
+     rendered="#{not currentDocument.macroPresent('hideBreadcrumb')}"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <!--
+    <s:cache enabled="#{breadcrumbFactory.cacheEnabled}"
+             region="#{breadcrumbFactory.cacheRegion}"
+             key="#{breadcrumbFactory.cacheKey}">
+             -->
+
+    <h:panelGroup styleClass="breadcrumbPanel">
+
+        <h:outputLink value="#{wikiURLRenderer.renderURL(wikiRoot)}" styleClass="itemLink breadcrumbRoot">
+            <h:outputText value="#{wiki:truncateString(wikiRoot.name, 25, '...')}"/>
+        </h:outputLink>
+        <h:outputText styleClass="itemSeparator breadcrumbRoot" value="&#183;"/>
+
+        <ui:repeat var="node" value="#{breadcrumb}">
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" styleClass="itemLink" rendered="#{node.isInstance('WikiDirectory')}">
+                <h:outputText value="#{wiki:truncateString(node.name, 25, '...')}"/>
+            </h:outputLink>
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" styleClass="itemText" rendered="#{!node.isInstance('WikiDirectory')}">
+                <h:outputText value="#{wiki:truncateString(node.name, 35, '...')}"/>
+
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value="&#160;(showing"/>
+                <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
+                <h:outputText rendered="#{!empty param.month}" value="&#160;#{converters.monthNames[param.month]}"/>
+                <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
+                <h:outputText rendered="#{!empty param.tag}" value="&#160;tagged '#{param.tag}'"/>
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value=")"/>
+
+            </h:outputLink>
+
+            <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
+                          styleClass="itemSeparatorDot itemSeparator" value="&#183;"/>
+
+            <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
+                          styleClass="itemSeparatorGreaterThan itemSeparator" value="&gt;"/>
+
+            <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
+                          styleClass="itemSeparatorSlash itemSeparator" value="/"/>
+
+        </ui:repeat>
+    </h:panelGroup>
+
+</s:div>

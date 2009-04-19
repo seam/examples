@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Contact List</title>
+	<link href="screen.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+  
+    <div class="menuButtons">
+      <s:link id="search" view="/search.xhtml" value="Search Contacts">
+          <f:param name="firstName" />
+          <f:param name="lastName" />
+          <f:param name="firstResult" />
+      </s:link>
+
+      <s:link id="create" view="/editContact.xhtml" value="Create New Contact">
+        <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
+      </s:link>
+    </div>
+
+    <div class="body">
+        
+      <h1>ContactList</h1>
+      
+      <h:messages id="messages" styleClass="message"/>
+
+      <!-- search box -->
+      <div class="dialog">
+        <h:form id="searchForm">
+           <span class="prop">
+             <span class="name">First Name:</span> 
+             <span class="value"><h:inputText id="firstName" value="#{exampleContact.firstName}"/></span>
+           </span>
+           <span class="prop">
+             <span class="name">Last Name :</span>
+             <span class="value"><h:inputText id="lastName" value="#{exampleContact.lastName}"/></span>
+           </span>
+
+           
+           <h:commandButton id="submit" value="Search" action="newsearch"/>
+        </h:form>
+      </div>
+      
+      <!-- search results -->
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Cell Phone</th>
+          <th>Home Phone</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Country</th>
+        </tr>
+        <ui:repeat id="searchResult" value="#{contacts.resultList}" var="cont">
+          <tr>
+            <td>
+              <s:link id="link" view="/viewContact.xhtml" value="#{cont.firstName} #{cont.lastName}">
+                <f:param name="contactId" value="#{cont.id}"/>
+              </s:link>
+            </td>
+            <td><h:outputText id="cellPhone" value="#{cont.cellPhone}" /></td>
+            <td><h:outputText id="homePhone" value="#{cont.homePhone}" /></td>
+            <td><h:outputText id="address" value="#{cont.address}" /></td>
+            <td><h:outputText id="city" value="#{cont.city}" /></td>
+            <td><h:outputText id="state" value="#{cont.state}" /></td>
+            <td><h:outputText id="zip" value="#{cont.zip}" /></td>
+            <td><h:outputText id="country" value="#{cont.country}" /></td>
+          </tr>
+        </ui:repeat>
+      </table>
+      <h:outputText value="No contacts to display" rendered="#{empty contacts.resultList}" styleClass="message"/>
+      
+      <!-- pagination control -->
+      <div class="tableControl">
+      
+        <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt;&lt; First Page">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+        
+        <s:link view="/search.xhtml" rendered="#{contacts.previousExists}" value="&lt; Previous Page">
+          <f:param name="firstResult" value="#{contacts.previousFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Next Page &gt;">
+          <f:param name="firstResult" value="#{contacts.nextFirstResult}"/>
+        </s:link>
+        
+        <s:link view="/search.xhtml" rendered="#{contacts.nextExists}" value="Last Page &gt;&gt;">
+          <f:param name="firstResult" value="#{contacts.lastFirstResult}"/>
+        </s:link>
+        
+      </div>
+          
+      </div>
+      
+  </body>
+</html>

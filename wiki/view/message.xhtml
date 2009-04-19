@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<head>
+    <title><h:outputText value="#{messages['lacewiki.label.Message']}"/></title>
+</head>
+<body>
+
+<div id="messageBox">
+    <h:messages/>
+</div>
+
+<s:fragment rendered="#{wikiInit.debug}">
+
+<h2>wikiInit.debug=true</h2>
+
+<hr/>
+
+<h3>Handled exception:</h3>
+<pre>Top level exception : #{org.jboss.seam.handledException.class.name}: #{org.jboss.seam.handledException.message}
+=========================================================================================================================
+<ui:repeat value="#{org.jboss.seam.handledException.stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+</pre>
+
+<s:fragment rendered="#{wiki:unwrap(org.jboss.seam.handledException) != org.jboss.seam.handledException}">
+<pre>Root cause exception: #{wiki:unwrap(org.jboss.seam.handledException).class.name}: #{wiki:unwrap(org.jboss.seam.handledException).message}
+=========================================================================================================================
+<ui:repeat value="#{wiki:unwrap(org.jboss.seam.handledException).stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+</pre>
+</s:fragment>
+
+<h3>Unhandled or wrapper exception:</h3>
+
+<pre>Top level exception : #{org.jboss.seam.caughtException.class.name}: #{org.jboss.seam.caughtException.message}
+=========================================================================================================================
+<ui:repeat value="#{org.jboss.seam.caughtException.stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+</pre>
+
+<s:fragment rendered="#{wiki:unwrap(org.jboss.seam.caughtException) != org.jboss.seam.caughtException}">
+<pre>Root cause exception: #{wiki:unwrap(org.jboss.seam.caughtException).class.name}: #{wiki:unwrap(org.jboss.seam.caughtException).message}
+=========================================================================================================================
+<ui:repeat value="#{wiki:unwrap(org.jboss.seam.caughtException).stackTrace}" var="stackElement">
+#{stackElement}</ui:repeat>
+</pre>
+</s:fragment>
+
+</s:fragment>
+
+</body>
+</html>
+

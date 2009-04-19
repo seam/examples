@@ -1,0 +1,59 @@
+div.loginHeader {
+  background-color: #d6d6ff;
+  padding: 2px 8px 2px 24px;
+  border-top: 2px solid #9999cc;
+  border-bottom: 2px solid #9999cc;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 16px;
+}
+
+table.login td {
+  vertical-align: top;
+}
+
+tr.loginSubHeader {
+  background-color: #eeeeff;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+tr.loginSubHeader td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  vertical-align: middle;
+}
+
+td.subHeaderCol1 {
+  width: 200px;
+  padding-left: 16px;
+}
+
+td.subHeaderCol3 {
+  padding-left: 16px;
+}
+
+td.indented {
+  padding-left: 16px;
+}
+
+td.verticalLine {
+  width: 20px;
+  text-align: center;
+  background: url(../img/vertical-line.png) repeat-y center;
+}
+
+hr.thinLine {
+  border: 0px;
+  border-top: 1px solid #cccccc;
+  margin-top: 6px;
+  margin-bottom: 32px;
+}
+
+hr.baseLine {
+  border: 0px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-top: 2px solid #9999cc;
+}

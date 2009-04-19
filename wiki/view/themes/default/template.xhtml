@@ -1,0 +1,367 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:j4j="http://javascript4jsf.dev.java.net/"
+      xmlns:wiki="http://jboss.com/products/seam/wiki"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+
+<f:view contentType="text/html"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>LaceWiki&#160;-&#160;
+        <ui:insert name="screenname"/>
+    </title>
+    <link href="#{themePath}/css/template.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/userControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/searchControl.css" rel="stylesheet" type="text/css"/>
+    <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
+    <ui:insert name="includeHeaders"/>
+
+    <script type="text/javascript" src="#{contextPath}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{contextPath}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+    <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqModal.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqTabs.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqMenu.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/lacewiki.js"></script>
+
+    <script type="text/javascript">
+
+        // ###################### Session timeout alert #################################
+
+        var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
+        var timeoutURL = '#{wikiURLRenderer.renderURL(wikiStart)}';
+        var timeoutMillis = '#{sessionTimeoutSeconds}'*1000+3000;
+        var sessionTimeoutInterval = null;
+
+        function startSessionTimeoutCheck() {
+            sessionTimeoutInterval = setInterval('sessionChecker.isNewSession(alertTimeout)', timeoutMillis);
+        }
+
+        function stopSessionTimeoutCheck() {
+            if (sessionTimeoutInterval) clearInterval(sessionTimeoutInterval);
+        }
+
+        function resetSessionTimeoutCheck() {
+            if (sessionTimeoutInterval != null) {
+                stopSessionTimeoutCheck();
+                startSessionTimeoutCheck();
+            }
+        }
+
+        function alertTimeout(newSession) {
+            if (newSession) {
+                clearInterval(sessionTimeoutInterval);
+                jQuery(".ajaxSupport")
+                        .removeAttr('onblur')
+                        .removeAttr('onchange')
+                        .removeAttr('onkeyup')
+                        .removeAttr('onclick');
+                jQuery(".sessionEventTrigger").hide();
+                var answer = confirm("#{messages['lacewiki.msg.SessionTimeout']}");
+                if (answer) window.location = timeoutURL;
+            }
+        }
+
+
+        // ###################### Popups #################################
+
+        var fadeInPopupDialog = function(hash) {
+            hash.w.fadeIn('fast',function(){ hash.o.show(); });
+            jQuery(".closeDialog", hash.w).attr("accesskey", "#{messages['lacewiki.button.Cancel.accesskey']}"); // Dynamically assign accesskey to .closeDialog buttons
+        };
+
+        var fadeOutPopupDialog = function(hash) { hash.w.fadeOut('fast',function(){ hash.o.remove(); }); };
+
+        // ###################### Tabbed Forms #################################
+
+        var formTabErrors = {};
+
+        function formTabRaiseError(tabId, fieldId, message) {
+
+            formTabClearError(tabId, fieldId); // Clear error then re-add
+
+            log("Raise error for tab: '" + tabId + "' field: " + fieldId);
+
+            // Add an error message to the client message box
+            log("Adding error message: " +tabId + fieldId + "ErrorMessage")
+            jQuery("#clientMessageBoxTable").append(
+                '&lt;tr id="' + tabId + fieldId + 'ErrorMessage">&lt;td>&lt;img src="#{themePath}/img/attention.gif" ' +
+                'height="18" width="18" class="attentionImage"/>&lt;/td>' +
+                '&lt;td>&lt;span id="attentionMessage" class="attentionMessage">'+ message + '&lt;/span>&lt;/td>&lt;/tr>'
+            );
+            if (formTabErrors[tabId] == null) {
+                formTabErrors[tabId] = 1;
+            } else {
+                formTabErrors[tabId]++;
+            }
+            formTabRenderErrors(tabId);
+        }
+
+        function formTabClearError(tabId, fieldId) {
+            if (document.getElementById(tabId+fieldId+"ErrorMessage") != null) { // This error is displayed
+                log("Clear error for tab: '" + tabId + "' field: " + fieldId);
+                log("Removing error message: " +tabId + fieldId + "ErrorMessage")
+                // Remove the error message on the client message box
+                jQuery("#"+tabId + fieldId + "ErrorMessage").remove();
+
+                formTabErrors[tabId]--;
+                formTabRenderErrors(tabId);
+            }
+        }
+
+        function formTabRenderErrors(tabId) {
+            log("Errors for tab: '" + tabId + "': " + formTabErrors[tabId]);
+
+            if (formTabErrors[tabId] > 0 &amp;&amp; document.getElementById(tabId+"InvalidIcon") == null) {
+                log("Showing icon for tab: " + tabId);
+                // Show an icon on the tab and blink it a few times
+                jQuery("#"+tabId)
+                    .prepend('&lt;img id="' + tabId + 'InvalidIcon" ' +
+                            'src="#{themePath}/img/attention.gif" width="13" height="13" ' +
+                            'alt="!" style="vertical-align:bottom;margin-left:5px;margin-right:5px;"/>');
+                pulsate("#"+tabId);
+            } else if (formTabErrors[tabId] &lt; 1){
+                log("Removing icon of tab: " + tabId);
+                jQuery("#"+tabId + "InvalidIcon").remove();             // Remove the error icon on the tab
+            }
+
+            var tabsHaveErrors = false;
+            for (var tab in formTabErrors) {
+                var numOfErrors = formTabErrors[tab];
+                if (numOfErrors > 0) {
+                    tabsHaveErrors = true;
+                    break;
+                }
+            }
+
+            if (tabsHaveErrors) {
+                log("Hiding save button and showing form message box");
+                jQuery(".saveButton").hide();                       // Hide save button(s)
+                jQuery(".formControls").css("height", "30px");      // Adjust height for missing save button
+                jsf("messageBoxContainer_").hide();                 // Hide server messages
+                jsf("clientMessageBoxContainer_").show();           // Show client error messages
+            } else {
+                log("Showing save button and hiding form message box");
+                jQuery(".saveButton").show();                       // Show save button(s)
+                jQuery(".formControls").css("height", "");          // Readjust height for present save button
+                jsf("clientMessageBoxContainer_").hide();           // Hide client error messages
+            }
+        }
+
+        function formTabClicked() {
+            jsf("messageBoxContainer_").hide();                 // Hide server messages
+        }
+
+        // ###################### Design #################################
+
+        function highlightStars(item, range, end) {
+            for (i = 1; i &lt;= range; i++) {
+                styleClass = ".item"+item+"-rate"+i;
+                jQuery(styleClass)
+                    .attr("src", "#{themePath}/img/star_grey.gif");
+            }
+            for (i = 1; i &lt;= end; i++) {
+                styleClass = ".item"+item+"-rate"+i;
+                jQuery(styleClass)
+                    .attr("src", "#{themePath}/img/star.gif");
+            }
+        }
+
+        function pulsate(query) {
+            var blinkCount = 4*2;
+            do {
+                jQuery(query)['fade'+(blinkCount%2==0?'Out':'In')]('fast');
+            } while (--blinkCount);
+        }
+
+        function clearDocumentBackground() {
+            jQuery("#documentDisplayContainer").parents(".shadowContainer").removeClass("shadowContainer");
+            jQuery("#documentDisplayContainer").parents(".shadow1").removeClass("shadow1");
+            jQuery("#documentDisplayContainer").parents(".shadow2").removeClass("shadow2");
+            jQuery("#documentDisplayContainer").css("background", "none");
+            jQuery("#documentDisplayContainer > #documentDisplay").css("padding", "0 0 0 0").css("border", "none");
+        }
+
+        // Wrap boxes with border and shadow
+        function wrapBoxes() {
+            jQuery(".box").wrap('&lt;div class="shadowContainer">&lt;div class="shadow1">&lt;div class="shadow2">&lt;/div>&lt;/div>&lt;/div>');
+            jQuery(".box").removeClass("box").addClass("boxShadowed");
+        }
+
+        function initPage() {
+            checkCookieSupport();
+            wrapBoxes();
+        }
+
+        jQuery(function() {
+            initPage();
+        });
+    </script>
+
+</head>
+
+<body>
+
+<noscript>
+    <div class="cookieJavaScriptWarning">
+        Please activate JavaScript in your browser. Without it, you will only be able to browse this website
+        but clicking on any advanced feature (any forms or submit buttons) will not work.
+    </div>
+</noscript>
+
+<ui:include src="../../includes/helpPopup.xhtml"/>
+
+<s:div id="screen">
+
+    <s:div id="header">
+        <div id="headerTopOne">
+            <div class="screenname">
+                LaceWiki:&#160;<ui:insert name="screenname"/>
+            </div>
+        </div>
+        <div id="headerTopTwo">
+            <ui:include src="../../includes/userControl.xhtml"/>
+            <ui:insert name="headerTopTwo"/>
+        </div>
+        <div id="headerBottomOne">
+            <ui:include src="../../includes/breadcrumb.xhtml"/>
+            <ui:insert name="headerBottomOne"/>
+        </div>
+        <div id="headerBottomTwo">
+            <ui:insert name="headerBottomTwo"/>
+        </div>
+    </s:div>
+
+    <s:div id="control">
+        <div id="controlOne"><ui:insert name="controlOne"/></div>
+        <div id="controlTwo">&#160;
+            <h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}" styleClass="sessionEventTrigger">
+                <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
+                                 styleClass="workspaceSwitcherCombobox">
+                    <f:selectItems value="#{switcher.selectItems}"/>
+                </h:selectOneMenu>
+                <h:commandLink action="#{switcher.select}"
+                               accesskey="#{messages['lacewiki.button.SwitchWorkspace.accesskey']}"
+                             styleClass="linkNavigation">
+                    <h:outputText escape="false" value="#{messages['lacewiki.button.SwitchWorkspace']}"/>
+                </h:commandLink>
+
+            </h:form><ui:insert name="controlTwo"/></div>
+    </s:div>
+
+    <div id="controlSeparator">&#160;</div>
+
+    <s:div id="sidebar">
+
+        <ui:decorate template="../../includes/mainMenu.xhtml">
+            <ui:define name="mainMenuHeader">
+                <ui:include src="../../includes/searchControl.xhtml"/>
+            </ui:define>
+            <ui:define name="mainMenuFooter">
+                <s:div styleClass="feeds" rendered="#{preferences.get('Wiki').showSiteFeedInMenu}">
+                    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(wikiRoot.feed, null, null)}">
+                        <h:graphicImage value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
+                        <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
+                    </h:outputLink>
+                </s:div>
+            </ui:define>
+        </ui:decorate>
+
+        <ui:include src="../../includes/onlineUsers.xhtml"/>
+
+        <ui:insert name="sidebar"/>
+
+    </s:div>
+
+    <s:div id="body">
+        <h:form id="workspaceBreadcrumb" rendered="#{false and wiki:sizeOf(conversationList) > 0}">
+            <h:outputText styleClass="workspaceBreadcrumbLabel" value="Workspace"/>
+            <ui:repeat value="#{conversationStack}" var="entry">
+                <h:outputText styleClass="workspaceBreadcrumbSeparator" value=">"/>
+                <h:commandLink styleClass="workspaceBreadcrumbLink" value="#{entry.description}" action="#{entry.select}"/>
+            </ui:repeat>
+        </h:form>
+
+        <s:div id="messageBoxContainer"><j4j:idProxy id="messageBoxContainer_"/>
+        <s:div styleClass="box" rendered="#{!empty facesMessages.currentGlobalMessages}">
+            <div id="messageBox" class="messageBox">
+                <ui:repeat var="msg" value="#{facesMessages.currentGlobalMessages}">
+                    <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
+                                 rendered="#{msg.severity.ordinal == 0}">
+                            <h:graphicImage value="#{imagePath}/info.gif"
+                                            width="18" height="18"
+                                            styleClass="infoImage"/>
+                            <h:outputText styleClass="infoMessage" value="#{msg.summary}"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
+                                 rendered="#{msg.severity.ordinal > 0}">
+                        <h:graphicImage value="#{imagePath}/attention.gif"
+                                        rendered="#{msg.severity.ordinal > 0}"
+                                        width="18" height="18"
+                                        styleClass="attentionImage"/>
+                        <h:outputText styleClass="attentionMessage" value="#{msg.summary}"/>
+                    </h:panelGrid>
+                </ui:repeat>
+
+                <script type="text/javascript">jQuery(function() {
+                    jsf("messageBoxContainer_").css("margin-bottom", "10px");
+                });</script>
+            </div>
+        </s:div>
+        </s:div>
+
+        <s:div id="clientMessageBoxContainer" style="display:none;"><j4j:idProxy id="clientMessageBoxContainer_"/>
+        <s:div styleClass="box">
+            <div id="clientMessageBox" class="messageBox">
+                <table id="clientMessageBoxTable" class="messageBoxTable" cellpadding="0" cellspacing="0" border="0"/>
+                <script type="text/javascript">jQuery(function() {
+                    jsf("clientMessageBoxContainer_").css("margin-bottom", "10px");
+                });</script>
+            </div>
+        </s:div>
+        </s:div>
+
+        <s:div id="content" styleClass="content">
+            <ui:insert name="content"/>
+        </s:div>
+
+    </s:div>
+
+    <div id="footer">
+        <ui:insert name="footer"/>
+        <div align="right" style="font-size:smaller;">
+            LaceWiki is using
+            <a href="http://www.jboss.com/products/seam">JBoss Seam</a> and
+            running on <a href="http://www.jboss.org/products/jbossas">JBoss Application Server</a>.
+        </div>
+    </div>
+
+</s:div>
+
+<s:div id="status">
+    <a:status id="globalStatus" forceId="true">
+        <f:facet name="start">
+            <s:div styleClass="statusStart">
+                <h:graphicImage value="#{imagePath}/statusindicator.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+        <f:facet name="stop">
+            <s:div styleClass="statusStop">
+                <h:graphicImage value="#{imagePath}/blank.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+    </a:status>
+</s:div>
+
+</body>
+</html>

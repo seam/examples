@@ -1,0 +1,429 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">#{directoryBrowser.instance.name}</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:fragment rendered="#{!empty directoryBrowser.instance.parent}">
+
+        <s:link id="createDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.CreateSubdirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.CreateSubdirectory']}"/>
+            <f:param name="directoryId"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+
+        <s:link id="editDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditDirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'edit', directoryBrowser.instance)}">
+            <f:param name="directoryId" value="#{directoryBrowser.instance.id}"/>
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditDirectory']}"/>
+        </s:link>
+
+        <s:div id="createDoc" styleClass="linkNavigationMenu"
+               rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputLink value="javascript://no-op"
+                          onmouseover="jQuery(this).parent().menu();"
+                          accesskey="#{messages['lacewiki.button.NewDocument.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.NewDocument']}"/>
+            </h:outputLink><ul class="contextMenuItems">
+                <li>
+                    <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                        <h:outputText escape="false" value="#{messages['lacewiki.label.template.RegularWikiDocument']}"/>
+                        <f:param name="documentId" value=""/>
+                        <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                    </s:link>
+                </li>
+                <ui:repeat var="templateType" value="#{templateRegistry.templateTypes}">
+                    <li>
+                        <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                            <h:outputText escape="false" value="#{templateRegistry.templates[templateType]}"/>
+                            <f:param name="documentId" value=""/>
+                            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                            <f:param name="templateType" value="#{templateType.name}"/>
+                        </s:link>
+                    </li>
+                </ui:repeat>
+            </ul>
+        </s:div>
+
+        <s:link id="uploadFile" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.UploadFile.accesskey']}"
+                view="/uploadCreate_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.UploadFile']}"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+
+    </s:fragment>
+
+    <s:fragment rendered="#{empty directoryBrowser.instance.parent}">
+        <s:link id="createArea" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.NewArea.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.NewArea']}"/>
+            <f:param name="directoryId"/>
+            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+        </s:link>
+
+        <s:link id="editRoot" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditWikiRoot.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'edit', directoryBrowser.instance)}">
+            <f:param name="directoryId" value="#{directoryBrowser.instance.id}"/>
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditWikiRoot']}"/>
+            <f:param name="parentDirectoryId"/>
+        </s:link>
+
+    </s:fragment>
+
+    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(directoryBrowser.instance.feed, null, null)}"
+                  styleClass="linkNavigation" rendered="#{not empty directoryBrowser.instance.feed}">
+        <h:graphicImage styleClass="feedIcon" value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
+        <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
+    </h:outputLink>
+
+</ui:define>
+
+<ui:define name="content">
+
+<s:div styleClass="box directoryBrowser" id="directoryBrowser">
+
+    <ui:include src="includes/directoryBrowserPath.xhtml">
+        <ui:param name="renderOnSelect" value="control, directoryBrowser, messageBoxContainer"/>
+    </ui:include>
+
+    <h:panelGrid id="directoryBrowserMainPanel" styleClass="directoryBrowserMainPanel"
+                 columnClasses="directoryBrowserTreePanel #{directoryBrowserSettings.treeVisible ? 'open':'closed'}, directoryBrowserContentPanel"
+                 columns="2" cellpadding="0" cellspacing="0" border="0">
+
+        <s:fragment>
+            <ui:include src="includes/directoryBrowserTree.xhtml">
+                <ui:param name="renderOnSelect" value="control, directoryBrowser, messageBoxContainer"/>
+            </ui:include>
+        </s:fragment>
+
+        <s:div id="directoryBrowserContentPanel">
+        <h:form>
+
+            <ui:include src="includes/directoryBrowserControl.xhtml">
+                <ui:param name="renderOnSelect" value="directoryBrowserPathPanel, directoryBrowserContentPanel, messageBoxContainer"/>
+            </ui:include>
+
+            <ui:include src="includes/pager.xhtml">
+                <ui:param name="pager" value="#{directoryBrowser.pager}"/>
+                <ui:param name="pagerStyleClass" value="pagerTop"/>
+                <ui:param name="useAjax" value="true"/>
+                <ui:param name="renderOnSelect" value="directoryBrowserContentPanel, messageBoxContainer"/>
+            </ui:include>
+
+            <s:div styleClass="directoryEmpty" rendered="#{directoryBrowser.childNodes.size() == 0}">
+                <a:commandLink action="#{directoryBrowser.selectDirectory(directoryBrowser.instance.parent.id)}"
+                               tabindex="1" accesskey="."
+                               status="globalStatus"
+                               reRender="control, directoryBrowser, messageBoxContainer"
+                               rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read',directoryBrowser.instance.parent)}">
+                    <h:graphicImage styleClass="icon" value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
+                    <h:outputText styleClass="text" value=".."/>
+                </a:commandLink>
+            </s:div>
+
+            <script type="text/javascript">jQuery(function() {
+                jQuery(".contextMenu").show();
+            })</script>
+
+            <h:dataTable id="dirTable" var="node"
+                         value="#{directoryBrowser.childNodes}"
+                         rendered="#{directoryBrowser.childNodes.size() > 0}"
+                         styleClass="datatable smallFont undecoratedLink"
+                         headerClass="sortableHeader alignCenter"
+                         columnClasses="onePercentColumn alignCenter,
+                                        onePercentColumn alignCenter,
+                                        defaultColumn alignLeft wrapWhitespace,
+                                        fifteenPercentColumn alignLeft wrapWhitespace,
+                                        tenPercentColumn alignLeft wrapWhitespace,
+                                        tenPercentColumn alignLeft wrapWhitespace,
+                                        twentyPercentColumn alignCenter wrapWhitespace"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <s:fragment rendered="#{not clipboard.isCut(node.id)}">
+                        <h:selectBooleanCheckbox value="#{directoryBrowser.selectedNodes[node]}"
+                                                 onchange="switchClipboardControl()"
+                                                 styleClass="wikiFileSelect wikiDocumentSelect"
+                                                 rendered="#{node.isInstance('WikiDocument')}"/>
+                        <h:selectBooleanCheckbox value="#{directoryBrowser.selectedNodes[node]}"
+                                                 onchange="switchClipboardControl()"
+                                                 styleClass="wikiFileSelect wikiUploadSelect"
+                                                 rendered="#{node.isInstance('WikiUpload')}"/>
+                    </s:fragment>
+                    <s:fragment rendered="#{clipboard.isCut(node.id)}">
+                        <h:graphicImage value="#{imagePath}/icon.cut.gif" width="18" height="20"/>
+                    </s:fragment>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <a:commandLink action="#{directoryBrowser.selectDirectory(directoryBrowser.instance.parent.id)}"
+                                       tabindex="1" accesskey="."
+                                       status="globalStatus"
+                                       reRender="control, directoryBrowser, messageBoxContainer"
+                                       rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read',directoryBrowser.instance.parent)}">
+                            <h:graphicImage value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
+                        </a:commandLink>
+                    </f:facet>
+
+                    <s:fragment rendered="#{node.isInstance('WikiDirectory')}">
+                        <ui:decorate template="includes/directoryBrowserIconMenu.xhtml">
+                            <ui:param name="icon" value="#{wikiDirectoryIconHandler.getIconName(node)}"/>
+                            <ui:define name="menu">
+                                <ul class="contextMenuItems">
+                                    <li>
+                                        <a:commandLink action="#{directoryBrowser.selectDirectory(node.id)}"
+                                                       tabindex="1"
+                                                       status="globalStatus"
+                                                       reRender="control, directoryBrowser, messageBoxContainer"
+                                                       oncomplete="jQuery('.menu-div').hide()">
+                                            <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                        </a:commandLink>
+                                    </li>
+                                    <li>
+                                        <s:link value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}" propagation="none"
+                                                target="_blank"
+                                                view="/dirDisplay_#{skin}.xhtml" tabindex="1">
+                                            <f:param name="directoryId" value="#{node.id}"/>
+                                        </s:link>
+                                    </li>
+                                    <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                        <li>
+                                            <s:link view="/dirEdit_#{skin}.xhtml" propagation="none">
+                                                <f:param name="directoryId" value="#{node.id}"/>
+                                                <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                            </s:link>
+                                        </li>
+                                    </s:fragment>
+                                </ul>
+                            </ui:define>
+                        </ui:decorate>
+                    </s:fragment>
+
+                    <s:fragment rendered="#{node.isInstance('WikiDocument')}">
+                        <ui:decorate template="includes/directoryBrowserIconMenu.xhtml">
+                            <ui:param name="icon" value="#{wikiDocumentIconHandler.getIconName(node)}"/>
+                            <ui:define name="menu">
+                                <ul class="contextMenuItems">
+                                    <li>
+                                        <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
+                                            <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                        </h:outputLink>
+                                    </li>
+                                    <li>
+                                        <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" target="_blank">
+                                            <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
+                                        </h:outputLink>
+                                    </li>
+
+                                    <s:fragment rendered="#{directoryBrowser.isRemovable(node)}">
+                                        <li>
+                                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                                <ui:param name="linkClass" value="menuItemActionLink"/>
+                                                <ui:param name="labelClass" value="menuItemActionLabel"/>
+                                                <ui:param name="label" value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
+                                                <ui:param name="jsFunctionName" value="deleteDocumentId#{node.id}"/>
+                                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                                    .concat(': \'').concat(node.name).concat('\'?')}"/>
+                                                <ui:define name="jsFunction">
+                                                    <a:jsFunction name="#{jsFunctionName}"
+                                                                  reRender="directoryBrowser, messageBoxContainer"
+                                                                  action="#{documentHome.remove(node.id)}"
+                                                                  oncomplete="onAjaxRequestComplete()"
+                                                                  status="globalStatus"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                        </li>
+                                    </s:fragment>
+                                    
+                                    <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                        <li>
+                                            <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                                                <f:param name="documentId" value="#{node.id}"/>
+                                                <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                            </s:link>
+                                        </li>
+                                    </s:fragment>
+                                </ul>
+                            </ui:define>
+                        </ui:decorate>
+                    </s:fragment>
+
+                    <s:fragment rendered="#{node.isInstance('WikiUpload')}">
+                        <ui:decorate template="includes/directoryBrowserIconMenu.xhtml">
+                            <ui:param name="icon" value="#{wikiUploadIconHandler.getIconName(node)}"/>
+                            <ui:define name="menu">
+                                <ul class="contextMenuItems">
+                                    <li>
+                                        <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
+                                            <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                        </h:outputLink>
+                                    </li>
+                                    <li>
+                                        <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" target="_blank">
+                                            <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
+                                        </h:outputLink>
+                                    </li>
+
+                                    <s:fragment rendered="#{directoryBrowser.isRemovable(node)}">
+                                        <li>
+                                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                                <ui:param name="linkClass" value="menuItemActionLink"/>
+                                                <ui:param name="labelClass" value="menuItemActionLabel"/>
+                                                <ui:param name="label" value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
+                                                <ui:param name="jsFunctionName" value="deleteUploadId#{node.id}"/>
+                                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                                    .concat(': \'').concat(node.name).concat('\'?')}"/>
+                                                <ui:define name="jsFunction">
+                                                    <a:jsFunction name="#{jsFunctionName}"
+                                                                  reRender="directoryBrowser, messageBoxContainer"
+                                                                  action="#{uploadHome.remove(node.id)}"
+                                                                  oncomplete="onAjaxRequestComplete()"
+                                                                  status="globalStatus"/>
+                                                </ui:define>
+                                            </ui:decorate>
+                                        </li>
+                                    </s:fragment>
+
+                                    <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                        <li>
+                                            <s:link view="/uploadEdit_#{skin}.xhtml" propagation="none">
+                                                <f:param name="uploadId" value="#{node.id}"/>
+                                                <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                            </s:link>
+                                        </li>
+                                    </s:fragment>
+                                </ul>
+                            </ui:define>
+                        </ui:decorate>
+                    </s:fragment>
+
+                </h:column>
+
+                <h:column>
+                    <ui:include src="includes/sortableHeader.xhtml">
+                        <ui:param name="sortProperty" value="name"/>
+                        <ui:param name="sortAction" value="#{directoryBrowser}"/>
+                        <ui:param name="sortStatus" value="#{directoryBrowserSettings}"/>
+                        <ui:param name="label" value="#{messages['lacewiki.entity.WikiNode.property.name']}"/>
+                        <ui:param name="renderOnSelect" value="directoryBrowserContentPanel, messageBoxContainer"/>
+                    </ui:include>
+
+                    <a:commandLink action="#{directoryBrowser.selectDirectory(node.id)}"
+                                   tabindex="1"
+                                   status="globalStatus"
+                                   reRender="control, directoryBrowser, messageBoxContainer"
+                                   oncomplete="jQuery('.menu-div').hide()"
+                                   rendered="#{node.isInstance('WikiDirectory') and s:hasPermission('Node','read',node)}">
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
+                    </a:commandLink>
+
+                    <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" tabindex="1"
+                                  rendered="#{not node.isInstance('WikiDirectory') and s:hasPermission('Node','read',node)}">
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
+                    </h:outputLink>
+
+                    <s:fragment rendered="#{not s:hasPermission('Node','read',node)}">
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
+                    </s:fragment>
+
+                </h:column>
+
+                <h:column>
+                    <ui:include src="includes/sortableHeader.xhtml">
+                        <ui:param name="sortProperty" value="createdBy"/>
+                        <ui:param name="sortAction" value="#{directoryBrowser}"/>
+                        <ui:param name="sortStatus" value="#{directoryBrowserSettings}"/>
+                        <ui:param name="label" value="#{messages['lacewiki.entity.WikiNode.property.createdBy']}"/>
+                        <ui:param name="renderOnSelect" value="directoryBrowserContentPanel, messageBoxContainer"/>
+                    </ui:include>
+
+                    <s:span styleClass="undecoratedLink" rendered="#{node.ownedByRegularUser}">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(node.createdBy)}">
+                            <h:outputText value="#{node.createdBy.fullname}"/>
+                        </h:outputLink>
+                    </s:span>
+                    <h:outputText rendered="#{not node.ownedByRegularUser}" value="#{node.createdBy.fullname}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{messages['lacewiki.label.dirDisplay.ReadAccess']}"/>
+                    </f:facet>
+                    <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 15, '...')}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{messages['lacewiki.label.dirDisplay.WriteAccess']}"/>
+                    </f:facet>
+                    <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 15, '...')}"/>
+                </h:column>
+
+                <h:column>
+                    <ui:include src="includes/sortableHeader.xhtml">
+                        <ui:param name="sortProperty" value="lastModifiedOn"/>
+                        <ui:param name="sortAction" value="#{directoryBrowser}"/>
+                        <ui:param name="sortStatus" value="#{directoryBrowserSettings}"/>
+                        <ui:param name="label" value="#{messages['lacewiki.entity.WikiNode.property.lastModifiedOn']}"/>
+                        <ui:param name="renderOnSelect" value="directoryBrowserContentPanel, messageBoxContainer"/>
+                    </ui:include>
+
+                    <s:fragment rendered="#{not empty node.lastModifiedOn}">
+                        <h:outputText value="#{node.lastModifiedOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        (<s:span styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(node.lastModifiedBy)}">
+                                <h:outputText value="#{node.lastModifiedBy.username}"/>
+                            </h:outputLink>
+                        </s:span>)
+                    </s:fragment>
+                    <s:fragment rendered="#{empty node.lastModifiedOn}">
+                        <h:outputText value="-"/>
+                    </s:fragment>
+
+                </h:column>
+
+            </h:dataTable>
+
+            <ui:include src="includes/pager.xhtml">
+                <ui:param name="pager" value="#{directoryBrowser.pager}"/>
+                <ui:param name="pagerStyleClass" value="pagerBottom"/>
+                <ui:param name="useAjax" value="true"/>
+                <ui:param name="renderOnSelect" value="directoryBrowserContentPanel, messageBoxContainer"/>
+            </ui:include>
+
+        </h:form>
+        </s:div>
+
+    </h:panelGrid>
+
+</s:div>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

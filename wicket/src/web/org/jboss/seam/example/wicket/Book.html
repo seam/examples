@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head></head>
+
+<body>
+
+<div wicket:id="body">
+
+<div class="section">
+	<h1>Book Hotel</h1>
+</div>
+
+<div class="section">
+
+	<div wicket:id="hotelView" />
+	
+	<div style="clear:both"/>
+
+	<form wicket:id="booking">
+		<div class="entry errors" wicket:id="messages" />
+		<fieldset>
+			
+		<div wicket:id="checkinDateBorder">
+			<span wicket:id="checkinDate" />
+		</div>
+		
+		<div wicket:id="checkoutDateBorder">
+			<span wicket:id="checkoutDate" />
+		</div>
+		
+		<div wicket:id="bedsBorder">
+			<select id="beds" wicket:id="beds">
+				<option>One king-size bed</option>
+			</select>
+		</div>
+		
+		<div wicket:id="smokingBorder">
+			<span id="smoking" wicket:id="smoking">
+				<input type="radio" value="Smoking" />
+				<input type="radio" value="Non Smoking" /> 
+			</span>
+		</div>
+
+		<div wicket:id="creditCardBorder">
+			<input wicket:id="creditCard" />
+		</div>
+		
+		<div wicket:id="creditCardNameBorder">
+			<input wicket:id="creditCardName" />
+		</div>
+
+		<div wicket:id="creditCardExpiryBorder">
+			<select wicket:id="creditCardExpiryMonth">
+				<option>Jan</option>
+			</select>
+			<select wicket:id="creditCardExpiryYear">
+				<option>2005</option>
+			</select>
+		</div>
+		
+		<div class="buttonBox">
+			<input id="proceed" type="submit" value="Proceed" />
+			&#160;
+			<input id="cancel" type="button" wicket:id="cancel" value="Cancel" />
+		</div>
+		
+	</fieldset>
+	</form>
+</div>
+
+</div>
+</body>
+</html>
+

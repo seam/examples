@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="Nested Booking" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam on JBoss Nested Booking Example"/>
+    <property name="example.name"           value="jboss-seam-nestedbooking"/>
+	
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="yes"/>
+    <property name="seam.debug.lib" value="yes"/>
+    <property name="facelets.lib"   value="yes"/>
+    <property name="richfaces.lib"   value="yes"/>
+	
+	<!-- Datasource -->
+    <property name="example.ds"             value="jboss-seam-nestedbooking-ds.xml"/>
+    
+    <import file="../build.xml"/>
+</project>

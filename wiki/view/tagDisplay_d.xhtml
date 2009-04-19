@@ -1,0 +1,129 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:param name="hideControls" value="true"/>
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagQuery.tag}"/>
+</ui:define>
+
+<ui:define name="content">
+
+<div class="box">
+
+    <h:dataTable id="tagTable" var="file"
+                 value="#{tagQuery.taggedFiles}"
+                 rendered="#{!empty tagQuery.taggedFiles}"
+                 styleClass="datatable topLeftBottomBorder smallFont"
+                 headerClass="regularHeader rightBorder alignCenter"
+                 columnClasses="defaultColumn rightBorder alignLeft, twentyPercentColumn rightBorder alignLeft,
+                                tenPercentColumn rightBorder alignLeft,
+                                tenPercentColumn rightBorder alignCenter, tenPercentColumn rightBorder alignCenter"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagQuery.tag}"/>
+            </f:facet>
+
+            <h:graphicImage value="#{imagePath}/icon.doc.gif"
+                            width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
+                            rendered="#{file.isInstance('WikiDocument')}"/>
+            <h:graphicImage value="#{imagePath}/#{uploadTypes[file.contentType].displayIcon}"
+                            width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
+                            rendered="#{file.isInstance('WikiUpload') and !empty uploadTypes[file.contentType]}"/>
+            <h:graphicImage value="#{imagePath}/#{uploadTypes['generic'].displayIcon}"
+                            width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
+                            rendered="#{file.isInstance('WikiUpload') and empty uploadTypes[file.contentType]}"/>
+
+            <s:span rendered="#{file.isInstance('WikiDocument')}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file)}" rendered="#{s:hasPermission('Node','read',file)}" tabindex="2">
+                    <h:outputText value="#{wiki:truncateString(file.name, 40, '...')}"/>
+                </h:outputLink>
+                <h:outputText value="#{file.name}" rendered="#{!s:hasPermission('Node','read',file)}"/>
+            </s:span>
+
+            <s:span rendered="#{file.isInstance('WikiUpload') and s:hasPermission('Node', 'edit', file)}">
+                <s:link id="editFile" value="#{wiki:truncateString(file.name, 30, '...')}" propagation="none"
+                        tabindex="2" view="/uploadEdit_#{skin}.xhtml">
+                    <f:param name="uploadId" value="#{file.id}"/>
+                    <f:param name="parentDirectoryId" value="#{file.parent.id}"/>
+                </s:link>
+                <h:outputText value=" (#{wiki:displayFilesize(file.filesize)}, #{file.contentType})"/>
+            </s:span>
+            <h:panelGroup rendered="#{file.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', file)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file)}">
+                    <h:outputText value="#{wiki:truncateString(file.name, 30, '...')} (#{wiki:displayFilesize(file.filesize)}, #{file.contentType})"/>
+                </h:outputLink>
+            </h:panelGroup>
+
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.InDirectory']}"/>
+            </f:facet>
+            <s:fragment rendered="#{s:hasPermission('Node','read',file.parent)}">
+                <h:graphicImage value="#{imagePath}/icon.dir.gif"
+                                width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file.parent)}" tabindex="1">
+                    <h:outputText value="#{wiki:truncateString(file.parent.name, 20, '...')}"/>
+                </h:outputLink>
+            </s:fragment>
+            <h:outputText value="#{wiki:truncateString(file.parent.name, 20, '...')}"
+                          rendered="#{!s:hasPermission('Node','read',file.parent)}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.Owner']}"/>
+            </f:facet>
+            <s:span styleClass="undecoratedLink">
+                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(file.createdBy)}">
+                    <h:outputText value="#{file.createdBy.fullname}"/>
+                </h:outputLink>
+            </s:span>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.CreatedOn']}"/>
+            </f:facet>
+            <h:outputText value="#{file.createdOn}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+            </h:outputText>
+        </h:column>
+        <h:column rendered="#{!empty file.lastModifiedOn and !empty file.lastModifiedBy}">
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.LastModifiedOn']}"/>
+            </f:facet>
+            <h:outputText value="#{file.lastModifiedOn}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+            </h:outputText>
+            (<s:span styleClass="undecoratedLink">
+                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(file.lastModifiedBy)}">
+                    <h:outputText value="#{file.lastModifiedBy.username}"/>
+                </h:outputLink>
+            </s:span>)
+        </h:column>
+        <h:column rendered="#{empty file.lastModifiedOn or empty file.lastModifiedBy}">
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.LastModifiedOn']}"/>
+            </f:facet>
+            -
+        </h:column>
+
+    </h:dataTable>
+
+</div>
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Blog" verbose="2" parallel="false">
+
+   <test name="Blog">
+     <classes>
+       <class name="test.BlogTest"/>
+     </classes>
+   </test>
+	
+</suite>

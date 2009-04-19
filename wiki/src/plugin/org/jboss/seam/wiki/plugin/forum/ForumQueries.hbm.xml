@@ -1,0 +1,428 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+    Most of these queries are optimized for best execution plan and execution time. In some cases it might
+    not be obvious why a query is structured as it is, but that's the secret of MySQL tuning-by-accident!
+    Some queries are slow for no reason and can not be further optimized - MySQL is a bad DBMS that struggles
+    with a few nested joins on indexed columns only.
+-->
+
+<hibernate-mapping>
+
+    <query name="forumDirectories">
+        select
+            dir
+        from
+            WikiDirectory dir, WikiDocument doc
+        where
+            dir = doc.parent
+            and doc.contentMacrosString like '%forumTopics%'
+    </query>
+
+    <query name="forumTopicsForUserCount">
+        select
+            count(t)
+        from
+            WikiDocument t
+        where
+            t.parent in (:parentDirectories)
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdBy = :user
+    </query>
+
+    <query name="forumTopicsForUser">
+        select
+            t
+        from
+            WikiDocument t
+        where
+            t.parent in (:parentDirectories)
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdBy = :user
+        order by
+            t.createdOn desc
+    </query>
+
+    <query name="forumsCount">
+        select count(d.id)
+        from
+            WikiDirectory d,
+            WikiMenuItem m
+        where
+            d = m.directory
+            and d.parent = :parentDir
+    </query>
+
+    <query name="forums">
+        select d.id, d
+        from
+            WikiDirectory d fetch all properties,
+            WikiMenuItem m
+        where
+            d = m.directory
+            and d.parent = :parentDir
+        order by m.displayPosition asc
+    </query>
+
+    <query name="forumsMenuItems">
+        select m
+        from
+            WikiMenuItem m
+        where
+            m.directory.parent = :parentDir
+        order by m.displayPosition asc
+    </query>
+
+    <query name="forumTopicCount">
+        select
+            f.id, count(distinct t)
+        from
+            WikiDirectory f, WikiDocument t
+        where
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+        group
+            by f.id
+    </query>
+
+    <sql-query name="forumReplyCount">
+        <return-scalar column="FORUM_ID" type="long"/>
+        <return-scalar column="REPLY_COUNT" type="long"/>
+        select
+            dir0.NODE_ID as FORUM_ID, count(distinct c0.NODE_ID) as REPLY_COUNT
+        from
+            WIKI_DIRECTORY dir0
+                inner join WIKI_NODE dir1 on dir0.NODE_ID=dir1.NODE_ID
+                                          and dir1.READ_ACCESS_LEVEL &lt;= :readAccessLevel and dir1.PARENT_NODE_ID = :parentDirId
+                  inner join WIKI_NODE doc1 on doc1.PARENT_NODE_ID = dir0.NODE_ID
+                                            and doc1.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+                    inner join WIKI_DOCUMENT doc0 on doc0.NODE_ID=doc1.NODE_ID
+                                                  and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+                      inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc0.NODE_ID
+                        inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID
+                          inner join WIKI_COMMENT c0 on c0.NS_THREAD in (ct1.NS_THREAD)
+        group by dir0.NODE_ID
+    </sql-query>
+
+    <sql-query name="forumLastTopic">
+        <return-scalar column="FORUM_ID" type="long"/>
+        <return-scalar column="LAST_TOPIC_ID" type="long"/>
+        select
+            dir0.NODE_ID as FORUM_ID, doc0.NODE_ID as LAST_TOPIC_ID
+        from
+            WIKI_DIRECTORY dir0
+                inner join WIKI_NODE dir1 on dir0.NODE_ID=dir1.NODE_ID and dir1.READ_ACCESS_LEVEL &lt;= :readAccessLevel and dir1.PARENT_NODE_ID = :parentDirId
+                  inner join WIKI_NODE doc0 on doc0.NODE_ID =
+                 (
+                     select
+                         dlast0.NODE_ID
+                     from
+                          WIKI_NODE dlast0
+                              inner join WIKI_DOCUMENT dlast1 on dlast0.NODE_ID = dlast1.NODE_ID
+                                  and (dlast1.HEADER_MACROS like '%forumPosting%' or dlast1.HEADER_MACROS like '%forumStickyPosting%')
+                    where
+                          dlast0.PARENT_NODE_ID = dir0.NODE_ID and dlast0.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+                    order by dlast0.CREATED_ON desc limit 1
+                )
+    </sql-query>
+
+    <sql-query name="forumLastReply">
+        <return class="org.jboss.seam.wiki.core.model.WikiComment"/>
+        select
+            c1.NODE_ID as NODE_ID,
+            c1.OBJ_VERSION as OBJ_VERSION,
+            c1.RATING as RATING,
+            c1.AREA_NR as AREA_NR,
+            c1.NAME as NAME,
+            c1.WIKINAME as WIKINAME,
+            c1.MESSAGE_ID as MESSAGE_ID,
+            c1.CREATED_ON as CREATED_ON,
+            c1.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
+            c1.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
+            c1.LAST_MODIFIED_BY_USER_ID as LAST_MODIFIED_BY_USER_ID,
+            c1.WRITE_ACCESS_LEVEL as WRITE_ACCESS_LEVEL,
+            c1.READ_ACCESS_LEVEL as READ_ACCESS_LEVEL,
+            c1.WRITE_PROTECTED as WRITE_PROTECTED,
+            c1.PARENT_NODE_ID as PARENT_NODE_ID,
+
+            c0.SUBJECT as SUBJECT,
+            c0.FROM_USER_NAME as FROM_USER_NAME,
+            c0.FROM_USER_EMAIL as FROM_USER_EMAIL,
+            c0.FROM_USER_HOMEPAGE as FROM_USER_HOMEPAGE,
+            c0.USE_WIKI_TEXT as USE_WIKI_TEXT,
+            c0.NS_LEFT as NS_LEFT,
+            c0.NS_RIGHT as NS_RIGHT,
+            c0.NS_THREAD as NS_THREAD
+            from
+                    WIKI_NODE doc0
+                        inner join WIKI_DOCUMENT doc1 on doc0.NODE_ID = doc1.NODE_ID
+                                and (doc1.HEADER_MACROS like '%forumPosting%' or doc1.HEADER_MACROS like '%forumStickyPosting%')
+                            inner join WIKI_DOCUMENT_LAST_COMMENT lc on lc.WIKI_DOCUMENT_ID = doc1.NODE_ID,
+                    WIKI_NODE c1
+                        inner join WIKI_COMMENT c0 on c0.NODE_ID = c1.NODE_ID
+            where
+                doc0.PARENT_NODE_ID = :parentDirId
+              and
+                doc0.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+             and
+                c0.NODE_ID = lc.LAST_COMMENT_ID
+             order by
+                lc.LAST_COMMENT_CREATED_ON desc
+             limit 1
+    </sql-query>
+
+    <query name="forumUnreadTopics"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDirectory f, WikiDocument t
+        where
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdOn > :lastLoginDate
+    ]]></query>
+
+    <sql-query name="forumUnreadReplies">
+        <return-scalar column="UNREAD_TOPIC_ID" type="long"/>
+        <return-scalar column="FORUM_ID" type="long"/>
+        <![CDATA[
+            select
+                distinct doc0.NODE_ID as UNREAD_TOPIC_ID, doc1.PARENT_NODE_ID as FORUM_ID
+            from
+                WIKI_DIRECTORY dir0
+                    inner join WIKI_NODE dir1 on dir0.NODE_ID=dir1.NODE_ID,
+                WIKI_DOCUMENT doc0
+                        inner join WIKI_NODE doc1 on doc0.NODE_ID=doc1.NODE_ID
+                            inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc1.NODE_ID
+                                inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID,
+                WIKI_COMMENT c0
+                    inner join WIKI_NODE c1 on c0.NODE_ID=c1.NODE_ID
+            where
+                dir1.READ_ACCESS_LEVEL <= :readAccessLevel
+                and doc1.READ_ACCESS_LEVEL <= :readAccessLevel
+                and c1.READ_ACCESS_LEVEL <= :readAccessLevel
+                and dir1.PARENT_NODE_ID= :parentDirId
+                and doc1.PARENT_NODE_ID=dir1.NODE_ID
+                and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+                and c0.NS_THREAD in (ct1.NS_THREAD)
+                and c1.CREATED_ON > :lastLoginDate
+        ]]>
+    </sql-query>
+
+    <query name="forumUnreadTopicsInForum"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDocument t
+        where
+            t.parent = :parentDir
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdOn > :lastLoginDate
+    ]]></query>
+
+    <sql-query name="forumUnreadRepliesInForum">
+        <return-scalar column="UNREAD_TOPIC_ID" type="long"/>
+        <return-scalar column="FORUM_ID" type="long"/>
+        <![CDATA[
+            select
+                distinct doc0.NODE_ID as UNREAD_TOPIC_ID, doc1.PARENT_NODE_ID as FORUM_ID
+            from
+                WIKI_DOCUMENT doc0
+                        inner join WIKI_NODE doc1 on doc0.NODE_ID=doc1.NODE_ID
+                            inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc1.NODE_ID
+                                inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID,
+                WIKI_COMMENT c0
+                    inner join WIKI_NODE c1 on c0.NODE_ID=c1.NODE_ID
+            where
+                doc1.READ_ACCESS_LEVEL <= :readAccessLevel
+                and c1.READ_ACCESS_LEVEL <= :readAccessLevel
+                and doc1.PARENT_NODE_ID= :parentDirId
+                and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+                and c0.NS_THREAD in (ct1.NS_THREAD)
+                and c1.CREATED_ON > :lastLoginDate
+        ]]>
+    </sql-query>
+
+    <query name="forumTopicsCount">
+        select count(t) from WikiDocument t
+        where t.parent = :parentDir
+        and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+    </query>
+
+    <sql-query name="forumTopicsList">
+        <return-scalar column="NODE_ID" type="long"/>
+        <return-scalar column="STICKY" type="integer"/>
+        <return-scalar column="HAS_REPLIES" type="boolean"/>
+        <return-scalar column="LAST_POST" type="timestamp"/>
+        <![CDATA[
+        select distinct
+            d0.NODE_ID as NODE_ID,
+            case when (d2.HEADER_MACROS like '%forumStickyPosting%') then 1 else 0 end as STICKY,
+            case when c0.CREATED_ON is null then false else true end as HAS_REPLIES,
+            case when c0.CREATED_ON is null then d0.CREATED_ON else c0.CREATED_ON end as LAST_POST
+        from
+            WIKI_NODE d0
+                inner join WIKI_DOCUMENT d2 on d0.NODE_ID = d2.NODE_ID and (d2.HEADER_MACROS like '%forumPosting%' or d2.HEADER_MACROS like '%forumStickyPosting%')
+             left outer join WIKI_NODE c0
+             on c0.NODE_ID = (
+                 select lc.LAST_COMMENT_ID from WIKI_DOCUMENT_LAST_COMMENT lc
+                 where lc.WIKI_DOCUMENT_ID = d2.NODE_ID
+             )
+        where
+            d0.READ_ACCESS_LEVEL <= :readAccessLevel and d0.PARENT_NODE_ID = :parentNodeId
+        order
+            by STICKY desc, LAST_POST desc
+        ]]>
+    </sql-query>
+
+    <sql-query name="forumTopics">
+        <return alias="d" class="org.jboss.seam.wiki.core.model.WikiDocument"/>
+        <return-join alias="u" property="d.createdBy"/>
+        <![CDATA[
+        select
+            d0.NODE_ID as NODE_ID,
+            d0.OBJ_VERSION as OBJ_VERSION,
+            d0.RATING as RATING,
+            d0.AREA_NR as AREA_NR,
+            d0.NAME as NAME,
+            d0.WIKINAME as WIKINAME,
+            d0.MESSAGE_ID as MESSAGE_ID,
+            d0.CREATED_ON as CREATED_ON,
+            d0.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
+            d0.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
+            d0.LAST_MODIFIED_BY_USER_ID as LAST_MODIFIED_BY_USER_ID,
+            d0.WRITE_ACCESS_LEVEL as WRITE_ACCESS_LEVEL,
+            d0.READ_ACCESS_LEVEL as READ_ACCESS_LEVEL,
+            d0.WRITE_PROTECTED as WRITE_PROTECTED,
+            d0.PARENT_NODE_ID as PARENT_NODE_ID,
+
+            d1.FILE_REVISION as FILE_REVISION,
+
+            d2.NAME_AS_TITLE as NAME_AS_TITLE,
+            d2.ENABLE_COMMENTS as ENABLE_COMMENTS,
+            d2.ENABLE_COMMENT_FORM as ENABLE_COMMENT_FORM,
+            d2.ENABLE_COMMENTS_ON_FEEDS as ENABLE_COMMENTS_ON_FEEDS,
+            d2.HEADER as HEADER,
+            d2.HEADER_MACROS as HEADER_MACROS,
+            d2.CONTENT_MACROS as CONTENT_MACROS,
+            d2.FOOTER as FOOTER,
+            d2.FOOTER_MACROS as FOOTER_MACROS,
+
+            u.USER_ID, u.ACTIVATED, u.ACTIVATION_CODE, u.CREATED_ON, u.EMAIL, u.FIRSTNAME, u.LAST_LOGIN_ON,
+            u.LASTNAME, u.MEMBER_HOME_WIKI_DIRECTORY_ID, u.PASSWORDHASH, u.USER_PROFILE_ID, u.USERNAME, u.OBJ_VERSION
+
+        from
+            WIKI_NODE d0
+              inner join USERS u on d0.CREATED_BY_USER_ID = u.USER_ID
+              inner join WIKI_FILE d1 on d0.NODE_ID=d1.NODE_ID
+              inner join WIKI_DOCUMENT d2 on d1.NODE_ID=d2.NODE_ID
+        where
+           d0.NODE_ID in (:topicIds)
+    ]]></sql-query>
+
+    <sql-query name="forumTopicsReplies">
+        <return alias="c" class="org.jboss.seam.wiki.core.model.WikiComment"/>
+        <return-join alias="u" property="c.createdBy"/>
+        <return-scalar column="TOPIC_ID" type="long"/>
+        <return-scalar column="NUM_OF_REPLIES" type="long"/>
+        <![CDATA[
+        select
+            cl1.NODE_ID as NODE_ID,
+            cl1.OBJ_VERSION as OBJ_VERSION,
+            cl1.RATING as RATING,
+            cl1.AREA_NR as AREA_NR,
+            cl1.NAME as NAME,
+            cl1.WIKINAME as WIKINAME,
+            cl1.MESSAGE_ID as MESSAGE_ID,
+            cl1.CREATED_ON as CREATED_ON,
+            cl1.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
+            cl1.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
+            cl1.LAST_MODIFIED_BY_USER_ID as LAST_MODIFIED_BY_USER_ID,
+            cl1.WRITE_ACCESS_LEVEL as WRITE_ACCESS_LEVEL,
+            cl1.READ_ACCESS_LEVEL as READ_ACCESS_LEVEL,
+            cl1.WRITE_PROTECTED as WRITE_PROTECTED,
+            cl1.PARENT_NODE_ID as PARENT_NODE_ID,
+
+            cl0.SUBJECT as SUBJECT,
+            cl0.FROM_USER_NAME as FROM_USER_NAME,
+            cl0.FROM_USER_EMAIL as FROM_USER_EMAIL,
+            cl0.FROM_USER_HOMEPAGE as FROM_USER_HOMEPAGE,
+            cl0.USE_WIKI_TEXT as USE_WIKI_TEXT,
+            cl0.NS_LEFT as NS_LEFT,
+            cl0.NS_RIGHT as NS_RIGHT,
+            cl0.NS_THREAD as NS_THREAD,
+
+            u.USER_ID, u.ACTIVATED, u.ACTIVATION_CODE, u.CREATED_ON, u.EMAIL, u.FIRSTNAME, u.LAST_LOGIN_ON,
+            u.LASTNAME, u.MEMBER_HOME_WIKI_DIRECTORY_ID, u.PASSWORDHASH, u.USER_PROFILE_ID, u.USERNAME, u.OBJ_VERSION,
+
+            doc0.NODE_ID as TOPIC_ID,
+            count(c0.NODE_ID) as NUM_OF_REPLIES
+        from
+            WIKI_DOCUMENT doc0
+                inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc0.NODE_ID
+                    inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID,
+            WIKI_COMMENT c0,
+            WIKI_COMMENT cl0
+                inner join WIKI_NODE cl1 on cl0.NODE_ID = cl1.NODE_ID
+                    inner join USERS u on cl1.CREATED_BY_USER_ID = u.USER_ID
+        where
+           doc0.NODE_ID in (:topicIds)
+           and c0.NS_THREAD in (ct1.NS_THREAD)
+           and cl0.NODE_ID = (
+             select lc.LAST_COMMENT_ID
+                from WIKI_DOCUMENT_LAST_COMMENT lc
+                where lc.WIKI_DOCUMENT_ID = doc0.NODE_ID
+          )
+        group by
+            cl1.NODE_ID, cl1.OBJ_VERSION, cl1.RATING, cl1.AREA_NR, cl1.NAME, cl1.WIKINAME, cl1.MESSAGE_ID, cl1.CREATED_ON, cl1.CREATED_BY_USER_ID, cl1.LAST_MODIFIED_ON,
+            cl1.LAST_MODIFIED_BY_USER_ID, cl1.WRITE_ACCESS_LEVEL, cl1.READ_ACCESS_LEVEL, cl1.WRITE_PROTECTED, cl1.PARENT_NODE_ID,
+            cl0.SUBJECT, cl0.FROM_USER_NAME, cl0.FROM_USER_EMAIL, cl0.FROM_USER_HOMEPAGE, cl0.USE_WIKI_TEXT, cl0.NS_LEFT, cl0.NS_RIGHT, cl0.NS_THREAD,
+
+            u.USER_ID, u.ACTIVATED, u.ACTIVATION_CODE, u.CREATED_ON, u.EMAIL, u.FIRSTNAME, u.LAST_LOGIN_ON,
+            u.LASTNAME, u.MEMBER_HOME_WIKI_DIRECTORY_ID, u.PASSWORDHASH, u.USER_PROFILE_ID, u.USERNAME, u.OBJ_VERSION,
+
+            doc0.NODE_ID
+    ]]></sql-query>
+
+    <sql-query name="forumPostersAndRatingPoints">
+        <return class="org.jboss.seam.wiki.core.model.User"/>
+        <return-scalar column="RATING_POINTS" type="long"/>
+        <![CDATA[
+        select
+            ur.USER_ID, ur.ACTIVATED, ur.ACTIVATION_CODE, ur.CREATED_ON, ur.EMAIL, ur.FIRSTNAME, ur.LAST_LOGIN_ON,
+            ur.LASTNAME, ur.MEMBER_HOME_WIKI_DIRECTORY_ID, ur.PASSWORDHASH, ur.USER_PROFILE_ID, ur.USERNAME, ur.OBJ_VERSION,
+            sum(ur.RATING) as RATING_POINTS
+        from
+           (select distinct
+                user2.*,
+                com2.NODE_ID,
+                com2.RATING
+            from
+                WIKI_DOCUMENT doc0
+                  inner join WIKI_NODE doc1 on doc0.NODE_ID=doc1.NODE_ID
+                      inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc1.NODE_ID
+                          inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID,
+                WIKI_COMMENT com1
+                 inner join WIKI_NODE com2 on com1.NODE_ID=com2.NODE_ID
+                  inner join USERS user2 on com2.CREATED_BY_USER_ID=user2.USER_ID
+                   inner join USER_ROLE roles1 on user2.USER_ID=roles1.USER_ID
+                    inner join ROLES roles2 on roles1.ROLE_ID=roles2.ROLE_ID
+            where
+                doc1.PARENT_NODE_ID=:parentDirId
+                and com1.NS_THREAD in (ct1.NS_THREAD)
+                and (roles2.NAME not in (:ignoreUserInRoles))
+                and com2.RATING<>0
+            ) as ur
+        group by
+            ur.USER_ID, ur.ACTIVATED, ur.ACTIVATION_CODE, ur.CREATED_ON, ur.EMAIL, ur.FIRSTNAME, ur.LAST_LOGIN_ON,
+            ur.LASTNAME, ur.MEMBER_HOME_WIKI_DIRECTORY_ID, ur.PASSWORDHASH, ur.USER_PROFILE_ID, ur.USERNAME,
+            ur.OBJ_VERSION
+        order by sum(ur.RATING) desc
+    ]]></sql-query>
+
+</hibernate-mapping>

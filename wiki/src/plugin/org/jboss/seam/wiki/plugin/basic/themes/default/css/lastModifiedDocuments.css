@@ -1,0 +1,17 @@
+.lastModifiedDocuments {}
+
+.lastModifiedLink {
+}
+
+.lastModifiedColumn {
+    padding-bottom: 5px;
+}
+
+.lastModifiedAuthorDate {
+    text-align: right;
+}
+
+.lastModifiedLink:link {color: #962325}
+.lastModifiedLink:visited {color: #962325}
+.lastModifiedLink:hover {color: #000}
+.lastModifiedLink:active {color: #aaa}

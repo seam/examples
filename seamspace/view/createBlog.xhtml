@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{selectedBlog == null}">
+        Sorry, but this blog entry does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedBlog != null}">
+      
+        <s:div id="blogMemberCard">	        
+	        <s:link view="/profile.seam" propagation="none">
+	          #{selectedMember.memberName}<br/>
+            <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          
+	        </s:link>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+          <s:div rendered="#{selectedBlog.text != null}" styleClass="blogEntry">
+            Preview:
+            <p><s:formattedText value="#{selectedBlog.text}"/></p>
+          </s:div>				
+				
+          <div class="blogEntry">
+            <h:form id="newBlog">
+              
+              <div class="formRow">
+                <h:outputLabel for="title">Please type a title for your blog entry</h:outputLabel><br/>
+                <h:inputText id="title" value="#{selectedBlog.title}" styleClass="title"/>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="text">Type your blog entry here</h:outputLabel><br/>
+                <h:inputTextarea id="text" value="#{selectedBlog.text}"/>
+              </div>
+
+              <div class="buttons">
+                <h:commandButton id="submit" action="#{blog.saveEntry}" value="Add entry" styleClass="action"/>            
+                <h:commandButton id="preview" value="Preview" styleClass="action"/>                            
+              </div>
+              
+              <br class="clear"/>
+            </h:form>                      
+          </div>
+                	      
+          <div>
+            <b>Seam Text Quick Reference</b><br/>
+            <pre><code>
+*bold* /italic/ |monospace| -strikethrough- ^super^ _underline_
+
++Big Heading
+Headings must be followed by text
+
+++Smaller heading
+Paragraphs are ended with a blank line.
+
+#ordered list item
+
+=unordered list item
+
+"quoted text"
+            </code></pre>
+          </div>
+                    
+	      </s:div>      
+	                      
+      </s:div>                
+          
+      <br class="clear"/>          
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

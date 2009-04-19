@@ -1,0 +1,105 @@
+<s:div id="topicTableContainer"
+       styleClass="topicFormContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:cache rendered="#{not topicHome.showForm and forumQuery.topicsAvailable}"
+         enabled="#{not identity.loggedIn}"
+         region="#{currentMacro.getCacheRegion('TopicList')}"
+         key="#{currentMacro.getCacheKey(param.page)}">
+
+    <ui:include src="topicPager.xhtml"/>
+
+    <s:div styleClass="box">
+
+    <h:dataTable id="topicTable"
+                 var="topicInfo"
+                 value="#{forumQuery.topics}"
+                 styleClass="datatable topLeftBottomBorder topicTable"
+                 headerClass="regularHeader rightBorder alignCenter smallFont"
+                 columnClasses="onePercentColumn rightBorder alignCenter smallFont, defaultColumn rightBorder alignLeft wrapWhitespace,
+                                onePercentColumn rightBorder alignCenter smallFont, fivePercentColumn rightBorder alignCenter smallFont,
+                                tenPercentColumn rightBorder alignCenter smallFont"
+                 rowClasses="rowOdd,rowEven"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:column>
+            <f:facet name="header">&#160;</f:facet>
+            <h:graphicImage value="#{currentMacro.requestImagePath}/icon.#{topicInfo.iconName}.gif" width="22" height="26"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Topic</f:facet>
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.topic)}" tabindex="1">
+                <h:outputText value="#{wiki:truncateString(topicInfo.topic.name, 60, '...')}"/>
+            </h:outputLink>
+
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Replies</f:facet>
+            <h:outputText value="#{topicInfo.numOfReplies}" rendered="#{topicInfo.numOfReplies != 0}"/>
+            <h:outputText value="-" rendered="#{topicInfo.numOfReplies == 0}"/>
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Author</f:facet>
+
+            <ui:include src="/includes/userProfileLink.xhtml">
+                <ui:param name="user" value="#{topicInfo.topic.createdBy}"/>
+            </ui:include>
+
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Last Post</f:facet>
+
+            <s:fragment rendered="#{not empty topicInfo.lastComment}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.lastComment)}" tabindex="1">
+                    <h:outputText value="#{topicInfo.lastComment.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                    </h:outputText>
+                    <h:graphicImage styleClass="topicGotoIcon" value="#{currentMacro.requestImagePath}/icon.posting_goto.gif" width="18" height="9"/>
+                </h:outputLink>
+
+                <ui:include src="/includes/userProfileLink.xhtml">
+                    <ui:param name="user" value="#{topicInfo.lastComment.createdBy}"/>
+                </ui:include>
+
+            </s:fragment>
+
+            <s:fragment rendered="#{empty topicInfo.lastComment}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(topicInfo.topic)}" tabindex="1">
+                    <h:outputText value="#{topicInfo.topic.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                    </h:outputText>
+                    <h:graphicImage styleClass="topicGotoIcon" value="#{currentMacro.requestImagePath}/icon.posting_goto.gif" width="18" height="9"/>
+                </h:outputLink>
+
+                <ui:include src="/includes/userProfileLink.xhtml">
+                    <ui:param name="user" value="#{topicInfo.topic.createdBy}"/>
+                </ui:include>
+
+            </s:fragment>
+        </h:column>
+
+    </h:dataTable>
+
+    </s:div>
+
+    <ui:include src="topicPager.xhtml"/>
+
+    <s:div rendered="#{not forumQuery.topicsAvailable}" styleClass="box">
+        No topics in this forum.
+    </s:div>
+
+
+</s:cache>
+
+</s:div>

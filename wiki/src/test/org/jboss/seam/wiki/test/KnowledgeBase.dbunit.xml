@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <WIKI_NODE
+        NODE_ID="200" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="200" NAME="Documentation" WIKINAME="Documentation"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="200" DESCRIPTION="Seam Documentation" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="200" NS_RIGHT="211" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="200" DISPLAY_POSITION="3"/>
+
+    <WIKI_NODE
+        NODE_ID="201" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="200"
+        AREA_NR="200" NAME="Knowledge Base" WIKINAME="KnowledgeBase"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="201" DESCRIPTION="Seam Knowledge Base" DEFAULT_FILE_ID="202"
+        NS_LEFT="201" NS_RIGHT="210" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="201" DISPLAY_POSITION="0"/>
+
+    <WIKI_NODE
+        NODE_ID="202" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="201"
+        AREA_NR="200" NAME="Knowledge Base Overview" WIKINAME="KnowledgeBaseOverview"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="202" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="202"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="hideCreatorHistory" CONTENT_MACROS="dirToc dirMenu" FOOTER_MACROS="[NULL]"
+        HEADER="[&lt;=hideCreatorHistory]" FOOTER="[NULL]"
+        CONTENT="Knowledge Base...&#xA;&#xA;&lt;div style=&quot;float:right;&quot;>[&lt;=dirMenu[onlyMenuItems=true]]&lt;/div>&#xA;&#xA;[&lt;=dirToc[showDefaultDocuments=true][showLastUpdatedTimestamp=true][withHeaderMacro=tocEntry]]"/>
+
+
+    <WIKI_NODE
+        NODE_ID="203" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="201"
+        AREA_NR="200" NAME="FAQs" WIKINAME="FAQs"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="203" DESCRIPTION="Seam frequently asked questions" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="202" NS_RIGHT="203" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="203" DISPLAY_POSITION="0"/>
+
+    <WIKI_NODE
+        NODE_ID="204" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="201"
+        AREA_NR="200" NAME="Setup &amp; Installation" WIKINAME="SetupInstallation"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="204" DESCRIPTION="Installing Seam and setting up Seam projects" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="204" NS_RIGHT="205" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="204" DISPLAY_POSITION="1"/>
+
+    <WIKI_NODE
+        NODE_ID="205" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="201"
+        AREA_NR="200" NAME="Components &amp; Services" WIKINAME="ComponentsServices"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="205" DESCRIPTION="Designing and creating Seam components and services" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="206" NS_RIGHT="207" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="205" DISPLAY_POSITION="2"/>
+
+    <WIKI_NODE
+        NODE_ID="206" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="201"
+        AREA_NR="200" NAME="User Interface" WIKINAME="UserInterface"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="206" DESCRIPTION="User interfaces and presentation layer" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="208" NS_RIGHT="209" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="206" DISPLAY_POSITION="3"/>
+
+
+    <WIKI_NODE
+        NODE_ID="207" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="204"
+        AREA_NR="200" NAME="Some setup instructions" WIKINAME="SomeSetupInstructions"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="207" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="207"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="tocEntry" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER="[&lt;=tocEntry]" FOOTER="[NULL]"
+        CONTENT="This is a document with a tocEntry header macro."/>
+
+    <WIKI_NODE
+        NODE_ID="208" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="204"
+        AREA_NR="200" NAME="More setup instructions" WIKINAME="MoreSetupInstructions"
+        CREATED_ON="2006-09-24 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="208" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="208"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="tocEntry" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER="[&lt;=tocEntry]" FOOTER="[NULL]"
+        CONTENT="This is a document with a tocEntry header macro."/>
+
+    <WIKI_NODE
+        NODE_ID="209" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="205"
+        AREA_NR="200" NAME="Another knowledge page" WIKINAME="AnotherKnowledgePage"
+        CREATED_ON="2006-09-25 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-25 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="209" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="209"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="tocEntry" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER="[&lt;=tocEntry]" FOOTER="[NULL]"
+        CONTENT="This is a document with a tocEntry header macro."/>
+
+    <WIKI_NODE
+        NODE_ID="210" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="205"
+        AREA_NR="200" NAME="A document not in the TOC" WIKINAME="ADocumentNotInTheTOC"
+        CREATED_ON="2006-09-26 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="210" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="210"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER="[NULL]" FOOTER="[NULL]"
+        CONTENT="This is a document with no tocEntry header macro, so it does not appear in the TOC."/>
+
+</dataset>
+

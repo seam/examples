@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	template="template.xhtml">
+	<ui:param name="tagName" value="s:validateEquality" />
+	<ui:define name="body">
+		<p>Validates that two java.util.Date inputs are equal</p>
+		<h:form>
+			<h:panelGrid columns="3">
+				<s:label for="date">Date (yyyy-MM-dd)</s:label>
+				<h:inputText id="date" value="#{equalityValidatorBean.date}">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+				</h:inputText>
+				<h:message for="date" />
+				<s:label for="dateVerification">Date Verification (yyyy-MM-dd)</s:label>
+				<h:inputText id="dateVerification">
+					<f:convertDateTime pattern="yyyy-MM-dd" />
+					<s:validateEquality for="date" />
+				</h:inputText>
+				<h:message for="dateVerification" />
+				<h:commandButton action="#{equalityValidatorBean.checkDate}"
+					value="Check date" />
+			</h:panelGrid>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,105 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
+</ui:define>
+
+<ui:define name="control">
+
+    <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+    <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form><s:validateAll>
+
+        <div>#{messages['lacewiki.label.docEdit.Directory']}:&#160;#{documentHome.parentNode.name}</div>
+        <div class="errorMessage"><h:message for="name"/></div>
+        <div>#{messages['lacewiki.label.docEdit.Name']}:&#160;
+            <h:inputText id="name" size="30" maxlength="255" required="true" value="#{documentHome.instance.name}"/>
+        </div>
+        <div>
+            <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}"/>
+            &#160;#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}
+        </div>
+        <div>
+            <h:selectBooleanCheckbox value="#{documentHome.minorRevision}"/>
+            &#160;#{messages['lacewiki.label.docEdit.MinorChange']}
+        </div>
+
+        <s:fragment rendered="#{not documentHome.managed}">
+            <div>
+                <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}">
+                </h:selectBooleanCheckbox>
+                &#160;#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}
+            </div>
+            <div>
+                <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}"/>
+                &#160;#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}
+            </div>
+        </s:fragment>
+
+        <s:fragment rendered="#{documentHome.managed}">
+            <s:fragment rendered="#{documentHome.onSiteFeed}">
+                <div>
+                    <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>
+                    &#160;#{messages['lacewiki.label.docEdit.PushOnFeeds']}
+                </div>
+            </s:fragment>
+            <s:fragment rendered="#{not documentHome.onSiteFeed}">
+                <s:div styleClass="entry">
+                    <div>
+                        <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>
+                        #{messages['lacewiki.label.docEdit.PushOnParentFeeds']}
+                    </div>
+                </s:div>
+                <s:div id="pushOnSiteFeedSwitch">
+                    <div>
+                        <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}"/>
+                        &#160;#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}
+                    </div>
+                </s:div>
+            </s:fragment>
+        </s:fragment>
+
+        <div class="errorMessage"><h:message for="contentTextArea"/></div>
+        <div>
+            <h:inputTextarea required="true"
+                             cols="45"
+                             rows="15"
+                             id="contentTextArea"
+                             value="#{documentHome.formContent}"/>
+        </div>
+
+        <s:div styleClass="formControls">
+            <h:commandButton action="#{documentHome.persist}" rendered="#{!documentHome.managed}"
+                             value="#{messages['lacewiki.button.Save']}"/>
+            <h:commandButton action="#{documentHome.update}" rendered="#{documentHome.managed}"
+                             value="#{messages['lacewiki.button.Update']}"/>
+            <h:commandButton action="#{documentHome.remove}" rendered="#{documentHome.removable}"
+                             value="#{messages['lacewiki.button.Delete']}"/>
+        </s:div>
+
+    </s:validateAll></h:form>
+
+</ui:define>
+
+</ui:composition>

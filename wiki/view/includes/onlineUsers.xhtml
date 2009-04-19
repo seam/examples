@@ -1,0 +1,45 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid styleClass="onlineUsersPanel" columns="4"
+                 cellpadding="0" cellspacing="0" border="0"
+                 rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0}"> <!-- TODO -->
+
+        <h:outputText styleClass="onlineLabel" value="#{messages['lacewiki.label.userList.Online']}:&#160;"/>
+
+        <s:fragment rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0}">
+            <s:link styleClass="link"
+                    view="/userList_#{skin}.xhtml" propagation="none">
+                <s:span styleClass="onlineValue">
+                    <h:outputText value="#{wikiHttpSessionManager.numberOfOnlineMembers}"/>
+                    <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineMembers > 1
+                                                ? messages['lacewiki.label.userList.Members']
+                                                : messages['lacewiki.label.userList.Member']}"/>
+                    <h:outputText value="&#160;#{messages['lacewiki.label.userList.Of']}&#160;"/>
+                    <h:outputText value="#{wikiHttpSessionManager.totalMembers}"/>
+                </s:span>
+            </s:link>
+        </s:fragment>
+
+        <!-- TODO: Make this configurable, it's confusing because the search robots also count as guests (but explain that to a marketing guy)
+        <h:outputText styleClass="onlineSeparator" value="&#160;|&#160;"
+                      rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0 and
+                                  wikiHttpSessionManager.numberOfOnlineGuests > 0}"/>
+
+        <s:fragment rendered="#{wikiHttpSessionManager.numberOfOnlineGuests > 0}">
+            <s:span styleClass="onlineValue">
+                <h:outputText value="#{wikiHttpSessionManager.numberOfOnlineGuests}"/>
+                <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineGuests> 1
+                                             ? messages['lacewiki.label.userList.Guests']
+                                             : messages['lacewiki.label.userList.Guest']}"/>
+            </s:span>
+        </s:fragment>
+        -->
+
+    </h:panelGrid>
+
+</s:fragment>

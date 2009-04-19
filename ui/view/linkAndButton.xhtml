@@ -1,0 +1,47 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:link/s:button" />
+	<ui:define name="body">
+		<p>A link/button that supports invocation of an action with control over conversation propagation. <i>Does not submit the form.</i></p>
+		<p>Some of the things you can do with a s:link or s:button:</p>
+		<h:panelGrid columns="3">
+			<h:outputText value="Jump to a fragment on a view" />
+			<s:link view="/linkAndButton.xhtml" fragment="fragment" value="Jump" />
+			<s:button view="/linkAndButton.xhtml" fragment="fragment" value="Jump" />
+			
+			<h:outputText value="Link on children" />
+			<s:link view="/linkAndButton.xhtml">Link</s:link>
+			<h:outputText value="N/A" />
+			
+			<h:outputText value="Do an action" />
+			<s:link action="#{buttonLink.simpleAction}" value="Do action" />
+			<s:button action="#{buttonLink.simpleAction}" value="Do action" />
+			
+			<h:outputText value="Disabled" />
+			<s:link action="#{buttonLink.simpleAction}" value="Do action" disabled="true"/>
+			<s:button action="#{buttonLink.simpleAction}" value="Do action" disabled="true"/>
+			
+			<h:outputText value="Conversation Propagation" />
+			<s:link view="/linkAndButton.xhtml" value="Begin conversation" propagation="begin" />
+			<s:button view="/linkAndButton.xhtml" value="End conversation">
+				<s:conversationPropagation type="end" />
+			</s:button>
+			
+			<h:outputText value="Page parameters" />
+			<s:link action="#{buttonLink.simpleAction}" value="Add a page parameter">
+				<f:param name="foo" value="bar" />
+			</s:link>
+			<s:button action="#{buttonLink.simpleAction}" value="Add a page parameter">
+				<f:param name="foo" value="bar" />
+			</s:button>
+		</h:panelGrid>
+		<p>You can also start a pageflow or start/resume a task - this isn't demonstrated here.</p>
+		<p><a name="fragment">A fragment to jump to</a></p>
+	</ui:define>
+</ui:composition>

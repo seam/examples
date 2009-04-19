@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+       
+       login-view-id="/login.xhtml">
+    
+    <page view-id="/index.xhtml">
+        <rewrite pattern="/" />
+    </page>
+
+    <page view-id="/search.xhtml">
+        <rewrite pattern="/search/{searchPattern}"/> 
+        <rewrite pattern="/search"/>
+        
+        <param name="searchPattern" 
+               value="#{searchService.searchPattern}"/>     
+    </page>
+
+    <page view-id="/entry.xhtml"> 
+        <rewrite pattern="/entry/{blogEntryId}" />
+        <rewrite pattern="/entry" />
+        
+        <param name="blogEntryId" 
+               value="#{blogEntry.id}"/>
+        
+        <action execute="#{entryAction.loadBlogEntry(blogEntry.id)}"/>
+    </page>
+    
+    <page view-id="/post.xhtml" login-required="true">
+        <rewrite pattern="/post" />
+        
+        <action execute="#{postAction.post}"
+                if="#{validation.succeeded}"/>
+        
+        <action execute="#{postAction.invalid}"
+                if="#{validation.failed}"/>
+        
+        <navigation from-action="#{postAction.post}">
+            <redirect view-id="/index.xhtml"/>
+        </navigation>
+    </page>
+    
+    <page view-id="/login.xhtml">
+        <rewrite pattern="/login"/> 
+        <action execute="#{identity.login}"
+                if="#{validation.succeeded}"/>
+        
+        <navigation>
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/post.xhtml"/>
+            </rule>
+        </navigation>
+        
+    </page>
+
+    <page view-id="*">
+        <action execute="#{blog.hitCount.hit}"/>
+    </page>
+    
+</pages>

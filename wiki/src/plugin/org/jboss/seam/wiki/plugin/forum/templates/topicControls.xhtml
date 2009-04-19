@@ -1,0 +1,57 @@
+<s:div id="topicControlsContainer"
+       styleClass="topicControlsContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:fragment rendered="#{topicHome.showForm}">
+    <script type="text/javascript">startSessionTimeoutCheck();</script>
+</s:fragment>
+
+<s:fragment rendered="#{not topicHome.showForm}">
+
+    <script type="text/javascript">stopSessionTimeoutCheck();</script>
+
+    <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
+        <h:outputLink value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}"
+                      tabindex="1">
+            <h:graphicImage value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
+            <h:outputText value="#{currentDocument.name}&#160;#{messages['forum.label.Feed']}"/>
+        </h:outputLink>
+    </s:div>
+
+    <h:panelGrid columns="2" styleClass="forumDescriptionTopicControls"
+                 columnClasses="forumDescription, topicControls"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:outputText value="#{currentDirectory.description}"/>
+
+        <h:form>
+        <h:panelGroup>
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.parent)}"
+                          accesskey="#{messages['forum.button.ForumList.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
+            </h:outputLink>
+
+            <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}?showTopicForm=true"
+                              accesskey="#{messages['forum.button.NewTopic.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
+                </h:outputLink>
+            </s:fragment>
+
+        </h:panelGroup>
+        </h:form>
+
+    </h:panelGrid>
+
+</s:fragment>
+
+</s:div>

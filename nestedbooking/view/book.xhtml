@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+<div class="section">
+	<h1>Book Hotel</h1>
+</div>
+<div class="section">
+	<h:form id="booking">
+	<fieldset>
+		<s:decorate template="output.xhtml">
+			<ui:define name="label">Name:</ui:define>
+			#{hotel.name}
+		</s:decorate>
+		
+		<s:decorate template="output.xhtml">
+			<ui:define name="label">Address:</ui:define>
+			#{hotel.address}
+		</s:decorate>
+		
+		<s:decorate template="output.xhtml">
+			<ui:define name="label">City, State:</ui:define>
+			#{hotel.city}, #{hotel.state}
+		</s:decorate>
+		
+		<s:decorate template="output.xhtml">
+			<ui:define name="label">Zip:</ui:define>
+			#{hotel.zip}
+		</s:decorate>
+		
+		<s:decorate template="output.xhtml">
+			<ui:define name="label">Country:</ui:define>
+			#{hotel.country}
+		</s:decorate>
+        
+        <s:decorate template="output.xhtml">
+        	<ui:define name="label">Nightly rate:</ui:define>
+        	<h:outputText value="#{hotel.minPrice}">
+                    <f:convertNumber type="currency"  
+                                     currencySymbol="$"/>
+                </h:outputText>
+                -
+                <h:outputText value="#{hotel.maxPrice}">
+                    <f:convertNumber type="currency"  
+                                     currencySymbol="$"/>
+                </h:outputText>
+        </s:decorate>
+		                	
+        <s:decorate id="checkinDateDecorate" template="edit.xhtml">
+       	    <ui:define name="label">Check In Date:</ui:define>
+       	    <rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" style="width: auto;"/>
+        </s:decorate>
+			
+        <s:decorate id="checkoutDateDecorate" template="edit.xhtml">
+			<ui:define name="label">Check Out Date:</ui:define>
+			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" style="width: auto;"/>
+		</s:decorate>
+		
+		<div class="entry errors">
+			<h:messages globalOnly="true"/>
+		</div>
+		
+		<div class="entry">
+			<div class="label">&#160;</div>
+			<div class="input">
+				<h:commandButton id="room_preference" value="Select Room" action="#{hotelBooking.setBookingDates}"/>&#160;
+				<s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+			</div>
+		</div>		
+	</fieldset>
+	</h:form>
+</div>
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar"></ui:define>
+
+</ui:composition>

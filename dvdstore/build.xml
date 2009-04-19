@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<project name="DVDStore" default="deploy" basedir=".">
+
+	<!-- Naming -->
+	<property name="Name" value="Seam DVD Store Example" />
+	<property name="example.name" value="jboss-seam-dvdstore" />
+
+	<!-- Libraries -->
+	<property name="seam.ui.lib" value="yes" />
+	<property name="seam.debug.lib" value="yes" />
+	<property name="facelets.lib" value="yes" />
+	<property name="jbpm.lib" value="yes" />
+	<property name="search.lib" value="yes" />
+        <property name="urlrewrite.lib"    value="yes"/>
+
+	<!-- Datasource -->
+	<property name="example.ds" value="jboss-seam-dvdstore-ds.xml" />
+
+	<import file="../build.xml" />
+
+	<!-- Exclude the DS from validated files, as the mbean causes it not to validate -->
+	<fileset id="validate.resources" dir="${validate.resources.dir}">
+		<include name="META-INF/application.xml" />
+		<include name="META-INF/ejb-jar.xml" />
+		<include name="META-INF/persistence.xml" />
+		<include name="META-INF/jboss-app.xml" />
+		<include name="META-INF/orm.xml" />
+		<include name="WEB-INF/components.xml" />
+		<include name="WEB-INF/pages.xml" />
+		<include name="WEB-INF/faces-config.xml" />
+		<include name="WEB-INF/web.xml" />
+		<include name="WEB-INF/jboss-web.xml" />
+		<!--<include name="${example.ds}" />-->
+		<include name="hibernate.cfg.xml" />
+		<include name="*.jpdl.xml" />
+		<exclude name=".gpd.*.jpdl.xml" />
+	</fileset>
+
+</project>

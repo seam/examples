@@ -1,0 +1,79 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:tr="http://myfaces.apache.org/trinidad"
+	template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<rich:panel>
+			<f:facet name="header">Artists</f:facet>
+			<tr:form>
+				<tr:inputText value="#{exampleArtist.name}" label="Filter by artist name">
+					<a:support reRender="artists" event="onkeyup" requestDelay="1" />
+				</tr:inputText>
+				 &#160;
+				<a:status>
+					<f:facet name="start">
+						<h:graphicImage value="/img/spinner.gif" />
+					</f:facet>
+				</a:status>
+			</tr:form>
+
+			<a:outputPanel id="artists">
+				<tr:form>
+					<tr:table value="#{artists.dataModel}" var="artist"
+						rows="#{artists.maxResults}">
+						<tr:column sortable="true" sortProperty="artist.name">
+							<f:facet name="header">
+	    				Name
+	    			</f:facet>
+							<s:link action="artist">
+								<tr:outputText value="#{artist.name}" />
+								<f:param name="artistId" value="#{artist.id}" />
+							</s:link>
+						</tr:column>
+						<tr:column>
+							<f:facet name="header">
+	    				Band Members
+	    			</f:facet>
+							<tr:outputText value="Solo performer"
+								rendered="#{artist.class.simpleName eq 'Artist'}" />
+							<tr:outputText value="None"
+								rendered="#{artist.class.simpleName eq 'Band' and empty artist.bandMembers}" />
+							<rich:dataList value="#{artist.bandMembers}" var="bandMember"
+								rendered="#{artist.class.simpleName eq 'Band' and not empty artist.bandMembers}">
+								<tr:outputText value="#{bandMember.name}" />
+							</rich:dataList>
+						</tr:column>
+						<f:facet name="detailStamp">
+							<s:div style="width: 200px">
+								<s:formattedText value="#{artist.description}"
+									rendered="#{not empty artist.description}" />
+								<tr:outputText value="None known"
+									rendered="#{empty artist.description}" />
+							</s:div>
+						</f:facet>
+					</tr:table>
+				</tr:form>
+			</a:outputPanel>
+			<tr:panelButtonBar rendered="#{identity.loggedIn}">
+				<s:button action="artist" value="Add artist" id="addArtist">
+					<f:param name="artistId" value="" />
+					<f:param name="type" value="artist" />
+				</s:button>
+				<s:button action="artist" value="Add band" id="addBand">
+					<f:param name="artistId" value="" />
+					<f:param name="type" value="band" />
+				</s:button>
+			</tr:panelButtonBar>
+		</rich:panel>
+
+	</ui:define>
+</ui:composition>

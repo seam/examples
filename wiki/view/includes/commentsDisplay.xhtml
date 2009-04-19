@@ -1,0 +1,162 @@
+<s:div id="comments" styleClass="commentsDisplay"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div styleClass="box" rendered="#{not empty commentQuery.comments}">
+
+    <script type="text/javascript">
+        jQuery(function() {
+            var fragment = window.location.hash;
+            if (fragment.substring(1,8) == 'comment') {
+                selectCommentBox(fragment);
+            }
+        });
+
+        function selectCommentBox(commentAnchor) {
+            jQuery(".commentBox").removeClass("commentBoxSelected");
+            jQuery(commentAnchor).parent(".commentBox").addClass("commentBoxSelected");
+        }
+    </script>
+
+    <h:panelGrid columns="1"
+                 styleClass="datatable"
+                 columnClasses="commentColumn"
+                 cellpadding="0" cellspacing="0" border="0">
+        <f:facet name="header">
+            <s:div styleClass="regularHeader alignLeft topBorder bottomBorder rightBorder leftBorder">
+                <h:outputText value="#{commentQuery.comments.size()}&#160;#{titleSingular}:"
+                              rendered="#{commentQuery.comments.size() == 1}"/>
+                <h:outputText value="#{commentQuery.comments.size()}&#160;#{titlePlural}:"
+                              rendered="#{commentQuery.comments.size() > 1}"/>
+            </s:div>
+        </f:facet>
+        <c:forEach var="c" items="#{commentQuery.comments}">
+
+            <s:div style="margin-left:#{c.level > 1 ? c.level : ''}0px;"
+                   styleClass="commentBox #{c.level > 1 ? 'commentLevel' : 'commentFirstLevel'}">
+
+                <h:panelGrid columns="3" styleClass="commentHeader"
+                             columnClasses="commentSubject, commentAuthorInfo smallFont, commentAuthorPortrait"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <s:div styleClass="undecoratedLink largeFont" rendered="#{currentDocument.name != c.subject}">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(c)}" onclick="selectCommentBox('#comment#{c.id}')">
+                            <h:outputText value="#{c.subject}"/>
+                        </h:outputLink>
+                    </s:div>
+                    <s:div styleClass="largeFont" rendered="#{currentDocument.name == c.subject}">
+                        <h:outputText value="&#160;"/>
+                    </s:div>
+
+                    <s:fragment>
+                        <s:div>
+                            <s:span styleClass="commentDate">
+                                <h:outputText value="#{c.createdOn}">
+                                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                                </h:outputText>
+                                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                            </s:span>
+                            <h:outputText value="&#160;|&#160;"/>
+                            <s:span styleClass="commentLink undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(c)}">
+                                    <h:outputText value="#{messages['lacewiki.label.Link']}"/>
+                                </h:outputLink>
+                            </s:span>
+                        </s:div>
+                        <s:div rendered="#{c.ownedByRegularUser}">
+                            <s:span styleClass="undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(c.createdBy)}">
+                                    <h:outputText value="#{c.createdBy.fullname}"/>
+                                </h:outputLink>
+                            </s:span>
+                            <s:fragment rendered="#{wiki:showEmailAddress()}">
+                                <h:outputText value="&#160;|&#160;"/>
+                                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
+                                    <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
+                                </h:outputLink>
+                            </s:fragment>
+                        </s:div>
+                        <s:div rendered="#{not c.ownedByRegularUser}">
+                            <h:outputText rendered="#{empty c.fromUserHomepage}" value="#{c.fromUserName}"/>
+                            <s:fragment rendered="#{not empty c.fromUserHomepage}">
+                                <a href="#{c.fromUserHomepage}">#{c.fromUserName}</a>
+                            </s:fragment>
+                            <s:fragment rendered="#{not empty c.fromUserEmail}">
+                                <h:outputText value="&#160;|&#160;"/>
+                                    <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">
+                                    <h:outputText value="#{wiki:escapeAtSymbol(c.fromUserEmail)}"/>
+                                </h:outputLink>
+                            </s:fragment>
+                        </s:div>
+                    </s:fragment>
+
+                    <s:fragment rendered="#{c.ownedByRegularUser and !empty c.createdBy.profile.imageContentType}">
+                        <s:span styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(c.createdBy)}">
+                                <h:graphicImage styleClass="commentAuthorPortraitImage"
+                                                value="#{wikiURLRenderer.renderUserPortraitURL(c.createdBy, true)}"/>
+                            </h:outputLink>
+                        </s:span>
+                    </s:fragment>
+
+                </h:panelGrid>
+
+                <a id="comment#{c.id}"/>
+
+                <s:div styleClass="commentText" rendered="#{c.useWikiText and not empty currentDocument.areaNumber}">
+                    <s:cache region="wiki.Comment" key="#{c.id}">
+                        <wiki:formattedText value="#{c.content}"
+                                            linkStyleClass="regularLink"
+                                            brokenLinkStyleClass="brokenLink"
+                                            attachmentLinkStyleClass="regularLink"
+                                            thumbnailLinkStyleClass="regularLink"
+                                            linkBaseFile="#{currentDocument}"
+                                            currentAreaNumber="#{currentDocument.areaNumber}"
+                                            enableMacroRendering="false"/>
+                    </s:cache>
+                </s:div>
+                <s:div styleClass="commentText plaintext" rendered="#{not c.useWikiText and currentDocument.name != c.subject}" style="margin-top:15px;">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true, true)}" escape="false"/>
+                </s:div>
+                <s:div styleClass="commentText plaintext" rendered="#{not c.useWikiText and currentDocument.name == c.subject}">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true, true)}" escape="false"/>
+                </s:div>
+
+                <s:div styleClass="commentSignature"
+                       rendered="#{not empty c.createdBy.profile.signature and not empty currentDocument.areaNumber}">
+                    <s:div styleClass="commentSignatureSeparator">
+                        <h:outputText value="&#160;"/>
+                    </s:div>
+                    <s:cache region="wiki.Signature" key="#{c.createdBy.id}">
+                        <wiki:formattedText value="#{c.createdBy.profile.signature}"
+                                            linkStyleClass="regularLink"
+                                            brokenLinkStyleClass="brokenLink"
+                                            attachmentLinkStyleClass="regularLink"
+                                            thumbnailLinkStyleClass="regularLink"
+                                            linkBaseFile="#{currentDocument}"
+                                            currentAreaNumber="#{currentDocument.areaNumber}"
+                                            enableMacroRendering="false"/>
+                    </s:cache>
+                </s:div>
+
+                <div class="commentControls">
+
+                    <h:form>
+                        <ui:insert name="controls"/>
+                    </h:form>
+
+                </div>
+
+            </s:div>
+        </c:forEach>
+    </h:panelGrid>
+
+</s:div>
+</s:div>
+

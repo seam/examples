@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:wiki="http://jboss.com/products/seam/wiki"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+
+<f:view contentType="text/html"/>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>In Relation To...&#160;<ui:insert name="screenname"/>
+    </title>
+    <link href="#{themePath}/#{skin}/css/template.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+<noscript>
+    <div class="cookieJavaScriptWarning">
+        Please activate JavaScript in your browser. Without it, you will only be able to browse this website
+        but clicking on any advanced feature (any forms or submit buttons) will not work.
+    </div>
+</noscript>
+
+<s:div id="screen">
+
+    <s:div id="header">
+        <h:outputLink value="#{preferences.get('Wiki').baseUrl}">In Relation To...</h:outputLink>
+        <br/>
+        <ui:insert name="screenname"/>
+    </s:div>
+
+    <s:div id="control">
+        <ui:insert name="control"/>
+    </s:div>
+
+    <s:div rendered="#{!empty facesMessages.currentGlobalMessages}">
+        <ui:repeat var="msg" value="#{facesMessages.currentGlobalMessages}">
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" columnClasses="messageBoxCell">
+                <h:graphicImage value="#{imagePath}/info.gif"
+                                width="18" height="18"
+                                styleClass="infoImage"/>
+                <h:outputText styleClass="infoMessage" value="#{msg.summary}"/>
+            </h:panelGrid>
+        </ui:repeat>
+    </s:div>
+
+    <s:div id="content" styleClass="content">
+        <ui:insert name="content"/>
+    </s:div>
+
+    <div id="footer">
+        <ui:include src="../../../includes/mainMenu.xhtml"/>
+
+        <h:form>
+            <h:panelGroup styleClass="searchControlTable">
+                <h:inputText value="#{wikiSearch.simpleQuery}" size="15" maxlength="1000"/>
+                <h:commandButton action="search" value="#{messages['lacewiki.button.Find']}">
+                    <!-- TODO: This is broken, http://jira.jboss.com/jira/browse/JBSEAM-1899 -->
+                    <s:conversationPropagation type="none"/>
+                </h:commandButton>
+            </h:panelGroup>
+        </h:form>
+
+        <s:div rendered="#{not identity.loggedIn}">
+
+            <h:form>
+            <h:panelGrid columns="7" styleClass="userControl" columnClasses="userControlPanel">
+                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="#{messages['lacewiki.label.userControl.Username']}:"/>
+                <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="10"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="#{messages['lacewiki.label.userControl.Password']}:"/>
+                <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="10" />
+                <h:commandButton styleClass="userControlButton" action="#{identity.login}"
+                                 value="#{messages['lacewiki.button.Login']}"/>
+            </h:panelGrid>
+            </h:form>
+
+        </s:div>
+
+        <s:div rendered="#{identity.loggedIn}">
+
+            <h:form>
+            <h:panelGrid columns="6" styleClass="userControl" columnClasses="userControlPanel">
+
+                <h:outputText styleClass="userControlLabel" value="(#{currentUser.fullname})"/>
+
+                <h:commandButton action="#{authenticator.logout}" value="#{messages['lacewiki.button.Logout']}"/>
+
+                <h:outputLink styleClass="userControlLink" value="#{wikiURLRenderer.renderURL(currentUser.memberHome)}"
+                        rendered="#{!empty currentUser.memberHome}">#{messages['lacewiki.button.Home']}</h:outputLink>
+
+            </h:panelGrid>
+            </h:form>
+
+        </s:div>
+
+
+    </div>
+
+</s:div>
+
+</body>
+</html>

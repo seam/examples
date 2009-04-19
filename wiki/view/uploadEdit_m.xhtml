@@ -1,0 +1,130 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.uploadEdit.UploadFile']}" rendered="#{!uploadHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.uploadEdit.EditFile']}" rendered="#{uploadHome.managed}"/>
+</ui:define>
+
+<ui:define name="control">
+
+    <s:link id="exit" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form enctype="multipart/form-data"><s:validateAll>
+
+        <div>#{messages['lacewiki.label.uploadEdit.Directory']}:&#160;#{uploadHome.parentNode.name}</div>
+        <div class="errorMessage"><h:message for="name"/></div>
+        <div>#{messages['lacewiki.label.uploadEdit.Name']}:&#160;
+            <h:inputText id="name" size="30" maxlength="255" required="true" value="#{uploadHome.instance.name}"/>
+        </div>
+        <s:div rendered="#{uploadHome.managed}">
+            #{messages['lacewiki.label.uploadEdit.FileDetails']}:&#160;
+            <h:panelGroup>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(uploadHome.instance)}">
+                    <h:outputText value="#{uploadHome.instance.filename}, #{wiki:displayFilesize(uploadHome.instance.filesize)}, #{uploadHome.instance.contentType}"/>
+                </h:outputLink>
+            </h:panelGroup>
+        </s:div>
+
+        <div>
+            <hr/>
+            #{messages['lacewiki.label.uploadEdit.Upload']} (#{messages['lacewiki.label.uploadEdit.UploadMax']} #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}):&#160;
+            <h:panelGroup>
+                <s:fileUpload id="upload" data="#{uploader.data}" contentType="#{uploader.contentType}" fileName="#{uploader.filename}"/>
+                <h:commandButton action="#{uploadHome.uploadUpdateInstance()}" value="#{messages['lacewiki.button.upload.UploadOverwrite']}"/>
+            </h:panelGroup>
+            <hr/>
+        </div>
+
+        <ui:include src="includes/#{uploadHome.uploadEditor.includeName}.xhtml">
+            <ui:param name="editor" value="#{uploadHome.uploadEditor}"/>
+        </ui:include>
+
+        <!--
+        <s:div id="uploadControl">
+            <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                <ui:define name="label">
+                    #{messages['lacewiki.label.upload.Upload']}
+                    (#{messages['lacewiki.label.upload.UploadMax']}
+                     #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})
+                </ui:define>
+                <h:panelGroup>
+                    <s:fileUpload id="upload" data="#{uploader.data}" contentType="#{uploader.contentType}" fileName="#{uploader.filename}"/>
+                    <h:commandLink action="#{uploadHome.uploadUpdateInstance()}"
+                                   tabindex="1" styleClass="buttonNonpersistent">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.upload.UploadOverwrite']}"/>
+                    </h:commandLink>
+                </h:panelGroup>
+            </s:decorate>
+        </s:div>
+        -->
+        
+        <!--
+        <s:div rendered="#{uploadHome.managed and not empty uploadHome.instance.imageMetaInfo}">
+            <div>
+                #{messages['lacewiki.label.uploadEdit.OriginalImageSize']}:&#160;#{uploadHome.instance.imageMetaInfo.sizeX} x #{uploadHome.instance.imageMetaInfo.sizeY} pixel
+            </div>
+            <h:panelGrid columns="1">
+                <h:panelGroup>
+                    <h:commandButton id="zoomOut" action="#{uploadHome.zoomPreviewOut}"
+                                     value="#{messages['lacewiki.button.uploadEdit.ZoomOut']}"/>
+                    <h:commandButton id="actualSize" action="#{uploadHome.zoomActualSize}"
+                                     value="#{messages['lacewiki.button.uploadEdit.ActualSize']}"/>
+                    <h:commandButton id="zoomIn" action="#{uploadHome.zoomPreviewIn}"
+                                     value="#{messages['lacewiki.button.uploadEdit.ZoomIn']}"/>
+                </h:panelGroup>
+                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{uploadHome.instance.id}">
+                    <s:graphicImage value="#{uploadHome.instance.data}" style="border: 1px solid black;">
+                        <s:transformImageSize width="#{uploadHome.imagePreviewSize}" maintainRatio="true"/>
+                    </s:graphicImage>
+                </h:outputLink>
+            </h:panelGrid>
+
+            <div>#{messages['lacewiki.label.uploadEdit.ShowInDocuments']}:&#160;
+                <h:selectOneMenu value="#{uploadHome.instance.imageMetaInfo.thumbnail}" styleClass="" tabindex="4">
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.SmallThumbnail']}" itemValue="S"/>
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.MediumThumbnail']}" itemValue="M"/>
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.LargeThumbnail']}" itemValue="L"/>
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.FullSize']}" itemValue="F"/>
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.uploadEdit.AsAttachment']}" itemValue="A"/>
+                </h:selectOneMenu>
+            </div>
+
+        </s:div>
+
+        <div>
+            #{messages['lacewiki.label.uploadEdit.Upload']} (#{messages['lacewiki.label.uploadEdit.UploadMax']} #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)}):&#160;
+            <s:fileUpload id="upload" data="#{uploadHome.filedata}" contentType="#{uploadHome.contentType}" fileName="#{uploadHome.filename}"/>
+        </div>
+        -->
+
+        <div class="formControls">
+
+            <h:commandButton action="#{uploadHome.persist}" rendered="#{!uploadHome.managed}"
+                             value="#{messages['lacewiki.button.Save']}"/>
+            <h:commandButton action="#{uploadHome.update}" rendered="#{uploadHome.managed}"
+                             value="#{messages['lacewiki.button.Update']}"/>
+            <h:commandButton action="#{uploadHome.remove}" rendered="#{uploadHome.removable}"
+                             value="#{messages['lacewiki.button.Delete']}"/>
+
+        </div>
+
+    </s:validateAll></h:form>
+
+</ui:define>
+
+</ui:composition>

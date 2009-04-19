@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay New User Registration</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/register.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+
+    <div class="content">
+      <s:link view="/home.xhtml" propagation="none"><div class="seambay-logo"></div></s:link>
+  
+      <br class="clear"/>
+  
+      <table width="100%" cellspacing="0" cellpadding="0" class="colourBar">
+        <tr>
+          <td class="lc1"/>
+          <td class="lc2"/>
+          <td class="lc3"/>
+          <td class="lc4"/>
+          <td class="lc5"/>
+          <td class="lc6"/>
+          <td class="lc7"/>
+        </tr>
+      </table>
+     
+      <h:messages globalOnly="true"/>
+      
+      <div class="registerHeader">
+        Registration
+      </div>
+      
+      <div class="registerSubHeader">
+        Fill in the following details to register.
+      </div>
+     
+      <h:form id="registration">
+        <s:validateAll>
+          <p>
+            <b>seamBay User ID</b><br/>
+            <h:inputText id="username" value="#{newuser.username}" required="true"/>
+            <div class="validationError"><h:message id="usernameMessage" for="username"/></div>
+          </p>        
+  
+          <p>
+            <b>Password</b><br/>
+            <h:inputSecret id="password" value="#{newuser.password}" required="true"/>
+            <div class="validationError"><h:message id="passwordMessage" for="password"/></div>
+          </p>              
+          
+          <p>
+            <b>Confirm Password</b><br/>
+            <h:inputSecret id="confirm" value="#{registerAction.confirm}" required="true"/>
+            <div class="validationError"><h:message id="confirmMessage" for="confirm"/></div>
+          </p>
+  
+          <p>
+            <b>Location</b><br/>
+            <h:inputText id="location" class="location" value="#{newuser.account.location}" required="true"/>
+            <div class="validationError"><h:message id="locationMessage" for="location"/></div>
+          </p>
+        </s:validateAll>
+          
+        <h:commandButton id="submit" value="Register >" action="#{registerAction.register}"/>
+        
+      </h:form>
+      
+      <hr class="thinLine"/>
+      
+      <hr class="baseLine"/>      
+     
+    </div>
+      
+  </body>
+</html>

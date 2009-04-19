@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin key="feed"
+        xmlns="http://jboss.com/products/seam/wiki/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.com/products/seam/wiki/plugin
+                            classpath://org/jboss/seam/wiki/core/plugin/plugin-1.0.xsd">
+
+    <plugin-info version="1.0">
+        <application-version min="1.0" max="1.0"/>
+        <vendor name="Red Hat Inc." url="http://www.seamframework.org/"/>
+    </plugin-info>
+
+    <macro key="teasers" name="feedTeasers">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true"/>
+        <cache-regions>
+            <cache-region name="TeaserList">
+                <invalidation-event name="FeedEntry.created"/>
+                <invalidation-event name="FeedEntry.updated"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="aggregator" name="feedAggregator">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true"/>
+    </macro>
+
+</plugin>
+

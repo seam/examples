@@ -1,0 +1,59 @@
+<!-- 
+
+   An example of pageflow in jPDL. This exemplifies the
+   approach where action handlers are attached transitions
+   and decision nodes, instead of view components. 
+   An alternative approach would be to attach all action 
+   handlers to view components, and let the jPDL define
+   only the navigation rules.
+   
+-->
+
+<pageflow-definition 
+	xmlns="http://jboss.com/products/seam/pageflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-2.1.xsd"
+	name="numberGuess">
+   
+   <start-page name="displayGuess" view-id="/numberGuess.jspx">
+      <redirect/>
+      <transition name="guess" to="evaluateGuess">
+         <action expression="#{numberGuess.guess}"/>
+      </transition>
+      <transition name="giveup" to="giveup"/>
+      <transition name="cheat" to="cheat"/>
+   </start-page>
+   
+   <decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+      <transition name="true" to="win"/>
+      <transition name="false" to="evaluateRemainingGuesses"/>
+   </decision>
+   
+   <decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}">
+      <transition name="true" to="lose"/>
+      <transition name="false" to="displayGuess"/>
+   </decision>
+   
+   <page name="giveup" view-id="/giveup.jspx">
+      <redirect/>
+      <transition name="yes" to="lose"/>
+      <transition name="no" to="displayGuess"/>
+   </page>
+   
+   <process-state name="cheat">
+      <sub-process name="cheat"/>
+      <transition to="displayGuess"/>
+   </process-state>
+
+   <page name="win" view-id="/win.jspx">
+      <end-conversation/>
+      <redirect/>
+   </page>
+   
+   <page name="lose" view-id="/lose.jspx">
+      <end-conversation/>
+      <redirect/>
+   </page>
+   
+</pageflow-definition>

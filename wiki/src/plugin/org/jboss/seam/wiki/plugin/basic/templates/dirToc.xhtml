@@ -1,0 +1,78 @@
+<wiki:plugin
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{currentMacro.getCacheRegion('DirectoryToc')}"
+             key="#{currentMacro.cacheKey}">
+
+    <rich:tree switchType="client" styleClass="dirToc"
+               adviseNodeOpened="#{dirTocQuery.expandTocTree}">
+
+        <rich:treeNodesAdaptor
+                var="rootDoc"
+                nodes="#{dirTocQuery.getTocRoot(currentMacro).payload}"
+                includedNode="#{rootDoc.id != dirTocQuery.getTocRoot(currentMacro).wrappedNode.defaultFile.id or
+                                preferences.get('DirToc', currentMacro).showDefaultDocuments}">
+            <rich:treeNode>
+                <f:facet name="iconLeaf">
+                    <h:graphicImage value="#{imagePath}/icon.doc.gif" width="18" height="20"/>
+                </f:facet>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(doc)}">
+                    <h:outputText styleClass="tocDocumentLabel" value="#{doc.name}"/>
+                </h:outputLink>
+            </rich:treeNode>
+        </rich:treeNodesAdaptor>
+
+        <rich:recursiveTreeNodesAdaptor
+                var="tocDir"
+                roots="#{dirTocQuery.getTocRoot(currentMacro).wrappedChildren}"
+                nodes="#{tocDir.wrappedChildren}">
+
+            <rich:treeNode>
+                <f:facet name="icon">
+                    <h:graphicImage value="#{imagePath}/icon.dir.gif" width="18" height="20"/>
+                </f:facet>
+                <f:facet name="iconLeaf">
+                    <h:graphicImage value="#{imagePath}/icon.dir.gif" width="18" height="20"/>
+                </f:facet>
+                <s:span styleClass="undecoratedLink">
+                    <h:outputLink value="#{wikiURLRenderer.renderURL(tocDir.wrappedNode)}">
+                        <h:outputText styleClass="tocDirectoryLabel" value="#{tocDir.wrappedNode.name}"/>
+                    </h:outputLink>
+                </s:span>
+            </rich:treeNode>
+
+            <rich:treeNodesAdaptor var="doc" nodes="#{tocDir.payload}"
+                                   includedNode="#{doc.id != tocDir.wrappedNode.defaultFile.id or
+                                                   preferences.get('DirToc', currentMacro).showDefaultDocuments}">
+                <rich:treeNode>
+                    <f:facet name="iconLeaf">
+                        <h:graphicImage value="#{imagePath}/icon.doc.gif" width="18" height="20"/>
+                    </f:facet>
+                    <h:outputLink value="#{wikiURLRenderer.renderURL(doc)}">
+                        <h:outputText styleClass="tocDocumentLabel" value="#{doc.name}"/>
+                    </h:outputLink>
+                    <s:span styleClass="tocLastUpdatedLabel"
+                            rendered="#{preferences.get('DirToc', currentMacro).showLastUpdatedTimestamp and not empty doc.lastModifiedOn}">
+                        <h:outputText value="&#160;(#{messages['basic.dirToc.label.LastUpdated']}:&#160;"/>
+                        <h:outputText value="#{doc.lastModifiedOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                        <h:outputText value=")"/>
+                    </s:span>
+                </rich:treeNode>
+            </rich:treeNodesAdaptor>
+
+        </rich:recursiveTreeNodesAdaptor>
+    </rich:tree>
+
+    </s:cache>
+
+</wiki:plugin>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <WIKI_NODE
+        NODE_ID="20" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="20" NAME="Help" WIKINAME="Help"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="20" DESCRIPTION="Help documents" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="20" NS_RIGHT="29" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="21" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="20"
+        AREA_NR="20" NAME="Working with documents" WIKINAME="WorkingWithDocuments"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="21" DESCRIPTION="Creating and editing wiki documents" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="21" NS_RIGHT="22" NS_THREAD="1"/>
+
+
+    <WIKI_NODE
+        NODE_ID="22" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="21"
+        AREA_NR="20" NAME="Wiki Text Markup" WIKINAME="WikiTextMarkup"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-26 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_FILE
+        NODE_ID="22" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="22"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER="[NULL]" FOOTER="[NULL]"
+        CONTENT="Most content on this website (blogs, blog comments, wiki pages, user profiles) is rendered using the [Seam Text=>http://docs.jboss.com/seam/latest/reference/en/html/text.html] engine. If you are creating content, it helps to know a few simple tricks.&#xA;&#xA;++ Basic formatting&#xA;&#xA;You can emphasize words using *emphasis*, _underline_, ~strikeout~ or ^superscript^.&#xA;&#xA;`You can emphasize words using&#xA;*emphasis*, _underline_, ~strikeout~ or ^superscript^.`&#xA;&#xA;But if you really want to type a special character such as \* or \+, you need to escape it with a \\.&#xA;&#xA;`But if you really want to type a special character&#xA;such as \* or \+, you need to escape it with a \\.`&#xA;&#xA;Alternatively, you can use special characters freely inside |monospace text|.&#xA;&#xA;`Alternatively, you can use special characters freely&#xA;inside |monospace text|.`&#xA;&#xA;++ Block formatting&#xA;&#xA;Of course, you can also use &quot;inline quotes&quot;.&#xA;&#xA;&quot;And block quotes.&quot;&#xA;&#xA;And split text across several paragraphs.&#xA;&#xA;`Of course, you can also use &quot;inline quotes&quot;.&#xA;&#xA;&quot;And block quotes.&quot;&#xA;&#xA;And split text across several paragraphs.`&#xA;&#xA;You can create&#xA;&#xA;= unorderedlists&#xA;= of stuff&#xA;= like this&#xA;&#xA;or&#xA;&#xA;# numbered lists&#xA;# of other things&#xA;&#xA;`You can create&#xA;= unordered lists&#xA;= of stuff&#xA;= like this&#xA;&#xA;or&#xA;&#xA;# numbered lists&#xA;# of other things`&#xA;&#xA;++ Code Blocks&#xA;&#xA;A third option for embedding text that uses special characters is to use a code block, delimited by \`backticks\`. For example:&#xA;&#xA;&lt;pre>&#xA;\`&#xA;for (int i\=0; i\&lt;100; i\+\+) {&#xA;   log.info(\&quot;Hello world!\&quot;);&#xA;}&#xA;\`&#xA;&lt;/pre>&#xA;&#xA;+ Here is a first-level heading&#xA;&#xA;Here is a normal paragraph.&#xA;&#xA;++ Here is a second-level heading&#xA;&#xA;And another paragraph.&#xA;&#xA;`+ Here is a first-level heading&#xA;&#xA;Here is a normal paragraph.&#xA;&#xA;++ Here is a second-level heading&#xA;&#xA;And another paragraph.`&#xA;&#xA;++ Links&#xA;&#xA;The wiki has powerful handling for links.&#xA;&#xA;HTML links to [=>http://hibernate.org] or attach the link to [some link text=>http://hibernate.org].&#xA;My [e-mail address=>mailto:foo@bar.tld] will be automatically protected.&#xA;&#xA;`HTML links to [=>http://hibernate.org] or attach the&#xA;link to [some link text=>http://hibernate.org].&#xA;My [e-mail address=>mailto:foo@bar.tld] will be&#xA;automatically protected.`&#xA;&#xA;Internal wiki links simply use area and document/file names:&#xA;&#xA;= Link to  another document: \[\=\>My Document\] &#xA;= Link to another document with link text: \[A document\=\>My Document\]&#xA;= Link to another documents fragment: \[\=\>My Document\#My Headline\]&#xA;= Link to another document in another area: \[\=\>Another Area\|My Document\]&#xA;= Link to an uploaded file or image: \[\=\>My Upload\]&#xA;&#xA;You can even link to a [Hibernate JIRA issue=>hhh://2702], or a&#xA;[Seam JIRA issue=>jbseam://1920].&#xA;&#xA;`You can even link to a [Hibernate JIRA issue=>hhh://2702],&#xA;or a [Seam JIRA issue=>jbseam://1920].`&#xA;&#xA;++ Embedded HTML&#xA;&#xA;You can even use &lt;i>many&lt;/i> HTML tags directly, but &lt;b>not&lt;/b> tags that would create a security vulnerability!&#xA;&#xA;`You can even use &lt;i>many&lt;/i> HTML tags directly,&#xA;but &lt;b>not&lt;/b> tags that would create a&#xA;security vulnerability!`"/>
+
+
+    <WIKI_NODE
+        NODE_ID="23" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="20"
+        AREA_NR="20" NAME="Plugins" WIKINAME="Plugins"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="23" DESCRIPTION="The plugin system" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="23" NS_RIGHT="28" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="24" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="23"
+        AREA_NR="20" NAME="Using Plugins" WIKINAME="UsingPlugins"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="24" DESCRIPTION="How to use plugins" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="24" NS_RIGHT="25" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="25" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="23"
+        AREA_NR="20" NAME="Creating Plugins" WIKINAME="CreatingPlugins"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="25"  DESCRIPTION="How to write plugins" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="26" NS_RIGHT="27" NS_THREAD="1"/>
+
+
+</dataset>
+

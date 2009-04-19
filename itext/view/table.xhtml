@@ -1,0 +1,46 @@
+<document xmlns:ui="http://java.sun.com/jsf/facelets" 
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns="http://jboss.com/products/seam/pdf">
+
+    <image alignment="right" wrap="true" value="/jboss.jpg" /> 
+    <font size="24"><paragraph spacingAfter="50">Table Test</paragraph></font>  
+
+    <table columns="4">
+        <f:facet name="defaultCell">
+            <cell horizontalAlignment="center" verticalAlignment="middle" />
+        </f:facet>
+        <cell backgroundColor="yellow" colspan="2"><paragraph>cell 1</paragraph></cell>
+        <cell><paragraph>cell 2</paragraph></cell>
+        <cell><paragraph>cell 3</paragraph></cell>
+        <cell><paragraph>cell 4</paragraph></cell>
+        <cell backgroundColor="red" colspan="2"><paragraph>cell 5</paragraph></cell>
+        <cell><paragraph>cell 6</paragraph></cell>
+        <cell><paragraph>cell 7</paragraph></cell>
+        <cell><paragraph>cell 8</paragraph></cell>
+        <cell backgroundColor="green" colspan="2"><paragraph>cell 9</paragraph></cell>
+    </table>
+
+    <paragraph spacingBefore="10" spacingAfter="10">This is another table.  It should be large enough to span multiple pages with the headers repeated on other page</paragraph>
+
+
+    <table widths="1 4" columns="2" headerRows="1">
+        <cell grayFill=".3" paddingBottom="10" horizontalAlignment="center" colspan="2">
+            <font size="20"><paragraph alignment="center">This is a header</paragraph></font>
+        </cell>
+
+
+        <ui:repeat value="#{lists.numbers}" var="week">
+            <cell rotation="90" horizontalAlignment="center" verticalAlignment="middle" grayFill=".7">
+                <font size="30"><paragraph>Week #{week}</paragraph></font>
+            </cell>
+            <cell paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0">
+                <table widths="1.25 4" columns="2" widthPercentage="100">
+                    <ui:repeat value="#{lists.daysOfWeek}" var="day">
+                        <cell paddingBottom="6">#{day}</cell>
+                        <cell paddingBottom="6">Blah blah blah</cell>
+                    </ui:repeat>
+                </table>
+            </cell>
+        </ui:repeat>
+    </table>
+</document>

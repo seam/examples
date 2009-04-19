@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project name="Seam Metawidget Booking" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam Metawidget Booking Example"/>
+    <property name="example.name"           value="jboss-seam-metawidget-booking"/>
+
+    <property file="${basedir}/build.properties" />
+
+    <!-- Define location of merged source -->
+    <property name="staging.dir" value="${basedir}/staging"/>
+    <property name="src.java.dir" value="${staging.dir}/src"/>
+    <property name="src.test.dir" value="${src.java.dir}"/>
+    <property name="view.dir" value="${staging.dir}/view"/>
+    <property name="resources.dir" value="${staging.dir}/resources"/>
+    <property name="clean.extra" value="${staging.dir}"/>
+    
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib" value="yes"/>
+    <property name="seam.debug.lib" value="yes"/>
+    <property name="facelets.lib" value="yes"/>
+    <property name="richfaces.lib" value="yes"/>
+    <property name="metawidget-ear.lib" value="yes"/>
+    
+    <!-- Datasource -->
+    <property name="example.ds" value="jboss-seam-metawidget-booking-ds.xml"/>
+
+    <target name="init" depends="stage">
+        <antcall target="SeamExample.init"/>
+    </target>
+
+    <target name="stage">
+
+        <!-- Copy the original Seam booking example -->
+        <copy todir="${staging.dir}">
+            <fileset dir="${seam.dir}/examples/booking">
+                <include name="src/**"/>
+                <include name="view/**"/>
+                <include name="resources/**"/>
+            </fileset>
+        </copy>
+        
+        <!-- Copy metawidget example overrides -->
+        <copy todir="${staging.dir}" overwrite="true">
+            <fileset dir=".">
+                <include name="src/**"/>
+                <include name="view/**"/>
+                <include name="resources/**"/>
+            </fileset>
+        </copy>
+        
+        <move file="${resources.dir}/jboss-seam-booking-ds.xml" tofile="${resources.dir}/${example.ds}"/>
+    </target>
+    
+    <import file="${basedir}/../../build.xml"/>
+
+    <!-- Enable the following overrides if you want to use your own JAR metawidget JAR files -->
+    <!-- Don't forget to set <property name="metawidget-ear.lib" value="no" above -->
+    <!--
+    <path id="build.classpath.extras">
+        <fileset dir="${basedir}/..">
+            <include name="metawidget.jar"/>
+        </fileset>
+    </path>
+
+    <fileset id="ear.lib.extras" dir="${basedir}/..">
+        <include name="metawidget-backend.jar"/>
+    </fileset>
+
+    <fileset id="war.lib.extras" dir="${basedir}/..">
+        <include name="metawidget-frontend.jar"/>
+    </fileset>
+    -->
+
+</project>

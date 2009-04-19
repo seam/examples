@@ -1,0 +1,25 @@
+<div id="mainMenu"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="box"><div class="mainMenuContainer">
+
+        <div class="mainMenuHeader"><ui:insert name="mainMenuHeader">&#160;</ui:insert></div>
+
+        <s:cache region="#{menu.cacheRegion}" key="#{menu.cacheKey}">
+            <ui:include src="mainMenuItem.xhtml">
+                <ui:param name="node" value="#{menu.root}"/>
+            </ui:include>
+        </s:cache>
+
+        <div class="mainMenuFooter"><ui:insert name="mainMenuFooter">&#160;</ui:insert></div>
+
+    </div></s:div>
+
+
+</div>

@@ -1,0 +1,35 @@
+<wiki:plugin
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div id="flashVideoPluginDiv">
+
+    <s:div rendered="#{not empty preferences.get('FlashVideo', currentMacro).url and flash.isValidURL(preferences.get('FlashVideo', currentMacro))}"
+           style="width: #{preferences.get('FlashVideo', currentMacro).width}px; border: 1px solid grey;">
+        <object>
+            <embed src="#{contextPath}#{currentMacro.requestImagePath}/flashvideoplayer.swf?flv=#{preferences.get('FlashVideo', currentMacro).url}&amp;showopen=0&amp;showvolume=1&amp;showfullscreen=1&amp;showtime=2&amp;margin=0&amp;title=Click to play video...&amp;playeralpha=60&amp;showplayer=autohide&amp;playertimeout=5000&amp;width=#{preferences.get('FlashVideo', currentMacro).width}&amp;height=#{preferences.get('FlashVideo', currentMacro).height}"
+                   type="application/x-shockwave-flash"
+                   allowfullscreen="true"
+                   width="#{preferences.get('FlashVideo', currentMacro).width}"
+                   height="#{preferences.get('FlashVideo', currentMacro).height}"/>
+        </object>
+    </s:div>
+
+    <s:div rendered="#{empty preferences.get('FlashVideo', currentMacro).url}"
+           styleClass="flashURLNotSupplied">
+        <h:outputText value="#{messages['basic.flash.msg.URLNotSupplied']}"/>
+    </s:div>
+
+    <s:div rendered="#{not empty preferences.get('FlashVideo', currentMacro).url and
+                       not flash.isValidURL(preferences.get('FlashVideo', currentMacro))}"
+           styleClass="flashURLNotAllowed">
+        <h:outputText value="#{messages['basic.flash.msg.URLNotAllowed']}"/>
+    </s:div>
+
+</s:div>
+
+</wiki:plugin>

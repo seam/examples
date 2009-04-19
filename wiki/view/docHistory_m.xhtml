@@ -1,0 +1,97 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
+</ui:define>
+
+<ui:define name="control">
+    <s:link id="close" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+</ui:define>
+
+<ui:define name="content">
+
+<h:form rendered="#{historicalFileList.rowCount >0}" styleClass="box">
+
+    <div>#{messages['lacewiki.label.docHistory.CurrentRevision']}:&#160;<h:outputText value="#{documentHistory.currentFile.revision}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.Parent']}:&#160;<h:outputText value="#{documentHistory.currentFile.parent.name}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.CreatedOn']}:&#160;
+        <h:outputText value="#{documentHistory.currentFile.createdOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+        </h:outputText>
+        (#{documentHistory.currentFile.createdBy.username})
+    </div>
+    <div>#{messages['lacewiki.label.docHistory.LastModifiedOn']}:&#160;
+        <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+        </h:outputText>
+        (#{documentHistory.currentFile.lastModifiedBy.username})
+    </div>
+    <div>#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
+
+    <h:dataTable id="historyTable" var="hnode"
+                 value="#{historicalFileList}"
+                 rowClasses="rowEven, rowOdd"
+                 cellpadding="5" cellspacing="0" border="1">
+
+        <h:column>
+            #{hnode.revision}
+        </h:column>
+
+        <h:column>
+            <h:outputText value="#{hnode.lastModifiedOn}">
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+            </h:outputText>
+            <h:outputText value="&#160;(#{hnode.lastModifiedByUsername})" rendered="#{!empty hnode.lastModifiedByUsername}"/>
+            <h:outputText value="&#160;(unknown)" rendered="#{empty hnode.lastModifiedByUsername}"/>
+        </h:column>
+
+        <h:column>
+            <h:commandButton action="#{documentHistory.displayHistoricalRevision}"
+                             value="#{messages['lacewiki.button.Show']}"/>
+        </h:column>
+        <h:column>
+            <h:commandButton action="#{documentHistory.rollback}"
+                             value="#{messages['lacewiki.button.Rollback']}"
+                             rendered="#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}"/>
+        </h:column>
+
+    </h:dataTable>
+
+    <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" styleClass="formControls">
+        <h:commandButton id="purge" action="#{documentHistory.purgeHistory}"
+                         value="#{messages['lacewiki.button.PurgeHistory']}"/>
+    </s:div>
+
+</h:form>
+
+<br/>
+
+<s:div id="historicalPreview">
+    <s:div id="documentDisplayContainer"
+           rendered="#{not empty documentHistory.displayedHistoricalFile}">
+        <s:div id="documentDisplay" styleClass="documentDisplay">
+            <wiki:formattedText value="#{documentHistory.displayedHistoricalFile.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{documentHistory.currentFile}"
+                                currentAreaNumber="#{documentHistory.currentFile.parent.areaNumber}"
+                                enableMacroRendering="false"/>
+        </s:div>
+    </s:div>
+</s:div>
+</ui:define>
+
+</ui:composition>

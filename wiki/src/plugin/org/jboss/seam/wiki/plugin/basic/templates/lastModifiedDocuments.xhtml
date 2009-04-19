@@ -1,0 +1,70 @@
+<wiki:plugin
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:cache region="#{currentMacro.getCacheRegion('LastModifiedDocumentList')}"
+         key="#{currentMacro.cacheKey}">
+
+    <s:div styleClass="box lastModifiedDocuments">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{preferences.get('LastModifiedDocuments', currentMacro).title}"/>
+        </s:div>
+
+        <div class="boxContent">
+
+            <h:dataTable value="#{lastModifiedDocuments.getListOfDocuments(preferences.get('LastModifiedDocuments', currentMacro))}"
+                         var="doc"
+                         styleClass="datatable lastModifiedDocumentsTable"
+                         columnClasses="defaultColumn alignLeft lastModifiedColumn"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+                <h:column>
+                    
+                    <s:div styleClass="lastModifiedAuthorDate smallFont">
+
+                        <s:fragment rendered="#{preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
+
+                            (<s:span styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(doc.lastModifiedBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(doc.lastModifiedBy)}">
+                                    <h:outputText value="#{doc.lastModifiedBy.fullname}"/>
+                                </h:outputLink>
+                            </s:span>
+                            <s:span rendered="#{not wiki:isRegularUser(doc.lastModifiedBy)}">
+                                <h:outputText value="#{doc.lastModifiedBy.username}"/>
+                            </s:span>)
+
+                            <h:outputText value="&#160;"/>
+                        </s:fragment>
+
+                        <h:outputText value="#{doc.lastModifiedOn}"
+                                      rendered="#{!empty doc.lastModifiedOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+
+                    </s:div>
+
+                    <s:div styleClass="lastModifiedTitle wrapWhitespace">
+                        <h:outputLink target="_top" value="#{wikiURLRenderer.renderURL(doc)}" styleClass="lastModifiedLink">
+                            <h:outputText value="#{wiki:truncateString(doc.name, preferences.get('LastModifiedDocuments', currentMacro).documentTitleLength, '...')}"/>
+                        </h:outputLink>
+                    </s:div>
+
+                </h:column>
+            </h:dataTable>
+
+        </div>
+        
+        <div class="boxFooter"/>
+
+    </s:div>
+
+</s:cache>
+
+</wiki:plugin>

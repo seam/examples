@@ -1,0 +1,424 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad">
+	<rich:modalPanel id="creating" width="450" height="250">
+		<f:facet name="header">
+			Creating SeamDiscs
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('creating')">X</a>
+	    </f:facet>
+    	<p>This example was built using seam-gen.  To add in Trinidad, the trinidad-api jar was added to 
+    	the ear (and referenced from <a href="javascript:Richfaces.showModalPanel('applicationxml')">
+    	<code>application.xml</code></a>) and the trinidad-impl jar, <code>jboss-seam-trinidad.jar</code> 
+    	(Seam-Trinidad integration) &amp; <code>a4j-trinidad.jar</code> (RichFaces Ajax-Trinidad integration) 
+    	were added to <code>WEB-INF/lib</code>.</p>
+    	
+    	<p>A few alterations were needed in <a href="javascript:Richfaces.showModalPanel('webxml')">
+    	<code>web.xml</code></a> and <a href="javascript:Richfaces.showModalPanel('facesconfigxml')">
+    	<code>faces-config.xml</code></a>.</p>
+    	
+    	<p>The <code>trinidad-config.xml</code> file was used to disable client-side validation for a
+    	more consistent user experience.</p>
+    	
+    	<p>Of course Trinidad and RichFaces offer some complementary components (e.g. tables, trees) 
+    	- it's up to you which you choose!</p>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="webxml" width="450" height="500" left="50">
+    	<f:facet name="header">
+			<code>web.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('webxml')">X</a>
+	    </f:facet>
+    		<pre style="height: 420px;" class="source-code"><code>
+&lt;context-param&gt;
+   &lt;param-name&gt;
+      org.apache.myfaces.trinidad.ALTERNATE_VIEW_HANDLER
+   &lt;/param-name&gt;
+   &lt;param-value&gt;
+      com.sun.facelets.FaceletViewHandler
+   &lt;/param-value&gt;
+&lt;/context-param&gt; 
+    
+&lt;filter&gt;
+   &lt;filter-name&gt;Trinidad&lt;/filter-name&gt;
+   &lt;filter-class&gt;
+      org.apache.myfaces.trinidad.webapp.TrinidadFilter
+   &lt;/filter-class&gt;
+&lt;/filter&gt;
+    
+&lt;filter-mapping&gt;
+   &lt;filter-name&gt;Trinidad&lt;/filter-name&gt;
+   &lt;url-pattern&gt;*.seam&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+    
+&lt;servlet&gt;
+   &lt;servlet-name&gt;Trinidad Resources&lt;/servlet-name&gt;
+   &lt;servlet-class&gt;
+      org.apache.myfaces.trinidad.webapp.ResourceServlet
+   &lt;/servlet-class&gt;
+&lt;/servlet&gt;
+    
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Trinidad Resources&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;/adf/*&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="facesconfigxml" width="450" height="300" left="50">
+    	<f:facet name="header">
+			<code>faces-config.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('facesconfigxml')">X</a>
+	    </f:facet>
+    	<pre class="source-code"><code>
+&lt;application&gt;    
+   &lt;!-- Disabled when using RichFaces or Trinidad --&gt;
+   &lt;!--
+   &lt;view-handler&gt;
+      com.sun.facelets.FaceletViewHandler
+   &lt;/view-handler&gt;
+   --&gt;
+   &lt;!-- Enable Trinidad renderkit --&gt;
+   &lt;default-render-kit-id&gt;
+      org.apache.myfaces.trinidad.core
+   &lt;/default-render-kit-id&gt;
+&lt;/application&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="applicationxml" width="450" height="200" left="50">
+    	<f:facet name="header">
+			<code>application.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('applicationxml')">X</a>
+	    </f:facet>
+    	<pre class="source-code"><code>
+&lt;module&gt;
+   &lt;java&gt;trinidad-api-1.0.0-incubating.jar&lt;/java&gt;
+&lt;/module&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="ajax" width="450" height="370">
+		<f:facet name="header">
+			RichFaces Ajax and Trinidad
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('ajax')">X</a>
+	    </f:facet>
+    	<p>Trinidad and RichFaces Ajax both provide partial page refresh and submit.</p>
+        <p>
+          If you want to use RichFaces' partial page refresh with Trinidad
+          components then you'll need to disable Trinidad's compressed style 
+          keys:
+        </p>
+        <pre class="source-code"><code>&lt;context-param&gt;
+   &lt;param-name&gt;
+      org.apache.myfaces.trinidadinternal.DISABLE_CONTENT_COMPRESSION
+   &lt;/param-name&gt;
+   &lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/context-param&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="inplace" width="450" height="300">
+		<f:facet name="header">
+			Inplace editing
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('inplace')">X</a>
+	    </f:facet>
+    	<p>The example also shows how you can use Trinidad components to achieve "in-place" editing - the same views are used to display and edit
+    	informtation.  A casual visitor to the site navigates around, and see's the components in read only mode;  once logged in,
+    	these components are editable, and button's are rendered to submit information.</p>
+    	
+    	<pre class="source-code"><code>
+&lt;tr:inputText 
+   label=&quot;Artist&quot; 
+   value=&quot;#<span>{artist.name}</span>&quot; 
+   readOnly=&quot;#<span>{not identity.loggedIn}</span>&quot; 
+   required=&quot;true&quot; 
+   autoSubmit=&quot;true&quot;/&gt;</code></pre>
+    	
+    	<p>Trinidad makes it easy by providing a <code>readOnly</code> attribute for components - but you could easily achieve the 
+    	same using Seam's <code>&lt;s:decorate /&gt;</code> tag.</p>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="framework" width="450" height="250">
+		<f:facet name="header">
+			Seam Application Framework
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('framework')">X</a>
+	    </f:facet>
+    	<p>The example uses the Seam Application Framework. Where possible XML is used, 
+    	using extension only where extra functionality is needed.</p>
+    	
+    	<p>An <a href="javascript:Richfaces.showModalPanel('componentsxml')"><code>EntityHome</code></a> 
+    	and is used for each CRUD, and an 
+    	<a href="javascript:Richfaces.showModalPanel('componentsxml')"><code>EntityQuery</code></a> 
+    	for clickable lists.</p>
+    	
+    	<p>If you extend <code>EntityHome</code> you can make the component an
+    	EJB3 stateful session bean by adding <code>@Stateful</code> and a local
+    	interface. You'll need to declare methods like <code>persist()</code>
+    	and <code>isManaged()</code> from <code>EntityHome</code> on the
+    	interface.  The <code>ArtistHome</code> is a stateful session bean in
+    	this example.</p>
+    	
+    	<p>Each item in the list can be clicked - an <code>&lt;s:link /&gt;</code> and an
+    	<code>&lt;f:param /&gt;</code> is used to <a href="javascript:Richfaces.showModalPanel('clickablelist')">link</a> 
+    	to the detail view.  It's wired using <a href="javascript:Richfaces.showModalPanel('clickablelist')"><code>pages.xml</code></a>.
+    	</p>
+    	
+    	<p>The CRUD page uses the <code>EntityHome</code> object to <a href="javascript:Richfaces.showModalPanel('crud')">create, update or
+    	delete</a> the entity as necessary. <a href="javascript:Richfaces.showModalPanel('crud')"><code>pages.xml</code></a> 
+    	is used to direct the user back to the list view.</p>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="clickablelist" width="450" height="350" left="50">
+		<f:facet name="header">
+			<code>Clickable lists</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('clickablelist')">X</a>
+	    </f:facet>
+		<pre class="source-code"><code>
+&lt;s:link action=&quot;artist&quot;&gt;
+    &lt;tr:outputText value=&quot;#<span>{artist.name}</span>&quot; /&gt;
+    &lt;f:param name=&quot;artistId&quot; value=&quot;#<span>{artist.id}</span>&quot; /&gt;
+&lt;/s:link&gt;</code></pre>
+
+		<pre class="source-code"><code>
+&lt;page&gt;
+   &lt;param name=&quot;artistId&quot; value=&quot;#<span>{artistHome.id}</span>&quot;
+      converterId=&quot;javax.faces.Integer&quot;/&gt;
+   &lt;navigation&gt;
+      &lt;rule if-outcome=&quot;artist&quot;&gt;
+         &lt;begin-conversation flush-mode=&quot;manual&quot;/&gt; 
+         &lt;redirect view-id=&quot;/artist.xhtml&quot;/&gt;    
+      &lt;/rule&gt;
+   &lt;/navigation&gt;
+&lt;/page&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="componentsxml" width="450" height="330" left="50">
+		<f:facet name="header">
+			<code>components.xml</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('componentsxml')">X</a>
+	    </f:facet>
+    
+    	<pre class="source-code"><code>
+&lt;framework:entity-home 
+   entity-class=&quot;org.jboss.seam.example.seamdiscs.model.Disc&quot; 
+   name=&quot;discHome&quot;/&gt;
+&lt;factory 
+   name=&quot;disc&quot; 
+   value=&quot;#<span>{discHome.instance}</span>&quot;/&gt;</code></pre>
+
+		<pre class="source-code"><code>
+&lt;framework:entity-query 
+   name=&quot;discs&quot; 
+   ejbql=&quot;select disc from Disc disc&quot; 
+   order=&quot;disc.name ASC&quot; 
+   max-results=&quot;5&quot;/&gt;</code></pre>
+    
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="crud" width="450" height="480" left="50">
+		<f:facet name="header">
+			<code>CRUD</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('crud')">X</a>
+	    </f:facet>
+	    
+	    <pre class="source-code"><code>
+&lt;h:commandButton action=&quot;#<span>{artistHome.update}</span>&quot; 
+   value=&quot;Save&quot; rendered=&quot;#<span>{artistHome.managed}</span>&quot; /&gt;
+&lt;h:commandButton action=&quot;#<span>{artistHome.persist}</span>&quot;
+   value=&quot;Save&quot; rendered=&quot;#<span>{not artistHome.managed}</span>&quot; /&gt;
+&lt;s:button action=&quot;cancel&quot; value=&quot;Cancel&quot; /&gt;</code></pre>
+
+		<pre class="source-code"><code>
+&lt;page&gt;
+   &lt;param name=&quot;artistId&quot; value=&quot;#<span>{artistHome.id}</span>&quot; 
+      converterId=&quot;javax.faces.Integer&quot;/&gt; 
+   &lt;navigation&gt;
+      &lt;rule if-outcome=&quot;cancel&quot;&gt;
+         &lt;end-conversation/&gt;
+         &lt;redirect view-id=&quot;/artists.xhtml&quot; /&gt;
+      &lt;/rule&gt;
+      &lt;rule if-outcome=&quot;updated&quot;&gt;
+         &lt;end-conversation/&gt;
+         &lt;redirect view-id=&quot;/artists.xhtml&quot; /&gt;
+      &lt;/rule&gt;
+      &lt;rule if-outcome=&quot;persisted&quot;&gt;
+         &lt;end-conversation/&gt;
+         &lt;redirect view-id=&quot;/artists.xhtml&quot; /&gt;
+      &lt;/rule&gt;
+   &lt;/navigation&gt;
+&lt;/page&gt;</code></pre>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="tree" width="450" height="250">
+		<f:facet name="header">
+			Using Trinidad's Tree
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('tree')">X</a>
+	    </f:facet>
+		<p>It's been said that the quality of a tree component is an indication of
+		the quality of a component set.  Trinidad has a really robust tree component,
+		 - but it's <code>TreeModel</code> can be a bit confusing.  Luckily it provides
+		 a good default implementation - the <code>ChildPropertyTreeModel</code>.</p>
+		 
+		 <p>The <code>ChildPropertyTreeModel</code> takes two parameters - the <code>Collection</code>
+		 to use for the tree's nodes, and a <code>String</code> property which specifies
+		 the field or get/set pair to use for accessing each elements child.  If the property
+		 returns <code>null</code>, then the node is a leaf-node.</p>
+		 
+		 <p>The example uses a slightly modified 
+		 <a href="javascript:Richfaces.showModalPanel('treecode')"><code>ChildPropertyTreeModel</code></a>
+		  - one that says discs are the leaves of the tree.  
+		  <a href="javascript:Richfaces.showModalPanel('treecode')">Different labels</a> are
+		  rendered depending on the type of node.
+		 </p>
+		 
+    </rich:modalPanel>
+
+    <rich:modalPanel id="treecode" width="450" height="500" left="50">
+		<f:facet name="header">
+			<code>Tree</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('treecode')">X</a>
+	    </f:facet>
+	    
+	    <pre class="source-code"><code>
+public TreeModel getTree() {
+   return new ChildPropertyTreeModel(artists, &quot;discs&quot;) {
+      protected Object getChildData(Object parentData) {
+         if (parentData instanceof Artist) {
+            return super.getChildData(parentData);
+         } else {
+            return null;
+         }
+      }
+   };
+}</code></pre>
+    
+    	<pre class="source-code"><code>
+&lt;tr:tree value=&quot;#<span>{artistHome.tree}</span>&quot; var=&quot;var&quot;&gt;
+   &lt;f:facet name=&quot;nodeStamp&quot;&gt;
+      &lt;ui:fragment&gt;
+         &lt;s:link 
+               action=&quot;artist&quot; 
+               rendered=&quot;#<span>{var.class.simpleName eq 'Artist'
+                  or var.class.simpleName eq 'Band'}</span>&quot;&gt;
+            &lt;tr:outputText value=&quot;#<span>{var.name}</span>&quot; /&gt;
+            &lt;f:param name=&quot;artistId&quot; value=&quot;#<span>{var.id}</span>&quot; /&gt;
+         &lt;/s:link&gt;
+      &lt;/ui:fragment&gt;
+   &lt;/f:facet&gt;
+&lt;/tr:tree&gt;</code></pre>
+    
+    </rich:modalPanel>
+    
+        <rich:modalPanel id="skinning" width="450" height="180">
+		<f:facet name="header">
+			Look and Feel
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('skinning')">X</a>
+	    </f:facet>
+    	<p>Both Trinidad and RichFaces have powerful and mature skinning/theming APIs
+    	 - so you all you need to do is write some CSS!  For seamdiscs, we took a RichFaces
+    	 skin, and adjusted the trinidad skin to fit with it.  To do this, we added
+    	 the skin to <code>trinidad-skins.xml</code>, and told Trinidad to use it in
+    	 <code>trinidad-config.xml</code>.  You can find more information about Trinidad
+    	 skinning on the Trinidad wiki.</p>
+    	<p>You'll notice that Trinidad and RichFaces components don't provide
+    	 a consistent look-and-feel out of the box - there are plans afoot to improve this!</p>
+    </rich:modalPanel>
+    
+    <rich:modalPanel id="datamodel" width="450" height="500">
+		<f:facet name="header">
+			Enhanced <code>DataModel</code>
+		</f:facet>
+		<f:facet name="controls">
+	        <a href="javascript:Richfaces.hideModalPanel('datamodel')">X</a>
+	    </f:facet>
+    	<p>JSF component sets like Trinidad, Tomahawk and IceFaces give you an enhanced 
+    	<code>h:dataTable</code> which has built-in sorting, paging and other goodies. 
+    	However, there is one big flaw - the entire data set is loaded and sorted/paged 
+    	in memory, when really you want to get your persistence layer (be it an ORM or 
+    	just a database) to do this for - a sort translates naturally to an <code>ORDER BY</code>,
+    	and paging translates naturally to a <code>LIMIT</code> clauses.</p>
+
+		<p>Seam on the other hand provides tight integration to your persistence layer, 
+		and supports paging and sorting of queries through the <code>Query</code> 
+		object in the Seam Application Framework - but you have to write a load more JSF 
+		to get it integrated.  We can get the best of both worlds by using the enhanced 
+		<code>DataModel</code> in Trinidad, which supports paging and sorting backed by 
+		a <code>Query</code>.</p>
+
+		<p>The <code>jboss-seam-trinidad.jar</code> (built using the build file in the 
+		<code>trinidad</code> directory in Seam CVS) provides a <code>DataModel</code> 
+		which, when backed by a <code>Query</code>, provides lazy loading of data for 
+		paging, sorting in the persistence context and strong row keys.  You can use 
+		it by adding the <code>jboss-seam-trinidad.jar</code> to your <code>WEB-INF/lib</code> 
+		- no need to alter your facelet.  One caveat is that you must ensure the rows property 
+		on the <code>Query</code> is the same as the <code>maxResults</code> property on 
+		the <code>Query</code>.  Take a look at the seamdiscs example in the 
+		<code>trinidad/examples</code> directory to see it in action.</p>
+		<pre class="source-code"><code>
+&lt;tr:table 
+      value=&quot;#<span>{discs.dataModel}</span>&quot; 
+      rows=&quot;#<span>{discs.maxResults}</span>&quot;&gt;
+   &lt;tr:column&gt;
+      ...
+   &lt;/tr:column
+&lt;/tr:table&gt;</code></pre>
+    </rich:modalPanel>
+
+	<rich:toolBar itemSeparator="square">
+		<rich:toolBarGroup>
+			Powered by <a href="http://labs.jboss.com/jbossseam">Seam</a>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup itemSeparator="square">
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('creating')">Creating SeamDiscs</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('ajax')">RichFaces Ajax and Trinidad</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('inplace')">Inplace Editing</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('framework')">Seam Application Framework</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('skinning')">Look and Feel</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('datamodel')">Enhanced DataModel</a>
+			</s:fragment>
+			<s:fragment>
+				<a href="javascript:Richfaces.showModalPanel('tree')">Tree Component</a>
+			</s:fragment>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup location="right">
+			Generated by seam-gen.
+		</rich:toolBarGroup>
+	</rich:toolBar>
+</ui:composition>

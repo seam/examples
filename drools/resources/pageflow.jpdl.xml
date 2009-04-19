@@ -1,0 +1,45 @@
+<!-- 
+
+   An example of pageflow integrated with rules
+   
+-->
+
+<pageflow-definition	
+	xmlns="http://jboss.com/products/seam/pageflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-2.1.xsd" 
+	name="numberGuess">
+   
+   <start-page name="displayGuess" view-id="/numberGuess.jsp">
+      <redirect/>
+      <transition name="guess" to="drools"/>
+   </start-page>
+  
+   <decision name="drools">
+
+      <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
+         <workingMemoryName>workingMemory</workingMemoryName>
+         <assertObjects>
+            <element>#{game}</element>
+            <element>#{guess}</element>
+         </assertObjects>
+      </handler>
+
+      <transition to="displayGuess"/>
+      <transition name="lose" to="lose"/>
+      <transition name="win" to="win"/>
+      
+   </decision>
+   
+   <page name="win" view-id="/win.jsp">
+   	  <end-conversation />
+      <redirect/>
+   </page>
+   
+   <page name="lose" view-id="/lose.jsp">
+      <end-conversation />
+      <redirect/>
+   </page>
+   
+</pageflow-definition>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+
+       no-conversation-view-id="/home.xhtml"
+       login-view-id="/login.xhtml">
+       
+    <conversation name="PlaceBid"
+                  parameter-name="auctionId"
+                  parameter-value="#{auction.auctionId}"/>
+
+    <page view-id="/search.xhtml">
+        <param name="categoryId" value="#{auctionSearch.selectedCategoryId}"/>
+    </page>
+
+    <page view-id="/home.xhtml">
+        <navigation from-action="#{register.start}">
+          <redirect view-id="/register.xhtml"/>
+        </navigation>
+
+        <navigation from-action="#{auctionSearch.queryAuctions}">
+            <redirect view-id="/search.xhtml"/>
+        </navigation>
+    </page>
+
+    <page view-id="/auction.xhtml">
+        <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+        
+        <navigation from-action="#{bidAction.placeBid}">
+          <redirect view-id="/bid.xhtml"/>
+        </navigation>
+    </page>
+    
+    <page view-id="/bidhistory.xhtml">
+        <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+    </page>
+    
+    <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
+        <navigation from-action="#{bidAction.confirmBid}">        
+            <rule if-outcome="success">
+                <redirect view-id="/auction.xhtml">
+                    <param name="id" value="#{bidAction.bid.auction.auctionId}"/>
+                </redirect>
+            </rule>        
+        </navigation>
+    </page>
+
+    <page view-id="/buy.xhtml">
+        <navigation from-action="#{auctionSearch.queryAuctions}">
+            <redirect view-id="/search.xhtml"/>
+        </navigation>
+    </page>
+
+    <page view-id="/sell.xhtml" login-required="true"
+          action="#{auctionAction.createAuction}">
+        <navigation from-action="next">
+            <redirect view-id="/sell2.xhtml"/>
+        </navigation>
+
+        <navigation from-action="#{identity.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
+    </page>
+
+    <page view-id="/sell2.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/sell3.xhtml"/>
+        </navigation>
+    </page>
+
+    <page view-id="/sell3.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell2.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/sell4.xhtml"/>
+        </navigation>
+    </page>
+    
+    <page view-id="/sell4.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell3.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/sell5.xhtml"/>
+        </navigation>
+    </page>    
+    
+    <page view-id="/sell5.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell4.xhtml"/>
+        </navigation>
+
+        <navigation from-action="next">
+            <redirect view-id="/preview.xhtml"/>
+        </navigation>
+    </page>     
+    
+    <page view-id="/preview.xhtml" login-required="true" conversation-required="true">
+        <navigation from-action="previous">
+            <redirect view-id="/sell5.xhtml"/>
+        </navigation>
+    </page>         
+
+    <page view-id="/feedback.xhtml">
+        <param name="member" value="#{memberAction.memberName}"/>
+    </page>
+
+    <page view-id="/login.xhtml">
+        <navigation from-action="#{identity.login}">
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/register.xhtml" action="#{registerAction.newRegistration}">
+        <navigation from-action="#{registerAction.register}">
+            <rule if="#{identity.loggedIn}">
+                <redirect view-id="/home.xhtml"/>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="*">
+        <navigation from-action="#{auctionSearch.queryAllAuctions}">
+            <redirect view-id="/search.xhtml"/>
+        </navigation>
+        
+        <navigation from-action="#{identity.logout}">
+            <redirect view-id="/home.xhtml"/>
+        </navigation>
+    </page>
+
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/login.xhtml"/>
+    </exception>
+
+    <exception class="org.jboss.seam.security.AuthorizationException">
+        <end-conversation/>
+        <redirect view-id="/security_error.xhtml">
+            <message severity="error">You do not have permission to do this</message>
+        </redirect>
+    </exception>
+
+</pages>

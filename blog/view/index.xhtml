@@ -1,0 +1,41 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                template="#{theme.template}">
+
+<ui:define name="content">
+   <s:cache key="index" region="pageFragments">
+      <h:dataTable id="entryTable" value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
+         <h:column>
+            <div class="blogEntry">
+               <h3><h:outputText id="title" value="#{blogEntry.title}" /></h3>
+               <div>
+                  <s:formattedText id="excerpt" value="#{blogEntry.excerpt==null ? blogEntry.body : blogEntry.excerpt}"/>
+               </div>
+               <p>
+                  <s:link id="link" view="/entry.xhtml" rendered="#{blogEntry.excerpt!=null}" propagation="none"
+                      value="Read more...">
+                     <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+                  </s:link>
+               </p>
+               <p>
+                  [Posted on&#160;
+                  <h:outputText value="#{blogEntry.date}">
+                      <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+                  </h:outputText>]
+                  &#160;
+                  <s:link view="/entry.xhtml" propagation="none" value="[Link]">
+                     <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+                  </s:link>
+               </p>
+            </div>
+         </h:column>
+      </h:dataTable>
+   </s:cache>
+</ui:define>
+
+</ui:composition>

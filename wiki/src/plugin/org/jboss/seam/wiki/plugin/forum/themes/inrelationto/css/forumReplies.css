@@ -1,0 +1,24 @@
+#forumRepliesPlugin\:forumRepliesContainer .commentsDisplay {
+    margin-top: 15px;
+}
+
+#forumRepliesPlugin\:forumRepliesContainer .commentsDisplay .boxShadowed {
+    padding-bottom: 15px;
+}
+
+.forumReplyControls {
+    width: 100%;
+}
+
+.forumReplyRating {
+    text-align: left;
+}
+
+.forumReplyStatus {
+    text-align: right;
+}
+
+.forumReplyControl {
+    text-align: right;
+    width: 200px;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.search.Search']}: #{wikiSearch.simpleQuery}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form id="searchForm" styleClass="box">
+        <s:div styleClass="form" id="searchControl">
+
+            <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+            <a:region>
+
+            <h:panelGrid columns="5"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder"
+                         columnClasses="formFields minorPadding, formFields minorPadding,
+                                        formFields minorPadding, formFields minorPadding,
+                                        defaultColumn alignCenter rightBorder formFields"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <f:facet name="header">
+                    <h:outputText value="#{messages['lacewiki.label.search.Search']}"/>
+                </f:facet>
+
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <h:outputText styleClass="label" value="In:&#160;"/>
+                    <h:selectOneMenu value="#{wikiSearch.selectedSearchableEntity}" tabindex="1" styleClass="ajaxSupport">
+                        <s:selectItems value="#{searchRegistry.searchableEntities}"
+                                       var="se"
+                                       label="#{se.description}"
+                                       noSelectionLabel="#{messages['lacewiki.label.search.All']}"/>
+                        <a:support status="globalStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                                   action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+
+                <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Terms']}:&#160;"/>
+                    <h:inputText value="#{wikiSearch.simpleQuery}" size="25" maxlength="1000" tabindex="1"/>
+                </h:panelGrid>
+                <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
+
+                <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
+                    <h:selectBooleanCheckbox value="#{wikiSearch.simpleQueryMatchExactPhrase}" tabindex="1"/>
+                    <h:outputText styleClass="label" style="white-space:nowrap;" value="&#160;#{messages['lacewiki.label.search.ExactPhrase']}"/>
+                </h:panelGrid>
+                <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
+
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Results']}:&#160;"/>
+                    <h:selectOneMenu value="#{wikiSearch.pageSize}" id="pageSize" tabindex="1" styleClass="ajaxSupport">
+                        <f:selectItem itemLabel="5" itemValue="5"/>
+                        <f:selectItem itemLabel="15" itemValue="15"/>
+                        <f:selectItem itemLabel="50" itemValue="50"/>
+                        <a:support status="globalStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                                   action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+
+                <a:commandButton id="find" styleClass="commandButtonNonpersistent sessionEventTrigger"
+                               reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
+                               status="globalStatus"
+                               action="#{wikiSearch.search()}"
+                               oncomplete="onAjaxRequestComplete()"
+                               tabindex="1"
+                               value="#{messages['lacewiki.button.search.Find']}">
+                    <s:defaultAction/>
+                </a:commandButton>
+
+            </h:panelGrid>
+
+            <s:div id="searchOptions">
+
+                <s:div rendered="#{!empty wikiSearch.selectedSearchableEntity}">
+
+                    <h:dataTable id="searchOptionsTable"
+                                 rendered="#{not empty wikiSearch.selectedSearchableEntity}"
+                                 var="search"
+                                 value="#{wikiSearch.searches[wikiSearch.selectedSearchableEntity]}"
+                                 styleClass="datatable topBorder topLeftBottomBorder"
+                                 columnClasses="tenPercentColumn alignLeft formFields, defaultColumn alignLeft formFields rightBorder"
+                                 cellpadding="0" cellspacing="0" border="0">
+
+                        <h:column>
+                            <h:outputText styleClass="label" value="#{search.property.description}:"/>
+                        </h:column>
+
+                        <h:column>
+
+                            <h:panelGrid columns="5" rendered="#{search.property.type == 'PHRASE'}">
+                                <h:inputText value="#{search.terms['include']}" size="32" tabindex="1"/>
+                                <h:outputText styleClass="label" value="&#160;#{messages['lacewiki.label.search.Exclude']}:&#160;"/>
+                                <h:inputText value="#{search.terms['exclude']}" size="32" tabindex="1"/>
+                                <h:selectBooleanCheckbox value="#{search.terms['matchExactPhrase']}" tabindex="1"/>
+                                <h:outputText styleClass="label" value="&#160;#{messages['lacewiki.label.search.ExactPhrase']}"/>
+                            </h:panelGrid>
+
+                            <s:div rendered="#{search.property.type == 'PASTDATE'}">
+                                <h:selectOneMenu value="#{search.terms['numOfDays']}" tabindex="1">
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.AtAnyTime']}" itemValue=""/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last7Days']}" itemValue="7"/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last30Days']}" itemValue="30"/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last6Months']}" itemValue="180"/>
+                                </h:selectOneMenu>
+                            </s:div>
+
+                            <h:panelGrid columns="5" rendered="#{search.property.type == 'STRING'}">
+                                <h:inputText value="#{search.terms['include']}" size="32" tabindex="1"/>
+                            </h:panelGrid>
+
+                        </h:column>
+
+                    </h:dataTable>
+                </s:div>
+
+            </s:div>
+
+            </a:region>
+        </s:div>
+
+        <s:div id="searchPager">
+            <h:panelGrid columns="5" styleClass="pager pagerTop"
+                         columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                         cellpadding="0" cellspacing="0" border="0"
+                         rendered="#{wikiSearch.totalCount > 0}">
+
+                <h:commandLink action="#{wikiSearch.firstPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!wikiSearch.previousPageAvailable}"/>
+
+                <h:commandLink action="#{wikiSearch.previousPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!wikiSearch.previousPageAvailable}"/>
+
+                <h:outputText value="#{wikiSearch.firstRow} #{messages['lacewiki.label.search.To']}
+                                     #{wikiSearch.lastRow} #{messages['lacewiki.label.search.Of']}
+                                     #{wikiSearch.totalCount} #{messages['lacewiki.label.search.Hits']}"/>
+
+                <h:commandLink action="#{wikiSearch.nextPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!wikiSearch.nextPageAvailable}"/>
+
+                <h:commandLink action="#{wikiSearch.lastPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!wikiSearch.nextPageAvailable}"/>
+
+            </h:panelGrid>
+        </s:div>
+
+        <s:div id="searchResult">
+
+            <h:dataTable id="searchResultTable" var="hit"
+                         value="#{wikiSearch.searchResult}"
+                         rendered="#{wikiSearch.searchResult.size() > 0}"
+                         styleClass="datatable topLeftBottomBorder"
+                         columnClasses="rightBorder alignLeft minorPadding"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+
+                    <h:panelGrid columns="2">
+                        <h:graphicImage value="#{imagePath}/#{hit.icon}" width="18" height="20"/>
+                        <h:outputLink value="#{hit.link}" tabindex="1"><h:outputText escape="false" value="#{hit.title}"/></h:outputLink>
+                    </h:panelGrid>
+                    <h:outputText styleClass="smallFont" escape="false" value="#{hit.fragment}"/>
+                </h:column>
+
+            </h:dataTable>
+
+            <s:div styleClass="formFields minorPadding" rendered="#{wikiSearch.totalCount == 0}">
+                <h:outputText value="#{messages['lacewiki.label.search.NoHits']}"/>
+            </s:div>
+
+        </s:div>
+
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

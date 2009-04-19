@@ -1,0 +1,42 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:selectItems" />
+	<ui:define name="body">
+	<p>
+		Here you can select which continent a country is in.  This
+		demonstrates using <code>s:selectItems</code> in a <code>h:dataTable</code>.
+	</p>
+	
+
+	<h:form>
+	
+		<h:dataTable value="#{countries.dataModel}" var="country">
+			<h:column>
+				<f:facet name="header">
+					Country
+				</f:facet>
+				<h:outputText value="#{country.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					Continent
+				</f:facet>
+				<h:selectOneMenu value="#{country.continent}">
+					<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" />
+					<s:convertEntity />
+				</h:selectOneMenu>
+			</h:column>
+		</h:dataTable>
+		<h:commandButton value="Apply">
+			<s:conversationPropagation type="join" />
+		</h:commandButton>
+		
+	</h:form>
+</ui:define>
+</ui:composition>

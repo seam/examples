@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SeamDiscs" verbose="2" parallel="false">
+    <test name="SeamDiscs: Artist Tests">
+      
+        <parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>
+        <parameter name="database" value="HSQL" />
+        <parameter name="binaryDir" value="" />
+    
+        <classes>
+            <class name="org.jboss.seam.example.seamdiscs.test.DisplayArtistTest" />
+            <class name="org.jboss.seam.example.seamdiscs.test.EditArtistTest" />
+        </classes>
+    
+    </test>
+    
+    <test name="SeamDiscs: Disc Tests">
+      
+        <parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>
+        <parameter name="database" value="HSQL" />
+        <parameter name="binaryDir" value="" />
+    
+        <classes>
+            <class name="org.jboss.seam.example.seamdiscs.test.DisplayDiscTest" />
+            <class name="org.jboss.seam.example.seamdiscs.test.EditDiscTest" />
+        </classes>
+        
+    </test>
+    
+    <test name="SeamDiscs: Login Test">
+    
+        <parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>
+        <parameter name="database" value="HSQL" />
+        <parameter name="binaryDir" value="" />
+    
+        <classes>
+            <class name="org.jboss.seam.example.seamdiscs.test.LoginTest" />
+        </classes>
+    
+    </test>
+</suite>

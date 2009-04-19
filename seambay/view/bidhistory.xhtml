@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Bid History for item #{auction.auctionId}</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/history.css" rel="stylesheet" type="text/css"/>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/common.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>
+
+      <div class="banner"></div>
+
+      <div class="headerNav">
+        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+          <img src="#{facesContext.externalContext.requestContextPath}/img/arrow_left.png" border="0"/>
+        </h:outputLink>
+        <h:outputLink id="back" value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+          Back to auction details
+        </h:outputLink>
+      </div>
+
+      <div id="historyHeader">
+        <div class="headerTitle">
+          Bid History
+        </div>
+
+        <div class="headerStatus">
+
+        </div>
+
+      </div>
+
+      <div class="history">
+
+        <div>
+          Item title: #{auction.title}
+        </div>
+
+        <div>
+          Time left:  #{auction.prettyTimeLeft}
+        </div>
+
+        <div class="history">
+        	<h:dataTable id="history"
+        	             value="#{history}"
+        	             var="h"
+        	             cellspacing="0px"
+        	             width="100%"
+        	             styleClass="historyTable">
+         	  <h:column>
+         	    <f:facet name="header">Bidder</f:facet>
+         	    #{h.account.name}
+        	  </h:column>
+
+        	  <h:column>
+        	    <f:facet name="header">Bid Amount</f:facet>
+
+              <h:outputText value="#{h.actualAmount}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText>
+
+        	  </h:column>
+
+        	  <h:column>
+        	    <f:facet name="header">Date of bid</f:facet>
+              <h:outputText value="#{h.bidDate}">
+                <f:convertDateTime pattern="dd-MMM-yy HH:mm:ss"/>
+              </h:outputText>
+        	  </h:column>
+
+        	</h:dataTable>
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

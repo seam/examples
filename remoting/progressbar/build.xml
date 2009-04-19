@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<project name="ProgressBar" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Remoting Progress Bar Example"/>
+    <property name="example.name"           value="jboss-seam-progressbar"/>
+
+    <!-- Libraries -->
+	<property name="seam.remoting.lib" value="yes"/>
+	<property name="facelets.lib"      value="yes"/>
+
+    <import file="../../build.xml"/>
+
+</project>
+

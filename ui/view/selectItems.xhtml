@@ -1,0 +1,113 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:selectItems" />
+	<ui:define name="body">
+	<p>This example shows example usage of the <code>s:selectItems</code> tag being used for CRUD on a  <code>Person</code> entity.</p>
+	<p>The example also uses:</p>
+	<ul>
+		<li><code>s:span</code></li>
+		<li><code>s:convertEnum</code></li>
+		<li><code>s:message</code></li>
+		<li><code>s:decorate</code></li>
+		<li><code>s:link</code></li>
+		<li><code>s:conversationPropagation</code></li>
+		<li><code>s:decorate</code></li>
+	</ul>
+	
+	<p><s:link view="/continents.xhtml" value="Edit the continent/country relationship." /></p>
+
+	<h:form>
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Title</ui:define>
+			<h:selectOneMenu value="#{person.honorific}">
+				<s:selectItems value="#{honorifics}" var="honorific" label="#{honorific.label}" noSelectionLabel="Please select" />
+				<s:convertEnum />
+			</h:selectOneMenu>
+		</s:decorate>		
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Name</ui:define>
+			<ui:define name="description">Enter your name as it appears on your passport</ui:define>
+			<h:inputText value="#{person.name}" required="true" />
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Continent of Birth</ui:define>
+			<h:selectOneMenu value="#{personHome.instance.continent}" required="true" id="continent">
+				<s:selectItems value="#{continents.resultList}" var="continent" label="#{continent.name}" noSelectionLabel="Please Select..."/>
+				<s:convertEntity />
+			</h:selectOneMenu>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Country of Birth</ui:define>
+			<h:selectOneRadio value="#{personHome.instance.country}" required="true" disabled="#{empty person.continent}">
+				<s:selectItems value="#{personHome.instance.continent.countries}" var="country" label="#{country.name} (#{country.continent.name})" noSelectionLabel="Please Select..." hideNoSelectionLabel="true"/>
+				<s:convertEntity />
+			</h:selectOneRadio>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+		  <ui:define name="label">Roles</ui:define>
+		  <h:selectManyCheckbox value="#{person.roles}" required="true">
+		    <s:selectItems value="#{roles}" var="role" label="#{role.name}"/>
+		    <s:convertEnum />
+		  </h:selectManyCheckbox>
+		</s:decorate>
+	
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Age</ui:define>
+			<ui:define name="description">The age list is an array of primitives</ui:define>
+			<h:selectOneMenu value="#{person.age}">
+				<s:selectItems value="#{ages}" var="age" label="#{age}" />
+				<f:converter converterId="ageConverter" />
+			</h:selectOneMenu>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Pet</ui:define>
+			<ui:define name="description">The animal list is a list of Strings</ui:define>
+			<h:selectOneMenu value="#{person.pet}">
+				<s:selectItems value="#{animals}" var="animal" label="#{animal.name} (#{animal.notes})" itemValue="#{animal.name}" noSelectionLabel="Select your pet"/>
+			</h:selectOneMenu>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Colours</ui:define>
+			<ui:define name="description">A colour is an entity</ui:define>
+			<h:selectManyListbox value="#{personHome.instance.favouriteColours}" >
+				<s:selectItems value="#{colours.resultList}" var="colour" label="#{colour.name}" />
+				<s:convertEntity />
+			</h:selectManyListbox>
+		</s:decorate>
+	
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Book</ui:define>
+			<ui:define name="description">A book has a composite key</ui:define>
+			<h:selectOneListbox value="#{person.favouriteBook}" >
+				<s:selectItems value="#{books.resultList}" var="book" label="#{book.name} by #{book.author} (#{book.nationality})" />
+				<s:convertEntity />
+			</h:selectOneListbox>
+		</s:decorate>
+		
+		<s:decorate template="decorateField.xhtml">
+			<ui:define name="label">Favourite Film</ui:define>
+			<ui:define name="description">Film uses <code>@Converter(forClass="...")</code> - there is no converter specified in the facelet</ui:define>
+			<h:selectOneListbox value="#{person.favouriteFilm}">
+				<s:selectItems value="#{films.resultList}" var="film" label="#{film.name} directed by #{film.director}" noSelectionLabel="Please Select..."/>
+			</h:selectOneListbox>
+		</s:decorate>
+		
+		<h:commandButton value="Apply" action="#{personHome.update}">
+			<s:conversationPropagation type="join" />
+		</h:commandButton>
+		
+	</h:form>
+</ui:define>
+</ui:composition>

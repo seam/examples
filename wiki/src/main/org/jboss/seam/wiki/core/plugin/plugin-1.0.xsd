@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://jboss.com/products/seam/wiki/plugin"
+    xmlns:plugin="http://jboss.com/products/seam/wiki/plugin">
+
+    <!-- Plugin root -->
+
+    <xs:element name="plugin">
+        <xs:annotation>
+            <xs:documentation>Wiki plugin.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" ref="plugin:plugin-info"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="plugin:macro"/>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="plugin:profile"/>
+            </xs:sequence>
+            <xs:attribute name="key" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>Unique key of this plugin</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="label" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Plain text description of plugin, used in menus.
+                        If empty, the key is looked up in the message bundles.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Plugin details -->
+
+    <xs:element name="plugin-info">
+        <xs:annotation>
+            <xs:documentation>
+                Vendor and dependency information of this plugin.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="application-version">
+                    <xs:complexType>
+                        <xs:attribute name="min" type="xs:string" use="required"/>
+                        <xs:attribute name="max" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="vendor">
+                    <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="url" type="xs:string" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:all>
+            <xs:attribute name="description" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        Short English description/documentation of the plugin.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="version" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Macro module -->
+
+    <xs:element name="macro">
+        <xs:annotation>
+            <xs:documentation>
+                Plugin module for wiki text macros.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:all>
+                <xs:element minOccurs="1" maxOccurs="1" ref="plugin:skins"/>
+                <xs:element name="applicable-to">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Areas of a wiki document this macro can be used in.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:attribute name="header" default="false" type="xs:boolean"/>
+                        <xs:attribute name="content" default="false" type="xs:boolean"/>
+                        <xs:attribute name="footer" default="false" type="xs:boolean"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="render-options" minOccurs="0">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Macro rendering options.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:choice minOccurs="1" maxOccurs="1">
+                            <xs:element name="singleton">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        This macro can only be used once in a particular applicable area of a wiki document.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" ref="plugin:cache-regions"/>
+            </xs:all>
+            <xs:attribute name="name" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name of the wiki text macro.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="plugin:key"/>
+            <xs:attributeGroup ref="plugin:labelDescription"/>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Profile module -->
+
+    <xs:element name="profile">
+        <xs:annotation>
+            <xs:documentation>
+                Plugin module for user profile screen
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:all>
+                <xs:element minOccurs="1" maxOccurs="1" ref="plugin:skins"/>
+            </xs:all>
+            <xs:attribute name="template" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name of the XHTML template to include on the profile screen.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="priority" type="xs:int" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        Priority of rendering position, compared to other profile plugin modules.
+                        Lowest values are rendered first, use values greater than 100.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attributeGroup ref="plugin:key"/>
+            <xs:attributeGroup ref="plugin:labelDescription"/>
+        </xs:complexType>
+    </xs:element>
+
+
+    <!-- Commons -->
+
+    <xs:element name="skins">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="skin">
+                    <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Wiki skins this plugin can be rendered in, e.g. "d" for desktop and "m" for mobile skins.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="cache-regions">
+        <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+                <xs:element name="cache-region">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="invalidation-event">
+                                <xs:complexType>
+                                    <xs:attribute name="name" type="xs:string" use="required">
+                                        <xs:annotation>
+                                            <xs:documentation>
+                                                Name of Seam event that triggers invalidation of all elements in this cache region.
+                                            </xs:documentation>
+                                        </xs:annotation>
+                                    </xs:attribute>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="name" type="xs:string" use="required">
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Cache region maintained for this plugin module, at runtime prefixed with plugin key and
+                                    module key, all separated with underscore.
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="key">
+        <xs:attribute name="key" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>
+                    Plugin module key, unique within the plugin.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="labelDescription">
+        <xs:attribute name="label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Plain text description of plugin module, used in menus.
+                    If empty, the key is looked up in the message bundles.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="description" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Short English description/documentation of the plugin.
+                    If empty, the key is looked up in the message bundles.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+
+
+
+
+
+
+
+
+</xs:schema>

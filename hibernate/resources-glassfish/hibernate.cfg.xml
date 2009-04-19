@@ -1,0 +1,20 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory name="bookingDatabase">
+        <property name="show_sql">false</property>
+        <property name="connection.datasource">jdbc/__default</property>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="transaction.flush_before_completion">true</property>
+        <property name="connection.release_mode">after_statement</property>
+        <property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+        <property name="dialect">GlassfishDerbyDialect</property>
+        <property name="transaction.manager_lookup_class">org.hibernate.transaction.SunONETransactionManagerLookup</property>
+        <property name="transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
+        <mapping class="org.jboss.seam.example.hibernate.Hotel"/>
+        <mapping class="org.jboss.seam.example.hibernate.User"/>
+        <mapping class="org.jboss.seam.example.hibernate.Booking"/>
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,16 @@
+<m:message xmlns:m="http://jboss.com/products/seam/mail" importance="high" precedence="bulk">
+
+    <m:from name="Seam" address="do-not-reply@jboss.com" />
+    <m:replyTo name="JBoss" address="another.address@jboss.org" />
+    <m:cc name="#{person.firstname} #{person.lastname}">#{person.address}</m:cc>
+    <m:bcc name="#{person.firstname} #{person.lastname}">#{person.address}</m:bcc>
+    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+    <m:subject>Plain text email sent by Seam</m:subject>
+    <m:body type="plain">Dear #{person.firstname},
+          
+This is a plain text, email.
+          
+Regards
+          
+JBoss Seam Mail</m:body>
+</m:message>

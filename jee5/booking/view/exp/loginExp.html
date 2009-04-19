@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>In-depth Explanation</title>
+	<link href="../css/trailblazer_main.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="main">
+  <div class="trail">
+    <div class="numbox">2</div>
+    <h2>What happens when you login?</h2>
+    <img src="../img/header_line.gif" />
+    
+       <form>
+          <input type="button" value="Close Window" onclick="window.close()"/>
+       </form>
+    
+    <p>
+       The login page is defined using pure XHTML with JSF controls. 
+       The form uses JSF EL value binding and method binding 
+       expressions to refer to Seam components. For example, 
+       <code>#{user.username}</code> refers to a property of the
+       <code>User</code> entity bean and <code>#{login.login}</code> 
+       refers to a method of the <code>LoginAction</code> stateless 
+       session bean. Both beans are EJB 3.0 POJOs managed by Seam.
+    </p>
+
+<code class="block">
+&lt;div&gt;
+    &lt;h:outputLabel for="username">Login Name&lt;/h:outputLabel>
+    &lt;h:inputText id="username" value="#{user.username}" />
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;h:outputLabel for="password">Password&lt;/h:outputLabel>
+    &lt;h:inputSecret id="password" value="#{user.password}" />
+&lt;/div&gt;
+
+... ...
+
+&lt;div class="buttonBox"&gt;
+    &lt;h:commandButton action="#{login.login}" 
+                     value="Account Login" class="button" /&gt;
+&lt;/div&gt;
+</code>
+
+    <p>
+       The <code>User</code> enity bean is mapped to the Seam  
+       context variable named <code>user</code> bean via the 
+       <code>@Name</code> annotation. <code>User</code> is
+       a session scoped bean, meaning that the <code>user</code>
+       component value is retained for the entire session for
+       each user. You might also notice there are validation annotation
+       on the data properties. We will discuss those annotations in the
+       <a href="registerExp.html">next step</a>.
+    </p>
+
+<code class="block">
+@Entity
+@Name("user")
+@Scope(SESSION)
+public class User implements Serializable {
+   private String username;
+   private String password;
+   private String name;
+
+   @NotNull
+   @Length(min=5, max=15)
+   public String getPassword() {
+      return password;
+   }
+   public void setPassword(String password) {
+      this.password = password;
+   }
+   
+   @Id
+   @Length(min=5, max=15)
+   public String getUsername () {
+      return username;
+   }
+   public void setUsername (String username) {
+      this.username = username;
+   }
+
+    // ... ...
+}
+</code>
+
+    <p>
+       <code>LoginAction</code> is an EJB 3.0 session bean mapped 
+       to the Seam context variable named <code>login</code>. When 
+       the login button is clicked, the JSF method binding 
+       <code>#{login.login}</code> is evaluated, and the 
+       <code>login()</code> method is invoked upon <code>LoginAction</code>.
+    </p>
+
+<code class="block">
+@Stateless
+@Name("login")
+public class LoginAction implements Login
+{
+   
+   @In @Out
+   private User user;
+   
+   @PersistenceContext
+   private EntityManager em;
+
+   public String login()
+   {
+      List&lt;User&gt; results = em.createQuery("from User where username=:username and password=:password")
+            .setParameter("username", user.getUsername())
+            .setParameter("password", user.getPassword())
+            .getResultList();
+      
+      if ( results.size()==0 )
+      {
+         FacesMessages.instance().add("Invalid login");
+         return "login";
+      }
+      else
+      {
+         user = results.get(0);
+         Contexts.getSessionContext().set("loggedIn", true);         
+         return "main";
+      }
+      
+   }
+
+}
+</code>
+
+    <p>
+       The <code>@In</code> annotation tells Seam to inject a <code>User</code> 
+       when any method of <code>LoginAction</code> is invoked. The <code>@Out</code> 
+       annotation indicates the <code>LoginAction</code> bean can change the
+       value of the <code>user</code> context variable and make the new instance 
+       available to other session beans and JSF pages.
+    </p>
+
+       <form>
+          <input type="button" value="Close Window" onclick="window.close()"/>
+       </form>
+
+  </div>
+</div>
+
+</body>
+</html>

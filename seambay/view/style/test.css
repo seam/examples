@@ -1,0 +1,60 @@
+body {
+  font-family: verdana, arial, sans-serif, helvetica;
+}
+
+h1, h2, h3 {
+  background-color: #dddddd;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+#services {
+  float: left;
+  width: 240px;
+}
+
+#tip {
+  clear: left;
+  float: left;
+  width: 240px;
+}
+
+#tip div {
+  border: 1px solid #cccccc;
+  padding: 4px 4px 4px 4px;  
+  font-size: 9px;
+}
+
+#services div {
+  border: 1px solid #cccccc;
+  padding: 4px 4px 4px 4px;
+  margin-bottom: 8px;
+}
+
+#services a {
+  display: block;
+  font-size: small;
+}
+
+#services span {
+  font-weight: bold;
+}
+
+#detail {
+  margin-left: 260px;
+}
+
+#selectedService {
+  font-weight: bold;
+  color: #cc0000;
+}
+
+#serviceRequest {
+  height: 160px;
+  width: 98%
+}
+
+#serviceResponse {
+  height: 160px;
+  width: 98%;
+}

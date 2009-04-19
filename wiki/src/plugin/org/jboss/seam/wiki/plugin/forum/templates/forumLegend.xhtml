@@ -1,0 +1,35 @@
+<s:div id="forumLegendContainer"
+       styleClass="forumLegendContainer"
+       rendered="#{not forumListHome.managed}"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+    <h:panelGrid columns="4" columnClasses="forumLegendColumn" styleClass="forumLegendTable"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:panelGroup>
+            <h:graphicImage styleClass="forumLegendIcon" value="#{currentMacro.requestImagePath}/icon.posting_unread.gif" width="22" height="26"/>
+            <h:outputText styleClass="forumLegendText" value="#{messages['forum.label.NewPosts']}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:graphicImage styleClass="forumLegendIcon" value="#{currentMacro.requestImagePath}/icon.posting.gif" width="22" height="26"/>
+            <h:outputText styleClass="forumLegendText" value="#{messages['forum.label.NoNewPosts']}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:graphicImage styleClass="forumLegendIcon" value="#{currentMacro.requestImagePath}/icon.posting_sticky.gif" width="22" height="26"/>
+            <h:outputText styleClass="forumLegendText" value="#{messages['forum.label.StickyThread']}"/>
+        </h:panelGroup>
+        <h:panelGroup>
+            <h:graphicImage styleClass="forumLegendIcon" value="#{currentMacro.requestImagePath}/icon.posting_locked.gif" width="22" height="26"/>
+            <h:outputText styleClass="forumLegendText" value="#{messages['forum.label.LockedThread']}"/>
+        </h:panelGroup>
+
+    </h:panelGrid>
+
+
+</s:div>

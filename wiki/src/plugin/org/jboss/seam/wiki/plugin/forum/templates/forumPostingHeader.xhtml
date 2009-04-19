@@ -1,0 +1,131 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="2" styleClass="forumPostingHeaderInfoControls" columnClasses="forumPostingHeaderInfo, forumPostingHeaderControls"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}" styleClass="extraExtraLargeFont">
+            <h:outputText value="#{messages['forum.label.Forum']}:&#160;#{currentDirectory.name}"/>
+        </h:outputLink>
+
+        <h:panelGroup>
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.parent)}"
+                          accesskey="#{messages['forum.button.ForumList.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
+            </h:outputLink>
+
+            <s:fragment rendered="#{empty topicPage or topicPage == 0}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}"
+                              accesskey="#{messages['forum.button.TopicList.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
+                </h:outputLink>
+            </s:fragment>
+            <s:fragment rendered="#{topicPage > 0}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}/Page/#{topicPage}"
+                              accesskey="#{messages['forum.button.TopicList.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
+                </h:outputLink>
+            </s:fragment>
+
+            <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and not replyHome.showForm}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}?showTopicForm=true"
+                              accesskey="#{messages['forum.button.NewTopic.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
+                </h:outputLink>
+            </s:fragment>
+
+            <!-- TODO: Fix these http://jira.jboss.com/jira/browse/JBSEAM-2633
+            <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.previous)}"
+                          rendered="#{not empty docPager.previous and docPager.previous.id != currentDirectory.defaultFile.id}"
+                          accesskey="#{messages['forum.button.PreviousPosting.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.PreviousPosting']}"/>
+            </h:outputLink>
+
+            <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.next)}"
+                          rendered="#{not empty docPager.next and docPager.next.id != currentDirectory.defaultFile.id}"
+                          accesskey="#{messages['forum.button.NextPosting.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NextPosting']}"/>
+            </h:outputLink>
+            -->
+
+        </h:panelGroup>
+
+    </h:panelGrid>
+
+    <h:outputText escape="false"
+                  value="&lt;div class='box forumPostingDocumentWrapper #{empty commentQuery.comments or not currentDocument.enableComments? 'noComments' : ''}'>"/>
+
+        <h:panelGrid columns="4" styleClass="commentHeader"
+                     columnClasses="commentSubjectIcon, commentSubject, commentAuthorInfo smallFont, commentAuthorPortrait"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <s:fragment>
+                <ui:insert name="subjectIcon"/>
+            </s:fragment>
+
+            <s:div styleClass="undecoratedLink largeFont" rendered="#{currentDocument.name != c.subject}">
+                <h:outputLink styleClass="subjectLink" value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                    <h:outputText value="#{currentDocument.name}"/>
+                </h:outputLink>
+            </s:div>
+
+            <s:fragment>
+                <s:div>
+                    <s:span styleClass="commentDate">
+                        <h:outputText value="#{currentDocument.createdOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                    </s:span>
+                    <h:outputText value="&#160;|&#160;"/>
+                    <s:span styleClass="commentLink undecoratedLink">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                            <h:outputText value="#{messages['lacewiki.label.Link']}"/>
+                        </h:outputLink>
+                    </s:span>
+                </s:div>
+                <s:div rendered="#{currentDocument.ownedByRegularUser}">
+                    <s:span styleClass="undecoratedLink">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(currentDocument.createdBy)}">
+                            <h:outputText value="#{currentDocument.createdBy.fullname}"/>
+                        </h:outputLink>
+                    </s:span>
+                    <s:fragment rendered="#{wiki:showEmailAddress()}">
+                        <h:outputText value="&#160;|&#160;"/>
+                        <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', currentDocument.createdBy.email))}">
+                            <h:outputText value="#{wiki:escapeAtSymbol(currentDocument.createdBy.email)}"/>
+                        </h:outputLink>
+                    </s:fragment>
+                </s:div>
+                <s:div rendered="#{not currentDocument.ownedByRegularUser}">
+                    <h:outputText value="#{currentDocument.createdBy.fullname}"/>
+                </s:div>
+            </s:fragment>
+
+            <s:fragment rendered="#{currentDocument.ownedByRegularUser and !empty currentDocument.createdBy.profile.imageContentType}">
+                <s:span styleClass="undecoratedLink">
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(currentDocument.createdBy)}">
+                        <h:graphicImage styleClass="commentAuthorPortraitImage"
+                                        value="#{wikiURLRenderer.renderUserPortraitURL(currentDocument.createdBy, true)}"/>
+                    </h:outputLink>
+                </s:span>
+            </s:fragment>
+
+        </h:panelGrid>
+
+    <!-- The forumPostingDocumentWrapper <div> stays open! -->
+
+</s:fragment>

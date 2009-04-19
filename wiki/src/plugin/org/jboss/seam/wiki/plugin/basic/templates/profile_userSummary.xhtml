@@ -1,0 +1,110 @@
+<s:fragment
+    xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+   
+    <s:div styleClass="box">
+
+        <s:div styleClass="boxHeader">
+
+            <h:panelGrid columns="3" style="width:100%;"
+                         columnClasses="noWrapWhitespace alignLeft, fullWidth alignRight, noWrapWhitespace alignRight"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:outputText value="#{userHome.instance.fullname}"/>
+
+                <s:fragment>
+                    <h:outputLink rendered="#{wiki:showEmailAddress() and not userHome.instance.guest}"
+                                  styleClass="smallFont minorPadding"
+                                  value="#{wiki:escapeEmailURL(wiki:concat('mailto:', userHome.instance.email))}">
+                        <h:outputText value="#{wiki:escapeAtSymbol(userHome.instance.email)}"/>
+                    </h:outputLink>
+                </s:fragment>
+
+                <s:fragment>
+                    <h:outputLink styleClass="buttonNonpersistent"
+                                  value="#{wikiURLRenderer.renderURL(userHome.instance.memberHome)}"
+                                  rendered="#{!empty userHome.instance.memberHome}">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['basic.userSummary.button.GoToUserHome']}"/>
+                    </h:outputLink>
+                </s:fragment>
+
+            </h:panelGrid>
+
+        </s:div>
+
+        <s:div styleClass="boxContent">
+
+            <h:panelGrid columns="2"
+                         styleClass="wideEntry" columnClasses="label, output"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:outputText value="#{messages['basic.userSummary.label.Portrait']}:"
+                              rendered="#{!empty userHome.instance.profile.imageContentType}"/>
+
+                <h:graphicImage rendered="#{!empty userHome.instance.profile.imageContentType}"
+                                styleClass="userInfoPortraitImage"
+                                value="#{wikiURLRenderer.renderUserPortraitURL(userHome.instance, false)}"/>
+
+                <h:outputText value="#{messages['basic.userSummary.label.Bio']}:"
+                              rendered="#{not empty userHome.instance.profile.bio}"/>
+
+                <s:span styleClass="inlineWikiText" rendered="#{not empty userHome.instance.profile.bio}">
+                    <wiki:formattedText value="#{userHome.instance.profile.bio}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{wikiStart}"
+                                        currentAreaNumber="#{wikiStart.areaNumber}"
+                                        internalTargetFrame="_top"
+                                        externalTargetFrame="_top"
+                                        enableMacroRendering="false"/>
+                </s:span>
+
+                <h:outputText value="#{messages['basic.userSummary.label.Website']}:"
+                              rendered="#{not empty userHome.instance.profile.website}"/>
+                <h:outputLink target="_top" value="#{userHome.instance.profile.website}"
+                              rendered="#{not empty userHome.instance.profile.website}">
+                    <h:outputText value="#{wiki:truncateString(userHome.instance.profile.website, 150, '...')}"/>
+                </h:outputLink>
+
+                <h:outputText value="#{messages['basic.userSummary.label.Location']}:"
+                              rendered="#{not empty userHome.instance.profile.location}"/>
+                <h:outputText value="#{userHome.instance.profile.location}"
+                              rendered="#{not empty userHome.instance.profile.location}"/>
+
+                <h:outputText value="#{messages['basic.userSummary.label.Occupation']}:"
+                              rendered="#{not empty userHome.instance.profile.occupation}"/>
+                <h:outputText value="#{userHome.instance.profile.occupation}"
+                              rendered="#{not empty userHome.instance.profile.occupation}"/>
+
+                <h:outputText value="#{messages['basic.userSummary.label.JoinedOn']}:"/>
+                <s:span>
+                    <h:outputText value="#{userHome.instance.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                    </h:outputText>
+                    <h:outputText value="&#160;(#{messages['basic.userSummary.label.NotActivated']})"
+                                  rendered="#{wiki:isRegularUser(userHome.instance) and not userHome.instance.activated}"/>
+                </s:span>
+
+                <h:outputText value="#{messages['basic.userSummary.label.LastLoginOn']}:"/>
+                <h:outputText value="#{userHome.instance.lastLoginOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+
+                <h:outputText value="#{messages['basic.userSummary.label.RatingPoints']}:"/>
+                <h:outputText value="#{userHome.ratingPoints}"/>
+
+             </h:panelGrid>
+
+        </s:div>
+
+    </s:div>
+
+    <div class="boxFooter"/>
+
+</s:fragment>

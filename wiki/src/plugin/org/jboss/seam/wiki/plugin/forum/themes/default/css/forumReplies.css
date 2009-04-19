@@ -1,0 +1,16 @@
+.forumReplyControls {
+    width: 100%;
+}
+
+.forumReplyRating {
+    text-align: left;
+}
+
+.forumReplyStatus {
+    text-align: right;
+}
+
+.forumReplyControl {
+    text-align: right;
+    width: 200px;
+}

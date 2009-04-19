@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <!-- Seam -->
+
+  <listener>
+    <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+  </listener>
+
+  <filter>
+    <filter-name>Seam Filter</filter-name>
+    <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>Seam Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Seam Resource Servlet</servlet-name>
+    <url-pattern>/seam/resource/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- JSF and Facelets -->
+
+  <context-param>
+    <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+    <param-value>.xhtml</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>facelets.DEVELOPMENT</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <!-- Faces Servlet -->
+
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.seam</url-pattern>
+  </servlet-mapping>
+
+  <!-- JEE5 EJB3 names -->
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.Authenticator</local>
+  </ejb-local-ref>	
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/BookingListAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.BookingList</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/RegisterAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.Register</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/ChangePasswordAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.ChangePassword</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/HotelBookingAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.HotelBooking</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.example.booking.HotelSearching</local>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>jboss-seam-jee5/EjbSynchronizations/local</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>
+
+  <session-config>
+    <session-timeout>10</session-timeout>
+  </session-config>
+
+</web-app>

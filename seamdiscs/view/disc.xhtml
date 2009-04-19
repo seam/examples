@@ -1,0 +1,53 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                xmlns:a="http://richfaces.org/a4j"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    <rich:panel>
+    	<f:facet name="header">
+    		<s:fragment rendered="#{disc.name ne null}">
+		    	<i><tr:outputText value="#{disc.name}" /></i>
+		    	<tr:outputText value=" by #{disc.artist.name}" />
+		    </s:fragment>
+		</f:facet>
+    	<tr:form id="disc">
+    		<s:validateAll>
+		    	<tr:panelFormLayout>
+		    		<tr:inputText label="Disc" value="#{disc.name}" readOnly="#{not identity.loggedIn}" required="true" />
+		    		<tr:inputNumberSpinbox label="Release Date" value="#{disc.release}" minimum="1900" maximum="2010" stepSize="1" readOnly="#{not identity.loggedIn}" />           
+	    			<tr:selectOneChoice value="#{disc.artist}" label="Artist" required="true" readOnly="#{not identity.loggedIn}">
+	    				<s:selectItems value="#{allArtists.resultList}" var="artist" label="#{artist.name}" noSelectionLabel="Please Select..." hideNoSelectionLabel="true" />
+	    				<s:convertEntity />
+	    			</tr:selectOneChoice>
+	    			<tr:panelLabelAndMessage label="Details">
+			    		<tr:inputText simple="true" value="#{disc.description}" rendered="#{identity.loggedIn}" rows="4" columns="60" id="description">
+			    			 <a:support event="onkeyup" reRender="description_preview" requestDelay="3000" ignoreDupResponces="true" eventsQueue="previewQueue" />
+			    		</tr:inputText>
+				    	<s:div style="width: 300px;" id="description_preview">
+						   	<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+				    		<tr:outputText value="None known" rendered="#{empty disc.description}" />
+						</s:div>
+					</tr:panelLabelAndMessage>
+	    		</tr:panelFormLayout>
+	    	</s:validateAll>
+	    	
+	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+		    	<h:commandButton action="#{discHome.update}" value="Save" rendered="#{discHome.managed}" id="update" />
+		    	<h:commandButton action="#{discHome.persist}" value="Save" rendered="#{not discHome.managed}" id="persist" />
+		    	<h:commandButton action="#{discHome.remove}" value="Delete" rendered="#{discHome.managed}" id="remove" />
+		    	<s:button action="cancel" value="Cancel" id="cancel"/>
+		    </tr:panelButtonBar>
+    	</tr:form>
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>

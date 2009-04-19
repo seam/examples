@@ -1,0 +1,148 @@
+<s:div id="directoryBrowserControl"
+       styleClass="directoryBrowserControl smallFont"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<script type="text/javascript">
+    function switchClipboardControl() {
+        var clipboardControlsEnabled = false
+        jQuery(".wikiFileSelect").each(
+                function checkSelected() {
+                    if (jQuery(this).attr("checked")) {
+                        clipboardControlsEnabled = true;
+                    }
+                }
+                );
+        if (clipboardControlsEnabled) {
+            jQuery(".clipboardControl").show();
+        } else {
+            jQuery(".clipboardControl").hide();
+        }
+    }
+</script>
+
+<h:panelGrid columns="4"
+             styleClass="directoryBrowserControlPanel"
+             columnClasses="itemSelector, clipboard, tools, pagerSelector"
+             cellpadding="0" cellspacing="0" border="0">
+
+    <s:fragment>
+        <h:panelGroup styleClass="undecoratedLink"
+                      rendered="#{directoryBrowser.childNodes.size() > 0 and directoryBrowser.instance.id != wikiRoot.id}">
+            <h:outputText value="#{messages['lacewiki.label.Clipboard.Select']}:&#160;"/>
+            <h:outputLink value="javascript:selectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
+                <h:outputText value="#{messages['lacewiki.label.Clipboard.All']}"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink value="javascript:deselectCheckBoxes('wikiFileSelect'); switchClipboardControl();"
+                          tabindex="1">
+                <h:outputText value="#{messages['lacewiki.label.Clipboard.None']}"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink
+                    value="javascript:deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiDocumentSelect'); switchClipboardControl();"
+                    tabindex="1">
+                <h:outputText value="#{messages['lacewiki.label.Clipboard.Documents']}"/>
+            </h:outputLink>
+            <h:outputText value="&#160;|&#160;"/>
+            <h:outputLink
+                    value="javascript:deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiUploadSelect'); switchClipboardControl();"
+                    tabindex="1">
+                <h:outputText value="#{messages['lacewiki.label.Clipboard.UploadedFiles']}"/>
+            </h:outputLink>
+        </h:panelGroup>
+    </s:fragment>
+
+    <s:fragment>
+        <h:panelGroup>
+            <s:span>
+                <h:outputText value="#{messages['lacewiki.label.Clipboard']}&#160;"/>
+                <h:outputText value="(#{clipboard.items.size()} #{messages['lacewiki.label.Clipboard.Items']})"
+                              rendered="#{clipboard.items.size() > 1}"/>
+                <h:outputText value="(#{clipboard.items.size()} #{messages['lacewiki.label.Clipboard.Item']})"
+                              rendered="#{clipboard.items.size() == 1}"/>
+                <h:outputText value="(#{messages['lacewiki.label.Clipboard.Empty']})"
+                              rendered="#{empty clipboard.items}"/>
+                <h:outputText value=":&#160;" styleClass="#{empty clipboard.items ? 'clipboardControl': ''}"
+                              style="display:#{empty clipboard.items ? 'none':'inherit'}"/>
+            </s:span>
+
+            <a:commandLink action="#{directoryBrowser.copy()}" style="display:none;"
+                           tabindex="1" styleClass="buttonNonpersistent clipboardControl"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"
+                           accesskey="#{messages['lacewiki.button.Clipboard.Copy.accesskey']}">
+                <h:outputText styleClass="buttonLabel" escape="false"
+                              value="#{messages['lacewiki.button.Clipboard.Copy']}"/>
+            </a:commandLink>
+            <a:commandLink action="#{directoryBrowser.cut()}" style="display:none;"
+                           rendered="#{s:hasPermission('Node', 'edit', directoryBrowser.instance)}"
+                           tabindex="1" styleClass="buttonNonpersistent clipboardControl"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"
+                           accesskey="#{messages['lacewiki.button.Clipboard.Cut.accesskey']}">
+                <h:outputText styleClass="buttonLabel" escape="false"
+                              value="#{messages['lacewiki.button.Clipboard.Cut']}"/>
+            </a:commandLink>
+            <a:commandLink action="#{directoryBrowser.clearClipboard()}"
+                           rendered="#{not empty clipboard.items}"
+                           tabindex="1"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"
+                           accesskey="#{messages['lacewiki.button.Clipboard.Clear.accesskey']}"
+                           styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false"
+                              value="#{messages['lacewiki.button.Clipboard.Clear']}"/>
+            </a:commandLink>
+            <a:commandLink action="#{directoryBrowser.paste()}"
+                           rendered="#{not empty clipboard.items and directoryBrowser.instance.id != wikiRoot.id
+                                       and s:hasPermission('Node', 'create', directoryBrowser.instance)}"
+                           tabindex="1"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"
+                           accesskey="#{messages['lacewiki.button.Clipboard.Paste.accesskey']}"
+                           styleClass="button">
+                <h:outputText styleClass="buttonLabel" escape="false"
+                              value="#{messages['lacewiki.button.Clipboard.Paste']}"/>
+            </a:commandLink>
+        </h:panelGroup>
+    </s:fragment>
+
+    <s:fragment>
+        <h:panelGroup
+                rendered="#{directoryBrowser.instance.id == trashArea.id and s:hasPermission('Trash', 'empty', directoryBrowser.instance)}">
+            <h:graphicImage value="#{imagePath}/icon.trash.gif"
+                            width="18" height="20" style="vertical-align:middle;"/>
+            <a:commandLink action="#{directoryBrowser.emptyTrash()}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"
+                           tabindex="1" styleClass="button">
+                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.EmptyTrash']}"/>
+            </a:commandLink>
+        </h:panelGroup>
+    </s:fragment>
+
+    <s:fragment>
+        <h:panelGroup rendered="#{directoryBrowser.childNodes.size() > 0}">
+            <h:outputText value="#{messages['lacewiki.label.dirDisplay.ShowItems']}:&#160;"/>
+            <h:selectOneMenu value="#{directoryBrowserSettings.pageSize}" tabindex="1">
+                <f:selectItem itemLabel="5" itemValue="5"/>
+                <f:selectItem itemLabel="15" itemValue="15"/>
+                <f:selectItem itemLabel="50" itemValue="50"/>
+                <f:selectItem itemLabel="#{messages['lacewiki.label.dirDisplay.All']}" itemValue="999999"/>
+                <a:support event="onchange"
+                           action="#{directoryBrowser.changePageSize()}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}"/>
+            </h:selectOneMenu>
+        </h:panelGroup>
+    </s:fragment>
+
+</h:panelGrid>
+
+</s:div>

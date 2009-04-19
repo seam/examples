@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+   
+   <page view-id="/viewContact.xhtml">
+
+      <param name="contactId" 
+             value="#{contactHome.id}" 
+             converterId="javax.faces.Long"/>
+          
+       <navigation>
+          <rule if-outcome="persisted">
+             <redirect/>
+          </rule>
+          <rule if-outcome="removed">
+             <redirect view-id="/search.xhtml"/>
+          </rule>
+       </navigation>
+
+   </page>
+
+   <page view-id="/editContact.xhtml">
+   
+      <param name="contactId" 
+             value="#{contactHome.id}" 
+             converterId="javax.faces.Long"/>
+
+      <navigation>
+         <rule if-outcome="updated">
+            <redirect view-id="/viewContact.xhtml"/>
+         </rule>
+         <rule if-outcome="persisted">
+            <redirect view-id="/viewContact.xhtml"/>
+         </rule>
+         <rule if-outcome="removed">
+            <redirect view-id="/search.xhtml"/>
+         </rule>
+      </navigation>
+      
+   </page>
+
+   <page view-id="/search.xhtml">
+
+      <param name="firstName" 
+             value="#{exampleContact.firstName}"/>
+      <param name="lastName" 
+             value="#{exampleContact.lastName}"/>
+      <param name="firstResult" 
+             value="#{contacts.firstResult}"/>
+
+
+      <navigation>
+          <rule if-outcome="newsearch">
+              <redirect view-id="/search.xhtml"> 
+                 <param name="firstResult" value="0"/>
+              </redirect>
+          </rule>
+      </navigation>
+   </page>
+
+   <exception class="javax.persistence.PersistenceException">
+      <end-conversation/>
+      <redirect>
+         <message>Database access failed</message>
+      </redirect>
+   </exception>
+   
+   <exception class="org.jboss.seam.framework.EntityNotFoundException">
+      <http-error error-code="404"/>
+   </exception>
+   
+   <exception>
+      <end-conversation/>
+      <redirect view-id="/search.xhtml">
+          <message>Unexpected failure</message>
+      </redirect>
+   </exception>
+   
+</pages>

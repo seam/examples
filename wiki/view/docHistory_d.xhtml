@@ -1,0 +1,185 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+<h:form id="historyForm" rendered="#{historicalFileList.rowCount >0}" styleClass="box">
+
+<div class="form">
+
+    <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+    <div class="formHead">#{messages['lacewiki.label.docHistory.DocumentHistory']}: #{documentHistory.currentFile.name}</div>
+    <div class="formFields formBorder">
+
+        <s:div styleClass="entry">
+            <div class="label">#{messages['lacewiki.label.docHistory.CurrentRevision']}:</div>
+            <div class="output">
+                <h:outputText value="#{documentHistory.currentFile.revision}"/>
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry">
+            <div class="label">#{messages['lacewiki.label.docHistory.Parent']}:</div>
+            <div class="output">
+                <h:outputText value="#{documentHistory.currentFile.parent.name}"/>
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry">
+            <div class="label">#{messages['lacewiki.label.docHistory.CreatedOn']}:</div>
+            <div class="output">
+                <h:outputText value="#{documentHistory.currentFile.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                (#{documentHistory.currentFile.createdBy.username})
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry" rendered="#{!empty documentHistory.currentFile.lastModifiedBy}">
+            <div class="label">#{messages['lacewiki.label.docHistory.LastModifiedOn']}:</div>
+            <div class="output">
+                <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                (#{documentHistory.currentFile.lastModifiedBy.username})
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry">
+            <div class="label">#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
+            <div class="input">
+
+                <h:dataTable id="historyTable" var="hfile" style="width:70%"
+                             value="#{historicalFileList}"
+                             styleClass="datatable topLeftBottomBorder"
+                             columnClasses="onePercentColumn rightBorder alignCenter,
+                                            twentyPercentColumn rightBorder alignLeft minorPadding,
+                                            twentyPercentColumn rightBorder alignCenter"
+                             rowClasses="rowEven, rowOdd"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <h:column>
+                        <h:outputText value="#{hfile.revision}"/>
+                    </h:column>
+
+                    <h:column>
+                        <s:fragment rendered="#{not empty hfile.lastModifiedOn}">
+                            <h:outputText value="#{hfile.lastModifiedOn}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;(#{hfile.lastModifiedByUsername})" rendered="#{!empty hfile.lastModifiedByUsername}"/>
+                        </s:fragment>
+                        <s:fragment rendered="#{empty hfile.lastModifiedOn}">
+                            <h:outputText value="(Initial Revision)"/>
+                        </s:fragment>
+                    </h:column>
+
+                    <h:column>
+                        <a:commandLink action="#{documentHistory.displayHistoricalRevision}"
+                                       status="globalStatus" oncomplete="onAjaxRequestComplete()"
+                                       reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"
+                                       tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Show']}"/>
+                        </a:commandLink>
+
+                        <a:commandLink action="#{documentHistory.diffHistoricalRevision}"
+                                       status="globalStatus" oncomplete="onAjaxRequestComplete()"
+                                       reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"
+                                       tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Diff']}"/>
+                        </a:commandLink>
+
+                        <h:commandLink action="#{documentHistory.rollback}"
+                                       tabindex="4" styleClass="buttonNonpersistent sessionEventTrigger"
+                                       rendered="#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Rollback']}"/>
+                        </h:commandLink>
+                    </h:column>
+
+                </h:dataTable>
+
+            </div>
+        </s:div>
+
+    </div>
+
+    <div class="formControls">
+        <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+            <div class="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+
+                    <h:commandLink id="purge" action="#{documentHistory.purgeHistory}"
+                               tabindex="4" accesskey="#{messages['lacewiki.button.docHistory.PurgeHistory.accesskey']}" 
+                               styleClass="button sessionEventTrigger">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.docHistory.PurgeHistory']}"/>
+                    </h:commandLink>
+    
+                </div>
+            </div>
+        </s:fragment>
+    </div>
+
+</div>
+</h:form>
+
+<br/>
+
+<s:div id="diffResult">
+    <s:div styleClass="box diffOutput" rendered="#{not empty documentHistory.diffResult}">
+        <h:outputText value="#{documentHistory.diffResult}" escape="false"/>
+    </s:div>
+</s:div>
+
+<s:div id="historicalPreview">
+    <s:div id="documentDisplayContainer"
+           rendered="#{not empty documentHistory.displayedHistoricalFile}"
+           styleClass="box">
+        <s:div styleClass="diffChangedName"
+               rendered="#{documentHistory.displayedHistoricalFile.name != documentHistory.currentFile.name}">
+            <h:outputText value="Revision document name: #{documentHistory.displayedHistoricalFile.name}"/>
+            <hr/>
+        </s:div>
+        <s:div id="documentDisplay" styleClass="documentDisplay">
+            <!-- TODO: Ugh, we don't know if this is plaintext or not -->
+            <wiki:formattedText value="#{documentHistory.displayedHistoricalFile.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{documentHistory.currentFile}"
+                                currentAreaNumber="#{documentHistory.currentFile.parent.areaNumber}"
+                                enableMacroRendering="false"/>
+        </s:div>
+    </s:div>
+</s:div>
+
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

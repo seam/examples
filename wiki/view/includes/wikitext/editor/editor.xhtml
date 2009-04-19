@@ -1,0 +1,261 @@
+<s:fragment
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<a:region>
+<s:div styleClass="textEditor" id="#{textEditor.key}TextEditor">
+
+    <!-- ################################# JavaScript functions ################################# -->
+
+    <script type="text/javascript">
+
+        /* Make text area resizable */
+        jQuery(function() {
+            eval("#{textEditor.key}SizeTextArea()")
+        })
+
+        function #{textEditor.key}SizeTextArea() {
+            var width = jQuery("##{namingContainer}\\:#{textEditor.key}TextEditor").width();
+            jQuery("##{namingContainer}\\:#{textEditor.key}TextArea").width(
+              width-20 // Safety for IE scrollbar
+            );
+            makeTextAreaResizable("##{namingContainer}\\:#{textEditor.key}TextArea")
+        }
+
+        /* Some functions we need to store the cursor position and restore it after reRender */
+        function #{textEditor.key}StoreSettings() {
+            storeEditorSettings('##{namingContainer}\\:#{textEditor.key}TextArea');
+        }
+
+        function #{textEditor.key}RecallSettings() {
+            recallEditorSettings('##{namingContainer}\\:#{textEditor.key}TextArea');
+        }
+    </script>
+
+    <a:jsFunction name="#{textEditor.key}ValidateDelayed"
+                  action="#{textEditor.validate}"
+                  reRender="#{textEditor.key}Messages, #{textEditor.key}PreviewOption, #{textEditor.key}Preview"
+                  status="globalStatus"
+                  requestDelay="3000"
+                  ignoreDupResponses="true"
+                  eventsQueue="ajaxEventQueue"
+                  oncomplete="onAjaxRequestComplete();"/>
+
+    <a:jsFunction name="#{textEditor.key}ValidateImmediately"
+                  action="#{textEditor.validate}"
+                  reRender="#{textEditor.key}Messages, #{textEditor.key}PreviewOption, #{textEditor.key}Preview"
+                  status="globalStatus"
+                  ignoreDupResponses="true"
+                  eventsQueue="ajaxEventQueue"
+                  oncomplete="onAjaxRequestComplete();"/>
+
+    <!-- Now the reRender-able functions -->
+    <s:div id="#{textEditor.key}Functions">
+
+        <!--
+            Bind preview update to keyup on textarea - we do this so we don't have to reRender the textarea when
+             the preview is enabled or disabled, this would disrupt the workflow of the user and it flashes on the screen.
+         -->
+        <s:fragment rendered="#{textEditor.previewEnabled}">
+            <script type="text/javascript">jQuery(function() {
+                jQuery("##{namingContainer}\\:#{textEditor.key}TextArea").bind(
+                    "keyup",
+                    function(e) {
+                        eval("#{textEditor.key}ValidateDelayed()");
+                    }
+                ).attr("wrap", "virtual");
+            });</script>
+        </s:fragment>
+        <s:fragment rendered="#{not textEditor.previewEnabled}">
+            <script type="text/javascript">jQuery(function() {
+                jQuery("##{namingContainer}\\:#{textEditor.key}TextArea").unbind("keyup").attr("wrap", "virtual");
+            });</script>
+        </s:fragment>
+
+        <!-- Toolbar formatter doesn't work on IE, so only fade it in if it is a) hidden and b) no MSFT software -->
+        <script type="text/javascript">jQuery(function() {
+            if(!jQuery.browser.msie &amp;&amp; jQuery("##{textEditor.key}Formatter").css("display") == "none"){
+                jQuery("##{textEditor.key}Formatter").fadeIn(1000);
+            }
+        });</script>
+
+    </s:div>
+
+    <!-- ################################# Toolbar ################################# -->
+    <s:div id="#{textEditor.key}Toolbar" styleClass="textEditorToolbar">
+        <h:panelGrid columns="2" style="width:100%;" columnClasses="alignLeft, alignRight"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <s:div id="#{textEditor.key}ToolbarFormatter">
+                <select id="#{textEditor.key}Formatter" style="display:none"
+                        onchange="formatText(
+                                    jQuery('##{namingContainer}\\:#{textEditor.key}TextArea')[0],
+                                    jQuery('##{textEditor.key}Formatter')[0].options[jQuery('##{textEditor.key}Formatter')[0].selectedIndex].value
+                                  );
+                                  eval('#{textEditor.key}ValidateImmediately()');
+                                  jQuery('##{textEditor.key}Formatter')[0].options[0].selected = true;">
+                    <s:fragment rendered="#{textEditor.valuePlaintext}">
+                        <option value="">#{messages['lacewiki.msg.wikiTextEditor.MarkupDisabled']}</option>
+                    </s:fragment>
+                    <s:fragment rendered="#{not textEditor.valuePlaintext}">
+                        <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatSelection']}</option>
+                        <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatInline']}</option>
+                        <option value="|{i}|">#{messages['lacewiki.msg.wikiTextEditor.FormatMonospace']}</option>
+                        <option value="*{i}*">#{messages['lacewiki.msg.wikiTextEditor.FormatEmphasis']}</option>
+                        <option value="_{i}_">#{messages['lacewiki.msg.wikiTextEditor.FormatUnderline']}</option>
+                        <option value="~{i}~">#{messages['lacewiki.msg.wikiTextEditor.FormatStrikeout']}</option>
+                        <option value="^{i}^">#{messages['lacewiki.msg.wikiTextEditor.FormatSuperscript']}</option>
+                        <option value="&quot;{i}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuote']}</option>
+                        <option value="[My Link=>{i}]">#{messages['lacewiki.msg.wikiTextEditor.FormatLink']}</option>
+                        <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatBlock']}</option>
+                        <option value="`{b}`">#{messages['lacewiki.msg.wikiTextEditor.FormatCodeBlock']}</option>
+                        <option value="&quot;{b}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuoteBlock']}</option>
+                        <option value="= {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatUnorderedList']}</option>
+                        <option value="# {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatOrderedList']}</option>
+                        <option value="+ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline1']}</option>
+                        <option value="++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline2']}</option>
+                        <option value="+++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline3']}</option>
+                        <option value="++++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline4']}</option>
+                    </s:fragment>
+                </select>
+
+            </s:div>
+
+            <ui:decorate template="../../helpPopupButton.xhtml">
+                <ui:param name="label"        value="#{messages['lacewiki.button.help.Help']}"/>
+                <ui:param name="width"        value="450"/>
+                <ui:param name="height"       value="350"/>
+                <ui:param name="offsetId"     value="#{namingContainer}\\\\:#{textEditor.key}TextAreaDiv"/>
+                <ui:param name="helpDocument" value="Wiki Text Markup"/>
+             </ui:decorate>
+
+        </h:panelGrid>
+    </s:div>
+
+    <!-- ################################# Messages ################################# -->
+
+    <s:div id="#{textEditor.key}Messages"
+            styleClass="#{not textEditor.valid ? 'textEditorErrorMessages' : 'textEditorMessages'}">
+
+        <s:div styleClass="errorMessage" rendered="#{not textEditor.valid}">
+            <h:panelGrid columns="5" cellpadding="0" cellspacing="0" border="0"
+                         columnClasses="onePercentColumn minorPadding,
+                                        defaultColumn,
+                                        onePercentColumn,
+                                        onePercentColumn">
+                <h:graphicImage value="#{imagePath}/attention.gif"
+                                width="18" height="18"
+                                styleClass="attentionImage"/>
+                <s:span styleClass="attentionMessage">
+                        <h:outputText value="#{textEditor.lastValidationError.message}"/>
+                </s:span>
+                <s:fragment>
+                    <s:fragment rendered="#{textEditor.lastValidationError.position > 0}">
+                        <!-- Oh my god... -->
+                        <input id="#{textEditor.key}ThisIsJustADummy" size="2" value="  " disabled="true"
+                               style="display:inline;background:none;padding:0;border:0;margin:0;cursor:default"/>
+                    </s:fragment>
+                </s:fragment>
+                <s:fragment>
+                    <h:outputLink value="javascript://no-op" styleClass="buttonNonpersistent"
+                                  rendered="#{textEditor.lastValidationError.position > 0}"
+                                  onclick="selectText(
+                                            '##{namingContainer}\\\\:#{textEditor.key}TextArea',
+                                            '#{textEditor.lastValidationError.position}',
+                                            3
+                                           );">
+                        <h:outputText styleClass="buttonLabel"
+                                      value="#{messages['lacewiki.label.wikiTextValidator.HighlightError']}"/>
+                    </h:outputLink>
+                </s:fragment>
+                <s:fragment>
+                    <h:outputLink value="javascript://no-op" styleClass="buttonNonpersistent"
+                                  rendered="#{textEditor.lastValidationError.position > 0}"
+                                  onclick="scrollToText(
+                                            '##{namingContainer}\\\\:#{textEditor.key}TextArea',
+                                            '#{textEditor.lastValidationError.position}',
+                                            jQuery('##{textEditor.key}ThisIsJustADummy').width()/2,
+                                            jQuery('##{textEditor.key}ThisIsJustADummy').height()
+                                           );">
+                        <h:outputText styleClass="buttonLabel"
+                                      value="#{messages['lacewiki.label.wikiTextValidator.ScrollToError']}"/>
+                    </h:outputLink>
+                </s:fragment>
+            </h:panelGrid>
+        </s:div>
+
+        <s:fragment rendered="#{not empty tabId}">
+            <s:span rendered="#{not textEditor.valid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabRaiseError("#{tabId}", "#{textEditor.key}TextArea", '#{textEditor.lastValidationError.message}');
+                });</script>
+            </s:span>
+            <s:span rendered="#{textEditor.valid}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabClearError("#{tabId}", "#{textEditor.key}TextArea");
+                });</script>
+            </s:span>
+        </s:fragment>
+
+    </s:div>
+
+    <!-- ################################# Text Area ################################# -->
+
+    <s:div id="#{textEditor.key}TextAreaDiv" styleClass="textEditResizable">
+
+        <h:inputTextarea id="#{textEditor.key}TextArea"
+                         styleClass="ajaxSupport"
+                         tabindex="1"
+                         rows="#{textEditor.rows}"
+                         value="#{textEditor.value}"/>
+
+        <s:div id="#{textEditor.key}TextAreaResizeHandle"
+               styleClass="textAreaResizeHandle" style="display:none;float:right;"/>
+    </s:div>
+
+    <!-- ################################# Options ################################# -->
+
+    <s:div id="#{textEditor.key}PlaintextOption">
+        <h:panelGroup rendered="#{textEditor.allowPlaintext}">
+            <h:selectBooleanCheckbox value="#{textEditor.valuePlaintext}"
+                                     tabindex="1"
+                                     onclick="eval('#{textEditor.key}StoreSettings()');">
+                <a:support status="globalStatus" event="onchange"
+                           action="#{textEditor.switchPlaintext}"
+                           reRender="#{textEditor.key}Functions, #{textEditor.key}Messages, #{textEditor.key}ToolbarFormatter,
+                                     #{textEditor.key}PlaintextOption, #{textEditor.key}PreviewOption, #{textEditor.key}Preview"
+                           oncomplete="onAjaxRequestComplete(); eval('#{textEditor.key}RecallSettings()');"/>
+            </h:selectBooleanCheckbox>
+            <s:span style="white-space:nowrap;">
+                <h:outputText value="#{messages['lacewiki.label.wikiTextEditor.DisableContentMarkup']}"/>
+            </s:span>
+        </h:panelGroup>
+    </s:div>
+
+    <s:div id="#{textEditor.key}PreviewOption">
+        <h:panelGroup>
+            <h:selectBooleanCheckbox value="#{textEditor.previewEnabled}"
+                                     tabindex="1"
+                                     onclick="eval('#{textEditor.key}StoreSettings()');">
+                <a:support status="globalStatus" event="onchange"
+                           reRender="#{textEditor.key}Functions, #{textEditor.key}Messages,
+                                     #{textEditor.key}PreviewOption, #{textEditor.key}Preview"
+                           oncomplete="onAjaxRequestComplete(); eval('#{textEditor.key}RecallSettings()');"/>
+            </h:selectBooleanCheckbox>
+            <s:span style="white-space:nowrap;">
+                <h:outputText value="#{messages['lacewiki.label.wikiTextEditor.EnableLivePreview']}"/>
+                <h:outputText rendered="#{textEditor.previewEnabled}"
+                              value=" (#{textEditor.remainingCharacters} #{messages['lacewiki.label.wikiTextEditor.CharactersLeft']})"/>
+            </s:span>
+        </h:panelGroup>
+    </s:div>
+
+</s:div>
+</a:region>
+
+</s:fragment>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>SeamSpace Example</display-name>
+
+    <!-- RichFaces -->
+    
+    <context-param>
+        <param-name>org.richfaces.SKIN</param-name>
+        <param-value>blueSky</param-value>
+    </context-param>
+
+    <!-- Seam -->
+   
+    <listener>
+        <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
+    </listener>
+    
+    <servlet>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+      <servlet-name>Seam Resource Servlet</servlet-name>
+      <url-pattern>/seam/resource/*</url-pattern>
+    </servlet-mapping>    
+    
+    <filter>
+      <filter-name>Seam Filter</filter-name>
+      <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+      <filter-name>Seam Filter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>     
+        
+    <context-param>
+        <param-name>facelets.DEVELOPMENT</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <!-- Faces Servlet -->
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.seam</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Content Servlet -->
+    
+    <servlet>
+        <servlet-name>Content Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.example.seamspace.ContentServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Content Servlet</servlet-name>
+        <url-pattern>/content/*</url-pattern>
+    </servlet-mapping>   
+
+    <session-config>
+        <session-timeout>10</session-timeout> 
+    </session-config> 
+</web-app>

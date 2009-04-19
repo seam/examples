@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="OrderManagement" width="646" height="526">
+  <node name="start" x="89" y="49" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="process" x="89" y="232" width="140" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+    <edge>
+      <label x="1" y="-23"/>
+    </edge>
+  </node>
+  <node name="complete" x="89" y="444" width="140" height="40"/>
+  <node name="cancelled" x="335" y="299" width="140" height="40"/>
+</root-container>

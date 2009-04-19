@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:mail="http://jboss.com/products/seam/mail"
+            xmlns:transaction="http://jboss.com/products/seam/transaction"
+            xmlns:ui="http://jboss.com/products/seam/ui"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.1.xsd
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <!-- Conversation timeout: 20 minutes -->
+    <core:manager concurrent-request-timeout="4000"
+                  conversation-timeout="1200000"
+                  conversation-id-parameter="cid"/>
+
+    <!-- Persistence stuff -->
+
+    <persistence:managed-persistence-context
+            name="entityManager"
+            auto-create="true"
+            entity-manager-factory="#{wikiEntityManagerFactory}"
+            persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
+    </persistence:managed-persistence-context>
+
+    <persistence:managed-persistence-context
+            name="restrictedEntityManager"
+            auto-create="true"
+            entity-manager-factory="#{wikiEntityManagerFactory}"
+            persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
+        <persistence:filters>
+            <value>#{accessLevelFilter}</value>
+        </persistence:filters>
+    </persistence:managed-persistence-context>
+
+    <persistence:filter name="accessLevelFilter">
+        <persistence:name>accessLevelFilter</persistence:name>
+        <persistence:parameters>
+            <key>currentAccessLevel</key>
+            <value>#{currentAccessLevel}</value>
+        </persistence:parameters>
+    </persistence:filter>
+
+    <!-- JSF entity instance from/to string converters for select lists -->
+
+    <ui:entity-converter name="entityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{regularEntityLoader}"/>
+    <ui:jpa-entity-loader name="regularEntityLoader" entity-manager="#{entityManager}"/>
+
+    <ui:entity-converter name="restrictedEntityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
+    <ui:jpa-entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}"/>
+
+    <ui:entity-converter name="nestedSetNodeWrapperRestrictedEntityConverter" 
+                         class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
+
+    <!-- Login and security -->
+
+    <security:identity authenticate-method="#{authenticator.authenticate}"
+                       remember-me="false"/>
+
+    <!-- Caching -->
+
+    <component name="ehCacheManager"
+               class="org.jboss.seam.wiki.core.cache.EHCacheManager"
+               startup="true"
+               scope="APPLICATION"/>
+
+    <component name="pageFragmentCache"
+               class="org.jboss.seam.wiki.core.cache.PageFragmentCache"
+               startup="true" startupDepends="ehCacheManager pluginRegistry"
+               scope="APPLICATION">
+        <property name="cacheRegions">
+            <value>wiki.MainMenu</value>
+            <value>wiki.Breadcrumb</value>
+            <value>wiki.Comment</value>
+            <value>wiki.Signature</value>
+            <value>wiki.TagList</value>
+        </property>
+    </component>
+
+    <!-- Misc Settings -->
+
+    <!-- TODO: Disabled, see http://jira.jboss.com/jira/browse/JBSEAM-3070
+    <web:context-filter regex-url-pattern="/(service|servlets)/.+"/>
+    -->
+    <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
+
+    <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
+        <property name="initParameters">
+            <key>logLevel</key><value>WARN</value>
+            <key>statusEnabled</key><value>false</value>
+        </property>
+    </component>
+
+    <component name="themePreferenceValueTemplate"
+               class="org.jboss.seam.wiki.core.preferences.template.ThemeTemplate"
+               scope="CONVERSATION">
+        <property name="templateValues">
+            <value>default</value>
+            <value>sfwkorg</value>
+            <value>inrelationto</value>
+        </property>
+    </component>
+
+    <!-- Some convenience value factories -->
+
+    <factory name="contextPath" scope="CONVERSATION"  auto-create="true"
+             value="#{facesContext.externalContext.request.contextPath}"/>
+
+    <factory name="themePathGetRequest" scope="CONVERSATION"  auto-create="true"
+             value="#{servletContexts.request.contextPath}/themes/#{currentTheme}"/>
+
+    <factory name="themePath" scope="CONVERSATION" auto-create="true"
+             value="#{facesContext.externalContext.request.contextPath}/themes/#{currentTheme}"/>
+
+    <factory name="imagePath" scope="CONVERSATION" auto-create="true"
+             value="/themes/#{currentTheme}/img"/>
+
+    <factory name="currentTheme" scope="CONVERSATION" auto-create="true"
+             value="#{preferences.get('Wiki').themeName}"/>
+
+    <factory name="skin" scope="SESSION" value="d"/>
+
+    <factory name="sessionTimeoutSeconds" scope="EVENT"
+             value="#{facesContext.externalContext.getSession(true).getMaxInactiveInterval()}"/>
+
+    <factory name="currentPreferencesUser" scope="EVENT"
+             value="#{currentUser}"/>
+
+</components>

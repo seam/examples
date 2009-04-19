@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pageflow-diagram name="newuser" width="752" height="547">
+  <node name="start" x="90" y="20" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="account" x="89" y="108" width="140" height="40">
+    <transition name="next">
+      <label x="-20" y="-27"/>
+      <bendpoint w1="131" h1="8" w2="-130" h2="-70"/>
+    </transition>
+  </node>
+  <node name="checkPassword" x="350" y="186" width="140" height="40">
+    <transition name="true">
+      <label x="4" y="7"/>
+    </transition>
+    <transition name="false">
+      <label x="-21" y="7"/>
+      <bendpoint w1="-143" h1="-7" w2="118" h2="71"/>
+    </transition>
+  </node>
+  <node name="contact" x="90" y="275" width="140" height="40">
+    <transition name="prev">
+      <label x="-34" y="-13"/>
+    </transition>
+    <transition name="next">
+      <label x="5" y="-10"/>
+      <bendpoint w1="51" h1="51" w2="52" h2="-66"/>
+    </transition>
+  </node>
+  <node name="card" x="89" y="392" width="140" height="40">
+    <transition name="prev">
+      <label x="-36" y="-8"/>
+      <bendpoint w1="-55" h1="-66" w2="-56" h2="51"/>
+    </transition>
+    <transition name="next">
+      <label x="-38" y="-12"/>
+    </transition>
+  </node>
+  <node name="complete" x="90" y="485" width="140" height="40"/>
+</pageflow-diagram>

@@ -1,0 +1,51 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="5"
+                 styleClass="topicPagerTable"
+                 columnClasses="topicPagerColumn, topicPagerColumn, topicPagerTextColumn, topicPagerColumn, topicPagerColumn, "
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                        rendered="#{!forumQuery.pager.previousPageAvailable}"/>
+
+        <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.previousPage}">
+            <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                        rendered="#{!forumQuery.pager.previousPageAvailable}"/>
+
+        <s:span>
+            <h:outputText value="#{messages['forum.label.Showing']}
+                                    #{forumQuery.pager.firstRecord} #{messages['forum.label.To']}
+                                    #{forumQuery.pager.lastRecord} #{messages['forum.label.Of']}
+                                    #{forumQuery.pager.numOfRecords} #{messages['forum.label.Topics']}"/>
+        </s:span>
+
+        <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.nextPage}">
+            <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                        rendered="#{!forumQuery.pager.nextPageAvailable}"/>
+
+        <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.lastPage}">
+            <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+        </h:outputLink>
+        <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                        rendered="#{!forumQuery.pager.nextPageAvailable}"/>
+
+    </h:panelGrid>
+    
+</s:fragment>

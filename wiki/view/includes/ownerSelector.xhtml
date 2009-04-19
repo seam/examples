@@ -1,0 +1,204 @@
+<ui:decorate template="popupDialog.xhtml"
+         xmlns:s="http://jboss.com/products/seam/taglib"
+         xmlns:ui="http://java.sun.com/jsf/facelets"
+         xmlns:f="http://java.sun.com/jsf/core"
+         xmlns:h="http://java.sun.com/jsf/html"
+         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+         xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+    <ui:param name="dialogId" value="dialogOwnerSelection"/>
+    <ui:define name="dialogInit">
+        <script type="text/javascript">jQuery(function() {
+            jsf('dialogOwnerSelectionPopup')
+                .css({ minWidth: "750px", maxWidth:"900px", minHeight: "420px", width: "750px;", height: "450px;", top: "100px", left: "150px"})
+                .jqm({
+                    trigger: jsf("openDialogOwnerSelection"),
+                    closeClass: "closeDialog",
+                    onShow: fadeInPopupDialog,
+                    onHide: fadeOutPopupDialog
+                });
+        });</script>
+    </ui:define>
+    <ui:define name="dialogTitle">#{messages['lacewiki.label.ownerSelector.SelectOwner']}</ui:define>
+    <ui:define name="dialogContent">
+
+        <h:form>
+        <div class="box">
+
+        <div class="form" id="userSearchControl">
+            <h:panelGrid columns="6"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="regularHeader rightBorder"
+                         columnClasses="tenPercentColumn formFields minorPadding, tenPercentColumn formFields minorPadding,
+                                        tenPercentColumn formFields minorPadding, tenPercentColumn formFields minorPadding,
+                                        defaultColumn alignRight rightBorder formFields minorPadding"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Username']}:"/>&#160;
+                    <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="10" tabindex="20"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.FirstName']}:"/>&#160;
+                    <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="10" tabindex="20"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.LastName']}:"/>&#160;
+                    <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="10" tabindex="20"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <s:fragment rendered="#{wiki:showEmailAddress()}">
+                        <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Email']}:"/>&#160;
+                        <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="10" tabindex="20"/>
+                    </s:fragment>
+                </h:panelGroup>
+
+                <a:commandLink id="find" styleClass="buttonNonpersistent sessionEventTrigger" reRender="dialogOwnerSelectionContent"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                               action="#{userSearch.find()}"
+                               tabindex="20"
+                               accesskey="#{messages['lacewiki.button.userList.Find.accesskey']}">
+                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userList.Find']}"/>
+                </a:commandLink>
+
+            </h:panelGrid>
+        </div>
+
+        <s:div id="userPager">
+            <h:panelGrid columns="5" styleClass="pager pagerTop"
+                         columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                         cellpadding="0" cellspacing="0" border="0"
+                         rendered="#{userSearch.rowCount > 0}">
+
+                <a:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                               reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+                </a:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
+
+                <a:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                               reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+                </a:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
+
+                <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
+
+                <a:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                               reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+                </a:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
+
+                <a:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
+                               oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                               reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+                </a:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
+
+            </h:panelGrid>
+        </s:div>
+
+        <s:div id="userTableContainer">
+            <h:dataTable id="userTable" var="u"
+                         value="#{usersList}"
+                         rendered="#{usersList.rowCount >0}"
+                         styleClass="datatable topLeftBottomBorder"
+                         headerClass="sortableHeader rightBorder"
+                         columnClasses="defaultColumn rightBorder alignLeft,
+                                        twentyPercentColumn rightBorder alignLeft minorPadding,
+                                        twentyPercentColumn rightBorder alignLeft minorPadding,
+                                        twentyPercentColumn rightBorder alignLeft minorPadding,
+                                        tenPercentColumn rightBorder alignCenter minorPadding"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <f:facet name="header">
+                        <a:commandLink action="#{userSearch.sortBy('username')}" tabindex="20" reRender="dialogOwnerSelectionContent"
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                            rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                            rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                            <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
+                        </a:commandLink>
+                    </f:facet>
+                    #{u.username}
+                    <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <a:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                            rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                            rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                            <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
+                        </a:commandLink>
+                    </f:facet>
+                    #{u.firstname}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        <a:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                            rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                            rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                            <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
+                        </a:commandLink>
+                    </f:facet>
+                    #{u.lastname}
+                </h:column>
+
+                <h:column rendered="#{wiki:showEmailAddress()}">
+                    <f:facet name="header">
+                        <a:commandLink action="#{userSearch.sortBy('email')}" tabindex="20" reRender="dialogOwnerSelectionContent"
+                                       oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
+                                       styleClass="sessionEventTrigger">
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                            rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                            rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                            <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
+                        </a:commandLink>
+                    </f:facet>
+                    #{u.email}
+                </h:column>
+
+                <h:column>
+                    <a:commandLink action="#{home.selectOwner(u.id)}"
+                                   reRender="ownerDisplay" oncomplete="onAjaxRequestComplete()"
+                                   styleClass="buttonNonpersistent closeDialog sessionEventTrigger" tabindex="20">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.ownerSelector.Select']}"/>
+                    </a:commandLink>
+                </h:column>
+
+            </h:dataTable>
+        </s:div>
+
+        </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:decorate>

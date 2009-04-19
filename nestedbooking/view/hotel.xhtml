@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+                                xmlns:s="http://jboss.com/products/seam/taglib"
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+<div class="section">
+	<h1>View Hotel</h1>
+</div>
+<div class="section">
+	<s:decorate template="output.xhtml">
+		<ui:define name="label">Name:</ui:define>
+		#{hotel.name}
+	</s:decorate>
+	
+	<s:decorate template="output.xhtml">
+		<ui:define name="label">Address:</ui:define>
+		#{hotel.address}
+	</s:decorate>
+	
+	<s:decorate template="output.xhtml">
+		<ui:define name="label">City, State:</ui:define>
+		#{hotel.city}, #{hotel.state}
+	</s:decorate>
+	
+	<s:decorate template="output.xhtml">
+		<ui:define name="label">Zip:</ui:define>
+		#{hotel.zip}
+	</s:decorate>
+	
+	<s:decorate template="output.xhtml">
+		<ui:define name="label">Country:</ui:define>
+		#{hotel.country}
+	</s:decorate>
+       
+    <s:decorate template="output.xhtml">
+    	<ui:define name="label">Nightly rate:</ui:define>
+    	<h:outputText value="#{hotel.minPrice}">
+                <f:convertNumber type="currency"  
+                                 currencySymbol="$"/>
+            </h:outputText>
+            -
+            <h:outputText value="#{hotel.maxPrice}">
+                <f:convertNumber type="currency"  
+                                 currencySymbol="$"/>
+            </h:outputText>
+    </s:decorate>
+</div>
+<div class="section">
+	<h:form id="hotel">
+	<fieldset class="buttonBox">
+		<h:commandButton id="bookHotel" action="#{hotelBooking.bookHotel}" value="Book Hotel"/>&#160;
+		<h:commandButton id="cancel" action="#{hotelBooking.cancel}" value="Back to Search"/>
+	</fieldset>
+	</h:form>
+</div>
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar"></ui:define>
+
+</ui:composition>

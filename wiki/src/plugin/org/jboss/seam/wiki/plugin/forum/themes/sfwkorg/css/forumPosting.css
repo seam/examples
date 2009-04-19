@@ -1,0 +1,33 @@
+.forumPostingHeaderInfoControls {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.forumPostingHeaderInfo {
+    text-align: left;
+    color:#576c74;
+    font-weight: bold;
+}
+
+.forumPostingHeaderControls {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.forumPostingControls {
+    text-align: right;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+.forumPostingDocumentWrapper {
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    border-top: 1px solid #d3d2d1;
+    padding: 5px;
+}
+
+.noComments {
+    border-bottom: 1px solid #C3BBB6;
+}
+

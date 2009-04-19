@@ -1,0 +1,21 @@
+<components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd 
+                 http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd 
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.1.xsd">
+            
+    <drools:rule-base name="ruleBase" rule-files="numberguess.drl"/>
+    <drools:managed-working-memory name="workingMemory" rule-base="#{ruleBase}"/>
+
+    <bpm:jbpm>
+        <bpm:pageflow-definitions>
+            <value>pageflow.jpdl.xml</value>
+        </bpm:pageflow-definitions>
+    </bpm:jbpm>
+
+</components>

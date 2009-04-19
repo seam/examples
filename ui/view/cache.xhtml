@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:cache" />
+	<ui:define name="body">
+		<p>Cache the rendered page fragment using JBoss Cache. Note that s:cache actually uses the instance of JBoss Cache managed by the built-in pojoCache component.</p>	
+		<s:cache key="example">Some cached text</s:cache>
+	</ui:define>
+</ui:composition>

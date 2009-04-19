@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Chat Room Example</title>
+</head>
+
+<body>
+
+  <script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?chatroomAction&amp;chatroomEvent"></script>
+  <script type="text/javascript" src="chatroom.js"></script>
+
+  <h1>Chat Room Example</h1>
+
+  <p>
+    Enter your name <input id="username" type="text"/>
+    <input type="button" id="btnConnect" onclick="javascript:connect()" value="Connect"></input>
+    <input type="button" id="btnDisconnect" disabled="true" onclick="javascript:disconnect()" value="Disconnect"></input>
+  </p>
+
+  <div>
+    <div id="channelDisplay" style="position:absolute;left:10px;width:580px;height:400px;border:1px solid #000000;overflow:auto">
+
+    </div>
+
+    <div style="position:absolute;left:600px;width:190px">
+      <div style="color:#ffffff;background-color:#880022;text-align:center">Users</div>
+      <select id="userList" size="10" style="width:190px;border:1px solid #000000">
+      <!--
+      -->
+      </select>
+    </div>
+
+    <div style="position:relative;top:410px;left:2px">
+      &gt; <input id="messageText" style="border:1px solid black;width:560px" onkeypress="checkEnterPressed(event)"></input>
+    </div>
+  </div>
+
+</body>
+</html>
+

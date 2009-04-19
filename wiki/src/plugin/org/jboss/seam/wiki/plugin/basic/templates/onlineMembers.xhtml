@@ -1,0 +1,29 @@
+<wiki:plugin
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+    <s:div styleClass="box">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{messages['lacewiki.label.userList.OnlineMembers']}"/>
+        </s:div>
+
+        <div class="boxContent">
+
+            <ui:include src="/includes/onlineMembers.xhtml">
+                <ui:param name="membersPerRow"
+                          value="#{preferences.get('OnlineMembers', currentMacro).membersPerRow}"/>
+            </ui:include>
+
+        </div>
+
+        <div class="boxFooter"/>
+
+    </s:div>
+
+</wiki:plugin>

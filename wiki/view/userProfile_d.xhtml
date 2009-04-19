@@ -1,0 +1,45 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:c="http://java.sun.com/jstl/core"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:param name="hideControls" value="#{not s:hasPermission('User', 'isAdmin', currentUser) and userHome.instance.id != currentUser.id}"/>
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userProfile.UserProfile']} '#{userHome.instance.username}'"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="editUser" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.userProfile.EditAccount.accesskey']}"
+            view="/userHome_#{skin}.xhtml" propagation="none"
+            rendered="#{s:hasPermission('User', 'isAdmin', currentUser) or userHome.instance.id == currentUser.id}">
+        <f:param name="userId" value="#{userHome.instance.id}"/>
+        <h:outputText escape="false" value="#{messages['lacewiki.button.userProfile.EditAccount']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:div>
+        <c:forEach var="pm" items="#{pluginRegistry.profilePluginModulesAsList}">
+            <c:set value="#{pm}" var="currentPluginModule"/>
+            <ui:include src="/#{pm.plugin.getPackageDefaultTemplatePath(pm.template)}"/>
+            <br/>
+        </c:forEach>
+    </s:div>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>

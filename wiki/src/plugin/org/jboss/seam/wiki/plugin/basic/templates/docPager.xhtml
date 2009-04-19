@@ -1,0 +1,45 @@
+<wiki:plugin
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{currentMacro.getCacheRegion('DocPager')}"
+             key="#{currentMacro.cacheKey}">
+
+    <h:panelGrid columns="2" styleClass="docPager" columnClasses="docPagerPrevious, docPagerNext"
+                 cellpadding="0" cellspacing="0" border="0">
+        <s:div styleClass="undecoratedLink">
+            <s:fragment rendered="#{not empty docPager.getPrevious(currentMacro)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.getPrevious(currentMacro))}">
+                    <h:graphicImage styleClass="docPagerButton" value="#{imagePath}/left.gif" width="18" height="18"/>
+                    <h:outputText styleClass="docPagerLabel"
+                                  rendered="#{not preferences.get('DocPager', currentMacro).showNames}"
+                                  value="#{messages['lacewiki.label.Previous']}"/>
+                    <h:outputText styleClass="docPagerLabel"
+                                  rendered="#{preferences.get('DocPager', currentMacro).showNames}"
+                                  value="#{wiki:truncateString(docPager.getPrevious(currentMacro).name, 35, '...')}"/>
+                </h:outputLink>
+            </s:fragment>
+        </s:div>
+        <s:div styleClass="undecoratedLink">
+            <s:fragment rendered="#{not empty docPager.getNext(currentMacro)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.getNext(currentMacro))}">
+                    <h:outputText styleClass="docPagerLabel" 
+                                  rendered="#{not preferences.get('DocPager', currentMacro).showNames}"
+                                  value="#{messages['lacewiki.label.Next']}"/>
+                    <h:outputText styleClass="docPagerLabel"
+                                  rendered="#{preferences.get('DocPager', currentMacro).showNames}"
+                                  value="#{wiki:truncateString(docPager.getNext(currentMacro).name, 35, '...')}"/>
+                    <h:graphicImage styleClass="docPagerButton" value="#{imagePath}/right.gif" width="18" height="18"/>
+                </h:outputLink>
+            </s:fragment>
+        </s:div>
+    </h:panelGrid>
+
+    </s:cache>
+
+</wiki:plugin>

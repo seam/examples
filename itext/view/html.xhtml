@@ -1,0 +1,29 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:p="http://jboss.com/products/seam/pdf">
+
+    <p:paragraph>This is a regular paragraph.</p:paragraph>
+
+
+    <p:html value="This is HTML that is just plain text." />
+    <p:html value="This is HTML with &lt;b&gt;some markup&lt;/b&gt;." />
+
+    <p:html>
+        This is HTML with text with text in the <b>body</b>.
+    </p:html>
+
+
+    <p:html>
+        <h1>This is more complex HTML</h1>
+        <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+        </ul>
+    </p:html>
+
+
+    <p:html>
+        <s:formattedText value="*This* /is/ |Seam Text| as HTML.  It's very^cool^." />
+    </p:html>
+</p:document>   

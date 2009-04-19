@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+
+<div class="section">
+	<h1>Room Preference</h1>
+</div>
+
+<div class="section">
+	<h:form id="room_selections_form">
+		<div class="section">
+			<h:outputText styleClass="output" value="No rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+			<h:outputText styleClass="output" value="Rooms available for the dates selected: " rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
+			<h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
+			<h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
+			
+			<br/><br/>
+			
+			<h:dataTable id="rooms" value="#{availableRooms}" var="room" rendered="#{availableRooms.rowCount > 0}">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					#{room.name}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					#{room.description}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Per Night</f:facet>
+					<h:outputText value="#{room.price}">
+						<f:convertNumber type="currency" currencySymbol="$"/>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:commandLink id="selectRoomPreference" action="#{roomPreference.selectPreference}">Select</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</div>
+		<div class="entry">
+			<div class="label">&#160;</div>
+			<div class="input">
+				<s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
+			</div>
+		</div>	
+	</h:form>
+</div>
+	
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar">
+
+<h1>Nesting conversations</h1>
+<p>Nested conversations allow the application to capture a consistent continuable state at various points in a user interaction, thus insuring truly correct behavior in the face of backbuttoning and workspace management.</p>
+
+<p><b>How Seam manages continuable state</b></p>
+
+<p>Seam provides a container for context state for each nested conversation. Any contextual variable in the outer conversations context will not be overwritten by a new value, the value will simply be stored in the new context container.  This allows each nested conversation to maintain its own unique state.</p>
+
+
+</ui:define>
+
+</ui:composition>

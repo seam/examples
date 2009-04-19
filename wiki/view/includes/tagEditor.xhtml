@@ -1,0 +1,73 @@
+<s:fragment 
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <a:region>
+        <s:div id="removeTags" styleClass="entry">
+            <s:div styleClass="label">
+                <h:outputText value="#{messages['lacewiki.label.tagEdit.RemoveTags']}:"/>
+            </s:div>
+            <s:div styleClass="multiLineInput">
+                <s:fragment rendered="#{empty tagEditor.tags}">
+                    <h:outputText value="#{messages['lacewiki.label.tagEdit.NoTags']}"/>
+                </s:fragment>
+                <ui:repeat var="tag" value="#{tagEditor.tagsAsList}">
+                    <s:span styleClass="undecoratedLink">
+                        <a:commandLink tabindex="1" oncomplete="onAjaxRequestComplete()" status="globalStatus"
+                                       action="#{tagEditor.removeTag(tag)}"
+                                       reRender="removeTags, popularTags, newTagDecorate">
+                            <h:outputText styleClass="noWrapWhitespace" value="#{tag}"/>
+                        </a:commandLink>
+                    </s:span>
+                    <h:outputText rendered="#{not wiki:isLastItemInList(tagEditor.tagsAsList, tag)}" value="&#160;| "/>
+                </ui:repeat>
+            </s:div>
+        </s:div>
+
+        <s:div id="popularTags" styleClass="entry">
+            <s:div styleClass="label">
+                <h:outputText value="#{messages['lacewiki.label.tagEdit.AddPopularTags']}:"/>
+            </s:div>
+            <s:div styleClass="multiLineInput">
+                <s:fragment rendered="#{empty tagEditor.popularTags}">
+                    <h:outputText value="#{messages['lacewiki.label.tagEdit.NoPopularTags']}"/>
+                </s:fragment>
+                <s:div>
+                    <ui:repeat var="tagCount" value="#{tagEditor.popularTags}">
+                        <s:span styleClass="undecoratedLink">
+                            <a:commandLink tabindex="1" oncomplete="onAjaxRequestComplete()" status="globalStatus"
+                                           action="#{tagEditor.addTag(tagCount.tag)}"
+                                           reRender="removeTags, popularTags, newTagDecorate">
+                                <h:outputText styleClass="noWrapWhitespace" value="#{tagCount.tag}"/>
+                            </a:commandLink>
+                        </s:span>
+                        <h:outputText rendered="#{not wiki:isLastItemInList(tagEditor.popularTags, tagCount)}" value="&#160;| "/>
+                    </ui:repeat>
+                </s:div>
+            </s:div>
+        </s:div>
+
+        <s:decorate id="newTagDecorate" template="formFieldDecorate.xhtml">
+            <ui:define name="label">#{messages['lacewiki.label.tagEdit.NewTag']}</ui:define>
+                <h:panelGroup>
+                    <h:inputText id="newTag" styleClass="ajaxSupport" tabindex="1" size="25" maxlength="255" required="false"
+                                 value="#{tagEditor.newTag}"/>
+                    <a:commandLink tabindex="1" styleClass="buttonNonpersistent" oncomplete="onAjaxRequestComplete()"
+                                   status="globalStatus"
+                                   action="#{tagEditor.addNewTag}"
+                                   reRender="removeTags, popularTags, newTagDecorate">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.tagEdit.Add']}"/>
+                    </a:commandLink>
+
+                </h:panelGroup>
+        </s:decorate>
+    </a:region>
+
+</s:fragment>
+
+

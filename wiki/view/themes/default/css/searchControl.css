@@ -1,0 +1,43 @@
+#searchControl {
+    background-color: #3e3532;
+    border-style: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+#searchControl .searchControlTable {
+    margin-left: 10px;
+}
+
+#searchControl #searchControlForm {
+    display: inline;
+}
+
+#searchControl .searchControlLabel{
+	color: #fff;
+    font-weight: bold;
+    font-size: 75%;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#searchControl .searchControlInput {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 75%;
+    border: 0;
+}
+
+#searchControl .searchControlButton {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 75%;
+	color: #C7B299;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    background:none;
+    border: none;
+}

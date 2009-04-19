@@ -1,0 +1,19 @@
+<h:form id="searchForm" xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:s="http://jboss.com/products/seam/taglib" 
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+    
+    <span class="menuItem">
+        <h:inputText id="field" value="#{searchService.searchPattern}"/>
+        <h:commandButton id="submit" value="Search" action="/search.xhtml"/>
+        <s:conversationPropagation type="none"/> 
+    </span>
+    
+    <span class="menuItem">
+        <h:selectOneMenu value="#{themeSelector.theme}">
+            <f:selectItems value="#{themeSelector.themes}"/>
+        </h:selectOneMenu>
+        <h:commandButton action="#{themeSelector.select}" value="Select Theme"/>
+    </span>
+</h:form>

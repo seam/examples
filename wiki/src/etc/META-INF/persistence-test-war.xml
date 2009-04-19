@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Persistence deployment descriptor for dev profile -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+             version="1.0">
+
+    <persistence-unit name="wiki" transaction-type="JTA">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:/wikiTestDatasource</jta-data-source>
+        <properties>
+
+            <!-- MySQL also requires changes to AllTests.tng.xml and wiki-test-ds.xml
+            -->
+            <!--
+            <property name="hibernate.dialect" value="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
+            -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+
+            <property name="hibernate.transaction.manager_lookup_class"
+                      value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+
+            <!-- Required binding for Seam-managed persistence context in Embeddable JBoss -->
+            <property name="jboss.entity.manager.factory.jndi.name" value="java:/entityManagerFactories/wiki"/>
+
+            <!-- Automatic schema export and drop -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+
+            <!-- Logging -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.format_sql" value="false"/>
+
+            <!-- Search engine -->
+            <property name="hibernate.search.default.directory_provider"
+                      value="org.hibernate.search.store.FSDirectoryProvider"/>
+            <property name="hibernate.search.default.indexBase" value="lacewikiIndex"/>
+            <property name="hibernate.search.worker.batch_size" value="50"/>
+
+            <!-- Run the Hibernate bytecode instrumentation at deployment time, for lazy loading of @ToOne and byte[] properties -->
+            <!-- TODO: That doesn't work for me, using the enhancer in build.xml manually -->
+            <property name="hibernate.ejb.use_class_enhancer" value="true"/>
+            <property name="hibernate.max_fetch_depth" value="1"/>
+            <property name="hibernate.jdbc.batch_size" value="0"/>
+
+            <!-- Enable Hibernate statistics, needs SessionFactory in JNDI for JMX monitoring -->
+            <property name="hibernate.generate_statistics" value="true"/>
+            <property name="hibernate.session_factory_name" value="SessionFactories/lacewikiSF"/>
+
+            <!-- Nested Set handling through special Hibernate event listeners -->
+            <property name="hibernate.ejb.event.flush"
+                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetFlushEventListener"/>
+            <property name="hibernate.ejb.event.post-insert"
+                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostInsertEventListener"/>
+            <property name="hibernate.ejb.event.post-delete"
+                      value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostDeleteEventListener"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

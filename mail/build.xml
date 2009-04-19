@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="Seam Mail" default="deploy" basedir=".">
+	<!-- Example name -->
+	<property name="Name" value="Mail example" />
+	<property name="example.name" value="jboss-seam-email" />
+
+	<!-- Libraries -->
+	<property name="seam.ui.lib" value="yes" />
+	<property name="seam.mail.lib" value="yes" />
+	<property name="deploy.meldware.mail" value="yes" />
+	<property name="seam.pdf.lib"    value="yes"/>
+	<property name="seam.debug.lib" value="yes" />
+	<property name="facelets.lib" value="yes" />
+
+	<import file="../build.xml" />
+  
+    <patternset id="test.view.files">
+      <include name="*.*" />
+    </patternset>
+	
+	<patternset id="test.src.files">
+		<include name="**/*.xml" />
+		<include name="**/*.xhtml" />
+	</patternset>
+    
+    <path id="test.classpath.extras">
+      <path location="${lib.dir}/jboss-seam-ui.jar" />
+    </path>
+
+    <path id="build.classpath.extras">
+      <path location="${lib.dir}/jboss-seam-mail.jar" />
+      <path location="${lib.dir}/jboss-seam-pdf.jar" />
+    </path>
+
+</project>
+

@@ -1,0 +1,80 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <div class="box">
+
+        <div class="boxHeader">
+            <s:span styleClass="undecoratedLink">
+                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(user)}">
+                    <h:outputText value="#{user.fullname}"/>
+                </h:outputLink>
+            </s:span>
+            <s:div styleClass="userInfoEmail smallFont" rendered="#{wiki:showEmailAddress()}">
+                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', user.email))}">
+                    <h:outputText value="#{wiki:escapeAtSymbol(user.email)}"/>
+                </h:outputLink>
+            </s:div>
+        </div>
+
+        <div class="boxContent userInfoProfileContent">
+
+            <s:div styleClass="#{!empty user.profile.bio ? 'userInfoPortraitWithBio' : 'userInfoPortrait'}"
+                   rendered="#{!empty user.profile.imageContentType}">
+                <h:graphicImage styleClass="userInfoPortraitImage" value="#{wikiURLRenderer.renderUserPortraitURL(user, false)}"/>
+            </s:div>
+
+            <s:span styleClass="userInfoBio" rendered="#{!empty user.profile.bio}">
+                <wiki:formattedText value="#{user.profile.bio}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{wikiStart}"
+                                    currentAreaNumber="#{wikiStart.areaNumber}"
+                                    internalTargetFrame="_top"
+                                    externalTargetFrame="_top"
+                                    enableMacroRendering="false"/>
+            </s:span>
+
+            <s:div rendered="#{!empty user.profile.website}" styleClass="userInfoEntry">
+                <span class="userInfoEntryLabel">#{messages['lacewiki.label.userHome.Website']}:</span>
+                <span class="userInfoEntryLink">
+                    <h:outputLink target="_top" value="#{user.profile.website}">#{wiki:truncateString(user.profile.website, 40, '...')}</h:outputLink>
+                </span>
+            </s:div>
+            <s:div rendered="#{!empty user.profile.location}" styleClass="userInfoEntry">
+                <span class="userInfoEntryLabel">#{messages['lacewiki.label.userHome.Location']}:</span>
+                <span class="userInfoEntryText">
+                    <h:outputText value="#{user.profile.location}"/>
+                </span>
+            </s:div>
+            <s:div rendered="#{!empty user.profile.occupation}" styleClass="userInfoEntry">
+                <span class="userInfoEntryLabel">#{messages['lacewiki.label.userHome.Occupation']}:</span>
+                <span class="userInfoEntryText">
+                    <h:outputText value="#{user.profile.occupation}"/>
+                </span>
+            </s:div>
+
+            <s:div styleClass="userInfoEntry"
+                   rendered="#{empty user.profile.imageContentType
+                               and empty user.profile.bio
+                               and empty user.profile.website
+                               and empty user.profile.location
+                               and empty user.profile.occupation}">
+                <h:outputText value="#{messages['lacewiki.label.userProfile.NoProfile']}"/>
+            </s:div>
+
+        </div>
+
+        <s:div styleClass="boxFooter"/>
+
+    </div>
+
+</s:fragment>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<project name="Spring JBossWar" default="jbosswar.deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Spring Example for JBoss War"/>
+    <property name="example.name"           value="jboss-seam-spring"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources" />
+	<property name="dist.dir" value="dist-jbosswar" />
+	<property name="exploded-archives.dir" value="exploded-archives-jbosswar" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="seam.ioc.war.lib"   value="true"/>
+	<property name="spring.lib"   value="true"/>
+	<!-- needed because jboss must include hibernate search -->
+	<property name="search.lib"   value="true"/>
+	<property name="richfaces.lib" value="true"/>
+	<property name="cglib.lib" value="true"/>
+
+    <import file="../build.xml"/>
+
+	<fileset id="noejb.jar.extras" dir="${resources.dir}">
+		<include name="META-INF/persistence-spring.xml"/>
+	</fileset>
+
+</project>
+

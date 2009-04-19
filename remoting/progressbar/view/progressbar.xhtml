@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Seam Remoting Progress Bar Example</title>
+	
+	<style>
+
+    div.slider-box
+    {
+      position: relative;
+      width: 200px;
+      height: 20px;
+      border: 1px solid #cccccc; 
+      background-color: white;
+      color: white;
+      margin-bottom: 4px;
+    }	
+
+    div.slider-progress
+    {
+      color: black;
+      font-family: helvetica;
+      font-size: 9pt;
+      padding: 2px;
+      font-weight: bold;
+    }
+
+	</style>
+</head>
+
+<body>
+
+  <script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?progressBarAction"></script> 
+  <script type="text/javascript" src="slider.js"></script>
+  
+  <script type="text/javascript">
+    //<![CDATA[
+       
+    // don't display the loading indicator
+    Seam.Remoting.displayLoadingMessage = function() {};
+    Seam.Remoting.hideLoadingMessage = function() {};
+    
+    var progressBarAction = Seam.Component.getInstance("progressBarAction");
+    
+    function queryProgress() {
+      setTimeout("getProgress()", 250);
+    }
+    
+    function getProgress() {
+      progressBarAction.getProgress(progressCallback);    
+    }
+    
+    function progressCallback(progress) {  
+      progressBar.setPosition(progress.percentComplete);
+      if (progress.percentComplete < 100)
+        queryProgress();
+    }
+
+    // ]]>
+  </script>  
+
+  <h1>Seam Progress Bar Demo</h1>
+   
+  <p>This small example demonstrates how to implement a progress bar for long-running actions, using Seam Remoting.</p>
+
+  <h:form onsubmit="queryProgress();return true;"> 
+   
+    <h:commandButton style="width:80px" value="Go!" action="#{progressBarAction.doSomething}" styleClass="button"/>    
+  
+  </h:form>
+  
+  <div id="progressBar"></div>
+   
+  <script type="text/javascript">
+    //<![CDATA[
+    
+		var progressBar = qfSliderFactory.addSlider("progressBar");
+	  progressBar.setMaxValue(100);
+	  progressBar.setWidth(200);
+	  progressBar.setClassName("slider-box");
+	  progressBar.setUsedColour("#0000cf");
+	  progressBar.setShowProgress(true);
+	  progressBar.setProgressClassName("slider-progress");
+	  progressBar.repaint();   
+
+    // ]]>
+  </script>    
+
+</body>
+</html>
+

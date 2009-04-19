@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<project name="HelloWorld" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Remoting HelloWorld Example"/>
+    <property name="example.name"           value="jboss-seam-helloworld"/>
+
+    <!-- Overrides -->
+	<property name="seam.remoting.lib" value="yes"/>
+	<property name="seam.ui.lib"       value="yes"/>
+	<property name="facelets.lib"      value="yes"/>
+
+  <import file="../../build.xml"/>
+
+</project>
+

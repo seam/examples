@@ -1,0 +1,41 @@
+<wicket:border>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>JBoss Suites: Seam Framework</title>
+	<wicket:link>
+		<link href="css/screen.css" rel="stylesheet" type="text/css" />
+	</wicket:link>
+</head>
+
+
+
+<body>
+
+<div id="document">
+	<div id="header">
+		<div id="title"><wicket:link><img src="img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></wicket:link></div>
+		<div id="status">
+            Welcome <span wicket:id="userName" />
+            | <a id="search" wicket:id="search">Search</a>
+            | <a id="settings" wicket:id="settings">Settings</a>
+            | <a id="logout" wicket:id="logout">Logout</a>
+		</div>
+	</div>
+	<div id="container">
+		<div id="sidebar">
+			<!-- <ui:insert name="sidebar"/>-->
+		</div>
+		<div id="content">
+			<wicket:body />
+		</div>
+	</div>
+	<div id="footer">Created with Seam 2.0, JBoss EJB 3.0 and Apache Wicket</div>
+</div>
+</body>
+</html>
+</wicket:border>

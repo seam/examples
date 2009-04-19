@@ -1,0 +1,55 @@
+<s:div id="directoryBrowserPathPanel"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:form id="directoryBrowserPathForm" style="margin:0;padding:0;border:0">
+        <h:panelGrid columns="2"
+                     styleClass="directoryBrowserPathPanel"
+                     columnClasses="#{directoryBrowserSettings.treeVisible ? 'treeSwitchOpen':'treeSwitchClosed'}, path"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <s:fragment>
+
+                    <a:commandLink action="#{directoryBrowser.showTree}" tabindex="1"
+                                   reRender="#{renderOnSelect}"
+                                   rendered="#{not directoryBrowserSettings.treeVisible}"
+                                   status="globalStatus">
+                        <h:graphicImage value="#{imagePath}/menu_right.gif" width="18" height="18"/>
+                    </a:commandLink>
+                    <a:commandLink action="#{directoryBrowser.hideTree}" tabindex="1"
+                                   reRender="#{renderOnSelect}"
+                                   rendered="#{directoryBrowserSettings.treeVisible}"
+                                   status="globalStatus">
+                        <h:graphicImage value="#{imagePath}/menu_left.gif" width="18" height="18"/>
+                    </a:commandLink>
+
+            </s:fragment>
+
+            <s:fragment>
+                <h:panelGroup>
+                    <h:outputText value="/" styleClass="separator"/>
+                    <ui:repeat var="directory" value="#{directoryBrowser.instance.path}">
+
+                        <a:commandLink action="#{directoryBrowser.selectDirectory(directory.id)}"
+                                       styleClass="button"
+                                       status="globalStatus"
+                                       tabindex="1"
+                                       reRender="#{renderOnSelect}">
+                            <h:outputText styleClass="label" value="#{directory.name}"/>
+                        </a:commandLink>
+                        <h:outputText value="/" styleClass="separator"
+                                      rendered="#{directory != directoryBrowser.instance}"/>
+
+                    </ui:repeat>
+                </h:panelGroup>
+            </s:fragment>
+
+        </h:panelGrid>
+    </h:form>
+
+</s:div>

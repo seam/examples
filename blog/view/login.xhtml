@@ -1,0 +1,31 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="#{theme.template}">
+
+<ui:define name="content">
+   <div class="blogEntry">
+      <h:form id="login">
+         <div>
+            <h:outputLabel for="password">Password:</h:outputLabel>
+         </div>
+         <div>
+            <h:inputSecret id="password" 
+                        value="#{identity.password}" 
+                         size="15" 
+                    maxlength="15"/>
+            <h:commandButton id="login" value="Login"/>
+            <span class="errors"><h:message for="password"/></span>
+            <span class="errors"><h:messages globalOnly="true"/></span>
+         </div>
+         <div>
+         	To log in, use the password <em>tokyo</em>.
+         </div>
+      </h:form>
+   </div>
+</ui:define>
+
+</ui:composition>

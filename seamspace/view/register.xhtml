@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      <div id="contentMain">
+        <div class="errors"><h:messages globalOnly="true"/></div> 
+        
+        <p>
+          Already a member? <s:link view="/home.seam" value="Click here to log in" propagation="none"/>
+        </p>        
+        
+        <div id="register">
+          <div class="registerHeader">
+            JOIN SEAMSPACE HERE!
+          </div>
+                   
+          <h:form styleClass="register">
+            <s:validateAll>
+              <div class="formRow">
+                <h:outputLabel for="email">Email address<em>*</em></h:outputLabel>
+                <h:inputText id="email" value="#{register.member.email}" required="true" styleClass="wide"/>
+                <div class="validationError"><h:message for="email"/></div>
+              </div>
+
+              <div class="formRow">
+                <h:outputLabel for="firstName">First name<em>*</em></h:outputLabel>
+                <h:inputText id="firstName" value="#{register.member.firstName}" required="true"/>
+                <div class="validationError"><h:message for="firstName"/></div>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="lastName">Last name<em>*</em></h:outputLabel>
+                <h:inputText id="lastName" value="#{register.member.lastName}" required="true"/>
+                <div class="validationError"><h:message for="lastName"/></div>
+              </div>    
+              
+              <div class="formRow">
+                <h:outputLabel for="memberName">Nick name<em>*</em></h:outputLabel>
+                <h:inputText id="memberName" value="#{register.member.memberName}" required="true"/>
+                <div class="validationError"><h:message for="memberName"/></div>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="username">Username<em>*</em></h:outputLabel>
+                <h:inputText id="username" value="#{register.username}" required="true"/>
+                <div class="validationError"><h:message for="username"/></div>
+              </div>
+              
+              <div class="formRow">
+                <h:outputLabel for="password">Password<em>*</em></h:outputLabel>
+                <h:inputSecret id="password" value="#{register.password}" required="true"/>
+                <div class="validationError"><h:message for="password"/></div>
+              </div>   
+              
+              <div class="formRow">
+                <h:outputLabel for="confirmPassword">Confirm password<em>*</em></h:outputLabel>
+                <h:inputSecret id="confirmPassword" value="#{register.confirm}" required="true"/>
+                <div class="validationError"><h:message for="confirmPassword"/></div>
+              </div>         
+              
+              <div class="formRow">
+                <h:outputLabel for="gender">Gender<em>*</em></h:outputLabel>
+                <h:selectOneRadio id="gender" value="#{register.gender}" required="true">
+                  <f:selectItem itemValue="Male" itemLabel="Male" />
+                  <f:selectItem itemValue="Female" itemLabel="Female" />
+                </h:selectOneRadio>
+                <div class="validationError"><h:message for="gender"/></div>
+              </div>                                                   
+
+              <div class="formRow">
+                <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
+               	<rich:calendar id="dob" value="#{register.member.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipsis.png" />
+                <div class="validationError"><h:message for="dob"/></div>
+              </div>           
+              
+              <div class="formRow">
+                <h:outputLabel for="verifyCaptcha"><h:graphicImage value="/seam/resource/captcha"/><em>*</em></h:outputLabel>
+                <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
+                <div class="validationError"><h:message for="verifyCaptcha"/></div>
+              </div>
+              
+            </s:validateAll>
+            
+            <div class="buttons">
+              <h:commandButton value="Next" action="#{register.next}" styleClass="registerButton"/>            
+            </div>
+          
+          </h:form>
+          
+          <br class="clear"/>
+        </div>
+      </div>
+     
+    </ui:define>
+    
+  </ui:composition>
+</html>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin key="basic"
+        xmlns="http://jboss.com/products/seam/wiki/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.com/products/seam/wiki/plugin
+                            classpath://org/jboss/seam/wiki/core/plugin/plugin-1.0.xsd">
+
+    <plugin-info version="1.0">
+        <application-version min="1.0" max="1.0"/>
+        <vendor name="Red Hat Inc." url="http://www.seamframework.org/"/>
+    </plugin-info>
+
+    <macro key="clearBackground" name="clearBackground">
+        <skins>
+            <skin name="d"/>
+        </skins>
+        <applicable-to content="true" header="true"/>
+    </macro>
+
+    <macro key="hideControls" name="hideControls">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
+    <macro key="hideBreadcrumb" name="hideBreadcrumb">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
+    <macro key="hideComments" name="hideComments">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
+    <macro key="hideTags" name="hideTags">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
+    <macro key="hideCreatorHistory" name="hideCreatorHistory">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
+    <macro key="disableContentMacros" name="disableContentMacros">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to header="true"/>
+    </macro>
+
+    <macro key="disableContentMarkup" name="disableContentMarkup">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to header="true"/>
+    </macro>
+
+    <macro key="dirMenu" name="dirMenu">
+        <skins>
+            <skin name="d"/>
+        </skins>
+        <applicable-to content="true"/>
+        <cache-regions>
+            <cache-region name="DirMenuList">
+                <invalidation-event name="Node.removed"/>
+                <invalidation-event name="Node.updated"/>
+                <invalidation-event name="Node.persisted"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="dirToc" name="dirToc">
+        <skins>
+            <skin name="d"/>
+        </skins>
+        <applicable-to content="true"/>
+        <cache-regions>
+            <cache-region name="DirectoryToc">
+                <invalidation-event name="Node.persisted"/>
+                <invalidation-event name="Node.removed"/>
+                <invalidation-event name="Node.updated"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="docPager" name="docPager">
+        <skins>
+            <skin name="m"/>
+            <skin name="d"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+        <cache-regions>
+            <cache-region name="DocPager">
+                <invalidation-event name="Node.persisted"/>
+                <invalidation-event name="Node.removed"/>
+                <invalidation-event name="Node.updated"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="lastModifiedDocuments" name="lastModifiedDocuments">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <cache-regions>
+            <cache-region name="LastModifiedDocumentList">
+                <invalidation-event name="Node.removed"/>
+                <invalidation-event name="Node.updated"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="flash" name="flash">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </macro>
+
+    <!-- See http://flv-player.net/ -->
+    <macro key="flashVideo" name="flashVideo">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </macro>
+
+    <macro key="tags" name="tags">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <cache-regions>
+            <cache-region name="Tags">
+                <invalidation-event name="Node.persisted"/>
+                <invalidation-event name="Node.removed"/>
+                <invalidation-event name="Node.updated"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="userProfile" name="userProfile">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+
+        <!-- TODO: Re-enable after we switched from s:graphicImage to prerendered user portraits
+        <cache-regions>
+            <cache-region name="UserProfile">
+                <invalidation-event name="User.updated"/>
+                <invalidation-event name="User.removed"/>
+            </cache-region>
+        </cache-regions>
+        -->
+    </macro>
+
+    <macro key="onlineMembers" name="onlineMembers">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </macro>
+
+    <profile key="userSummary" template="profile_userSummary" priority="10">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+    </profile>
+
+</plugin>
+

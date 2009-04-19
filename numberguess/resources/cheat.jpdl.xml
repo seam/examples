@@ -1,0 +1,36 @@
+<!-- 
+
+   An example of pageflow in jPDL. This exemplifies the
+   approach where action handlers are attached transitions
+   and decision nodes, instead of view components. 
+   An alternative approach would be to attach all action 
+   handlers to view components, and let the jPDL define
+   only the navigation rules.
+   
+-->
+
+<pageflow-definition xmlns="http://jboss.com/products/seam/pageflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=
+	    "http://jboss.com/products/seam/pageflow http://jboss.com/products/seam/pageflow-2.1.xsd"
+	name="cheat">
+   
+   <start-state name="start">
+      <transition to="confirm"/>
+   </start-state>
+   
+   <page name="confirm" view-id="/confirm.jspx">
+      <transition name="yes" to="cheat">
+         <action expression="#{numberGuess.cheated}"/>
+      </transition>
+      <transition name="no" to="end"/>
+   </page>
+   
+   <page name="cheat" view-id="/cheat.jspx">
+      <redirect/>
+      <transition to="end"/>
+   </page>
+   
+   <end-state name="end"/>
+   
+</pageflow-definition>

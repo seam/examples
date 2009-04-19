@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <sql-query name="findLastCommentOfDocument">
+        <return-scalar column="LAST_COMMENT_ID" type="long"/>
+        select
+            ct3.NODE_ID as LAST_COMMENT_ID
+        from WIKI_COMMENT ct
+            inner join WIKI_NODE ct1 on ct.NODE_ID = ct1.NODE_ID
+                inner join WIKI_COMMENT ct2 on ct2.NS_THREAD in (ct.NS_THREAD)
+                    inner join WIKI_NODE ct3 on ct2.NODE_ID = ct3.NODE_ID,
+            WIKI_NODE doc0
+               inner join WIKI_DOCUMENT doc1 on doc0.NODE_ID = doc1.NODE_ID
+        where
+            ct1.PARENT_NODE_ID = :documentId
+        order by
+            ct3.CREATED_ON desc
+        limit 1
+    </sql-query>
+
+</hibernate-mapping>

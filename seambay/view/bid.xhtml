@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Search Results</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/bid.css" rel="stylesheet" type="text/css"/>    
+  </head>
+
+  <body>
+    <div class="content">
+      <div class="seambay-logo"></div>
+  
+      <br class="clear"/>
+      
+      <table width="100%" cellspacing="0" cellpadding="0" class="colourBar">
+        <tr>
+          <td class="lc1"/>
+          <td class="lc2"/>
+          <td class="lc3"/>
+          <td class="lc4"/>
+          <td class="lc5"/>
+          <td class="lc6"/>
+          <td class="lc7"/>
+        </tr>
+      </table>      
+     
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'confirm'}">
+        Review and Confirm your Bid
+      </s:div>
+      
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
+        Place Bid
+      </s:div>
+      
+      <s:div styleClass="headerTitle" rendered="#{bidAction.outcome == 'outbid'}">
+        Bid Confirmation
+      </s:div>      
+              
+      <div class="headerContent">
+        <b>Hello #{authenticatedAccount.name}!</b>
+      </div>
+      
+      <s:div rendered="#{bidAction.outcome == 'invalid'}" styleClass="subSection">
+        <div class="alertImage"/>
+        <div class="alertContent">
+          <div class="error">The following must be corrected before continuing:</div>
+          Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+          </h:outputText><span> <b>or more</b></span>
+        </div>   
+      </s:div>
+      
+      <s:div id="outbid" rendered="#{bidAction.outcome == 'outbid'}" styleClass="subSection">
+        <div class="outbidImage"/>
+        <div class="alertContent">
+          <b>Your bid has been submitted</b>
+          
+          <h2>You've been outbid by another bidder</h2>
+          
+          <ul>
+            <li>Another bidder placed a higher maximum bid, or placed the same maximum bid before you placed yours.</li>
+            <li>You must increase your maximum bid for a chance to win this item</li>
+          </ul>
+        </div>
+      </s:div>
+            
+      <div class="bidImage">
+        <s:graphicImage rendered="#{bidAction.bid.auction.image ne null}" value="#{bidAction.bid.auction.image.data}">
+          <s:transformImageSize width="80" maintainRatio="true"/>
+        </s:graphicImage>        
+      </div>
+      
+      <div class="bidItem">
+        <b>Item you're bidding on:</b><br/>
+        
+        <s:fragment rendered="#{bidAction.outcome == 'outbid'}">          
+          <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{bidAction.bid.auction.auctionId}">
+            #{bidAction.bid.auction.title}
+          </h:outputLink><br/>
+          
+          <div class="itemDetailRow">
+            <label>Time left:</label>
+            <div>
+              #{bidAction.bid.auction.daysHoursLeft} [<h:outputText value="#{bidAction.bid.auction.endDate}">
+                <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
+              </h:outputText>]
+            </div>
+          </div>
+          
+          <div class="itemDetailRow">
+            <label>History:</label>
+            <div>                 
+              <h:outputLink value="#{facesContext.externalContext.requestContextPath}/bidhistory/#{bidAction.bid.auction.auctionId}">
+                #{bidAction.bid.auction.bids} bids
+              </h:outputLink>                
+              
+            </div>
+          </div>
+        </s:fragment>
+        
+        <s:fragment rendered="#{bidAction.outcome != 'outbid'}">        
+          #{bidAction.bid.auction.title}<br/>
+        </s:fragment>
+        
+        <div class="itemDetailRow">
+          <s:fragment rendered="#{bidAction.bid.auction.highBid ne null}">        
+            <label>Current bid:</label>
+          </s:fragment>
+          <s:fragment rendered="#{bidAction.bid.auction.highBid eq null}">
+            <label>Starting price:</label>
+          </s:fragment>
+          
+          <div>                      
+            AU $<h:outputText value="#{bidAction.bid.auction.currentPrice}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+             </h:outputText>
+          </div>
+        </div>
+        
+        <s:div styleClass="itemDetailRow" rendered="#{bidAction.outcome != 'invalid' and bidAction.outcome != 'required'}">
+          <label><b>Your maximum bid:</b></label>
+          <div>
+            <b>AU $<h:outputText value="#{bidAction.bid.maxAmount}">
+              <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText></b>
+          </div>
+        </s:div>
+        
+        <h:form id="newBid" rendered="#{bidAction.outcome == 'invalid' or bidAction.outcome == 'required'}">
+          <div class="maximumBidRow">
+            <label>Your maximum bid:</label>
+            <div>
+              <b>$ </b><h:inputText id="bidAmount" value="#{bidAmount}"/>                            
+              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+          </h:outputText> <b>or more</b>)</span>
+            </div>          
+          </div>
+          
+          <div class="placeBid">
+            <h:commandButton id="placeBidWithAmount" action="#{bidAction.updateBid}" value="Continue >"/>
+          </div>
+        </h:form>
+      
+      </div>
+      
+      <h:form id="increaseBid" rendered="#{bidAction.outcome == 'outbid'}">
+        <div class="increaseBid" >
+          <label>Increase your maximum bid:</label>
+          <div>
+            <b>$ </b><h:inputText id="bidAmount" value="#{bidAmount}"/>
+              <span> (Enter $<h:outputText value="#{bidAction.bid.auction.requiredBid}">
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText> <b>or more</b>)</span>            
+          </div>
+        </div>
+        <h:commandButton id="bidAgain" styleClass="bidAgain" action="#{bidAction.updateBid}" value="Bid Again >"/>
+      </h:form>
+                       
+      <h:form id="confirm" rendered="#{bidAction.outcome == 'confirm'}">
+        <div class="confirmBid">
+          <b>By clicking on the button below, you agree to buy this item if you're the
+            winning bidder.</b><br/>
+          <h:commandButton id="confirmBid" styleClass="placeBid" action="#{bidAction.confirmBid}" value="Confirm Bid"/>
+        </div>
+        
+      </h:form>          
+              
+    </div>
+  </body>
+</html>

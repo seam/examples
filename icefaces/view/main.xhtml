@@ -1,0 +1,140 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ice="http://www.icesoft.com/icefaces/component" 
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+
+<div class="section">
+  
+    <span class="errors">
+       <h:messages id="messages" globalOnly="true"/>
+    </span>
+    
+    <h1>Search Hotels</h1>
+
+	<h:form id="searchCriteria">
+	<fieldset> 
+            <ice:selectInputText id="searchString" 
+                 valueChangeListener="#{hotelSearch.handleSearchStringChange}" 
+                 value="#{hotelSearch.searchString}"/>
+                 &#160;
+                 <ice:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}" />
+                 &#160;
+            <ice:outputConnectionStatus id="Spinner" activeLabel="requesting..." styleClass="connectionStatus"/>
+	        <br/>
+ 
+            <h:outputLabel for="pageSize">Maximum results:</h:outputLabel>&#160;
+            <ice:selectOneMenu id="pageSize" 
+                 value="#{hotelSearch.pageSize}" 
+                 valueChangeListener="#{hotelSearch.handlePageSizeChange}"
+                 partialSubmit="true">
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                    <f:selectItem itemLabel="10" itemValue="10"/>
+                    <f:selectItem itemLabel="20" itemValue="20"/>
+            </ice:selectOneMenu>
+    </fieldset>
+    </h:form>
+    
+</div>
+<ice:form id="searchResults">
+    <ice:panelGroup id="searchResults">
+  <div class="section" style="overflow:auto">
+	<h:outputText id="NoHotelsFoundMessage" value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+            <ice:outputText value="Search Results"/>
+            <ice:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                    <ice:outputText id="name" value="#{hot.name}" onmouseovereffect="#{highlight}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Address</f:facet>
+                    <ice:outputText id="address" value="#{hot.address}" onmouseovereffect="#{highlight}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">City, State</f:facet>
+                    <ice:outputText id="city" value="#{hot.city}, #{hot.state}, #{hot.country}" onmouseovereffect="#{highlight}"/>
+                </h:column> 
+                <h:column>
+                    <f:facet name="header">Zip</f:facet>
+                    <ice:outputText id="zip" value="#{hot.zip}" onmouseovereffect="#{highlight}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+                </h:column>
+            </ice:dataTable>
+            <s:link id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
+        </div>
+    </ice:panelGroup>
+</ice:form>
+
+<div class="section">
+	<h1>Current Hotel Bookings</h1>
+
+  <ice:form id="bookings">
+	<h:outputText value="No Bookings Found" rendered="#{bookings.rowCount==0}"/>
+	<ice:dataTable id="bookings" value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
+		<h:column>
+			<f:facet name="header">Name</f:facet>
+			<ice:outputText id="name" value="#{book.hotel.name}" onmouseovereffect="#{highlight}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Address</f:facet>
+			<ice:outputText id="address" value="#{book.hotel.address}" onmouseovereffect="#{highlight}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">City, State</f:facet>
+			<ice:outputText id="city" value="#{book.hotel.city}, #{book.hotel.state}" onmouseovereffect="#{highlight}"/>
+		</h:column>
+        <h:column>
+            <f:facet name="header">Check in date</f:facet>
+            <h:outputText id="checkIn" value="#{book.checkinDate}" onmouseovereffect="#{highlight}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Check out date</f:facet>
+            <h:outputText id="checkOut" value="#{book.checkoutDate}" onmouseovereffect="#{highlight}"/>
+        </h:column>
+		<h:column>
+			<f:facet name="header">Confirmation number</f:facet>
+			<ice:outputText id="confirmation" value="#{book.id}" onmouseovereffect="#{highlight}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Action</f:facet>
+			<ice:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
+		</h:column>
+	</ice:dataTable>
+  </ice:form>
+</div>
+
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar">
+
+<h1>State management in Seam</h1>
+<p>
+   State in Seam is <em>contextual</em>. When you click "Find Hotels", the application
+   retrieves a list of hotels from the database and caches it in the session context. When you
+   navigate to one of the hotel records by clicking the "View Hotel" link, a <em>conversation</em> 
+   begins. The conversation is attached to a particular tab, in a particular browser window. You can
+   navigate to multiple hotels using "open in new tab" or "open in new window" in your web browser.
+   Each window will execute in the context of a different conversation. The application keeps state
+   associated with your hotel booking in the conversation context, which ensures that the concurrent
+   conversations do not interfere with each other.
+</p>
+
+<p>
+   <a href="#" onclick="window.open('exp/mainExp.html','exp','width=752,height=500,scrollbars=yes');">
+      How does the search page work?
+   </a>
+</p>
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <head>
+        <title>Juice Bar</title>
+    </head>
+    <body>
+        <h1>Juice Bar</h1>
+        <h:form id="main">
+            <div>
+                Which juice do you prefer?
+                <ul>
+                    <li>#{juiceBar.juiceOfTheDay.name}* - #{juiceBar.juiceOfTheDay.price} cents</li>
+                    <li>#{juiceBar.anotherJuice.name} - #{juiceBar.anotherJuice.price} cents</li>
+                </ul>
+                <p><em>* Juice of the day</em></p>
+            </div>
+        </h:form>
+    </body>
+</html>

@@ -1,0 +1,134 @@
+<s:div styleClass="box"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<div>
+    <h:form id="commentForm" styleClass="commentForm">
+        <div class="form">
+
+            <div class="formHead bottomBorder">
+
+                <script type="text/javascript">
+                    function scrollToCommentForm() {
+                        window.scrollTo(0, jQuery('#commentForm').offset().top)
+                    }
+                </script>
+                
+                <s:fragment rendered="#{param.showCommentForm or commentHome.showForm}">
+                    <script type="text/javascript">jQuery(function () {scrollToCommentForm(); })</script>
+                    <script type="text/javascript">startSessionTimeoutCheck();</script>
+                </s:fragment>
+
+                <s:fragment rendered="#{not param.showCommentForm and not commentHome.showForm}">
+                    <script type="text/javascript">stopSessionTimeoutCheck();</script>
+                </s:fragment>
+
+                <h:commandLink tabindex="102" rendered="#{!commentHome.showForm}"
+                               action="#{commentHome.newComment()}"
+                               accesskey="#{messages['lacewiki.button.commentForm.PostComment.accesskey']}"
+                               styleClass="buttonNonpersistent">
+
+                    <f:attribute name="conversationPropagation" value="none"/>
+                    <h:outputText escape="false" styleClass="buttonLabel"
+                                  value="#{messages['lacewiki.button.commentForm.PostComment']}"/>
+                </h:commandLink>
+
+                <s:fragment rendered="#{commentHome.showForm}">
+                    <h:outputText value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
+                </s:fragment>
+
+            </div>
+
+            <s:div rendered="#{commentHome.showForm}"
+                   styleClass="formFields formBorder #{commentHome.instance.ownedByRegularUser ? '' : 'wideLabels'}">
+
+                <s:fragment rendered="#{not commentHome.instance.ownedByRegularUser}">
+                    <a:region>
+                        <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
+                            <ui:define name="label">#{messages['lacewiki.label.commentForm.Name']}</ui:define>
+                            <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
+                                         id="userName" value="#{commentHome.instance.fromUserName}">
+                                <a:support status="globalStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            </h:inputText>
+                        </s:decorate>
+                    </a:region>
+
+                    <s:decorate id="userEmailDecorate" template="formFieldDecorate.xhtml">
+                        <ui:define name="label">#{messages['lacewiki.label.commentForm.Email']}</ui:define>
+                        <h:inputText tabindex="1" size="40" maxlength="255" required="false"
+                                     id="userEmail" value="#{commentHome.instance.fromUserEmail}">
+                        </h:inputText>
+                    </s:decorate>
+
+                    <s:decorate id="userHomepageDecorate" template="formFieldDecorate.xhtml">
+                        <ui:define name="label">#{messages['lacewiki.label.commentForm.Homepage']}</ui:define>
+                        <h:inputText tabindex="1" size="40" maxlength="1000" required="false"
+                                     id="userHomepage" value="#{commentHome.instance.fromUserHomepage}">
+                        </h:inputText>
+                    </s:decorate>
+                </s:fragment>
+
+                <a:region>
+                <s:decorate id="subjectDecorate" template="formFieldDecorate.xhtml">
+                    <ui:define name="label">#{messages['lacewiki.label.commentForm.Subject']}</ui:define>
+                    <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
+                                 id="subject" value="#{commentHome.instance.subject}">
+                        <a:support status="globalStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
+                    </h:inputText>
+                </s:decorate>
+                </a:region>
+
+                <ui:include src="wikitext/editor/editor.xhtml">
+                    <ui:param name="textEditor" value="#{commentHome.textEditor}"/>
+                    <ui:param name="namingContainer" value="commentForm"/>
+                </ui:include>
+                <ui:include src="wikitext/editor/preview.xhtml">
+                    <ui:param name="textEditor" value="#{commentHome.textEditor}"/>
+                    <ui:param name="baseDocument" value="#{currentDocument}"/>
+                    <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
+                </ui:include>
+
+                <s:decorate id="verifyCaptchaEntry" template="captchaEntry.xhtml">
+                    <ui:param name="rendered" value="#{!identity.loggedIn}"/>
+                </s:decorate>
+
+            </s:div>
+
+            <s:div rendered="#{commentHome.showForm}"
+                   styleClass="formControls #{commentHome.instance.ownedByRegularUser ? '' : 'wideLabels'}">
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <a:commandLink id="post"
+                                       action="#{commentHome.persist}" tabindex="1"
+                                       reRender="commentDisplayForm, messageBoxContainer"
+                                       status="globalStatus"
+                                       eventsQueue="ajaxEventQueue"
+                                       oncomplete="onAjaxRequestComplete()"
+                                       styleClass="button sessionEventTrigger">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentForm.Post']}"/>
+                        </a:commandLink>
+
+                        <a:commandLink action="#{commentHome.cancel}" tabindex="1"
+                                       reRender="commentDisplayForm, messageBoxContainer"
+                                       immediate="true"
+                                       eventsQueue="ajaxEventQueue"
+                                       oncomplete="onAjaxRequestComplete()"
+                                       styleClass="buttonNonpersistent sessionEventTrigger">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.CancelNoKey']}"/>
+                        </a:commandLink>
+
+                    </div>
+                </div>
+            </s:div>
+
+        </div>
+    </h:form>
+
+</div>
+</s:div>

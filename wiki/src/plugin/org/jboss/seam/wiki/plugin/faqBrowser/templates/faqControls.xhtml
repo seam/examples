@@ -1,0 +1,121 @@
+<s:div id="faqControlsContainer"
+       styleClass="faqControlsContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       rendered="#{not faqQuestionHome.showForm}">
+
+    <h:form id="faqsSelectorForm">
+
+        <s:div styleClass="faqBrowserPanel">
+
+        <h:panelGrid columns="4"
+                     columnClasses="categoryLabel, categoryMenu, questionsControl, categoryLink, status"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <s:span>
+                <h:outputText value="#{messages['fb.faqBrowser.label.Category']}:"/>
+            </s:span>
+
+            <s:span>
+                <h:selectOneMenu value="#{faqBrowser.selectedDir}"
+                                 rendered="#{not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}"
+                                 converter="#{nestedSetNodeWrapperRestrictedEntityConverter}"
+                                 styleClass="ajaxSupport" tabindex="1">
+                    <s:selectItems value="#{faqBrowser.tree.wrappedChildren}"
+                                   var="faqsDir"
+                                   label="#{wiki:repeatString('&#160;&#183;&#160;',faqsDir.level-1)}#{wiki:truncateString(faqsDir.wrappedNode.name, 40, '...')}"/>
+                    <a:support event="onchange" status="globalStatus"
+                               action="#{faqBrowser.showQuestions}"
+                               reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"/>
+                </h:selectOneMenu>
+                <h:outputText value="#{messages['fb.faqBrowser.msg.TreeNotFound']}" rendered="#{empty faqBrowser.tree}"/>
+                <h:outputText value="#{messages['fb.faqBrowser.msg.TreeEmpty']}" rendered="#{faqBrowser.tree.wrappedChildren.size() == 0}"/>
+            </s:span>
+
+            <s:span id="faqQuestionsControl">
+                <a:commandLink action="#{faqBrowser.showQuestions}" tabindex="1"
+                               reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
+                               status="globalStatus"
+                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
+                    <h:graphicImage value="#{imagePath}/menu_down.gif" width="18" height="18"/>
+                </a:commandLink>
+                <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
+                               reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
+                               status="globalStatus"
+                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
+                    <h:graphicImage value="#{imagePath}/menu_up.gif" width="18" height="18"/>
+                </a:commandLink>
+            </s:span>
+
+            <s:span id="faqCategoryLink" styleClass="undecoratedLink">
+                <s:fragment rendered="#{faqBrowser.directorySelected}">
+                    <h:outputLink value="#{wikiURLRenderer.renderWikiURL(currentDocument)}/Category/#{faqBrowser.selectedDir.wrappedNode.wikiname}">
+                        <h:outputText value="Link"/>
+                    </h:outputLink>
+                </s:fragment>
+            </s:span>
+
+        </h:panelGrid>
+        </s:div>
+
+        <s:div id="faqQuestions">
+            <s:div styleClass="faqQuestionPanel" rendered="#{faqBrowser.directorySelected}">
+
+                <h:panelGrid columns="2" styleClass="header" columnClasses="categoryDescription, newQuestionButton"
+                             cellpadding="0" cellspacing="0" border="0">
+
+                    <h:outputText value="#{faqBrowser.selectedDir.wrappedNode.description}"/>
+
+                    <s:fragment rendered="#{s:hasPermission('Node', 'create', faqBrowser.selectedDir.wrappedNode)}">
+                        <a:commandLink action="#{faqQuestionHome.newQuestion()}"
+                                       reRender="faqBrowserPluginContainer, messageBoxContainer"
+                                       status="globalStatus"
+                                       accesskey="#{messages['fb.faqBrowser.button.NewQuestion.accesskey']}"
+                                       tabindex="1" styleClass="buttonNonpersistent">
+                            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['fb.faqBrowser.button.NewQuestion']}"/>
+                        </a:commandLink>
+                    </s:fragment>
+
+                </h:panelGrid>
+
+                <h:dataTable value="#{faqBrowser.questions}" var="q" rendered="#{not empty faqBrowser.questions}"
+                             styleClass="faqQuestionList"
+                             columnClasses="defaultColumn alignLeft minorPadding wrapWhitespace, twentyPercentColumn alignLeft minorPadding smallFont"
+                             rowClasses="rowOdd, rowEven"
+                             cellpadding="0" cellspacing="0" border="0">
+                    <h:column>
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(q)}">
+                            <h:outputText value="#{q.name}"/>
+                        </h:outputLink>
+                    </h:column>
+
+                    <h:column>
+                        <s:fragment rendered="#{!empty q.lastModifiedOn and !empty q.lastModifiedBy}">
+                            <h:outputText value="#{messages['fb.faqBrowser.label.Updated']}:&#160;"/>
+                            <h:outputText value="#{q.lastModifiedOn}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            (<s:span styleClass="undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(q.lastModifiedBy)}">
+                                    <h:outputText value="#{q.lastModifiedBy.username}"/>
+                                </h:outputLink>
+                            </s:span>)
+                        </s:fragment>
+                    </h:column>
+
+                </h:dataTable>
+
+                <s:div styleClass="noQuestions" rendered="#{empty faqBrowser.questions}">
+                    <h:outputText value="#{messages['fb.faqBrowser.label.NoQuestionsInCategory']}"/>
+                </s:div>
+            </s:div>
+        </s:div>
+
+    </h:form>
+
+</s:div>

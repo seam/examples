@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:web="http://jboss.com/products/seam/web"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd">
+
+    <core:init jndi-pattern="@jndiPattern@" debug="false"/>
+ 
+    <core:manager conversation-timeout="120000" 
+                  concurrent-request-timeout="500"
+                  conversation-id-parameter="cid"/>
+    
+    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+    
+    <security:jpa-identity-store 
+       user-class="org.jboss.seam.example.seamspace.MemberAccount"
+       role-class="org.jboss.seam.example.seamspace.MemberRole"
+       />
+    
+    <!--security:identity-manager identity-store="#{ldapIdentityStore}"/-->
+    
+    <security:ldap-identity-store name="ldapIdentityStore"
+      server-address="localhost"
+      bind-DN="cn=Manager,dc=bryzak,dc=com"
+      bind-credentials="secret"
+      user-DN-prefix="uid="
+      user-DN-suffix=",ou=Person,dc=bryzak,dc=com"
+      role-DN-prefix="cn="
+      role-DN-suffix=",ou=Roles,dc=bryzak,dc=com"
+      user-context-DN="ou=Person,dc=bryzak,dc=com"
+      role-context-DN="ou=Roles,dc=bryzak,dc=com"
+      user-role-attribute="roles"
+      role-name-attribute="cn"
+      user-object-classes="person,uidObject"
+      />
+      
+    <security:jpa-permission-store user-permission-class="org.jboss.seam.example.seamspace.AccountPermission"/>
+       
+    <drools:rule-base name="securityRules">
+       <drools:rule-files>
+           <value>/META-INF/security-rules.drl</value>
+       </drools:rule-files>
+    </drools:rule-base>
+    
+    <web:multipart-filter create-temp-files="true" 
+                          max-request-size="5000000" 
+                          url-pattern="*.seam"/>   
+                          
+    <web:context-filter url-pattern="/content/*"/>
+
+    <persistence:managed-persistence-context name="entityManager" auto-create="true"
+                persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
+    
+    <event type="org.jboss.seam.security.notLoggedIn">
+        <action execute="#{redirect.captureCurrentView}"/>
+    </event>
+    
+    <event type="org.jboss.seam.security.loginSuccessful">
+        <action execute="#{redirect.returnToCapturedView}"/>
+    </event>    
+            
+</components>

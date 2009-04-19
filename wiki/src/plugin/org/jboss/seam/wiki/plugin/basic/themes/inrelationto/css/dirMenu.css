@@ -1,0 +1,59 @@
+.dirMenu .level1 {
+}
+
+.dirMenu .level1Body {
+    background-color: white;
+}
+
+.dirMenu .level1Marker {
+    display: none;
+}
+
+.dirMenu .level1Link {
+    color: #d75525;
+    font-size: 95%;
+    text-decoration: none;
+}
+
+.dirMenu .level1Link:hover {color: #666}
+
+.dirMenu .level1Children {
+    background-color: white;
+}
+
+.dirMenu .level2 {
+}
+
+.dirMenu .level2Marker {
+    color: #d75525;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+}
+
+.dirMenu .level2Link {
+    color: #d75525;
+    font-size: 80%;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dirMenu .level2Link:hover {color: #666}
+
+.dirMenu .level3 {}
+
+.dirMenu .level3Marker {
+    color: #d75525;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+}
+
+.dirMenu .level3Link {
+    color: #d75525;
+    font-size: 80%;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dirMenu .level3Link:hover {color: #666}

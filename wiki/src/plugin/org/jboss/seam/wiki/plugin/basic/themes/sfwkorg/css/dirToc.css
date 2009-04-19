@@ -1,0 +1,21 @@
+.dirToc {
+}
+
+.tocDirectoryPanel {
+    margin-top: 5px;
+}
+
+.tocDirectoryLabel {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tocDocumentLabel {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.rich-tree-node-highlighted .tocDirectoryLabel,
+.rich-tree-node-highlighted .tocDocumentLabel {
+    color: black;
+}

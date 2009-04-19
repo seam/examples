@@ -1,0 +1,19 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<ui:insert name="jsFunction"/>
+
+<h:outputLink value="javascript://no-op"
+              onclick="actionConfirmation( '#{wiki:escapeJSMessage(message)}' , '#{jsFunctionName}' )"
+              accesskey="#{accesskey}"
+              tabindex="#{tabindex}"
+              styleClass="#{not empty linkClass ? linkClass : 'button'}">
+    <h:outputText escape="#{not empty escapeLabel ? escapeLabel : 'true'}" styleClass="#{not empty labelClass ? labelClass : 'buttonLabel'}" value="#{label}"/>
+</h:outputLink>
+
+</ui:composition>

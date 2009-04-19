@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="Blog" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam Blog Example"/>
+    <property name="example.name"           value="jboss-seam-blog"/>
+
+    <!-- Libraries to include -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="seam.debug.lib"  value="yes"/>
+	<property name="facelets.lib"    value="yes"/>
+    <property name="search.lib"      value="yes"/>
+    <property name="cache.lib"       value="yes"/>
+	
+	<!-- Datasource -->
+	<property name="example.ds"              value="blog-ds.xml"/>
+
+	<property name="clean.extra" value="${basedir}/blogindexes" />
+	
+    <import file="../build.xml"/>
+    
+</project>

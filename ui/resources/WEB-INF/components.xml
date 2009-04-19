@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:core="http://jboss.com/products/seam/core"
+	xmlns:framework="http://jboss.com/products/seam/framework"
+	xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd 
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd 
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd">
+	
+	<core:init jndi-pattern="jboss-seam-ui-example/#{ejbName}/local" debug="true"/>
+
+	<core:manager conversation-timeout="120000"/>
+	
+	<persistence:managed-persistence-context name="entityManager" persistence-unit-jndi-name="java:/uiEntityManagerFactory"/>
+    
+    <framework:entity-query name="countries" ejbql="select c from Country c" />
+    
+    <framework:entity-query name="continents" ejbql="select c from Continent c" />
+     
+    <framework:entity-home name="personHome" entity-class="org.jboss.seam.example.ui.Person" />
+    
+    <framework:entity-query name="colours" ejbql="select c from Colour c" />
+    
+    <framework:entity-query name="books" ejbql="select b from Book b" />
+    
+    <framework:entity-query name="films" ejbql="select f from Film f" />
+
+	<factory name="person" value="#{personHome.instance}" />
+	
+</components>

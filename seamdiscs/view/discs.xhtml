@@ -1,0 +1,49 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    <rich:panel id="discs">
+   		<f:facet name="header">Discs</f:facet>
+    	<tr:form>
+	    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
+	    		<tr:column sortable="true" sortProperty="disc.name">
+	    			<f:facet name="header">
+	    				Name
+	    			</f:facet>
+	    			<s:link action="disc">
+	    				<tr:outputText value="#{disc.name}" />
+	    				<f:param name="discId" value="#{disc.id}" />
+	    			</s:link>
+	    		</tr:column>
+	    		<tr:column>
+	    			<f:facet name="header">
+	    				Artist
+	    			</f:facet>
+	    			<tr:outputText value="#{disc.artist.name}" />
+	    		</tr:column>
+	    		<f:facet name="detailStamp">
+	    			<s:div style="width: 200px">
+		    			<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+		    			<tr:outputText value="None known" rendered="#{empty disc.description}" />
+		    		</s:div>
+	    		</f:facet>
+	    	</tr:table>
+	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+		    	<s:button action="disc" value="Add disc" id="addDisc">
+		    		<f:param name="discId" value="" />
+	    		</s:button>
+		    </tr:panelButtonBar>
+    	</tr:form>
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>

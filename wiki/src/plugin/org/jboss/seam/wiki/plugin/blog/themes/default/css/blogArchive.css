@@ -1,0 +1,9 @@
+.blogArchiveSelector {
+    text-align: center;
+}
+.blogArchiveCombo {
+    border: 0;
+    margin: 10px;
+    color: #000;
+    font-weight: normal;
+}

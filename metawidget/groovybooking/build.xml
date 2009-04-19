@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<project name="Seam Metawidget Groovy Booking" default="jbosswar.restart" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam Metawidget Groovy Booking Example"/>
+    <property name="example.name"           value="jboss-seam-metawidget-groovybooking"/>
+
+    <property file="${basedir}/build.properties" />
+
+    <!-- Define location of merged source -->
+    <property name="staging.dir" value="${basedir}/staging"/>
+    <property name="src.model.dir" value="${staging.dir}/src/model" />
+    <property name="src.action.dir" value="${staging.dir}/src/action" />
+    <property name="src.test.dir" value="${staging.dir}/src/test" />
+    <property name="src.java.dir" value="${src.model.dir}"/>
+    <property name="view.dir" value="${staging.dir}/view"/>
+    <property name="resources.dir" value="${staging.dir}/resources"/>
+    <property name="clean.extra" value="${staging.dir}"/>
+    
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib" value="yes"/>
+    <property name="seam.debug.lib" value="yes"/>
+    <property name="facelets.lib" value="yes"/>
+    <property name="richfaces.lib" value="yes"/>
+    <property name="groovy.lib" value="yes"/>
+    <property name="metawidget-war.lib" value="yes"/>
+
+    <property name="profile" value="dev" />
+    
+    <!-- Datasource -->
+    <property name="example.ds" value="metawidget-groovybooking-${profile}-ds.xml"/>
+
+    <target name="init" depends="stage">
+        <antcall target="SeamExample.init"/>
+    </target>
+
+    <target name="stage">
+
+        <!-- Copy the original Seam booking example -->
+        <copy todir="${staging.dir}">
+            <fileset dir="${seam.dir}/examples/groovybooking">
+                <include name="src/**"/>
+                <include name="view/**"/>
+                <include name="resources/**"/>
+            </fileset>
+        </copy>
+        
+        <!-- Copy metawidget example overrides -->
+        <copy todir="${staging.dir}" overwrite="true">
+            <fileset dir=".">
+                <include name="src/**"/>
+                <include name="view/**"/>
+                <include name="resources/**"/>
+            </fileset>
+        </copy>
+        
+        <move file="${resources.dir}/groovybooking-dev-ds.xml" tofile="${resources.dir}/metawidget-groovybooking-dev-ds.xml"/>
+        <move file="${resources.dir}/groovybooking-prod-ds.xml" tofile="${resources.dir}/metawidget-groovybooking-prod-ds.xml"/>
+    </target>
+    
+    <import file="${basedir}/../../build.xml"/>
+
+    <!-- Enable the following overrides if you want to use your own JAR metawidget JAR files -->
+    <!-- Don't forget to set <property name="metawidget-war.lib" value="no" above -->
+    <!--
+    <path id="build.classpath.extras">
+        <fileset dir="${basedir}/..">
+            <include name="metawidget.jar"/>
+        </fileset>
+    </path>
+
+    <fileset id="war.lib.extras" dir="${basedir}/..">
+        <include name="metawidget.jar"/>
+    </fileset>
+    -->
+
+    <!-- remaining configuration copied from ../../groovybooking/build.xml -->
+    <target name="explode">
+        <antcall target="jbosswar.explode" />
+    </target>
+
+    <target name="restart">
+        <antcall target="jbosswar.restart" />
+    </target>
+
+    <target name="unexplode">
+        <antcall target="jbosswar.unexplode" />
+    </target>
+    
+    <property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
+    <property name="classes.action.dir" value="${war.dir}/WEB-INF/dev" />
+    <property name="debug" value="true" />
+    
+    <path id="src.test.path">
+        <path path="${src.model.dir}" />
+        <path path="${src.test.dir}" />
+        <path path="${src.action.dir}" />
+    </path>
+
+    <target name="groovy.init" description="Initialize the build">
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="build.classpath" />
+        <!-- really only the groovy jar is necessary -->
+        <mkdir dir="${classes.model.dir}" />
+        <mkdir dir="${classes.action.dir}" />
+        <condition property="groovy.dynamic" value="true">
+            <and>
+                <istrue value="${debug}" />
+            </and>
+        </condition>
+        <condition property="groovy.static" value="true">
+            <and>
+                <isfalse value="${debug}" />
+            </and>
+        </condition>
+    </target>
+
+    <target name="compilemodel" depends="groovy.init">
+        <groovyc classpathref="build.classpath" destdir="${classes.model.dir}" srcdir="${src.model.dir}" />
+    </target>
+
+    <target name="compileactions" depends="groovy.init,compileactions.compilegroovy,compileactions.copygroovy,compilemodel">
+        <javac classpathref="build.classpath" destdir="${classes.action.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+            <classpath path="${classes.model.dir}" />
+            <src path="${src.action.dir}" />
+        </javac>
+    </target>
+
+    <!-- private task -->
+    <target name="compileactions.compilegroovy" if="groovy.static" depends="groovy.init,compilemodel">
+        <path id="groovy.action.classpath">
+            <path refid="build.classpath" />
+            <dirset dir="${classes.model.dir}" />
+        </path>
+        <groovyc classpathref="groovy.action.classpath" destdir="${classes.action.dir}" srcdir="${src.action.dir}">
+        </groovyc>
+    </target>
+
+    <!-- private task -->
+    <target name="compileactions.copygroovy" if="groovy.dynamic">
+        <!-- copy the action groovy files into action if not compiled -->
+        <copy todir="${classes.action.dir}">
+            <fileset dir="${src.action.dir}">
+                <include name="**/*.groovy" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="init.war" depends="compilemodel,compileactions">
+        <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" file="${resources.dir}/META-INF/persistence-${profile}-war.xml" overwrite="true" />
+        <copy tofile="${war.dir}/WEB-INF/classes/import.sql" file="${resources.dir}/import-${profile}.sql" overwrite="true" />
+    </target>
+
+</project>

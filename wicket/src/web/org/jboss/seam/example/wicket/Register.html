@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:a="http://richfaces.org/a4j">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>JBoss Suites: Seam Framework</title>
+	<wicket:link>
+		<link href="css/screen.css" rel="stylesheet" type="text/css" />
+	</wicket:link>
+</head>
+
+<body id="pgHome">
+
+<div id="document">
+
+	<div id="header">
+		<div id="title"><img src="/seam-wicket/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
+	</div>
+	
+	<div id="container">
+	
+		<div id="sidebar">		    
+			
+		</div>
+		
+		<div id="content">
+		
+			<div class="section">
+				<h1>Register</h1>
+			</div>
+			
+			<div class="section">
+
+                <form wicket:id="registration">
+				<fieldset>
+				
+					<div wicket:id="usernameDecorate">
+						<input wicket:id="username" />
+					</div>
+					
+					<span wicket:id="nameDecorate">
+						<input wicket:id="name" />
+					</span>
+					
+					<span wicket:id="passwordDecorate">
+						<input type="password" wicket:id="password" />
+					</span>
+					
+					<span wicket:id="verifyDecorate">
+						<input type="password" wicket:id="verify" />
+					</span>
+					
+					<div class="buttonBox">
+						<input id="register" type="submit" value="Register"/>
+						&#160;
+						<input id="cancel" type="button" wicket:id="cancel" value="Cancel"/>
+					</div>
+									
+				</fieldset>
+				<div class="errors" wicket:id="messages" />
+                </form>
+                
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<div id="footer">Created with Seam 2.0, JBoss EJB 3.0 and Apache Wicket</div>
+	
+</div>
+
+</body>
+
+</html>

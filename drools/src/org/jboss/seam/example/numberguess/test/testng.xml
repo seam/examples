@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Drools" verbose="2" parallel="false">
+
+   <test name="Drools ">
+     <classes>
+       <class name="org.jboss.seam.example.numberguess.test.DroolsNumberGuessTest"/>
+     </classes>
+   </test>
+	
+</suite>

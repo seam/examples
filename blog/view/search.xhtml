@@ -1,0 +1,26 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="#{theme.template}">
+
+<ui:define name="content">
+   <h:dataTable id="searchResultTable" value="#{searchResults}" var="blogEntry">
+      <h:column>
+         <div>
+            <s:link id="link" view="/entry.xhtml" propagation="none" value="#{blogEntry.title}">
+               <f:param name="blogEntryId" value="#{blogEntry.id}"/>
+            </s:link>
+            posted on 
+            <h:outputText value="#{blogEntry.date}">
+                <f:convertDateTime timeZone="#{blog.timeZone}" locale="#{blog.locale}" type="both"/>
+            </h:outputText>
+         </div>
+      </h:column>
+   </h:dataTable>
+</ui:define>
+
+</ui:composition>

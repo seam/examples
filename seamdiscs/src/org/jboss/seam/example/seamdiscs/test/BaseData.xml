@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<dataset>
+   
+   <ARTIST 
+      id="1"
+      dtype="Band"
+      name="Pink Floyd" />
+      
+   <ARTIST 
+      id="2"
+      dtype="Band"
+      name="Fairport Convention" />
+      
+   <ARTIST 
+      id="3"
+      dtype="Artist"
+      name="Bob Dylan" />
+      
+   <ARTIST 
+      id="4"
+      dtype="Band"
+      name="Led Zepplin" />
+   
+   <ARTIST 
+      id="5"
+      dtype="Artist"
+      name="Ry Cooder" />
+      
+   <ARTIST 
+      id="6"
+      dtype="Artist"
+      name="Richard Thompson" />
+   
+   <DISC
+      id="1"
+      name="Dark Side of the Moon"
+      artist_id="1" />
+   
+   <DISC
+      id="2"
+      name="Liege and Lief"
+      artist_id="2" />
+      
+   <DISC
+      id="3"
+      name="The Wall"
+      artist_id="1" />
+   
+   <DISC
+      id="4"
+      name="The Freewheelin' Bob Dylan"
+      artist_id="3" />
+      
+   <DISC
+      id="5"
+      name="Blood on the Tracks"
+      artist_id="3" />
+      
+   <DISC
+      id="6"
+      name="Chavez Ravine"
+      artist_id="5" />
+      
+   <BANDMEMBER
+      id="1"
+      name="Syd Barett"
+      band_id="1" />
+      
+   <BANDMEMBER
+      id="2"
+      name="David Gilmour"
+      band_id="1" />
+      
+   <BANDMEMBER
+      id="3"
+      name="Roger Waters"
+      band_id="1" />
+      
+   <USER
+      id="1"
+      username="administrator"
+      password="administrator" />
+    
+</dataset>

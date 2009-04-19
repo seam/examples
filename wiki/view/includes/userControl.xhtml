@@ -1,0 +1,173 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:fragment rendered="#{not identity.loggedIn and empty resetPasswordOfUser}">
+    <ui:decorate template="popupDialog.xhtml">
+
+        <ui:param name="dialogId" value="passwordReset"/>
+        <ui:param name="hideCancelButton" value="true"/>
+        <ui:param name="disableResize" value="true"/>
+        <ui:define name="dialogInit">
+            <script type="text/javascript">jQuery(function() {
+                var offset = jQuery("#loginForm\\:openPasswordResetPopup").offset();
+                jsf('passwordResetPopup')
+                    .css({ width: "420px", height: "115px",
+                           top: offset.top+10+"px", left: offset.left-300+"px"
+                         })
+                    .jqm({
+                        trigger: jQuery("#loginForm\\:openPasswordResetPopup"),
+                        closeClass: "closeDialog",
+                        onShow: fadeInPopupDialog,
+                        onHide: fadeOutPopupDialog
+                    });
+            });</script>
+        </ui:define>
+        <ui:define name="dialogTitle">#{messages['lacewiki.label.resetPassword.DialogTitle']}</ui:define>
+        <ui:define name="dialogContent">
+
+            <h:form id="resetPasswordRequestForm" styleClass="resetPasswordRequestForm">
+                <div class="resetPasswordRequestFormFields">
+
+                    <s:decorate id="nameDecorate" template="formFieldDecorate.xhtml">
+                        <ui:param name="fieldId" value="userPasswordResetUsername"/>
+                        <ui:define name="label">#{messages['lacewiki.label.resetPassword.Username']}</ui:define>
+                        <h:inputText tabindex="51" size="16" maxlength="16" value="#{userPasswordReset.username}"/>
+                    </s:decorate>
+
+                    <s:decorate id="emailDecorate" template="formFieldDecorate.xhtml">
+                        <ui:param name="fieldId" value="userPasswordResetEmail"/>
+                        <ui:define name="label">#{messages['lacewiki.label.resetPassword.Email']}</ui:define>
+                        <h:inputText tabindex="51" size="32" maxlength="255" value="#{userPasswordReset.email}"/>
+                    </s:decorate>
+
+                </div>
+
+                <div class="resetPasswordRequestFormControls">
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <a:commandLink styleClass="buttonNonpersistent sessionEventTrigger closeDialog" tabindex="51"
+                                           reRender="messageBoxContainer, passwordReset"
+                                           action="#{userPasswordReset.sendResetPasswordEmail}">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.resetPassword.Reset']}"/>
+                            </a:commandLink>
+
+                            <h:outputLink styleClass="buttonNonpersistent closeDialog" tabindex="51">
+                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Cancel']}"/>
+                            </h:outputLink>
+
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+
+        </ui:define>
+
+    </ui:decorate>
+</s:fragment>
+
+<s:div id="userControlPanel" styleClass="userControlPanel sessionEventTrigger">
+
+    <h:form styleClass="resetPasswordForm" rendered="#{not empty resetPasswordOfUser}">
+
+        <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.ResetPasswordOf']} '#{resetPasswordOfUser.username}':"/>
+        <h:inputSecret styleClass="input" value="#{userPasswordReset.password}" size="18" maxlength="15" tabindex="50"/>
+
+        <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.Repeat']}:"/>
+        <h:inputSecret styleClass="input" value="#{userPasswordReset.passwordControl}" size="18" maxlength="15" tabindex="50"/>
+
+        <h:commandLink styleClass="button" action="#{userPasswordReset.reset}" tabindex="50">
+            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.resetPassword.Reset']}"/>
+        </h:commandLink>
+
+    </h:form>
+
+    <s:fragment rendered="#{not identity.loggedIn}">
+
+        <h:form id="loginForm" styleClass="loginForm" rendered="#{empty resetPasswordOfUser}">
+
+            <h:outputText styleClass="label" value="#{messages['lacewiki.label.userControl.Username']}:"/>
+            <h:inputText styleClass="input" id="loginUsername" value="#{identity.username}" size="8" tabindex="50"/>
+
+            <s:span styleClass="label">
+                <h:outputText value="#{messages['lacewiki.label.userControl.Password']}&#160;"/>
+                <h:outputLink value="javascript://no-op" id="openPasswordResetPopup" tabindex="51">
+                    <h:outputText styleClass="linkText" escape="false" value="(#{messages['lacewiki.button.userControl.ResetPassword']})"/>
+                </h:outputLink>
+                <h:outputText value=":"/>
+            </s:span>
+            <h:inputSecret styleClass="input" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
+
+            <h:commandButton id="loginButton" action="#{identity.login}" tabindex="50" styleClass="loginButton"
+                             accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}"
+                             value="#{messages['lacewiki.button.userControl.Login']}">
+                <s:defaultAction/>
+            </h:commandButton>
+
+        </h:form>
+    
+        <s:link tabindex="50" styleClass="link"
+                accesskey="#{messages['lacewiki.button.userControl.Register.accesskey']}"
+                view="/userRegister_#{skin}.xhtml" propagation="none"
+                rendered="#{preferences.get('UserManagement').enableRegistration}">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Register']}"/>
+        </s:link>
+
+        <s:link tabindex="50" styleClass="link"
+                accesskey="#{messages['lacewiki.button.userControl.Members.accesskey']}"
+                view="/userList_#{skin}.xhtml" propagation="none">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Members']}"/>
+        </s:link>
+
+    </s:fragment>
+
+    <s:fragment rendered="#{identity.loggedIn}">
+
+
+        <h:form id="logoutForm" styleClass="logoutForm">
+            <h:outputText styleClass="label" value="(#{currentUser.fullname})"/>
+            <h:commandButton action="#{authenticator.logout}" tabindex="70" styleClass="logoutButton"
+                             accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}"
+                             value="#{messages['lacewiki.button.userControl.Logout']}">
+                <s:conversationPropagation type="none"/>
+            </h:commandButton>
+        </h:form>
+
+        <h:outputLink styleClass="link" tabindex="70"
+                      accesskey="#{messages['lacewiki.button.userControl.Home.accesskey']}"
+                      value="#{wikiURLRenderer.renderURL(currentUser.memberHome)}"
+                      rendered="#{!empty currentUser.memberHome}">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Home']}"/>
+        </h:outputLink>
+
+        <h:outputLink styleClass="link" tabindex="70"
+                      accesskey="#{messages['lacewiki.button.userControl.Profile.accesskey']}"
+                      value="#{wikiURLRenderer.renderUserProfileURL(currentUser)}">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Profile']}"/>
+        </h:outputLink>
+
+        <s:link styleClass="link" tabindex="70"
+                accesskey="#{messages['lacewiki.button.userControl.Members.accesskey']}"
+                view="/userList_#{skin}.xhtml" propagation="none">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Members']}"/>
+        </s:link>
+
+        <s:link styleClass="link" tabindex="70"
+                accesskey="#{messages['lacewiki.button.userControl.Admin.accesskey']}"
+                view="/adminHome_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Admin']}"/>
+        </s:link>
+
+    </s:fragment>
+
+</s:div>
+
+</s:fragment>
+

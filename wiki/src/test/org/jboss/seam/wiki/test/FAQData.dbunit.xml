@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <!-- FAQs directory -->
+    <WIKI_NODE
+        NODE_ID="300" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="300" NAME="FAQs" WIKINAME="FAQs"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="300" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="301"
+        NS_LEFT="300" NS_RIGHT="311" NS_THREAD="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="300" DISPLAY_POSITION="4"/>
+
+    <!-- FAQs directory start page, faq browser plugin -->
+    <WIKI_NODE
+        NODE_ID="301" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="300"
+        AREA_NR="300" NAME="FAQ Browser" WIKINAME="FAQBrowser"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="301" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="301"
+        HEADER="[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=faqBrowser]"
+        CONTENT="This is the FAQ start page."
+        FOOTER="[NULL]"
+        HEADER_MACROS="hideControls hideComments hideTags hideCreatorHistory faqBrowser"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"/>
+
+
+    <!-- First FAQ category -->
+    <WIKI_NODE
+        NODE_ID="302" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="300"
+        AREA_NR="300" NAME="Seam Product" WIKINAME="SeamProduct"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="302" DESCRIPTION="Questions for new users and evaluators of Seam." DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="301" NS_RIGHT="304" NS_THREAD="1"/>
+
+        <!-- Second FAQ category -->
+        <WIKI_NODE
+            NODE_ID="303" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="302"
+            AREA_NR="300" NAME="Seam License" WIKINAME="SeamLicense"
+            CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+            READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+        <WIKI_DIRECTORY
+            NODE_ID="303" DESCRIPTION="Questions about Seams distribution and usage license." DEFAULT_FILE_ID="[NULL]"
+            NS_LEFT="302" NS_RIGHT="303" NS_THREAD="1"/>
+
+    <!-- Third FAQ category -->
+    <WIKI_NODE
+        NODE_ID="304" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="300"
+        AREA_NR="300" NAME="Seam Core" WIKINAME="SeamCore"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="304" DESCRIPTION="Seam core technology questions." DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="305" NS_RIGHT="310" NS_THREAD="1"/>
+
+        <!-- Fourth FAQ category -->
+        <WIKI_NODE
+            NODE_ID="305" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="304"
+            AREA_NR="300" NAME="Expression Language" WIKINAME="ExpressionLanguage"
+            CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+            READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+        <WIKI_DIRECTORY
+            NODE_ID="305" DESCRIPTION="Questions about the JSP-, JSF-, and Unified-EL." DEFAULT_FILE_ID="[NULL]"
+            NS_LEFT="306" NS_RIGHT="307" NS_THREAD="1"/>
+
+        <!-- Fifth FAQ category -->
+        <WIKI_NODE
+            NODE_ID="306" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="304"
+            AREA_NR="300" NAME="Component Design" WIKINAME="ComponentDesign"
+            CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+            READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+        <WIKI_DIRECTORY
+            NODE_ID="306" DESCRIPTION="Tips and tricks about creating Seam components." DEFAULT_FILE_ID="[NULL]"
+            NS_LEFT="308" NS_RIGHT="309" NS_THREAD="1"/>
+
+
+    <!-- FAQ questions -->
+
+    <WIKI_NODE
+        NODE_ID="307" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="303"
+        AREA_NR="300" NAME="Can I use Seam in my proprietary product?" WIKINAME="CanIUseSeamInMyProprietaryProduct"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-23 13:45:00" LAST_MODIFIED_BY_USER_ID="3"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="307" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="307"
+        HEADER="[&lt;=faqBrowser]&#xA;[&lt;=docPager]"
+        CONTENT="+ Can I use Seam in my proprietary product?&#xA;&#xA;Can I really use Seam in my closed-source project or product? Do I have to give everyone the source code?"
+        FOOTER="[NULL]"
+        HEADER_MACROS="faqBrowser docPager"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="false"/>
+
+    <WIKI_NODE
+        NODE_ID="308" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="303"
+        AREA_NR="300" NAME="Do I have to pay to use Seam?" WIKINAME="DoIHaveToPayToUseSeam"
+        CREATED_ON="2006-09-24 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="308" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="308"
+        HEADER="[&lt;=faqBrowser]&#xA;[&lt;=docPager]"
+        CONTENT="+ Do I have to pay to use Seam?&#xA;&#xA;Do I have to transfer money to some Paypal account when I download Seam or are the developers giving me software *and* support for free in their spare time?"
+        FOOTER="[NULL]"
+        HEADER_MACROS="faqBrowser docPager"
+        CONTENT_MACROS="[NULL]"
+        FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="false" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="false"/>
+
+
+    <!-- FAQ answers -->
+
+    <WIKI_NODE
+        NODE_ID="309" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="308"
+        AREA_NR="3" NAME="Do I have to pay to use Seam?.Comment11967298211844" WIKINAME="DoIHaveToPayToUseSeamComment11967298211844"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="309"
+        SUBJECT="No, you don't."
+        CONTENT="But you can send us as much money as you want. Or, if you are not happy with our free software and support, we can send you some money to reimburse your download expenses and the time it took you to read this." USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="1" NS_RIGHT="2" NS_THREAD="309"/>
+
+    <WIKI_DOCUMENT_LAST_COMMENT
+        WIKI_DOCUMENT_ID="308"
+        LAST_COMMENT_CREATED_ON="2006-09-23 13:45:00"
+        LAST_COMMENT_ID="309"/>
+
+</dataset>

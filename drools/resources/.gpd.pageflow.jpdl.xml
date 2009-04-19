@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="numberGuess" width="750" height="744">
+  <node name="displayGuess" x="157" y="35" width="140" height="40">
+    <edge>
+      <label x="-44" y="-10"/>
+      <bendpoint w1="-43" h1="55" w2="-46" h2="-60"/>
+    </edge>
+  </node>
+  <node name="drools" x="112" y="150" width="236" height="40">
+    <edge>
+      <label x="5" y="-10"/>
+      <bendpoint w1="53" h1="-52" w2="56" h2="63"/>
+    </edge>
+    <edge>
+      <label x="15" y="-13"/>
+    </edge>
+    <edge>
+      <label x="-28" y="-17"/>
+    </edge>
+  </node>
+  <node name="win" x="57" y="271" width="140" height="40"/>
+  <node name="lose" x="279" y="270" width="140" height="40"/>
+</root-container>

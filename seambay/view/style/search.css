@@ -1,0 +1,110 @@
+#searchHeader {
+  padding: 8px 16px 16px 8px;
+  margin: 18px 8px 0px 8px;
+  background-color: #ffffbb;
+  border-top: 2px solid #ffcc00;
+  border-right: 1px solid #ffcc00;
+  border-left: 1px solid #ffcc00;
+  border-bottom: 1px solid #ffcc00;
+}
+
+#searchHeader input {
+  margin-right: 4px;
+}
+
+#searchHeader select {
+  margin-right: 4px;
+}
+
+#searchHeader span {
+  font-size: 10px;
+  font-family: verdana;
+}
+
+input.searchTerm {
+  width: 200px;
+}
+
+#searchSidebar {
+  width: 180px;
+  float: left;
+  margin-left: 8px;
+  background-color: #ffffbb;
+  border: 1px solid #ffcc00;
+  padding-bottom: 8px;
+}
+
+#searchSidebar a, #searchSidebar a:visited {
+  margin-left: 8px;
+  font-weight: bold;
+  padding-top: 4px;
+  color: #0000cc;
+}
+
+div.sidebarHeading {
+  background-color: #ffcc00;
+  text-align: center;
+  font-weight: bold;
+  padding: 4px 8px 4px 8px;
+}
+
+#searchResults {
+  margin-left: 200px;
+  margin-top: 12px;
+  margin-right: 8px;
+}
+
+#searchResults table {
+  width: 100%;
+}
+
+#searchResults table th {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: #d5d5d5;
+}
+
+#searchResults table td {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+tr.resultRowOdd {
+  background-color: #eeeeee;
+}
+
+tr.resultRowEven {
+  background-color: #ffffff;
+}
+
+td.imageColumn {
+  width: 90px;
+}
+
+td.itemColumn {
+
+}
+
+td.bidsColumn {
+  width: 80px;
+  text-align: center;
+}
+
+td.priceColumn {
+  width: 80px;
+  font-weight: bold;
+  text-align: center;
+}
+
+td.timeColumn {
+  width: 90px;
+  text-align: center;
+  nowrap: true;
+}
+
+img.thumbnail {
+  border: 0px;
+}

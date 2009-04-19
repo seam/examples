@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:tr="http://myfaces.apache.org/trinidad"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    <rich:panel>
+	    <f:facet name="header">Welcome to Seam Discs!</f:facet>
+    	<p>This application allows you to catalogue your favourite
+    	bands, and albums they've released. It uses:</p>
+    	
+    	<tr:panelList>
+    		<h:outputText value="JBoss Seam" />
+    		<h:outputText value="Apache MyFaces Trinidad" />
+    		<h:outputText value="JBoss RichFaces" />
+    		<h:outputText value="EJB3/JPA" />
+    		<h:outputText value="Facelets" />
+    	</tr:panelList>
+    	
+    	<p>Use the links at the bottom of the screen to learn more about
+    	the techniques used in creating this application.</p>
+    	
+    	<p>You can log in as <code>administrator</code>/<code>administrator</code>.</p>
+    </rich:panel>
+    <rich:panel>
+	    <f:facet name="header">
+	    	<tr:outputText value="Artists &amp; Discs" />
+	    </f:facet>
+	    
+	    	<tr:form>
+		    	<tr:tree value="#{artistHome.tree}" var="var">
+		    		<f:facet name="nodeStamp">
+		    			<ui:fragment>
+			    			<s:link action="disc" rendered="#{var.class.simpleName eq 'Disc'}">
+				    			<tr:outputText value="#{var.name}" />
+				    			<tr:outputText value=" (#{var.release})"  rendered="#{var.release ne null}"/>
+				    			<f:param name="discId" value="#{var.id}" />
+				    		</s:link>
+				    		<s:link action="artist" rendered="#{var.class.simpleName eq 'Artist' or var.class.simpleName eq 'Band'}">
+				    			<tr:outputText value="#{var.name}" />
+				    			<f:param name="artistId" value="#{var.id}" />
+				    		</s:link>
+				    	</ui:fragment>
+		    		</f:facet>
+		    	</tr:tree>
+	    	</tr:form>
+    	
+    </rich:panel>
+    
+</ui:define> 
+</ui:composition>

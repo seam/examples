@@ -1,0 +1,32 @@
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 3.0//EN" "http://tuckey.org/res/dtds/urlrewrite3.0.dtd">
+
+<urlrewrite>   
+    <rule>
+        <from>^/dvd/(\d+)$</from>
+        <to last="true">/dvd.seam?id=$1</to>
+    </rule>
+    <rule>
+        <from>^/([/a-zA-Z]*)$</from>
+        <to last="true">/$1.seam</to>
+    </rule>
+    
+    <outbound-rule>
+        <from>/dvd.seam\?id=(\d+)&amp;(.*)</from>
+        <to>/dvd/$1?$2</to>
+    </outbound-rule>
+    
+    <outbound-rule>
+        <from>/dvd.seam\?id=(\d+)</from>
+        <to>/dvd/$1</to>
+    </outbound-rule>
+
+    <outbound-rule>
+        <from>/dvd.seam\?(.*)&amp;id=(\d+)</from>
+        <to>/dvd/$2?$1</to>
+    </outbound-rule>
+
+    <outbound-rule>
+        <from>/([a-z]+)\.seam</from>
+        <to>/$1</to>
+    </outbound-rule>
+</urlrewrite>

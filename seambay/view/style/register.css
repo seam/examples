@@ -1,0 +1,89 @@
+div.content {
+  margin-left: 8px;
+  margin-right: 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+table.colourBar {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+td.lc1 {
+  background-color: #ff3636;
+  width: 22%;
+  height: 5px;
+}
+
+td.lc2 {
+  background-color: #990033;
+  width: 4%;
+}
+
+td.lc3 {
+  background-color: #A9D747;
+  width: 22%;
+  height: 5px;
+}
+
+td.lc4 {
+  background-color: #738D72;
+  width: 4%;
+}
+
+td.lc5 {
+  background-color: #3A419D;
+  width: 22%;
+  height: 5px;
+}
+
+td.lc6 {
+  background-color: #999186;
+  width: 4%;  
+}
+
+td.lc7 {
+  background-color: #F8E070;
+  width: 22%;
+  height: 5px;
+}
+
+div.registerHeader {
+  background-color: #d6d6ff;
+  padding: 2px 8px 2px 24px;
+  border-top: 2px solid #9999cc;
+  border-bottom: 2px solid #9999cc;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 16px;
+}
+
+div.registerSubHeader {
+  background-color: #eeeeff;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  padding-left: 24px;
+}
+
+div.validationError {
+  color: #ff0000;
+}
+
+input.location {
+  width: 240px;
+}
+
+hr.thinLine {
+  border: 0px;
+  border-top: 1px solid #cccccc;
+  margin-top: 6px;
+  margin-bottom: 32px;
+}
+
+hr.baseLine {
+  border: 0px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-top: 2px solid #9999cc;
+}

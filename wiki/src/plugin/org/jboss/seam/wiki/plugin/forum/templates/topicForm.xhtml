@@ -1,0 +1,112 @@
+<s:div id="topicFormContainer"
+       styleClass="topicFormContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and topicHome.showForm}">
+
+    <div class="box">
+
+    <h:form id="topicForm">
+        <div class="form">
+
+            <div class="formHead">
+                <h:outputText value="#{messages['forum.label.NewTopic']}"/>
+            </div>
+
+            <a:region>
+                <s:div styleClass="formFields wideLabels formBorder">
+
+                    <s:decorate id="nameDecorate" template="/includes/formFieldDecorate.xhtml">
+                        <ui:define name="label">#{messages['forum.label.Subject']}</ui:define>
+                        <h:inputText id="topicName" tabindex="1" size="60" maxlength="255" required="true" value="#{topicHome.instance.name}"/>
+                    </s:decorate>
+
+                    <ui:include src="/includes/tagEditor.xhtml">
+                        <ui:param name="editor" value="#{topicHome.tagEditor}"/>
+                    </ui:include>
+
+                    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                        <s:div styleClass="entry">
+                            <div class="label">
+                                <div class="label">&#160;</div>
+                            </div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{topicHome.sticky}" tabindex="1"/>
+                                <h:outputText value="#{messages['forum.label.StickyPosting']}"/>
+                            </div>
+                        </s:div>
+
+                        <s:div styleClass="entry">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{topicHome.instance.enableCommentForm}" tabindex="1"/>
+                                <h:outputText value="#{messages['forum.label.OpenTopicAllowReplies']}"/>
+                            </div>
+                        </s:div>
+                    </s:fragment>
+
+                    <s:div styleClass="entry" rendered="#{not currentUser.guest and not currentUser.admin}">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{topicHome.notifyReplies}" tabindex="1"/>
+                            <h:outputText value="#{messages['forum.label.NotifyMeOfReplies']}"/>
+                        </div>
+                    </s:div>
+
+                    <ui:include src="/includes/wikitext/editor/editor.xhtml">
+                        <ui:param name="textEditor" value="#{topicHome.textEditor}"/>
+                        <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
+                    </ui:include>
+                    <ui:include src="/includes/wikitext/editor/preview.xhtml">
+                        <ui:param name="textEditor" value="#{topicHome.textEditor}"/>
+                        <ui:param name="baseDocument" value="#{topicHome.instance}"/>
+                        <ui:param name="baseDirectory" value="#{currentDirectory}"/>
+                    </ui:include>
+<!--
+                    <s:decorate id="verifyCaptchaEntry" template="/includes/captchaEntry.xhtml">
+                        <ui:param name="rendered" value="#{!identity.loggedIn}"/>
+                    </s:decorate>
+-->
+                </s:div>
+
+                <div class="formControls">
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+
+                            <a:commandLink id="save" action="#{topicHome.persist}"
+                                           eventsQueue="ajaxEventQueue"
+                                           reRender="forumTopicsPluginContainer, messageBoxContainer"
+                                           status="globalStatus"
+                                           tabindex="1"
+                                           styleClass="button saveButton sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.SaveNoKey']}"/>
+                            </a:commandLink>
+
+                            <a:commandLink action="#{topicHome.cancel}"
+                                           immediate="true"
+                                           status="globalStatus"
+                                           eventsQueue="ajaxEventQueue"
+                                           tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.CancelNoKey']}"/>
+                            </a:commandLink>
+
+                        </div>
+                    </div>
+                </div>
+
+            </a:region>
+
+        </div>
+    </h:form>
+
+    </div>
+
+</s:fragment>
+</s:div>

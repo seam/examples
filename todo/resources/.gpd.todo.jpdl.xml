@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="todo" width="752" height="547">
+  <node name="start" x="115" y="51" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="todo" x="114" y="168" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="done" x="113" y="295" width="140" height="40"/>
+</process-diagram>

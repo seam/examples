@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+      
+<project name="RestBay" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"              value="RestBay Example"/>
+    <property name="example.name"      value="jboss-rest-bay"/>
+
+    <!-- Libraries -->
+    <property name="facelets.lib"      value="yes"/>
+    <property name="seam.ui.lib"       value="yes"/>
+    <property name="seam.resteasy.lib" value="yes"/>
+    
+    <property name="example.ds"        value="jboss-rest-bay-ds.xml"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

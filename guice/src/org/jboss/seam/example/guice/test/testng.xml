@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Guice" verbose="2" parallel="false">
+
+   <test name="Guice">
+     <classes>
+       <class name="org.jboss.seam.example.guice.test.GuiceTest"/>
+     </classes>
+   </test>
+
+</suite>

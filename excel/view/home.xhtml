@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:e="http://jboss.com/products/seam/excel"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Microsoft&#174; Excel&#174; Export examples</title>
+<link href="css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="excelHome">
+<f:view>
+
+	<h:outputText value="Microsoft&#174; Excel&#174; Export examples"
+		styleClass="header"></h:outputText>
+	<br />
+	<br />
+
+	<h:outputText value="Export ajax searchable Richfaces table"
+		styleClass="subheader"></h:outputText>
+	<br />
+	<h:form id="excelExport">
+		<h:inputText value="#{excelTest.searchWord}" />
+		<a4j:commandButton value="Search" reRender="searchResults"
+			action="#{excelTest.search}" />
+		<a4j:commandButton value="Clear" reRender="searchResults"
+			action="#{excelTest.clear}" />
+		<br />
+
+		<a4j:outputPanel id="searchResults">
+			<rich:dataTable value="#{excelTest.result}" var="person"
+				rendered="#{!empty excelTest.result}" id="excelTable"
+				style="xls-font: 10 Verdana; xls-column-widths: 8000 9000 10000"
+				columnClasses="left, right" width="500px">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Name" style="xls-font: red bold"/>
+					</f:facet>
+					<h:outputText value="#{person.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Company" style="xls-font: red bold" />
+					</f:facet>
+					<h:outputText value="#{person.company}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Working on" style="xls-font: red bold" />
+					</f:facet>
+					<h:outputText value="#{person.task}" />
+				</rich:column>
+				<rich:column style="xls-column-export:false">
+					<f:facet name="header">
+						<h:outputText value="Hide in export" style="xls-font: red bold" />
+					</f:facet>
+					<h:outputText value="Details" />
+				</rich:column>				
+			</rich:dataTable>
+			<h:commandLink value="Export table as Excel spreadsheet"
+				rendered="#{!empty excelTest.result}"
+				action="#{excelExporter.export('excelExport:excelTable')}" />
+			<br />
+			<h:commandLink value="Export table as CSV"
+				rendered="#{!empty excelTest.result}"
+				action="#{excelExporter.export('excelExport:excelTable','csv')}" />
+		</a4j:outputPanel>
+
+	</h:form>
+
+	<br />
+	<br />
+	<br />
+
+	<h:outputText value="Export xhtml file, use-extension enabled."
+		styleClass="subheader"></h:outputText>
+	<br />
+	<h:outputLink value="vanilla-jxl.seam">
+		<h:outputText>Export as Excel&#174; spreadsheet</h:outputText>
+	</h:outputLink>
+	<br />
+
+	<h:outputLink value="vanilla-csv.seam">
+		<h:outputText>Export as comma separated file</h:outputText>
+	</h:outputLink>
+	<br />
+	<br />
+	<br />
+
+	<h:outputText value="Repeat and inline value" styleClass="subheader"></h:outputText>
+	<br/>
+	<h:outputText value="(Shows that you can use ui:repeat inside a cell.)" styleClass="plain"></h:outputText>
+	<br />
+
+	<h:outputLink value="repeat.seam">
+		<h:outputText>Export as Excel&#174; spreadsheet</h:outputText>
+	</h:outputLink>
+	<br />
+	<br />
+	<br />
+
+
+</f:view>
+</body>
+</html>
+

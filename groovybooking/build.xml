@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+
+<project name="groovybooking" default="jbosswar.restart" basedir=".">
+
+	<!-- Example name -->
+	<property name="Name" value="Seam Groovy Example" />
+	<property name="example.name" value="jboss-seam-groovybooking" />
+
+    <!-- Give user a chance to override without editing this file or typing -D -->
+    <property file="${basedir}/build.properties" />
+
+	<!-- Libraries -->
+	<property name="seam.ui.lib" value="yes" />
+	<property name="seam.debug.lib" value="yes" />
+	<property name="facelets.lib" value="yes" />
+	<property name="richfaces.lib" value="yes" />
+	<property name="groovy.lib" value="yes" />
+	<property name="drools.lib" value="yes" />
+
+	<property name="src.model.dir" value="src/model" />
+	<property name="src.action.dir" value="src/action" />
+	<property name="src.test.dir" value="src/test" />
+	<property name="src.java.dir" value="${src.model.dir}" />
+	
+	<property name="profile" value="dev" />
+	
+	<property name="example.ds" value="groovybooking-${profile}-ds.xml" />
+	
+	<import file="../build.xml" />
+
+    <target name="explode">
+        <antcall target="jbosswar.explode" />
+    </target>
+
+    <target name="restart">
+        <antcall target="jbosswar.restart" />
+    </target>
+
+    <target name="unexplode">
+        <antcall target="jbosswar.unexplode" />
+    </target>
+	
+	<property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
+	<property name="classes.action.dir" value="${war.dir}/WEB-INF/dev" />
+	<property name="debug" value="true" />
+	
+	<path id="src.test.path">
+		<path path="${src.model.dir}" />
+		<path path="${src.test.dir}" />
+		<path path="${src.action.dir}" />
+	</path>
+
+	<target name="groovy.init" description="Initialize the build">
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpathref="build.classpath" />
+		<!-- really only the groovy jar is necessary -->
+		<mkdir dir="${classes.model.dir}" />
+		<mkdir dir="${classes.action.dir}" />
+		<condition property="groovy.dynamic" value="true">
+			<and>
+				<istrue value="${debug}" />
+			</and>
+		</condition>
+		<condition property="groovy.static" value="true">
+			<and>
+				<isfalse value="${debug}" />
+			</and>
+		</condition>
+	</target>
+
+	<target name="compilemodel" depends="groovy.init">
+		<groovyc classpathref="build.classpath" destdir="${classes.model.dir}" srcdir="${src.model.dir}" />
+	</target>
+
+	<target name="compileactions" depends="groovy.init,compileactions.compilegroovy,compileactions.copygroovy,compilemodel">
+		<javac classpathref="build.classpath" destdir="${classes.action.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<classpath path="${classes.model.dir}" />
+			<src path="${src.action.dir}" />
+		</javac>
+	</target>
+
+	<!-- private task -->
+	<target name="compileactions.compilegroovy" if="groovy.static" depends="groovy.init,compilemodel">
+		<path id="groovy.action.classpath">
+			<path refid="build.classpath" />
+			<dirset dir="${classes.model.dir}" />
+		</path>
+		<groovyc classpathref="groovy.action.classpath" destdir="${classes.action.dir}" srcdir="${src.action.dir}">
+		</groovyc>
+	</target>
+
+	<!-- private task -->
+	<target name="compileactions.copygroovy" if="groovy.dynamic">
+		<!-- copy the action groovy files into action if not compiled -->
+		<copy todir="${classes.action.dir}">
+			<fileset dir="${src.action.dir}">
+				<include name="**/*.groovy" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="init.war" depends="compilemodel,compileactions">
+		<copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" file="${basedir}/resources/META-INF/persistence-${profile}-war.xml" overwrite="true" />
+		<copy tofile="${war.dir}/WEB-INF/classes/import.sql" file="${basedir}/resources/import-${profile}.sql" overwrite="true" />
+	</target>
+
+</project>

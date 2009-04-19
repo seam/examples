@@ -1,0 +1,43 @@
+.userProfilePortrait {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    float: left;
+}
+
+.userProfilePortraitImage {
+    border: 1px solid #87786e;
+}
+
+.userProfileBio{
+    font-size: 75%;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #000;
+    text-align: justify;
+    line-height: 130%;
+}
+
+.userProfileEntry {
+    clear: both;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 75%;
+    color: #000;
+    line-height: 140%;
+}
+
+.userProfileEntryLabel {
+    font-weight: bold;
+}
+
+.userProfileEntryText {
+}
+
+.userProfileEntryLink {
+    color: #d75525;
+}
+
+.userProfileEntryLink:hover {color: #666}

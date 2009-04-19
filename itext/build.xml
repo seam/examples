@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<project name="itext" default="deploy" basedir=".">
+    <!-- Example name -->
+    <property name="Name"                   value="iText PDF document example"/>
+    <property name="example.name"           value="jboss-seam-itext"/>
+
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.pdf.lib"    value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+    <property name="richfaces.lib"    value="yes"/>
+    <property name="richfaces-ui.lib"   value="yes"/>
+
+    <import file="../build.xml"/>
+
+    <!-- Add in keystores for signed pdfs -->
+    <fileset id="ear.extras" dir="${resources.dir}">
+        <include name="*.keystore"/>
+    </fileset>
+
+    <path id="test.classpath.extras">
+        <fileset refid="seam.pdf.jar" />
+    </path>
+
+    <path id="build.classpath.extras">
+        <fileset refid="seam.pdf.jar" />
+    </path>
+
+    <!-- for itext cjk test
+    <fileset id="war.lib.extras" dir="lib">
+      <include name="**/*.jar" />
+    </fileset>                 
+    -->
+</project>
+

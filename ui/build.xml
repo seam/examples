@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="ui-example" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam UI example"/>
+    <property name="example.name"           value="jboss-seam-ui-example"/>
+
+    <!-- Libraries -->
+    <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+    <property name="cache.lib"       value="yes"/>
+    
+    <import file="../build.xml"/>
+	
+</project>
+

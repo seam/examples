@@ -1,0 +1,17 @@
+<jaxws-config xmlns="urn:jboss:jaxws-config:2.0" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+      xsi:schemaLocation="urn:jboss:jaxws-config:2.0 jaxws-config_2.1.xsd">
+   <endpoint-config>
+      <config-name>Seam WebService Endpoint</config-name>
+      <pre-handler-chains>
+         <javaee:handler-chain>
+            <javaee:protocol-bindings>##SOAP11_HTTP</javaee:protocol-bindings>
+            <javaee:handler>
+               <javaee:handler-name>SOAP Request Handler</javaee:handler-name>
+               <javaee:handler-class>org.jboss.seam.webservice.SOAPRequestHandler</javaee:handler-class>
+            </javaee:handler>
+         </javaee:handler-chain>
+      </pre-handler-chains>
+   </endpoint-config>
+</jaxws-config>

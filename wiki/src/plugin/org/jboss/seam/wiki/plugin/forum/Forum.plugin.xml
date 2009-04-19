@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin key="forum"
+        xmlns="http://jboss.com/products/seam/wiki/plugin"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://jboss.com/products/seam/wiki/plugin
+                            classpath://org/jboss/seam/wiki/core/plugin/plugin-1.0.xsd">
+
+    <plugin-info version="1.0">
+        <application-version min="1.0" max="1.0"/>
+        <vendor name="Red Hat Inc." url="http://www.seamframework.org/"/>
+    </plugin-info>
+
+    <macro key="list" name="forumList">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+        <cache-regions>
+            <cache-region name="ForumList">
+                <invalidation-event name="Node.persisted"/>
+                <invalidation-event name="Node.updated"/>
+                <invalidation-event name="Node.removed"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="topics" name="forumTopics">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+        <cache-regions>
+            <cache-region name="TopicList">
+                <invalidation-event name="Node.persisted"/>
+                <invalidation-event name="Node.updated"/>
+                <invalidation-event name="Node.removed"/>
+            </cache-region>
+        </cache-regions>
+    </macro>
+
+    <macro key="posting" name="forumPosting">
+        <applicable-to header="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+    </macro>
+
+    <macro key="stickyPosting" name="forumStickyPosting">
+        <applicable-to header="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+    </macro>
+
+    <macro key="notifyReplies" name="forumNotifyReplies">
+        <applicable-to header="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+    </macro>
+
+    <macro key="replies" name="forumReplies">
+        <applicable-to footer="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+    </macro>
+
+    <macro key="topPosters" name="forumTopPosters">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+    </macro>
+
+    <profile key="postingHistory" template="postingHistory" priority="110">
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </profile>
+
+</plugin>
+

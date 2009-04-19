@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<project name="Hibernate Booking" default="jboss" basedir=".">
+
+   <target name="jboss" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
+     	<ant antfile="build-jboss.xml"/>
+   </target>
+   
+   <target name="jboss-embedded" description="Build the JPA artifacts, and deploy to JBoss Embedded in Tomcat">
+      <ant antfile="build-jboss-embedded.xml"/>
+   </target>
+	
+   <target name="jboss-embedded.undeploy" description="Undeploy from JBoss Embedded in Tomcat">
+      <ant antfile="build-jboss-embedded.xml" target="tomcat.undeploy"/>
+   </target>
+	
+   <target name="jboss.undeploy" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
+        <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
+   </target>
+
+   <target name="jboss405" description="Build the Hibernate Booking example artifacts, suitable for deployment to JBoss 4.0.5.GA">
+     	<ant antfile="build-jboss405.xml"/>
+   </target>
+
+   <target name="glassfish" description="Build the Hibernate Booking example artifacts, suitable for deployment to GlassFish V2">
+     	<ant antfile="build-glassfish.xml"/>
+   </target>
+
+   <target name="weblogic92" description="Build the Hibernate Booking example artifacts, suitable for deployment to WebLogic 9.2">
+     	<ant antfile="build-weblogic92.xml"/>
+   </target>
+
+   <target name="websphere61" description="Build the Hibernate Booking example artifacts, suitable for deployment to WebSphere 6.1.0.9">
+     	<ant antfile="build-websphere61.xml"/>
+   </target>
+
+   <target name="tomcat55" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 5.5">
+     	<ant antfile="build-tomcat55.xml"/>
+   </target>
+
+   <target name="tomcat6" description="Build the Hibernate Booking example artifacts, suitable for deployment to Tomcat 6">
+     	<ant antfile="build-tomcat6.xml"/>
+   </target>
+	
+	<target name="tomcat6.deploy" depends="tomcat6" description="Deploy to Tomcat 6.0">
+		<ant antfile="build-tomcat6.xml" target="tomcat.deploy"/>
+	</target>
+	
+	<target name="tomcat6.undeploy" description="Undeploy from Tomcat 6.0">
+		<ant antfile="build-tomcat6.xml" target="tomcat.undeploy"/>
+	</target>
+
+   <target name="clean" description="Clean up the example">
+     	<ant antfile="build-jboss.xml" target="clean" />
+    	<ant antfile="build-jboss405.xml" target="clean" />
+    	<ant antfile="build-glassfish.xml" target="clean" />
+    	<ant antfile="build-weblogic92.xml" target="clean" />
+    	<ant antfile="build-websphere61.xml" target="clean" />
+    	<ant antfile="build-tomcat55.xml" target="clean" />
+    	<ant antfile="build-tomcat6.xml" target="clean" />
+        <ant antfile="build-jboss-embedded.xml" target="clean" />
+   </target>
+
+   <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
+   
+   <target name="test">
+      <ant antfile="build-jboss.xml" target="test" />
+   </target>
+
+</project>
+

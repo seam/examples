@@ -1,0 +1,195 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.uploadEdit.UploadFile']}" rendered="#{!uploadHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.uploadEdit.EditFile']}" rendered="#{uploadHome.managed}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="exit" styleClass="linkNavigation sessionEventTrigger" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and uploadHome.managed}">
+        <ui:include src="includes/ownerSelector.xhtml">
+            <ui:param name="home" value="#{uploadHome}"/>
+        </ui:include>
+    </s:span>
+
+    <h:form id="uploadEditForm" styleClass="box" enctype="multipart/form-data">
+        <div class="form">
+
+            <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+            <div class="formHead">
+                <h:outputText value="#{messages['lacewiki.label.uploadEdit.UploadFile']}" rendered="#{!uploadHome.managed}"/>
+                <h:outputText value="#{messages['lacewiki.label.uploadEdit.EditFile']}" rendered="#{uploadHome.managed}"/>
+            </div>
+
+            <div class="formFields formBorder wideLabels">
+
+                <s:div styleClass="entry">
+                    <div class="label">#{messages['lacewiki.label.uploadEdit.Directory']}:</div>
+                    <div class="output">
+                        <s:span id="directoryNameDisplay">#{uploadHome.parentNode.name}</s:span>
+                    </div>
+                </s:div>
+
+                <s:div styleClass="entry" rendered="#{uploadHome.managed}">
+                    <div class="label">#{messages['lacewiki.label.uploadEdit.CreatedOn']}:</div>
+                    <div class="output">
+                        <h:outputText value="#{uploadHome.instance.createdOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <s:span id="ownerDisplay">&#160;(#{uploadHome.instance.createdBy.username})</s:span>
+                        <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
+                                      rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><j4j:idProxy
+                                        id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
+                    </div>
+                </s:div>
+
+                <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
+                    <ui:define name="label">#{messages['lacewiki.label.uploadEdit.Name']}</ui:define>
+                    <h:inputText styleClass="ajaxSupport" size="50" maxlength="255" required="true" tabindex="1" value="#{uploadHome.instance.name}">
+                        <a:support status="globalStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                    </h:inputText>
+                </s:decorate>
+
+                <ui:include src="includes/accessLevelSelector.xhtml">
+                    <ui:param name="home" value="#{uploadHome}"/>
+                </ui:include>
+
+                <ui:include src="includes/writeProtectionSelector.xhtml">
+                    <ui:param name="home" value="#{uploadHome}"/>
+                </ui:include>
+
+                <s:div id="details" rendered="#{uploadHome.managed}">
+
+                    <div class="entry">
+                        <div class="label">#{messages['lacewiki.label.uploadEdit.FileDetails']}:</div>
+                        <div class="output">
+                            <h:panelGroup>
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(uploadHome.instance)}" styleClass="sessionEventTrigger">
+                                    <h:outputText value="#{uploadHome.instance.filename}, #{wiki:displayFilesize(uploadHome.instance.filesize)}, #{uploadHome.instance.contentType}"/>
+                                </h:outputLink>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+
+                    <s:div styleClass="entry">
+                        <div class="label">#{messages['lacewiki.label.uploadEdit.Importers']}:</div>
+                        <div class="input">
+                            <h:selectOneMenu id="importerSelect" value="#{uploadHome.importer}" tabindex="1"
+                                             onchange="if (jQuery('#uploadEditForm\\:importerSelect')[0].selectedIndex > 0 ) { jQuery('#uploadEditForm\\:import').show(); } else { jQuery('#uploadEditForm\\:import').hide(); }">
+                                <s:selectItems value="#{uploadHome.availableImporters}"
+                                               var="importerName"
+                                               label="#{messages[importerRegistry.importerComponents[importerName].description()]}"
+                                               noSelectionLabel="#{messages['lacewiki.label.uploadEdit.ImportNoSelection']}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
+
+                    <s:div id="uploadControl" styleClass="sessionEventTrigger">
+                        <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                            <ui:define name="label">
+                                #{messages['lacewiki.label.upload.Upload']}
+                                (#{messages['lacewiki.label.upload.UploadMax']}
+                                 #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})
+                            </ui:define>
+                            <h:panelGroup>
+                                <s:fileUpload id="upload" data="#{uploader.data}" contentType="#{uploader.contentType}" fileName="#{uploader.filename}"/>
+                                <h:commandLink action="#{uploadHome.uploadUpdateInstance()}"
+                                               tabindex="1" styleClass="buttonNonpersistent">
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.upload.UploadOverwrite']}"/>
+                                </h:commandLink>
+                            </h:panelGroup>
+                        </s:decorate>
+                    </s:div>
+
+                </s:div>
+
+                <ui:include src="includes/#{uploadHome.uploadEditor.includeName}.xhtml">
+                    <ui:param name="editor" value="#{uploadHome.uploadEditor}"/>
+                </ui:include>
+
+                <ui:include src="includes/tagEditor.xhtml">
+                    <ui:param name="editor" value="#{uploadHome.tagEditor}"/>
+                </ui:include>
+
+            </div>
+            <div class="formControls wideLabels">
+
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <h:commandLink id="import" action="#{uploadHome.importInstance}"
+                                       rendered="#{uploadHome.managed}"
+                                       tabindex="1"
+                                       style="display:none;" styleClass="button sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Import']}"/>
+                        </h:commandLink>
+
+                        <h:commandLink id="save" action="#{uploadHome.persist}"
+                                       rendered="#{!uploadHome.managed}"
+                                       tabindex="1" accesskey="#{messages['lacewiki.button.uploadEdit.Save.accesskey']}"
+                                       styleClass="button sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Save']}"/>
+                        </h:commandLink>
+
+                        <h:commandLink id="update" action="#{uploadHome.update}"
+                                   rendered="#{uploadHome.managed}"
+                                   tabindex="1" accesskey="#{messages['lacewiki.button.uploadEdit.Update.accesskey']}"
+                                   styleClass="button sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Update']}"/>
+                        </h:commandLink>
+
+                        <s:fragment rendered="#{uploadHome.removable}">
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.uploadEdit.Delete']}"/>
+                                <ui:param name="accesskey" value="#{messages['lacewiki.button.uploadEdit.Delete.accesskey']}"/>
+                                <ui:param name="tabindex" value="1"/>
+                                <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                                <ui:param name="escapeLabel" value="false"/>
+                                <ui:param name="jsFunctionName" value="deleteUpload"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(': \'').concat(uploadHome.instance.name).concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  action="#{uploadHome.remove}"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
+                        </s:fragment>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+
+</ui:composition>
+

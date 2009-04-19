@@ -1,0 +1,278 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userList.MemberList']}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="createUser" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.userList.CreateAccount.accesskey']}"
+            view="/userRegister_#{skin}.xhtml" propagation="none"
+            rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.userList.CreateAccount']}"/>
+    </s:link>
+
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:div styleClass="box" style="margin-top:10px;">
+        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0"
+                     styleClass="datatable topLeftBottomBorder rightBorder"
+                     headerClass="regularHeader smallFont"
+                     columnClasses="alignCenter alignBottom">
+
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.userList.OnlineMembers']}
+                                     #{messages['lacewiki.label.userList.InTheLast']}
+                                     #{wikiInit.authenticatedSessionTimeoutMinutes}
+                                     #{messages['lacewiki.label.userList.Minutes']}"/>
+            </f:facet>
+
+            <ui:include src="includes/onlineMembers.xhtml"/>
+
+        </h:panelGrid>
+    </s:div>
+
+    <script type="text/javascript">jQuery(function() {
+        jQuery(".contextMenu").show().menu({offsetLeft: 20});
+    })</script>
+
+    <h:form id="userSearchForm" styleClass="box">
+        <div class="form" id="userSearchControl">
+
+            <h:panelGrid columns="6"
+                         styleClass="datatable topLeftBottomBorder smallFont"
+                         headerClass="regularHeader rightBorder"
+                         columnClasses="formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        defaultColumn rightBorder formFields minorPadding"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <f:facet name="header">
+                    <h:outputText value="#{messages['lacewiki.label.userList.SearchMembers']}"/>
+                </f:facet>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Username']}:"/>&#160;
+                    <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="8" tabindex="1"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.FirstName']}:"/>&#160;
+                    <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="8" tabindex="1"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.LastName']}:"/>&#160;
+                    <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="8" tabindex="1"/>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <s:fragment rendered="#{wiki:showEmailAddress()}">
+                        <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Email']}:"/>&#160;
+                        <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="8" tabindex="1"/>
+                    </s:fragment>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <h:outputLabel styleClass="label" for="pageSize">#{messages['lacewiki.label.userList.Show']}:</h:outputLabel>&#160;
+                    <h:selectOneMenu value="#{userSearch.pageSize}" id="pageSize" tabindex="1" style="font-size:100%">
+                        <f:selectItem itemLabel="5" itemValue="5"/>
+                        <f:selectItem itemLabel="15" itemValue="15"/>
+                        <f:selectItem itemLabel="50" itemValue="50"/>
+                    </h:selectOneMenu>
+                </h:panelGroup>
+
+                <h:commandLink id="find" styleClass="buttonNonpersistent"
+                               action="#{userSearch.find()}"
+                               tabindex="1" accesskey="#{messages['lacewiki.button.userList.Find.accesskey']}">
+                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userList.Find']}"/>
+                </h:commandLink>
+
+            </h:panelGrid>
+
+        </div>
+
+        <s:div id="userListPager">
+            <h:panelGrid columns="5" styleClass="pager pagerTop"
+                         columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                         cellpadding="0" cellspacing="0" border="0"
+                         rendered="#{userSearch.rowCount > 0}">
+
+                <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
+
+                <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.previousPageAvailable}"/>
+
+                <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
+
+                <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
+
+                <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+                </h:commandLink>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                                rendered="#{!userSearch.nextPageAvailable}"/>
+
+            </h:panelGrid>
+        </s:div>
+
+        <h:dataTable id="userTable" var="u"
+                     value="#{usersList}"
+                     rendered="#{usersList.rowCount >0}"
+                     styleClass="datatable topLeftBottomBorder smallFont"
+                     headerClass="sortableHeader rightBorder alignCenter"
+                     columnClasses="defaultColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
+                    </h:commandLink>
+                </f:facet>
+
+                <div class="contextMenu">
+                    <h:outputLink value="javascript://no-op">
+                        <h:outputText value="#{u.username}"/>
+                    </h:outputLink>
+                    <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
+                    <ul>
+                        <li>
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(u)}">
+                                <h:outputText value="#{messages['lacewiki.label.userList.View']}"/>
+                            </h:outputLink>
+                        </li>
+
+                        <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                            <li>
+                                <s:link view="/userHome_#{skin}.xhtml" propagation="none">
+                                    <f:param name="userId" value="#{u.id}"/>
+                                    <h:outputText value="#{messages['lacewiki.label.userList.Edit']}"/>
+                                </s:link>
+                            </li>
+                        </s:fragment>
+                    </ul>
+                </div>
+
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
+                    </h:commandLink>
+                </f:facet>
+                #{u.firstname}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
+                    </h:commandLink>
+                </f:facet>
+                #{u.lastname}
+            </h:column>
+
+            <h:column rendered="#{wiki:showEmailAddress()}">
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', u.email))}">#{wiki:escapeAtSymbol(u.email)}</h:outputLink>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.JoinedOn']}"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{u.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:commandLink action="#{userSearch.sortBy('lastLoginOn')}" tabindex="1">
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
+                                        rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
+                                        rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
+                        <h:outputText value="#{messages['lacewiki.label.userList.LastLoginOn']}"/>
+                    </h:commandLink>
+                </f:facet>
+                <h:outputText value="#{u.lastLoginOn}" rendered="#{not empty u.lastLoginOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                <h:outputText value="-" rendered="#{empty u.lastLoginOn}"/>
+            </h:column>
+
+        </h:dataTable>
+
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

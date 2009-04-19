@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam PDF</title>
+    <ui:remove><link href="screen.css" rel="stylesheet" type="text/css" /></ui:remove>
+</head>
+<body>      
+    <h1>Sample Documents:</h1>
+
+    <ul>
+        <li>
+            <s:link view="/whyseam.xhtml" value="Why Seam?" />  
+            [<s:link view="/pageSize.xhtml" value="letter">
+                <f:param name="pageSize" value="LETTER" />
+            </s:link>]
+            [<s:link view="/pageSize.xhtml" value="A4">
+                <f:param name="pageSize" value="A4" />
+            </s:link>]
+            [<s:link view="/pageSize.xhtml" value="legal">
+                <f:param name="pageSize" value="LEGAL" />
+            </s:link>]
+
+        </li>
+        <li><s:link view="/lists.xhtml"     value="PDF Lists" /></li>
+        <li><s:link view="/font.xhtml"      value="Font Selection" /></li>
+        <li><s:link view="/pages.xhtml"     value="Multiple Pages" /></li>
+        <li><s:link view="/chapters.xhtml"  value="Chapters" /></li>
+        <li><s:link view="/sections.xhtml"  value="Sections" /></li>
+        <li><s:link view="/table.xhtml"     value="Tables" /></li>
+        <li><s:link view="/nested.xhtml"    value="Nested Tables" /></li>
+        <li><s:link view="/html.xhtml"      value="HTML Conversion" /></li>
+        <li><s:link view="/chart.xhtml"     value="JFreeChart" />
+            [<s:link view="/chartimage.xhtml" value="HTML" />]
+        </li>
+        <li><s:link view="/anchor.xhtml"    value="Anchors" /></li>
+        <li><s:link view="/format.xhtml"    value="Text conversion and formatting" /></li>
+        <li><s:link view="/barcode.xhtml"   value="Bar Code" />
+            [<s:link view="/barcodeimage.xhtml" value="HTML" />]
+        </li>
+        <li><s:link view="/swing.xhtml"     value="Swing Component" /></li>
+        <li><s:link view="/fillform.xhtml"     value="Fill-in-forms" /></li>
+
+
+<ui:remove>
+        <li><s:link view="/images.xhtml" value="Dynamic Images" /></li>
+</ui:remove>
+<ui:remove>
+        <li><s:link view="/signature.xhtml" value="Signed Document" /></li>
+</ui:remove>
+    </ul>
+</body>
+</html>

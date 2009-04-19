@@ -1,0 +1,127 @@
+<s:fragment
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:c="http://java.sun.com/jstl/core"
+     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<a:region>
+<h:panelGrid id="pluginDisplay" columns="2" columnClasses="formListGridColumn fifteenPercentColumn, formListGridColumn">
+
+    <s:div rendered="#{empty adminHome.installedPlugins}">
+        <h:outputText value="#{messages['lacewiki.label.adminHome.plugins.NoPluginsInstalled']}"/>
+    </s:div>
+
+    <h:dataTable id="installedPluginList"
+                 var="plugin" value="#{adminHome.installedPlugins}"
+                 rendered="#{adminHome.installedPlugins.size>0}"
+                 styleClass="datatable formListTable"
+                 headerClass="regularHeader smallFont minorPadding"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.adminHome.plugins.InstalledPlugins']}"/>
+            </f:facet>
+            <s:div styleClass="#{plugin == adminHome.selectedInstalledPlugin ? 'formListSelectedItem' : 'formListItem'}">
+                <a:commandLink reRender="pluginDisplay" action="#{adminHome.selectInstalledPlugin(plugin)}"
+                               status="globalStatus" oncomplete="onAjaxRequestComplete()" tabindex="1">
+                    <h:outputText value="#{plugin.label}"/>
+                </a:commandLink>
+            </s:div>
+        </h:column>
+
+    </h:dataTable>
+
+    <s:div rendered="#{empty adminHome.selectedInstalledPlugin}">
+        <h:outputText value="#{messages['lacewiki.label.adminHome.plugins.PleaseSelectInstalledPlugin']}"/>
+    </s:div>
+
+    <s:div id="pluginDetailsDisplay" rendered="#{not empty adminHome.selectedInstalledPlugin}">
+
+        <s:div id="pluginInfoDisplay" styleClass="formFields">
+
+            <div class="entry">
+                <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.PluginName']}:"/></div>
+                <div class="output">
+                    <h:outputText value="#{adminHome.selectedInstalledPlugin.label}"/>
+                </div>
+            </div>
+            <div class="entry">
+                <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.Description']}:"/></div>
+                <div class="output">
+                    <h:outputText value="#{adminHome.selectedInstalledPlugin.pluginInfo.description}"/>
+                </div>
+            </div>
+            <div class="entry">
+                <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.Version']}:"/></div>
+                <div class="output">
+                    <h:outputText value="#{adminHome.selectedInstalledPlugin.pluginInfo.version}"/>
+                </div>
+            </div>
+            <div class="entry">
+                <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.Vendor']}:"/></div>
+                <div class="output undecoratedLink">
+                    <h:outputLink value="#{adminHome.selectedInstalledPlugin.pluginInfo.vendor.url}">
+                        <h:outputText value="#{adminHome.selectedInstalledPlugin.pluginInfo.vendor.name}"/>
+                    </h:outputLink>
+                </div>
+            </div>
+
+        </s:div>
+
+        <rich:simpleTogglePanel switchType="client" opened="false"
+                                label="#{messages['lacewiki.label.adminHome.plugins.ModuleDetails']},
+                                       #{adminHome.selectedInstalledPlugin.modules.size()}
+                                       #{messages['lacewiki.label.adminHome.plugins.Modules']}">
+            <h:dataTable var="module" value="#{adminHome.selectedInstalledPlugin.modules}"
+                         rendered="#{not empty adminHome.selectedInstalledPlugin.modules}"
+                         styleClass="datatable leftBorder bottomBorder"
+                         headerClass="regularHeader alignCenter rightBorder smallFont"
+                         columnClasses="tenPercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft"
+                         rowClasses="rowOdd,rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{messages['lacewiki.label.adminHome.plugins.ModuleType']}"/>
+                    </f:facet>
+                    <h:outputText value="#{module.moduleTypeLabel}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{messages['lacewiki.label.adminHome.plugins.Module']}"/>
+                    </f:facet>
+
+                    <s:div styleClass="minorPadding">
+                        <h:outputText value="#{module.label} (#{module.description})"/>
+                    </s:div>
+                    <s:fragment rendered="#{not empty module.fragmentCacheRegionsAsList}">
+                        <div class="entry">
+                            <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.FragmentCacheRegions']}:"/></div>
+                            <div class="output">
+                                <ui:repeat var="cacheRegion" value="#{module.fragmentCacheRegionsAsList}">
+                                    <h:outputText value="#{cacheRegion}&#160;&#160;"/>
+                                </ui:repeat>
+                            </div>
+                        </div>
+                    </s:fragment>
+
+                    <ui:include src="pluginDetailsMacroPluginModule.xhtml"/>
+
+                </h:column>
+
+            </h:dataTable>
+        </rich:simpleTogglePanel>
+
+    </s:div>
+
+
+</h:panelGrid>
+</a:region>
+
+</s:fragment>

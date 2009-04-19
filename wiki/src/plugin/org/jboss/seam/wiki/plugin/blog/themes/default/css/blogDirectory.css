@@ -1,0 +1,84 @@
+.blogEntryHeader {
+}
+
+.blogEntryHeader .title {
+    text-align: left;
+    line-height: 200%;
+    font-size: 115%;
+}
+
+.blogEntryHeader .dateAuthor {
+    text-align: right;
+    white-space: nowrap;
+    font-weight: normal;
+    line-height: 100%;
+}
+
+.blogEntryContent {
+    padding-left: 15px;
+    padding-right: 15px;
+    line-height: 150%;
+    text-align: justify;
+}
+
+.blogEntryContent .wikiHeadline1 a,
+.blogEntryContent .wikiHeadline2 a,
+.blogEntryContent .wikiHeadline3 a,
+.blogEntryContent .wikiHeadline4 a {
+    color: black;
+}
+
+.blogEntryFooter {
+}
+
+.blogEntryFooterTable {}
+
+.blogEntryCommentCount,
+.blogEntryCommentLink,
+.blogEntryAttachmentsLink,
+.blogEntryPermLink,
+.blogEntryWikiLink {
+    padding-right: 25px;
+    text-align:left;
+}
+.blogEntryCommentCountText,
+.blogEntryCommentLinkText,
+.blogEntryAttachmentsLinkText,
+.blogEntryPermLinkText,
+.blogEntryWikiLinkText {
+    color: #962325;
+}
+.blogEntryCommentCountText:hover,
+.blogEntryCommentLinkText:hover,
+.blogEntryAttachmentsLinkText:hover,
+.blogEntryPermLinkText:hover,
+.blogEntryWikiLinkText:hover {
+    color: #962325;
+}
+
+.blogEntrySeparator {
+    height: 25px;
+}
+
+.blogPagerTable {
+    width: 100%;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    text-align: center;
+}
+
+.blogPagerColumn {
+    width: 10%;
+}
+.blogPagerTextColumn {
+    width: 60%;
+}
+
+.documentTags {
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Search Results</title>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/search.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+      
+      <h:messages globalOnly="true"/>
+
+      <div id="searchHeader">
+        <h:form>
+          <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}" styleClass="searchTerm"/>
+          <h:selectOneMenu id="selectedCat" value="#{auctionSearch.searchCategory}">
+            <s:selectItems value="#{categories}" var="cat" label="#{cat.name}" noSelectionLabel="All Categories"/>
+            <s:convertEntity />
+          </h:selectOneMenu>
+          
+          <h:commandButton action="#{auctionSearch.queryAuctions}" value="Search"/>
+
+          <br/>
+          
+          <h:selectBooleanCheckbox value="#{auctionSearch.titleAndDescription}"/>
+          <span>Search title <b>and</b> description</span>          
+
+        </h:form>
+        
+      </div>
+      
+      <div id="searchSidebar">
+        <div class="sidebarHeading">
+          Matching Categories
+        </div>
+        
+        <h:form>
+          <h:dataTable id="categories" value="#{auctionSearch.searchCategories}" var="entry">
+            <h:column>
+              <h:commandLink action="#{auctionSearch.selectCategory(entry.key)}" value="#{entry.key.name}"/> (#{entry.value})
+            </h:column>
+          </h:dataTable>
+        </h:form>
+      </div>
+
+      <div id="searchResults">
+      
+      	<h:dataTable id="auctions" 
+      	             value="#{auctions}" 
+      	             var="auction" 
+      	             cellspacing="0px"
+      	             rowClasses="resultRowOdd,resultRowEven"
+      	             columnClasses="imageColumn,itemColumn,bidsColumn,priceColumn,timeColumn">
+      	  <h:column>
+      	    <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+        	    <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}" styleClass="thumbnail">
+                <s:transformImageSize width="80" maintainRatio="true"/>
+        	    </s:graphicImage>
+        	  </h:outputLink>
+      	  </h:column>
+      		<h:column>
+      			<f:facet name="header">Item</f:facet>
+
+            <h:outputLink value="#{facesContext.externalContext.requestContextPath}/itemdetail/#{auction.auctionId}">
+              #{auction.title}
+            </h:outputLink>
+      			
+      		</h:column>
+      		<h:column>
+      			<f:facet name="header">Bids</f:facet>
+      			#{auction.bids}
+      		</h:column>
+      		<h:column>
+      			<f:facet name="header">Price</f:facet>
+      			$<h:outputText value="#{auction.currentPrice}">
+      			  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+      			</h:outputText>
+      		</h:column> 
+      		<h:column>
+      			<f:facet name="header">Time left</f:facet>
+      			#{auction.prettyTimeLeft}
+      		</h:column>
+      	</h:dataTable>      
+      
+      </div>          
+    </div>
+  </body>
+</html>

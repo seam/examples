@@ -1,0 +1,48 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                template="#{theme.template}">
+
+<ui:define name="content">
+   <div class="blogEntry">
+      <h:form id="newBlogEntry">
+      
+         <h:messages globalOnly="true" styleClass="errors"/>
+         
+         <s:decorate template="edit.xhtml" id="id">
+            <ui:define name="label">Id</ui:define>
+            <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="idInput"/>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="title">
+            <ui:define name="label">Title</ui:define>
+            <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="titleInput">
+            	 <s:validateFormattedText />
+            </h:inputText>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="excerpt">
+            <ui:define name="label">Excerpt (optional)</ui:define>
+            <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerptInput">
+         	     <s:validateFormattedText />
+            </h:inputTextarea>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="body">
+            <ui:define name="label">Body text</ui:define>
+            <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true" id="bodyInput"/>
+         </s:decorate>
+         
+         <div>
+            <h:commandButton value="Post" id="post"/>
+         </div>
+
+      </h:form>
+   </div>
+</ui:define>
+
+</ui:composition>

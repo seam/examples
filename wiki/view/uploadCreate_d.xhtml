@@ -1,0 +1,76 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.upload.UploadFile']}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="exit" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form id="uploadForm" styleClass="box" enctype="multipart/form-data">
+        <div class="form">
+
+            <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+            <div class="formHead">
+                <h:outputText value="#{messages['lacewiki.label.upload.UploadFile']}"/>
+            </div>
+
+            <div class="formFields formBorder wideLabels">
+
+                <s:div id="uploadControl" styleClass="sessionEventTrigger">
+                    <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                        <ui:define name="label">
+                            #{messages['lacewiki.label.upload.Upload']}
+                            (#{messages['lacewiki.label.upload.UploadMax']}
+                             #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})
+                        </ui:define>
+                        <s:fileUpload id="upload" data="#{uploader.data}" contentType="#{uploader.contentType}" fileName="#{uploader.filename}"/>
+                    </s:decorate>
+                </s:div>
+
+            </div>
+            <div class="formControls wideLabels">
+
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <h:commandLink id="save" action="#{uploader.uploadNewInstance()}"
+                                       tabindex="1" accesskey="#{messages['lacewiki.button.upload.Upload.accesskey']}"
+                                       styleClass="buttonNonpersistent sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.upload.Upload']}"/>
+                        </h:commandLink>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+
+</ui:composition>
+

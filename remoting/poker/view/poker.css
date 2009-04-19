@@ -1,0 +1,192 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: url(images/background.png) left top repeat;
+  font-family: arial, helvetica;  
+}
+
+button {
+  width: 80px;
+}
+
+#welcome {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 455px;
+  height: 139px;
+  background: url(images/welcome.png) left top;
+}
+
+#messages {
+  float: left;
+  width: 440px;
+  height: 144px;
+  margin-left: 20px;
+}
+
+#messageBox {
+  width: 440px;
+  height: 120px;
+  overflow: auto;
+  background: #ffffff;
+  border: 1px solid black;
+}
+
+#messageInput {
+  border: 1px solid black;
+  width: 440px;
+}
+
+#control {
+  float: right;
+  border: 1px solid white;
+  width: 400px;
+  height: 80px;
+  margin-right: 20px;
+}
+
+#playarea { 
+  width: 1024px;
+  height: 460px;
+  margin-left: auto;
+  margin-right: auto;
+  background: url(images/table.png) no-repeat;
+  background-position: center;
+}
+
+#cardfan {
+  position: absolute;
+  background: url(images/card_fan.png) left top;
+  width: 319px;
+  height: 315px;
+  margin-left: 220px;
+  margin-top: 60px;
+}
+
+#dealer {
+  position: absolute;
+  background: url(images/dealer.png) left top no-repeat;
+  width: 40px;
+  height: 36px;
+  margin-left: 520px;
+  margin-top: 180px;
+}
+
+#login {
+  position: absolute;
+  margin-left: 580px;
+  margin-top: 140px;
+  background-color: #dddd00;
+  border: 1px solid #555555;
+  text-align: center;
+  height: 150px;
+  width: 200px;
+}
+
+#player1box {
+  position: absolute;
+  margin-left: 280px;
+  margin-top: 400px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player2box {
+  position: absolute;
+  margin-left: 40px;
+  margin-top: 310px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player3box {
+  position: absolute;
+  margin-left: 0px;
+  margin-top: 200px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player4box {
+  position: absolute;
+  margin-left: 40px;
+  margin-top: 90px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player5box {
+  position: absolute;
+  margin-left: 280px;
+  margin-top: 0px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player6box {
+  position: absolute;
+  margin-left: 520px;
+  margin-top: 0px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player7box {
+  position: absolute;
+  margin-left: 780px;
+  margin-top: 90px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player8box {
+  position: absolute;
+  margin-left: 824px;
+  margin-top: 200px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player9box {
+  position: absolute;
+  margin-left: 780px;
+  margin-top: 310px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+#player10box {
+  position: absolute;
+  margin-left: 520px;
+  margin-top: 400px;
+  width: 200px;
+  height: 40px;
+  background-color: white;
+  -moz-opacity: 0.4;
+}
+
+button.loginButton {
+  width: 80px;
+}

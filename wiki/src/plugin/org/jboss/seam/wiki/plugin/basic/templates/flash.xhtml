@@ -1,0 +1,39 @@
+<wiki:plugin
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div id="flashPluginDiv">
+
+    <s:div rendered="#{not empty preferences.get('Flash', currentMacro).url and flash.isValidURL(preferences.get('Flash', currentMacro))}">
+        <object width="#{preferences.get('Flash', currentMacro).width}"
+                height="#{preferences.get('Flash', currentMacro).height}">
+            <param name="movie" value="#{preferences.get('Flash', currentMacro).url}"/>
+            <param name="wmode" value="transparent"/>
+            <param name="allowFullScreen" value="true"/>
+            <embed src="#{preferences.get('Flash', currentMacro).url}"
+                   type="application/x-shockwave-flash"
+                   wmode="transparent"
+                   width="#{preferences.get('Flash', currentMacro).width}"
+                   height="#{preferences.get('Flash', currentMacro).height}">
+           </embed>
+        </object>
+    </s:div>
+
+    <s:div rendered="#{empty preferences.get('Flash', currentMacro).url}"
+           styleClass="flashURLNotSupplied">
+        <h:outputText value="#{messages['basic.flash.msg.URLNotSupplied']}"/>
+    </s:div>
+
+    <s:div rendered="#{not empty preferences.get('Flash', currentMacro).url and
+                       not flash.isValidURL(preferences.get('Flash', currentMacro))}"
+           styleClass="flashURLNotAllowed">
+        <h:outputText value="#{messages['basic.flash.msg.URLNotAllowed']}"/>
+    </s:div>
+
+</s:div>
+
+</wiki:plugin>

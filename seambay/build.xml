@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<project name="SeamBay" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"              value="SeamBay Example"/>
+    <property name="example.name"      value="jboss-seam-bay"/>
+
+    <!-- Libraries -->
+    <property name="facelets.lib"      value="yes"/>
+    <property name="seam.ui.lib"       value="yes"/>
+    <property name="seam.debug.lib"    value="yes"/>
+    <property name="seam.remoting.lib" value="yes"/>
+    <property name="jcaptcha.lib"      value="yes"/>
+    <property name="urlrewrite.lib"    value="yes"/>
+    <property name="jbpm.lib"          value="yes"/>    
+    
+    <property name="example.ds"        value="jboss-seam-bay-ds.xml"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

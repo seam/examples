@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="Seam Guice" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name" value="Seam Guice Example"/>
+    <property name="example.name" value="jboss-seam-guice"/>
+
+    <!-- Libraries -->
+    <property name="seam.ioc-guice.lib" value="yes"/>
+    <property name="seam.debug.lib" value="yes"/>
+    <property name="facelets.lib" value="yes"/>
+
+    <import file="../build.xml"/>
+
+</project>

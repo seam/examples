@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:seam="http://jboss.com/products/seam/spring-seam"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                           http://jboss.com/products/seam/spring-seam http://jboss.com/products/seam/spring-seam-2.1.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+	default-lazy-init="true">
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:mem:defaultDB"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+	<!-- Here we are using a spring configured EMF you can just as easily use a Seam configured EMF using
+	<persistence:entity-manager-factory/> unless your project depends upon some functionality spring
+	provides an EMF such as the ability to inject a dataSource.
+	-->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="persistenceUnitName" value="bookingDatabase"/>
+		<!-- Use alternate location to prevent JBoss AS from automatically loading persistence units (in-container) -->
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence-spring.xml"/>
+	</bean>
+
+	<!-- This example uses resource local JpaTransactionManager.  You could just as easily use a JtaTransactionManager -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<!-- Be sure to specify the SeamManagedEntityManagerFactory since that will manage the EM that will be
+		beginning and ending transactions.-->
+	   	<property name="entityManagerFactory" ref="seamEntityManagerFactory"/>
+	</bean>
+
+	<tx:annotation-driven proxy-target-class="true" />
+
+	<!-- Example using PersistenceAnnotationBeanPostProcessor for persistence -->
+	<bean id="userService" class="org.jboss.seam.example.spring.UserService"/>
+
+	<!-- Example using JpaDaoSupport for persistence -->
+	<bean id="bookingService" class="org.jboss.seam.example.spring.BookingService">
+		<property name="entityManagerFactory" ref="seamEntityManagerFactory" />
+		<seam:component/>
+	</bean>
+
+	<!-- Testing out a seam scoped spring bean -->
+	<bean id="hotelSearch" class="org.jboss.seam.example.spring.HotelSearchingAction" scope="seam.SESSION">
+		<!-- Testing creation time injection -->
+		<property name="pageSize" value="10" />
+	</bean>
+
+	<seam:configure-scopes default-auto-create="true" />
+
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
+		<!-- Because we have multiple EntityManagerFactories in this applicaitonContext identify the
+		SeamManagedEntityManagerFactory as the default -->
+		<property name="defaultPersistenceUnitName" value="conversationScoped"/>
+	</bean>
+
+	<!-- EMF that wraps a Seam Managed EM instance for use in Spring -->
+	<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
+		<!-- The Seam managed-persistence-context component name. -->
+		<property name="persistenceContextName" value="entityManager" />
+		<!-- Optionally provide a unit name.  If not specified the default would be the persistenceContextName -->
+		<property name="persistenceUnitName" value="conversationScoped"/>
+	</bean>
+
+	<!-- TaskExecutor for example use of @Asynchronous -->
+	<bean id="springThreadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" />
+
+
+	<!-- Sample Hibernate Configuration -->
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="annotatedClasses">
+			<list>
+				<value>org.jboss.seam.example.spring.Hotel</value>
+				<value>org.jboss.seam.example.spring.User</value>
+				<value>org.jboss.seam.example.spring.Booking</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="seamSessionFactory" class="org.jboss.seam.ioc.spring.SeamManagedSessionFactoryBean">
+		<property name="sessionName" value="hibernateSession"/>
+	</bean>
+
+	<bean id="hibernateTestService" class="org.jboss.seam.example.spring.HibernateTestService">
+		<property name="sessionFactory" ref="seamSessionFactory"/>
+		<property name="transactionTemplate" ref="hibernateTransactionTemplate"/>
+	</bean>
+
+	<bean id="hibernateTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="hibernateTransactionManager"/>
+	</bean>
+
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	   	<property name="sessionFactory" ref="seamSessionFactory"/>
+	</bean>
+</beans>

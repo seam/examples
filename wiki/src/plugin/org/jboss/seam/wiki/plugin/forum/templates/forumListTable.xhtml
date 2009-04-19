@@ -1,0 +1,145 @@
+<s:div id="forumListTableContainer"
+       styleClass="forumListTableContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:cache enabled="#{not forumListHome.managed and not identity.loggedIn}"
+         region="#{currentMacro.getCacheRegion('ForumList')}"
+         key="#{currentMacro.cacheKey}">
+
+<s:div styleClass="box" rendered="#{forumQuery.forumsAvailable}">
+
+<h:form id="forumListTableForm">
+<h:dataTable id="forumListTable"
+             var="f"
+             value="#{forumQuery.forums}"
+             styleClass="datatable topBorder leftBorder"
+             headerClass="regularHeader rightBorder alignCenter smallFont"
+             columnClasses="onePercentColumn rightBorder bottomBorder alignCenter smallFont,
+                            defaultColumn rightBorder bottomBorder alignLeft wrapWhitespace,
+                            fivePercentColumn rightBorder bottomBorder alignCenter smallFont,
+                            fivePercentColumn rightBorder bottomBorder alignCenter smallFont,
+                            twentyPercentColumn rightBorder bottomBorder alignCenter smallFont"
+             rowClasses="forumListRow"
+             cellpadding="0" cellspacing="0" border="0">
+
+    <h:column>
+        <f:facet name="header">&#160;</f:facet>
+        <h:panelGroup>
+
+            <h:outputLink styleClass="undecoratedLink" value="#{wikiURLRenderer.renderURL(f.forum)}" tabindex="1">
+                <h:graphicImage value="#{currentMacro.requestImagePath}/icon.posting_unread.gif" width="22" height="26"
+                                rendered="#{f.unreadPostings}"/>
+
+                <h:graphicImage value="#{currentMacro.requestImagePath}/icon.posting.gif" width="22" height="26"
+                                rendered="#{not f.unreadPostings}"/>
+            </h:outputLink>
+
+            <s:span styleClass="forumFeedLink undecoratedLink" rendered="#{not empty f.forum.feed}">
+                <h:outputLink value="#{wikiURLRenderer.renderFeedURL(f.forum.feed, null, null)}"
+                              tabindex="1">
+                    <h:graphicImage value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
+                </h:outputLink>
+            </s:span>
+
+            <s:span styleClass="forumFeedLink" rendered="#{empty f.forum.feed}">
+                <h:graphicImage rendered="#{empty f.forum.feed}"
+                                value="#{imagePath}/blank.gif" width="18" height="18"/>
+            </s:span>
+
+        </h:panelGroup>
+    </h:column>
+
+    <h:column>
+        <f:facet name="header">#{messages['forum.label.Forum']}</f:facet>
+        <s:div styleClass="undecoratedLink forumTitle extraLargeFont">
+            <h:outputLink styleClass="undecoratedLink" value="#{wikiURLRenderer.renderURL(f.forum)}" tabindex="1">
+                <h:outputText value="#{f.forum.name}"/>
+            </h:outputLink>
+        </s:div>
+        <s:div styleClass="forumDescription smallFont" rendered="#{not empty f.forum.description}">
+            <h:outputText value="#{f.forum.description}"/>
+        </s:div>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.TopicCount']}</f:facet>
+        <h:outputText value="#{f.totalNumOfTopics}"
+                      rendered="#{not empty f.totalNumOfTopics}"/>
+        <h:outputText value="-" rendered="#{empty f.totalNumOfTopics}"/>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.PostCount']}</f:facet>
+        <h:outputText value="#{f.totalNumOfPosts}"
+                      rendered="#{not empty f.totalNumOfPosts}"/>
+        <h:outputText value="-" rendered="#{empty f.totalNumOfPosts}"/>
+    </h:column>
+
+    <!--
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.NewestTopic']}</f:facet>
+        <s:fragment rendered="#{not empty f.lastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastTopic)}"/>
+                <ui:param name="name"        value="#{f.lastTopic.name}"/>
+                <ui:param name="createdOn"   value="#{f.lastTopic.createdOn}"/>
+                <ui:param name="createdBy"   value="#{f.lastTopic.createdBy}"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{empty f.lastTopic}">
+            -
+        </s:fragment>
+    </h:column>
+    -->
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.LatestPost']}</f:facet>
+        <s:fragment rendered="#{f.lastPostLastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastTopic)}"/>
+                <ui:param name="name"        value="#{f.lastTopic.name}"/>
+                <ui:param name="createdOn"   value="#{f.lastTopic.createdOn}"/>
+                <ui:param name="createdBy"   value="#{f.lastTopic.createdBy}"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{not empty f.lastComment and not f.lastPostLastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastComment)}"/>
+                <ui:param name="name"        value="#{f.lastComment.subject}"/>
+                <ui:param name="createdOn"   value="#{f.lastComment.createdOn}"/>
+                <ui:param name="createdBy"   value="#{f.lastComment.createdBy}"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{empty f.lastComment and not f.lastPostLastTopic}">
+            -
+        </s:fragment>
+    </h:column>
+
+    <h:column rendered="#{forumListHome.managed and not forumHome.showForm}">
+
+        <a:commandLink action="#{forumHome.edit(f.forum.id)}"
+                       reRender="forumListControlsContainer, forumListTable, forumFormContainer, messageBoxContainer"
+                       status="globalStatus"
+                       tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
+            <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Edit']}"/>
+        </a:commandLink>
+
+    </h:column>
+
+</h:dataTable>
+</h:form>
+</s:div>
+
+<s:div styleClass="box" rendered="#{not forumQuery.forumsAvailable}">
+    <h:outputText value="#{messages['forum.msg.NoForumsFound']}"/>
+</s:div>
+
+</s:cache>
+
+</s:div>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="Spring Example" default="all" basedir=".">
+
+   <target name="jbosswar" description="Build the Spring example artifacts and deploy to JBoss as a WAR">
+     	<ant antfile="build-jbosswar.xml"/>
+   </target>
+	
+   <target name="jbosswar.undeploy" description="Undeploy the Spring example from JBoss AS">
+     	<ant antfile="build-jbosswar.xml" target="jbosswar.undeploy"/>
+   </target>
+
+   <target name="jbosswar.redeploy" description="Rebuild and redeploy the Spring example from JBoss AS" depends="jbosswar.undeploy,clean,jbosswar"/>
+
+   <target name="clean" description="Clean up the example">
+     	<ant antfile="build-jbosswar.xml" target="clean" />
+   </target>
+
+   <target name="all" depends="jbosswar" description="Build Spring Booking example, for deployment to all supported application servers"/>
+
+</project>
+

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+        </locale-config>
+
+        <view-handler>org.jboss.seam.wiki.core.ui.WikiFaceletViewHandler</view-handler>
+        <!-- Better exception handling overrides
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+        -->
+
+    </application>
+
+    <!-- Needed because WikiFormattedTextHandler instantiates these, asking the JSF infrastructure -->
+    <component>
+        <component-type>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-type>
+        <component-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-class>
+    </component>
+
+    <!-- We map this to <wiki:loadStyle src="..."/> in Facelets -->
+    <component>
+        <component-type>org.ajax4jsf.component.html.HtmlLoadStyle</component-type>
+        <component-class>org.ajax4jsf.component.html.HtmlLoadStyle</component-class>
+    </component>
+
+    <!-- Custom renderer implementation for s:cache page fragment caching -->
+    <render-kit>
+        <render-kit-id>HTML_BASIC</render-kit-id>
+        <renderer>
+            <component-family>org.jboss.seam.ui.Cache</component-family>
+            <renderer-type>
+                org.jboss.seam.ui.CacheRenderer
+            </renderer-type>
+            <renderer-class>
+                org.jboss.seam.wiki.core.ui.WikiPageFragmentCacheRenderer
+            </renderer-class>
+        </renderer>
+    </render-kit>
+
+</faces-config>

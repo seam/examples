@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+
+    <ui:define name="head">
+      <link href="style/security.css" rel="stylesheet" type="text/css"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+      <script type="text/javascript">
+        function confirmRevoke()
+        {
+          return confirm("Are you sure you wish to revoke this permission? This action cannot be undone.");
+        }
+      </script>
+
+      <div id="contentMain">
+
+  	    <h2>Image Permissions</h2>
+
+  	    <div style="float: left">
+  	      <h3>Managing permissions for image:</h3>
+  	    </div>
+
+        <br class="clear"/>
+
+        <div class="thumbnail">
+          <h:graphicImage value="/content/images?id=#{permissionSearch.target.imageId}&amp;width=90"/>
+        </div>
+
+    	  <br class="clear"/>
+
+        <s:button action="#{imagePermission.createPermission}"
+          styleClass="newpermission"
+          rendered="#{s:hasPermission(permissionSearch.target, 'seam.grant-permission')}"/>
+
+        <h:dataTable
+            id="threads"
+            value="#{recipients}"
+            var="recipient"
+            styleClass="security"
+            cellspacing="0"
+            headerClass="header"
+            rowClasses="odd,even"
+            columnClasses=",,action">
+          <h:column width="auto">
+            <f:facet name="header">
+              Recipient
+            </f:facet>
+            #{recipient.name}
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Actions Allowed
+            </f:facet>
+            #{permissionSearch.getActions(recipient)}
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Action
+            </f:facet>
+            <s:link value="Edit" action="#{imagePermission.editPermission}"
+                    rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"/>
+            <span> | </span>                    
+            <s:link value="Revoke All" action="#{permissionSearch.revokeSelected}"
+                    rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
+                    onclick="return confirmRevoke()"/>
+          </h:column>
+  	    </h:dataTable>
+
+	    </div>
+
+    </ui:define>
+
+  </ui:composition>
+</html>

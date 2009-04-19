@@ -1,0 +1,61 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:c="http://java.sun.com/jstl/core"
+            xmlns:wiki="http://jboss.com/products/seam/wiki">
+    <m:header name="X-Sent-From" value="JBoss Seam" />
+    <m:header name="Precedence" value="list"/>
+    <m:from name="LaceWiki" address="do-not-reply@jboss.com" />
+    <m:to name="#{currentDocument.createdBy.fullname}">#{currentDocument.createdBy.email}</m:to>
+    <m:subject>[LaceWiki Forums] #{replyHome.instance.subject}</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{currentDocument.createdBy.firstname},</p>
+
+            <p>
+              you received a <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">response</a>
+              to <a href="#{wikiURLRenderer.renderURL(currentDocument, true)}">your posting</a> on the
+              LaceWiki forum, posted by #{replyHome.instance.createdBy.fullname}:
+            </p>
+
+            <hr/>
+
+            <c:if test="#{replyHome.instance.useWikiText}">
+                <wiki:formattedText value="#{replyHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </c:if>
+            <c:if test="#{not replyHome.instance.useWikiText}">
+                <div style="font-family: Andale Mono, Courier New, monospace;">
+                    <h:outputText escape="false" value="#{wiki:escapeHTML(replyHome.instance.content, true, true)}"/>
+                </div>
+            </c:if>
+
+            <hr/>
+            <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">Click here</a> to reply...
+
+            </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{currentDocument.createdBy.firstname},
+
+you received a response to your posting on the LaceWiki forum.
+
+From: #{replyHome.instance.createdBy.fullname}
+Subject:#{replyHome.instance.subject}
+
+Follow this link to read and reply:
+
+#{wikiURLRenderer.renderURL(replyHome.instance, true)}
+</h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

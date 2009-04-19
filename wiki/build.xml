@@ -1,0 +1,503 @@
+<?xml version="1.0"?>
+
+<project name="wiki" default="explodewar" basedir=".">
+
+    <!-- ################## CONFIG ####################### -->
+
+    <!-- Give user a chance to override without editing this file or typing -D -->
+    <property file="${basedir}/build.properties" />
+
+	<property name="tmp.dir"          value="build"/>
+
+	<property name="seam.dir" value="${basedir}/../../"/>
+	<import file="${seam.dir}/build/common.build.xml" />
+
+    <property name="profile" value="dev"/>
+
+    <!-- set global properties for this build -->
+    <property name="project.name" value="wiki"/>
+
+    <property name="src.java.dir"   value="src/main"/>
+    <property name="src.plugin.dir" value="src/plugin"/>
+    <property name="src.test.dir" value="src/test"/>
+    <property name="src.etc.dir"  value="src/etc"/>
+    <property name="view.dir"     value="view"/>
+
+    <property name="classes.dir"         value="${tmp.dir}/classes"/>
+    <property name="testclasses.dir"    value="${tmp.dir}/testclasses"/>
+    <property name="test.output.dir"    value="${tmp.dir}/test-output"/>
+    <property name="exploded.dir"       value="${tmp.dir}/exploded"/>
+    <property name="exploded.war.dir"   value="${exploded.dir}/${project.name}.war"/>
+
+    <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
+    <property name="deploy.war.dir"     value="${deploy.dir}/${project.name}.war"/>
+
+    <property name="wiki.dist.dir"      value="dist" />
+
+    <property name="global.lib.dir" value="${lib.dir}" />
+    <property name="seamlibs.dir"   value="${seam.dir}"/>
+    <property name="local.lib.dir"  value="lib" />
+    <property name="drools.lib.dir" value="${seam.dir}/drools/lib"/>
+    <property name="embedded-jboss.dir" value="${seam.dir}/bootstrap"/>
+
+    <!-- ################## ALIASES ####################### -->
+
+    <fileset id="globallibs" dir="${global.lib.dir}">
+        <include name="*.jar"/>
+        <!-- The Seam bundled Hibernate is too old to even compile this application! -->
+        <exclude name="hibernate*"/>
+        <exclude name="ejb3-persistence*"/>
+    	<exclude name="jboss-seam-gen.jar" />
+    </fileset>
+
+    <path id="build.classpath">
+        <fileset refid="globallibs" />
+        <fileset dir="${local.lib.dir}"/>
+    </path>
+
+    <path id="test.classpath">
+        <!-- THE ORDER IS CRITICALLY IMPORTANT! -->
+
+        <pathelement path="${testclasses.dir}"/>
+        <pathelement path="${embedded-jboss.dir}"/>
+
+        <!-- JBoss Embedded, without Hibernate -->
+    	<fileset dir="${global.lib.dir}/test">
+    		<include name="jboss-embedded-all.jar" />
+    		<include name="thirdparty-all.jar" />
+    	</fileset>
+
+        <fileset dir="${global.lib.dir}">
+            <include name="*.jar" />
+        	<!-- Don't use that Hibernate either... -->
+            <exclude name="hibernate*.jar"/>
+        	<exclude name="jboss-seam-jbas5.jar" />
+        	<exclude name="jboss-seam-wicket.jar" />
+        	<exclude name="ehcache.jar" />
+        </fileset>
+        <fileset dir="${local.lib.dir}">
+            <!-- This has the Hibernate we want -->
+            <include name="*.jar" />
+        </fileset>
+
+    </path>
+
+    <path id="tools.classpath">
+        <fileset dir="${global.lib.dir}">
+            <include name="commons-collections*.jar"/>
+            <include name="commons-logging*.jar"/>
+            <include name="dom4j*.jar"/>
+            <include name="javassist*.jar"/>
+        </fileset>
+        <fileset dir="${local.lib.dir}"/>
+    </path>
+
+    <patternset id="meta.files">
+        <include name="**/*.xml"/>
+        <include name="**/*.properties"/>
+        <include name="**/*.sql"/>
+        <include name="**/*.drl"/>
+        <include name="**/*.MF"/>
+        <include name="**/*.dtd"/>
+        <include name="**/*.xsd"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.jpeg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.swf"/>
+        <include name="**/*.xhtml"/>
+    </patternset>
+
+    <!-- ################## SETUP ####################### -->
+
+    <target name="initseam" depends="copyseam,copyseamdependencies"
+            description="Copy seam dependencies/libs"/>
+
+    <target name="init" description="Initialize the project build">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${testclasses.dir}"/>
+        <mkdir dir="${exploded.war.dir}"/>
+    	<taskdef name="hibernatetool"
+    	             classname="org.hibernate.tool.ant.HibernateToolTask"
+    	             classpathref="tools.classpath"/>
+
+        <!-- Import test data if we are in 'dev' profile -->
+        <condition property="importdata">
+            <equals arg1="${profile}" arg2="dev"/>
+        </condition>
+
+    </target>
+
+    <target name="clean" description="Cleans up all build artifacts">
+        <delete dir="${tmp.dir}"/>
+        <delete dir="lacewikiIndex"/>
+    </target>
+
+    <target name="upgradehibernate"
+            description="Copy updated Hibernate libraries into JBoss AS default/lib/ directory">
+
+        <delete>
+            <fileset dir="${jboss.home}/server/default/lib">
+                <include name="hibernate*"/>
+            </fileset>
+        </delete>
+        <copy todir="${jboss.home}/server/default/lib">
+            <fileset dir="${local.lib.dir}">
+                <include name="hibernate*"/>
+                <!-- We put this in WEB-INF/lib -->
+                <exclude name="hibernate-search*"/>
+                <!-- We don't need that at runtime -->
+                <exclude name="hibernate-tools*"/>
+                <!-- We also need EHCache there -->
+                <include name="ehcache*"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- ################## COMPILE ####################### -->
+
+    <target name="compileclasses"
+            description="Compile the main Java source code">
+
+        <javac classpathref="build.classpath"
+                    destdir="${classes.dir}"
+                      debug="${javac.debug}"
+                deprecation="${javac.deprecation}"
+                     nowarn="${javac.nowarn}">
+            <src path="${src.java.dir}"/>
+            <src path="${src.plugin.dir}"/>
+        </javac>
+
+        <!-- Copy resources (mapping files, properties, etc.) to classes -->
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.java.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+            <fileset dir="${src.plugin.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <taskdef name="instrument" classname="org.hibernate.tool.instrument.javassist.InstrumentTask">
+            <classpath path="${classes.dir}"/>
+            <classpath refid="build.classpath"/>
+        </taskdef>
+
+        <instrument verbose="false">
+            <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
+                <include name="**/*.class"/>
+            </fileset>
+        </instrument>
+
+    </target>
+
+    <!-- ################## EXPLODE ####################### -->
+
+    <target name="explodewar" depends="explodeclasses, exploderesources, copydatasets"
+            description="Creates a hot-redeployable exploded WAR directory">
+    </target>
+
+    <target name="explodeclasses" depends="compileclasses">
+
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes"/>
+        <mkdir dir="${exploded.war.dir}/WEB-INF/dev"/>
+
+        <!-- ########## Classes ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF/classes">
+            <fileset dir="${classes.dir}"/>
+        </copy>
+
+        <!-- ########## XHTML ########### -->
+        <copy todir="${exploded.war.dir}">
+            <fileset dir="${view.dir}"/>
+        </copy>
+
+    </target>
+
+    <target name="exploderesources">
+
+        <!-- ########## Libs ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF/lib">
+            <fileset dir="${global.lib.dir}">
+            	<!-- Still need the * on richfaces due to bug in version mapper -->
+                <include name="richfaces*.jar" />
+                <include name="jsf-facelets.jar" />
+                <include name="commons-digester.jar"/>
+                <include name="commons-beanutils.jar"/>
+                <include name="jbpm-jpdl.jar" />
+                <include name="jboss-el.jar" />
+                <include name="urlrewritefilter.jar" />
+                <include name="itext.jar" />
+                <include name="lucene-core.jar" />
+            	<include name="antlr-runtime.jar" />
+            	<include name="core.jar" />
+            	<include name="janino.jar" />
+            	<include name="mvel14.jar" />
+            	<include name="drools-core.jar" />
+            	<include name="drools-compiler.jar" />
+            	<include name="jboss-seam.jar" />
+            	<include name="jboss-seam-debug.jar" />
+            	<include name="jboss-seam-ioc.jar" />
+            	<include name="jboss-seam-mail.jar" />
+            	<include name="jboss-seam-pdf.jar" />
+            	<include name="jboss-seam-remoting.jar" />
+            	<include name="jboss-seam-ui.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${exploded.war.dir}/WEB-INF/lib">
+            <fileset dir="${local.lib.dir}">
+                <exclude name="ejb3-persistence*"/>
+                <exclude name="hibernate3*"/>
+                <exclude name="hibernate-tools*"/>
+                <exclude name="hibernate-commons*"/>
+                <exclude name="hibernate-annotations*"/>
+                <exclude name="hibernate-entitymanager*"/>
+                <exclude name="hibernate-validator*"/>
+            	<exclude name="jboss-archive-browsing*"/>
+                <exclude name="ehcache*"/>
+            </fileset>
+        </copy>
+
+        <!-- ########## Configuration files (WEB-INF) ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF">
+            <fileset dir="${src.etc.dir}/WEB-INF">
+                <patternset refid="meta.files"/>
+            </fileset>
+        </copy>
+
+        <!-- ########## Configuration files (WEB-INF/classes) ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF/classes">
+            <fileset dir="${src.etc.dir}">
+                <include name="i18n/messages*.properties"/>
+                <include name="ehcache.xml"/>
+            </fileset>
+        </copy>
+
+        <!-- ########## Configuration files (WEB-INF/classes/META-INF) ########### -->
+        <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF">
+            <fileset dir="${src.etc.dir}/META-INF">
+                <include name="*.taglib.xml"/>
+                <include name="*.properties"/>
+            </fileset>
+        </copy>
+        <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
+                file="${src.etc.dir}/META-INF/persistence-${profile}-war.xml"
+                overwrite="true">
+        </copy>
+        <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/components.xml"
+                file="${src.etc.dir}/META-INF/components-${profile}.xml"
+                overwrite="true">
+        </copy>
+
+    </target>
+
+    <target name="copydatasets" if="importdata">
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes/META-INF/testdata"/>
+        <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF/testdata" flatten="true">
+            <fileset dir="${src.test.dir}">
+                <include name="**/*.dbunit.xml"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes/META-INF/testbinaries"/>
+        <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF/testbinaries" flatten="true">
+            <fileset dir="${basedir}/testbinaries">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- ################## DEPLOYMENT ####################### -->
+
+    <target name="deploynoseaminit" depends="init, explodewar"
+            description="Deploy without copying Seam dependencies">
+        <fail unless="jboss.home">jboss.home not set</fail>
+
+        <!-- ######## Datasoure ######## -->
+        <copy todir="${deploy.dir}">
+            <fileset dir="${src.etc.dir}">
+                <include name="${project.name}-${profile}-ds.xml" />
+            </fileset>
+        </copy>
+
+        <!-- ######## Exploded WAR ######## -->
+        <copy todir="${deploy.war.dir}">
+            <fileset dir="${exploded.war.dir}"/>
+        </copy>
+
+    </target>
+
+    <target name="deploy" depends="initseam, deploynoseaminit"
+            description="Deploy datasource and exploded WAR to JBoss AS"/>
+
+    <target name="undeploy"
+            description="Undeploy datasource and exploded WAR">
+        <fail unless="jboss.home">jboss.home not set</fail>
+
+        <delete dir="${deploy.war.dir}" failonerror="no"/>
+        <delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no"/>
+
+    </target>
+
+    <target name="redeploy" depends="deploynoseaminit" description="Deploy and restart the WAR">
+        <touch file="${deploy.war.dir}/WEB-INF/web.xml"/>
+    </target>
+
+    <target name="cleanredeploy" depends="undeploy, clean, deploy"
+            description="Undeploy, clean up, build and redeploy"/>
+
+    <!-- ######################## DISTRIBUTION ################## -->
+
+    <target name="dist" depends="clean, init, explodeclasses, exploderesources"
+            description="Package a WAR archive">
+
+        <delete dir="${wiki.dist.dir}"/>
+        <mkdir dir="${wiki.dist.dir}"/>
+
+        <!-- ###### WAR ###### -->
+        <jar jarfile="${wiki.dist.dir}/${project.name}.war" basedir="${exploded.war.dir}"/>
+
+        <!-- ###### Datasource ###### -->
+        <copy tofile="${wiki.dist.dir}/${project.name}-ds.xml"
+                file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
+
+        <!-- ###### Schema ###### -->
+        <hibernatetool destdir="${basedir}">
+            <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
+            <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
+            <hbm2ddl
+                drop="false"
+                create="true"
+                export="false"
+                outputfilename="${wiki.dist.dir}/${project.name}-ddl.sql"
+                delimiter=";"
+                format="true"/>
+        </hibernatetool>
+
+        <!-- ###### Startup data ###### -->
+        <copy tofile="${wiki.dist.dir}/${project.name}-data.sql"
+                file="${src.etc.dir}/production.sql"
+           overwrite="true"/>
+
+        <!-- Clean up afterwards for the next deploy run -->
+        <antcall target="clean"/>
+
+        <echo message="Compiled and packaged distribution files into directory: ${wiki.dist.dir}"/>
+
+    </target>
+
+    <!-- ######################## TESTS ################## -->
+
+    <target name="compiletests" depends="clean, initseam, init, compileclasses, copyjbossembedded,getemma"
+            description="Compile the test Java source code">
+
+        <javac classpathref="test.classpath"
+                    destdir="${testclasses.dir}"
+                      debug="${javac.debug}"
+                deprecation="${javac.deprecation}"
+                     nowarn="${javac.nowarn}">
+        	<classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+        		<path path="${classes.dir}" />
+            </classpath>
+            <src path="${src.test.dir}" />
+        </javac>
+
+        <!-- ###### Copy resources (XML files, properties, etc.) to classes ###### -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${src.test.dir}">
+                <patternset refid="meta.files"/>
+                <exclude name="*.tng.xml"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="configuretests" depends="compiletests"
+            description="Copy resources to test path (call from IDE before tests)">
+
+        <!-- ###### Test classes ###### -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${classes.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <!-- ######## Test config ######## -->
+        <copy todir="${testclasses.dir}">
+            <fileset dir="${src.etc.dir}">
+                <include name="**/*"/>
+                <!-- Handle these below -->
+                <exclude name="META-INF/persistence*.xml"/>
+                <exclude name="META-INF/components*.xml"/>
+                <exclude name="*-ds.xml"/>
+                <exclude name="*.sql"/>
+            </fileset>
+        </copy>
+        <copy tofile="${testclasses.dir}/META-INF/persistence.xml"
+                file="${src.etc.dir}/META-INF/persistence-test-war.xml"
+           overwrite="true"/>
+        <copy tofile="${testclasses.dir}/META-INF/components.xml"
+                file="${src.etc.dir}/META-INF/components-test.xml"
+           overwrite="true"/>
+        <copy tofile="${testclasses.dir}/wiki-ds.xml"
+                file="${src.etc.dir}/wiki-test-ds.xml"
+           overwrite="true"/>
+
+        <!-- ######## Test data binaries ######## -->
+        <mkdir dir="${testclasses.dir}/META-INF/testbinaries"/>
+        <copy todir="${testclasses.dir}/META-INF/testbinaries">
+            <fileset dir="${basedir}/testbinaries">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+        <!-- ######## Test output ######## -->
+        <delete  dir="${test.output.dir}"/>
+        <mkdir dir="${test.output.dir}"/>
+
+    </target>
+
+    <target name="test" depends="configuretests,getemma"
+            description="Run tests defined in *.tng.xml">
+    	<condition property="testng.file" value="AllTests-jdk6.tng.xml" else="AllTests.tng.xml">
+    		<equals arg1="${ant.java.version}" arg2="1.6"/>
+    	</condition>
+        <taskdef resource="testngtasks" classpathref="test.classpath"/>
+        <testng outputdir="${test.output.dir}">
+            <classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+            </classpath>
+            <xmlfileset dir="${src.test.dir}" includes="${testng.file}" />
+            <jvmarg line="${testng.jvmargs}"/>
+			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
+        	<!-- Needed for running Embedded JBoss under JDK 6 -->
+            <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
+        </testng>
+        <echo message="Please read the test output in directory: ${test.output.dir}"/>
+    </target>
+
+
+    <property name="database.dir" value="database"/>
+    <target name="startdb" description="Run HSQL database server with clean content">
+        <!-- Delete database files -->
+        <mkdir dir="${database.dir}"/>
+        <delete>
+            <fileset dir="${database.dir}">
+                <include name="db*"/>
+            </fileset>
+        </delete>
+        <java classname="org.hsqldb.Server"
+              fork="yes"
+              classpath="${seam.dir}/lib/hsqldb.jar"
+              failonerror="true">
+            <arg value="-database.0"/>
+            <arg value="file:${database.dir}/db"/>
+        </java>
+    </target>
+
+
+</project>

@@ -1,0 +1,377 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="exitManaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{documentHome.managed}" action="exitManaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+    <s:link id="exitUnmanaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{!documentHome.managed}" action="exitUnmanaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and documentHome.managed}">
+        <ui:include src="includes/ownerSelector.xhtml">
+            <ui:param name="home" value="#{documentHome}"/>
+        </ui:include>
+    </s:span>
+
+    <div id="docEditFormContainer" class="box">
+    <h:form id="docEditForm">
+        <div class="form">
+
+            <script type="text/javascript">startSessionTimeoutCheck();</script>
+
+            <script type="text/javascript">jQuery(function() {
+                jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
+            });</script>
+            <div id="formTabs" class="formTabs">
+
+                <ul>
+                    <li class="formTabsTitle">
+                        <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+                        <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
+                    </li>
+                    <li id="docContentTab">
+                        <a href="#docContent" accesskey="#{messages['lacewiki.button.docEdit.Content.accesskey']}">
+                            <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.Content']}"/>
+                        </a>
+                    </li>
+                    <li id="docPropertiesTab">
+                        <a href="#docProperties" accesskey="#{messages['lacewiki.button.docEdit.Properties.accesskey']}">
+                            <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.Properties']}"/>
+                        </a>
+                    </li>
+                    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                        <li id="adminOptionsTab">
+                            <a href="#adminOptions" accesskey="#{messages['lacewiki.button.docEdit.AdminOptions.accesskey']}">
+                                <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.AdminOptions']}"/>
+                            </a>
+                        </li>
+                    </s:fragment>
+                </ul>
+
+                <div id="formTabsTitle"/>
+
+                <div id="docContent">
+
+                    <a:region>
+                        <div class="formFields">
+
+                            <s:div styleClass="entry">
+                                <div class="label">#{messages['lacewiki.label.docEdit.Directory']}:</div>
+                                <div class="output">
+                                    <s:span id="directoryNameDisplay">#{documentHome.parentNode.name}</s:span>
+                                </div>
+                            </s:div>
+
+                            <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="fieldId" value="name"/>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Name']}</ui:define>
+                                <h:inputText styleClass="ajaxSupport" tabindex="1" size="65" maxlength="200" required="true" value="#{documentHome.instance.name}">
+                                    <a:support status="globalStatus" event="onchange" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                </h:inputText>
+                            </s:decorate>
+
+                            <s:div styleClass="entry">
+                                <div class="label">&#160;</div>
+                                <div class="input">
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.nameAsTitle}" tabindex="1">
+                                        <a:support status="globalStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                    </h:selectBooleanCheckbox>
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}"/>
+                                </div>
+                            </s:div>
+
+                            <s:div styleClass="entry" rendered="#{documentHome.managed}">
+                                <div class="label">&#160;</div>
+                                <div class="input">
+                                    <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="1"/>
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.MinorChange']}"/>
+                                </div>
+                            </s:div>
+
+                            <s:fragment rendered="#{not documentHome.managed}">
+                                <s:div styleClass="entry">
+                                    <div class="label">&#160;</div>
+                                    <div class="input">
+                                        <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
+                                            <a:support status="globalStatus" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged" oncomplete="onAjaxRequestComplete()"/>
+                                        </h:selectBooleanCheckbox>
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}"/>
+                                    </div>
+                                </s:div>
+                                <s:div id="pushOnSiteFeedSwitchUnmanaged">
+                                    <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed) and s:hasPermission('User','isAdmin',currentUser)}">
+                                        <s:div styleClass="entry">
+                                            <div class="label">&#160;</div>
+                                            <div class="input">
+                                                <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
+                                                <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
+                                            </div>
+                                        </s:div>
+                                    </s:fragment>
+                                </s:div>
+                            </s:fragment>
+
+                            <s:fragment rendered="#{documentHome.managed}">
+                                <s:fragment rendered="#{documentHome.onSiteFeed}">
+                                    <s:div styleClass="entry">
+                                        <div class="label">&#160;</div>
+                                        <div class="input">
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1"/>
+                                            <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnFeeds']}"/>
+                                        </div>
+                                    </s:div>
+                                </s:fragment>
+                                <s:fragment rendered="#{not documentHome.onSiteFeed}">
+                                    <s:div styleClass="entry">
+                                        <div class="label">&#160;</div>
+                                        <div class="input">
+                                            <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
+                                                <a:support status="globalStatus" event="onchange" reRender="pushOnSiteFeedSwitch" oncomplete="onAjaxRequestComplete()"/>
+                                            </h:selectBooleanCheckbox>
+                                            <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnParentFeeds']}"/>
+                                        </div>
+                                    </s:div>
+                                    <s:div id="pushOnSiteFeedSwitch">
+                                        <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed) and s:hasPermission('User','isAdmin',currentUser)}">
+                                            <s:div styleClass="entry">
+                                                <div class="label">&#160;</div>
+                                                <div class="input">
+                                                    <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}"
+                                                                             value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
+                                                    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
+                                                </div>
+                                            </s:div>
+                                        </s:fragment>
+                                    </s:div>
+                                </s:fragment>
+                            </s:fragment>
+
+                            <ui:include src="includes/wikitext/editor/editor.xhtml">
+                                <ui:param name="textEditor" value="#{documentHome.textEditor}"/>
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="namingContainer" value="docEditForm"/>
+                            </ui:include>
+
+                        </div>
+                    </a:region>
+
+                </div>
+
+                <div id="docProperties">
+
+                    <a:region>
+                        <div class="formFields">
+
+                            <s:div styleClass="entry" rendered="#{documentHome.managed}">
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.CreatedOn']}:"/>
+                                </div>
+                                <div class="output">
+                                    <h:outputText value="#{documentHome.instance.createdOn}">
+                                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                                    </h:outputText>
+                                    <s:span id="ownerDisplay">&#160;(#{documentHome.instance.createdBy.username})</s:span>
+                                    <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"
+                                                  rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><j4j:idProxy
+                                                    id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
+                                </div>
+                            </s:div>
+
+                            <ui:include src="includes/accessLevelSelector.xhtml">
+                                <ui:param name="home" value="#{documentHome}"/>
+                            </ui:include>
+
+                            <s:div styleClass="entry">
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.Options']}:"/>
+                                </div>
+                                <div class="input">
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.enableComments}" tabindex="1">
+                                        <a:support status="globalStatus" event="onchange" reRender="commentFormSwitch" oncomplete="onAjaxRequestComplete()"/>
+                                    </h:selectBooleanCheckbox>
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.EnableComments']}"/>
+                                </div>
+                            </s:div>
+
+                            <s:div id="commentFormSwitch">
+
+                                <s:div styleClass="entry">
+                                    <div class="label">&#160;</div>
+                                    <div class="input">
+                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}"
+                                                                 value="#{documentHome.instance.enableCommentForm}" tabindex="1"/>
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.AllowCommentPosting']}"/>
+                                    </div>
+                                </s:div>
+
+                                <s:div styleClass="entry">
+                                    <div class="label">&#160;</div>
+                                    <div class="input">
+                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}"
+                                                                 value="#{documentHome.instance.enableCommentsOnFeeds}" tabindex="1"/>
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.PushCommentsOnFeeds']}"/>
+                                    </div>
+                                </s:div>
+
+                            </s:div>
+
+                            <ui:include src="includes/tagEditor.xhtml">
+                                <ui:param name="editor" value="#{documentHome.tagEditor}"/>
+                            </ui:include>
+
+                        </div>
+                    </a:region>
+
+                </div>
+
+                <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                    <div id="adminOptions">
+
+                        <a:region>
+
+                            <s:decorate id="headerDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="fieldId" value="header"/>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Header']}</ui:define>
+                                <h:inputTextarea rows="8" cols="60" value="#{documentHome.instance.header}"/>
+                            </s:decorate>
+
+                            <s:decorate id="footerDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="fieldId" value="footer"/>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Footer']}</ui:define>
+                                <h:inputTextarea rows="8" cols="60" value="#{documentHome.instance.footer}"/>
+                            </s:decorate>
+
+                            <ui:include src="includes/writeProtectionSelector.xhtml">
+                                <ui:param name="home" value="#{documentHome}"/>
+                            </ui:include>
+
+                        </a:region>
+
+                    </div>
+                </s:fragment>
+
+            </div>
+
+            <div class="formControls">
+                <div class="entry">
+                    <div class="label">&#160;</div>
+                    <div class="input">
+
+                        <h:commandLink id="save" action="#{documentHome.persist}"
+                                       rendered="#{!documentHome.managed}"
+                                       tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Save.accesskey']}"
+                                       styleClass="button saveButton sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Save']}"/>
+                        </h:commandLink>
+
+                        <h:commandLink id="update" action="#{documentHome.update}"
+                                   rendered="#{documentHome.managed}"
+                                   tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Update.accesskey']}"
+                                   styleClass="button saveButton sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Update']}"/>
+                        </h:commandLink>
+
+                        <s:fragment rendered="#{documentHome.removable}">
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
+                                <ui:param name="accesskey" value="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"/>
+                                <ui:param name="tabindex" value="1"/>
+                                <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                                <ui:param name="escapeLabel" value="false"/>
+                                <ui:param name="jsFunctionName" value="deleteDocument"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(': \'').concat(documentHome.instance.name).concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  action="#{documentHome.remove}"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
+                        </s:fragment>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+
+    </div>
+
+    <br/>
+
+    <s:div id="contentPreview">
+        <c:if test="#{documentHome.textEditor.previewEnabled and documentHome.textEditor.valid}">
+            <s:div id="documentDisplayContainer"
+                   styleClass="box">
+                <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
+                    <script type="text/javascript">jQuery(function() {
+                        clearDocumentBackground();
+                    });</script>
+                </s:fragment>
+                <s:div id="documentDisplay" styleClass="documentDisplay">
+
+                    <s:div rendered="#{documentHome.instance.nameAsTitle}">
+                        <h1 class="documentTitle">
+                            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                                <h:outputText value="#{documentHome.instance.name}"/>
+                            </h:outputLink>
+                        </h1>
+                    </s:div>
+
+                    <wiki:formattedText value="#{documentHome.textEditor.value}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{documentHome.instance}"
+                                        currentAreaNumber="#{documentHome.parentNode.areaNumber}"
+                                        enableTransientMacros="true"
+                                        enableMacroRendering="true"/>
+                </s:div>
+            </s:div>
+
+            <s:div rendered="#{documentHome.textEditor.previewEnabled and documentHome.textEditor.valid}">
+                <ui:include src="includes/attachmentDisplay.xhtml"/>
+            </s:div>
+        </c:if>
+        <c:if test="#{documentHome.textEditor.previewEnabled and not documentHome.textEditor.valid}">
+            <h:outputText value="#{messages['lacewiki.msg.wikiTextValidator.InvalidWikiText']}"/>
+        </c:if>
+    </s:div>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+
+</ui:composition>
+

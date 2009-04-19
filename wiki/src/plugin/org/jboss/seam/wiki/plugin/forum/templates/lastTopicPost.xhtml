@@ -1,0 +1,28 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div>
+        <h:outputLink value="#{link}" tabindex="1">
+            <h:outputText value="#{wiki:truncateString(name, 45, '...')}"/>
+            <h:graphicImage styleClass="topicGotoIcon" value="#{currentMacro.requestImagePath}/icon.posting_goto.gif" width="18" height="9"/>
+        </h:outputLink>
+    </s:div>
+
+    <s:div>
+        <h:outputText value="#{createdOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+        </h:outputText>
+    </s:div>
+
+    <ui:include src="/includes/userProfileLink.xhtml">
+        <ui:param name="user" value="#{createdBy}"/>
+    </ui:include>
+
+</s:fragment>

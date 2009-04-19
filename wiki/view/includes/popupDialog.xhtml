@@ -1,0 +1,42 @@
+<s:div styleClass="popupDialog"
+    id="#{dialogId}"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:wiki="http://jboss.com/products/seam/wiki"
+    xmlns:j4j="http://javascript4jsf.dev.java.net/"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <j4j:idProxy id="#{dialogId}Popup"/>
+
+    <s:span id="#{dialogId}Init">
+        <ui:insert name="dialogInit"/>
+    </s:span>
+
+    <script type="text/javascript">jQuery(function() {
+        jsf('#{dialogId}Popup').Resizable({
+            minTop: 1,
+            dragHandle: "##{dialogId}Head",
+            handlers: { se: "##{dialogId}ResizeHandle" }
+        });
+    });</script>
+
+    <div class="popupDialogHead" id="#{dialogId}Head"><ui:insert name="dialogTitle">#{messages['lacewiki.label.Confirmation']}</ui:insert></div>
+
+    <s:div styleClass="popupDialogContent" id="#{dialogId}Content">
+        <ui:insert name="dialogContent"><p>#{messages['lacewiki.label.AreYouSureYouWantToExecute']}</p></ui:insert>
+    </s:div>
+
+    <s:div styleClass="popupDialogControls" id="#{dialogId}Controls">
+        <h:panelGroup>
+            <ui:insert name="dialogControls"/>
+            <h:outputLink rendered="#{!hideCancelButton}"
+                          styleClass="buttonNonpersistent closeDialog">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Cancel']}"/>
+            </h:outputLink>
+        </h:panelGroup>
+    </s:div>
+
+    <s:div styleClass="popupDialogResizeHandle" id="#{dialogId}ResizeHandle" rendered="#{not disableResize}"/>
+
+</s:div>

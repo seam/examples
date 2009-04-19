@@ -1,0 +1,48 @@
+div.container {
+  width: 780px;
+}
+
+div.banner {
+  margin-top: 16px;
+  margin-left: 8px;
+  background: url(../img/banner.png) top left no-repeat;
+  width: 766px;
+  height: 43px;
+}
+
+div.categories {
+  float: left;
+  width: 200px;
+  border: 1px solid #ff3636;
+  background-color: #fff6f6;
+  font-size: 12px;
+  margin-top: 8px;
+  margin-left: 8px;
+  padding-bottom: 4px;
+}
+
+div.categories a, div.categories a:visited {
+  display: block;
+  margin: 2px 4px 2px 4px;
+  padding-left: 4px;
+  font-weight: bold;
+  color: #0000cc;
+}
+
+div.categories a:hover {
+  background-color: #ffdddd;
+}
+
+div.sectionHeader {
+  color: #ffffff;
+  background: url(../img/grip.png) 6px 6px no-repeat;
+  background-color: #ff3636;
+  text-align: center;
+  padding: 6px 8px 6px 8px;
+  font-weight: bold;
+}
+
+#content {
+  margin-left: 220px;
+  font-size: 12px;;
+}

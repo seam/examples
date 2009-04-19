@@ -1,0 +1,103 @@
+div.bidImage {
+  float: left;
+  width: 100px;
+  padding: 8px 8px 8px 8px;
+}
+
+div.bidItem {
+  margin-left: 104px;
+  padding: 8px 0px 8px 8px;
+}
+
+div.itemDetailRow {
+  nowrap: true;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+div.itemDetailRow label {
+  float: left;
+}
+
+div.itemDetailRow div {
+  margin-left: 220px;
+  nowrap: true;
+}
+
+div.maximumBidRow {
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;  
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 8px 8px 8px 8px;
+}
+
+div.maximumBidRow label {
+  float: left;
+  color: #ff0000;
+  font-weight: bold;
+}
+
+div.maximumBidRow div {
+  margin-left: 220px;
+  nowrap: true;
+}
+
+div.maximumBidRow div input {
+  width: 80px;
+}
+
+div.placeBid {
+  margin-left: 240px;
+}
+
+div.confirmBid {
+  clear: both;
+  border: 1px solid #ffdd00;
+  padding: 4px 12px 4px 10px;
+}
+
+div.confirmBid input {
+  margin-top: 12px;
+}
+
+div.error {
+  font-weight: bold;
+  color: #ff0000;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+div.outbidImage {
+  background: url(../img/cross.png) 8px 8px no-repeat;
+  float: left;
+  width: 46px;
+  height: 46px;
+}
+
+div.increaseBid {
+  clear: both;
+  background-color: #eeeeff;
+  border: 1px solid #ccccff;   
+  padding: 6px 12px 4px 10px;
+}
+
+div.increaseBid div input {
+  width: 80px;
+}
+
+input.bidAgain {
+  margin-top: 8px;
+  margin-left: 320px;
+}
+
+div.increaseBid label {
+  float: left;
+  font-weight: bold;
+  padding-top: 2px;
+}
+
+div.increaseBid div {
+  margin-left: 320px;
+  nowrap: true;
+}

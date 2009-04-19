@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Seam Mail</title>
+    <ui:remove><link href="screen.css" rel="stylesheet" type="text/css" /></ui:remove>
+</head>
+<body>
+   
+    <h1>Seam Email</h1>
+    
+    <p>Welcome to the Seam Email example.  This example demonstrates Seam's email templating.</p>
+    <p>You need to enter a name and email address to receive the example emails in the form below.</p>
+    
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputText value="Name" />
+            <h:panelGroup>
+                <h:inputText value="#{person.firstname}" required="true" />
+                <h:inputText value="#{person.lastname}" required="true" />
+            </h:panelGroup>
+            <h:outputText value="Email Address" />
+            <h:inputText value="#{person.address}" required="true"/>
+        </h:panelGrid>
+        <h:panelGrid>
+	        <h:commandButton action="#{mailExample.send}" value="Send a simple email" />
+	        <h:commandButton action="#{mailExample.sendPlain}" value="Send Plain Text Email" />
+	        <h:commandButton action="#{mailExample.sendHtml}" value="Send HTML Email" />
+	        <h:commandButton action="#{mailExample.sendAttachment}" value="Send a simple email with attachment" />
+	        <h:commandButton action="#{mailExample.sendAsynchronous}" value="Send a simple email asynchronously" />
+	        <h:commandButton action="#{mailExample.sendTemplate}" value="Send a templated email" />
+        </h:panelGrid>
+        <h:messages infoStyle="info" errorStyle="error" fatalStyle="fatal" warnStyle="warn" />
+    </h:form>
+    
+    <p>You can also send from inside a servlet:</p>
+    
+    <form action="#{facesContext.externalContext.requestContextPath}/mail/sender" method="get">
+    	<table>
+    		<tr>
+    			<td>
+    				Name
+    			</td>
+    			<td>
+    				<input name="name" />
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				Email Address
+    			</td>
+    			<td>
+    				<input name="email" />
+    			</td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td>
+    				<input type="submit" value="Send" />
+    			</td>
+    		</tr>
+    	</table>
+    </form>
+    
+    <h2>Help - it's not working!</h2>
+    <ul>
+    <li><b>Setting an SMTP relay</b> - If you have problems sending emails from this example you might have a firewall 
+    blocking outgoing email.  You'll need to edit <code>&lt;mail:mailSession&gt;</code> 
+    in <code>resources/WEB-INF/components.xml</code> a <code>&lt;mail:mailSession&gt;</code>,
+    set a SMTP relay to relay via and then run the <code>ant deploy</code> again.</li>
+    
+    <li><b>Servers other than JBoss AS</b> - This example deploys Meldware (from <a href="http://www.buni.org">buni.org</a>
+    - <code>meldware.ear</code>) to act as an SMTP server (it listens for authenticated
+    connections on <code>localhost:2525</code>).  This means the mail example will
+    work out of the box on JBoss AS 4.0.5.GA.  If you using another server you may need
+    to set an SMTP relay as described above.</li>
+    
+    <li>Meldware will fail if you have another service using port 2525 (you'll get a errors
+    when the applicaiton is deployed).  To get around this you can set a SMTP gateway as
+    described above.</li>
+    </ul>
+</body>
+</html>

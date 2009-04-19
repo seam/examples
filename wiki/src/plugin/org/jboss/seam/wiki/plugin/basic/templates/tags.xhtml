@@ -1,0 +1,83 @@
+<wiki:plugin
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{currentMacro.getCacheRegion('Tags')}"
+             key="#{currentMacro.cacheKey}">
+
+    <s:div styleClass="box">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{messages['basic.tags.label.Tags']}"/>
+        </s:div>
+
+        <div class="boxContent" style="padding: 5px;">
+
+            <s:fragment rendered="#{not preferences.get('Tags', currentMacro).cloud}">
+
+                <h:dataTable value="#{tagsAggregator.getTagsSortedByCount(currentMacro)}" var="tagCount"
+                             rendered="#{not preferences.get('Tags', currentMacro).cloud}"
+                             columnClasses="defaultColumn, onePercentColumn"
+                             cellpadding="0" cellspacing="0" border="0">
+                    <h:column>
+                        <s:span rendered="#{param.tag != tagCount.tag and preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
+                        </s:span>
+                        <s:span rendered="#{param.tag != tagCount.tag and not preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderTagURL(tagCount.tag)}">
+                                <h:outputText value="#{tagCount.tag}"/>
+                            </h:outputLink>
+                        </s:span>
+                        <s:span rendered="#{param.tag == tagCount.tag}">
+                            <h:outputText value="&gt;&#160;#{tagCount.tag}&#160;&lt;"/>
+                        </s:span>
+                    </h:column>
+                    <h:column>
+                        <h:outputText value="(#{tagCount.count})"/>
+                    </h:column>
+                </h:dataTable>
+
+            </s:fragment>
+
+            <s:fragment rendered="#{preferences.get('Tags', currentMacro).cloud}">
+
+                <ui:repeat var="tagCount" value="#{tagsAggregator.getTagsSortedByCount(currentMacro)}">
+                    <s:span styleClass="tagCloudItem noWrapWhitespace" style="font-size: #{70+(100/tagsAggregator.getHighestTagCount(currentMacro)*tagCount.count)}%;">
+                        <s:span rendered="#{param.tag != tagCount.tag and preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
+                        </s:span>
+                        <s:span rendered="#{param.tag != tagCount.tag and not preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
+                            <h:outputLink value="#{wikiURLRenderer.renderTagURL(tagCount.tag)}">
+                                <h:outputText value="#{tagCount.tag}"/>
+                            </h:outputLink>
+                        </s:span>
+                        <s:span rendered="#{param.tag == tagCount.tag}">
+                            <h:outputText value="&gt;&#160;#{tagCount.tag}&#160;&lt;"/>
+                        </s:span>
+                    </s:span>
+                    <h:outputText value="&#160;&#160; "/>
+                </ui:repeat>
+
+            </s:fragment>
+
+            <s:span styleClass="undecoratedLink defaultColumn"
+                    rendered="#{preferences.get('Tags', currentMacro).linkToCurrentDocument and not empty param.tag}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                    <h:outputText value="#{messages['basic.tags.label.All']}"/>
+                </h:outputLink>
+            </s:span>
+
+        </div>
+
+        <div class="boxFooter"/>
+
+    </s:div>
+
+    </s:cache>
+
+</wiki:plugin>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <WIKI_NODE
+        NODE_ID="30" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="2"
+        AREA_NR="2" NAME="Test Image" WIKINAME="TestImage"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="30" FILE_REVISION="0"/>
+    <WIKI_UPLOAD
+        NODE_ID="30" FILENAME="testimage.jpg" FILESIZE="27831" CONTENT_TYPE="image/jpg"
+        FILEDATA="[BINARY_DIR]/testimage.jpg"/>
+    <WIKI_UPLOAD_IMAGE
+        NODE_ID="30"
+        SIZE_X="500" SIZE_Y="500" THUMBNAIL="S"
+        THUMBNAIL_DATA="[BINARY_DIR]/testimage_thumbnail.jpg"/>
+
+    <WIKI_NODE
+        NODE_ID="31" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="2"
+        AREA_NR="2" NAME="Test Upload" WIKINAME="TestUpload"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="31" FILE_REVISION="0"/>
+    <WIKI_UPLOAD
+        NODE_ID="31" FILENAME="testupload.zip" FILESIZE="1206" CONTENT_TYPE="application/zip"
+        FILEDATA="[BINARY_DIR]/testupload.zip"/>
+
+
+</dataset>

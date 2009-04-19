@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Todo" verbose="2" parallel="false">
+
+   <test name="TodoList">
+     <classes>
+       <class name="org.jboss.seam.example.todo.test.TodoTest"/>
+     </classes>
+   </test>
+	
+</suite>

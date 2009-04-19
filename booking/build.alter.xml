@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+
+<project name="Booking" default="jbossdemo" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam on JBoss Booking Example"/>
+    <property name="example.name"           value="jboss-seam-booking"/>
+
+    <!-- WAR -->
+    <zipfileset id="example.war.docroot"
+               dir="view">
+        <include name="**/*"/>
+    </zipfileset>
+    
+    <zipfileset id="example.war.webinf"
+            prefix="WEB-INF"
+               dir="build/resources/WEB-INF" >
+        <patternset refid="meta.files"/>
+    </zipfileset>
+    
+    <zipfileset id="example.war.webinf.lib"
+            prefix="WEB-INF/lib"
+               dir="../../facelets/lib">
+        <include name="*.jar"/>
+    </zipfileset>
+
+    <!-- EJB3 -->
+    <fileset id="example.ejb3.root"
+            dir="build/resources">
+        <include name="import.sql"/>
+        <include name="seam.properties"/>
+        <include name="META-INF/persistence.xml"/>
+    	<include name="META-INF/ejb-jar.xml"/>
+    </fileset>
+    
+    <fileset id="example.ejb3.lib" dir="../../lib">
+        <include name="_NONE_"/>
+    </fileset>
+
+    <!-- EAR -->
+    <zipfileset id="example.ear.resources"
+            prefix="META-INF"
+               dir="build/resources/META-INF">
+        <include name="*"/>
+        <exclude name="persistence.xml"/>
+        <exclude name="jboss-beans.xml"/>
+    	<exclude name="ejb-jar.xml"/>
+    </zipfileset>
+
+    <!-- Deploy -->
+    <fileset id="example.deploy"
+            dir="build/resources">
+        <include name="booking-ds.xml"/>
+    </fileset>
+    
+    <!-- Undeploy -->
+    <patternset id="example.undeploy">
+        <include name="booking-ds.xml"/>
+    </patternset>
+
+    <!-- Overrides -->
+    <property name="src.java.dir" value="src"/>
+    <property name="src.test.dir" value="src"/>
+    <property name="test.classpath" value="test.eejb.classpath"/>
+    <property name="tomcat.conf" value="eejb.conf"/>
+    <property name="tomcat.lib" value="eejb.lib"/>
+
+    <import file="../../build.xml"/>
+
+    <!-- prepare the directories -->
+    <target name="preparedemo">
+      <mkdir dir="build/resources"/>
+      <copy todir="build/resources">
+        <fileset dir="resources"/>
+      </copy>
+      <copy todir="build/resources" overwrite="true">
+        <fileset dir="alter.config" />
+      </copy>
+    </target>
+
+    <!-- Redefine targets -->
+    <target name="jbossdemo" depends="preparedemo,ear">
+    </target>
+    
+</project>

@@ -1,0 +1,27 @@
+Features:
+
+* URI-based .xls templates
+* Multiple worksheets per workbook
+* Multiple datasets per worksheet
+* Configurable starting coordinates for data sets
+* Custom mask options for numeric/date types
+* Cell formats (fonts, backgrounds, borders etc)
+* Cascading template support for cell formats
+* Many workbook settings (JExcelAPI)
+* Many worksheet settings (JExcelAPI)
+* Cascading template support for worksheet settings
+* Headers/Footers, print areas etc.
+* Comments
+* Formulas
+* URI-based images
+* Hyperlinks
+
+Planned:
+
+* Multiple data cells per column
+* Workaround for the 65k-rows limit of Excel
+* Validations
+
+Possible?
+* Charts
+* Property sets

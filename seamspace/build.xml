@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="SeamSpace" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="SeamSpace Security Example"/>
+    <property name="example.name"           value="jboss-seam-space"/>
+
+    <!-- Libraries -->
+    <property name="facelets.lib"    value="yes"/>
+    <property name="richfaces.lib"   value="yes"/>    
+    <property name="drools.lib"      value="yes"/>
+    <property name="seam.ui.lib"     value="yes"/>    
+    <property name="jcaptcha.lib"    value="yes"/>
+    <import file="../build.xml"/>
+
+</project>
+

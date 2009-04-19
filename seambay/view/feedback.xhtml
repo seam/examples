@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Member Feedback for #{selectedMember.name}</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/feedback.css" rel="stylesheet" type="text/css"/>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/common.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+     
+      <div id="feedbackHeader">
+        <div class="headerTitle">
+          Member Feedback
+        </div>
+                
+        <div class="headerStatus">
+          <b>#{selectedMember.name}<span> ( </span>#{selectedMember.feedbackScore}<span> )</span></b>
+          
+          <p>
+            <span>Member since </span>
+            <h:outputText value="#{selectedMember.memberSince}">
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </h:outputText>
+          </p>
+        </div>
+        
+        <div class="feedbackBreakdown">
+          <div class="feedbackScore">            
+            <div class="scoreRowBig">
+              <label>Feedback Score:</label>
+              <div>
+                #{selectedMember.feedbackScore}
+              </div>
+            </div>  
+            
+            <div class="scoreRowBig">
+              <label>Positive feedback:</label>
+              <div>                
+                <h:outputText value="#{selectedMember.feedbackPercent}">
+                  <f:convertNumber minFractionDigits="1" maxFractionDigits="1"/>
+                </h:outputText>%                
+              </div>
+            </div>                      
+            
+          </div>
+          
+          <br class="clear"/>        
+        </div>
+      </div>
+      
+      <div class="feedback">
+      	<h:dataTable id="feedback" 
+      	             value="#{memberFeedback}" 
+      	             var="fb" 
+      	             cellspacing="0px"
+      	             width="100%"
+      	             styleClass="feedbackTable">
+      	  <h:column>
+      	    <s:fragment rendered="#{fb.rating eq Rating.positive}">
+      	      <span>positive</span>
+      	    </s:fragment>    	
+      	  </h:column>
+      	  
+      	  <h:column>
+      	    <f:facet name="header">Feedback / Item</f:facet>    	    
+      	    #{fb.comment}
+      	    <div class="itemDescription">
+      	      #{fb.item.title}<span> (</span>#{fb.item.auctionId}<span>)</span>
+      	    </div>
+      	  </h:column>
+      	  
+      	  <h:column>
+      	    <f:facet name="header">From Buyer / Price</f:facet>
+      	    #{fb.fromAccount.name}
+      	    <span> 
+      	      (<h:outputLink value="#{facesContext.externalContext.requestContextPath}/feedback/#{fb.fromAccount.name}">#{fb.fromAccount.feedbackScore}
+              </h:outputLink>)
+      	    </span>
+      	    <div class="itemDescription">
+              $<h:outputText value="#{fb.item.highBid.actualAmount}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText>
+      	    </div>      	    
+      	  </h:column>
+      	  
+      	  <h:column>
+      	    <f:facet name="header">Date/Time</f:facet>
+            <h:outputText value="#{fb.feedbackDate}">
+              <f:convertDateTime pattern="dd-MMM-yy HH:mm"/>
+            </h:outputText>    	    
+      	    
+      	  </h:column>
+      	  
+      	</h:dataTable>
+      </div>
+ 
+    </div>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core">
+    <m:header name="X-Sent-From" value="JBoss Seam"/>
+    <m:header name="Precedence" value="list"/>
+    <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
+    <m:to name="#{userHome.instance.fullname}">#{userHome.instance.email}</m:to>
+    <m:subject>[LaceWiki] Registration Confirmation</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{userHome.instance.fullname},</p>
+
+            <p>
+            you registered an account on the LaceWiki. You need to click the following link to confirm the
+            validity of your e-mail address and to activate your account:</p>
+
+            <a href="#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</a>
+
+            <p>
+            Regards,<br/>
+            LaceWiki
+            </p>
+    </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{userHome.instance.fullname},
+
+you registered an account on the LaceWiki. You need to use the following link to confirm the
+validity of your e-mail address and to activate your account:
+
+#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+
+Regards,
+LaceWiki
+            </h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

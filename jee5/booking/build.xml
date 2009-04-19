@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<project name="Java EE 5 Booking" default="archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Java EE 5 Booking Example (GlassFish V2/JBoss AS 5)"/>
+    <property name="example.name"           value="jboss-seam-jee5-booking"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources" />
+    <property name="dist.dir" value="dist" />
+    <property name="exploded-archives.dir" value="exploded-archives" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="richfaces.lib"   value="true"/>
+    <property name="jboss-common-core.lib" value="true" />
+    <!-- add libs for oc4j (broken classloading) -->
+    <!--
+    <property name="jbpm.lib" value="true"/>
+    <property name="drools.lib" value="true"/>
+    <property name="quartz.lib" value="true" />
+    <property name="search.lib" value="true" />
+    <property name="dbunit.lib" value="true" />
+    <property name="jboss-embedded-api.lib" value="true" />
+    -->
+  
+    <import file="../../build.xml"/>
+
+    <fileset id="ear.lib.extras" dir="${seam.dir}">
+    	<!-- Seam deps -->
+    	<include name="lib/javassist.jar"/>
+    	<include name="lib/dom4j.jar" />
+    	
+    	<!-- Hibernate and deps -->
+      <include name="lib/hibernate.jar"/>
+      <include name="lib/hibernate-commons-annotations.jar"/>
+      <include name="lib/hibernate-annotations.jar"/>
+      <include name="lib/hibernate-entitymanager.jar"/>
+      <include name="lib/hibernate-validator.jar"/>
+      <include name="lib/cglib.jar"/>
+      <include name="lib/asm.jar"/>
+      <include name="lib/antlr.jar" />
+      <include name="lib/commons-logging.jar" />
+      <include name="lib/commons-collections.jar" />
+    </fileset>
+       
+</project>
+

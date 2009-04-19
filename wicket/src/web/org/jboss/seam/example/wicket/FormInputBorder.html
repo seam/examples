@@ -1,0 +1,17 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <wicket:border>
+    		<div class="entry">
+        		<label class="label #{invalid?'errors':''}" wicket:id="label" />
+        		<span class="input #{invalid?'errors':''}">
+                	<wicket:body />
+        		</span>
+        		<span id="message" name="message" wicket:id="message" class="error errors"/>
+    		</div>
+        </wicket:border>
+    </body>
+</html>

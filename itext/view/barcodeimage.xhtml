@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://jboss.com/products/seam/pdf"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:f="http://java.sun.com/jsf/core">
+<head>
+    <title>Seam PDF</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Barcode Type</th>
+            <th>Value</th>
+            <th>Barcode</th>
+        </tr>
+
+        <tr>
+            <td>Code128</td>
+            <td>My BarCode</td>
+            <td><p:barCode type="code128" code="My BarCode" /></td>
+        </tr>
+
+        <tr>
+            <td>Code128/code128_ucc</td>
+            <td>(10)45566(17)040301</td>
+            <td><p:barCode type="code128" barHeight="80" textSize="20" code="(10)45566(17)040301" altText="alt" codeType="code128_ucc" /></td>
+        </tr>
+    
+        <tr>
+            <td>Code39</td>
+            <td>123456</td>
+            <td><p:barCode type="code39" code="123456" /></td>
+        </tr>
+
+        <tr>
+            <td>EAN</td>
+            <td>4512345678906</td>
+            <td><p:barCode type="ean" code="4512345678906" /></td>
+        </tr>
+
+        <tr>
+            <td>Codabar</td>
+            <td>A123456B</td>
+            <td><p:barCode type="codabar" code="A123456B" /></td>
+        </tr>
+    
+        <tr>
+            <td>Inter 2 of 5</td>
+            <td>1234567896543241</td>
+            <td><p:barCode type="inter25" code="1234567896543241" /></td>
+        </tr>
+    
+        <tr>
+            <td>postNet</td>
+            <td>123456789</td>
+            <td><p:barCode type="postnet" code="12345689" /></td>
+        </tr>
+    </table>
+</body>
+</html>
+
+

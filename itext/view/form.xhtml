@@ -1,0 +1,14 @@
+<p:form
+	xmlns:p="http://jboss.com/products/seam/pdf"
+	URL="/form.pdf">
+	<p:field name="person.name" value="#{fillInForms.name}"/>
+	<p:field name="person.address" value="#{fillInForms.address}"/>
+	<p:field name="person.postal_code" value="#{fillInForms.postalCode}"/>
+	<p:field name="person.email" value="#{fillInForms.email}"/>
+	<p:field name="person.programming" value="#{fillInForms.programming}" readOnly="false"/>
+	<p:field name="person.language" value="#{fillInForms.language}" readOnly="false"/>
+	<p:field name="person.preferred" value="#{fillInForms.preferred}" readOnly="false"/>
+	<p:field name="person.knowledge.English" value="#{fillInForms.knowsEnglish ? 'On' : 'Off'}" readOnly="false"/>
+	<p:field name="person.knowledge.French" value="#{fillInForms.knowsFrench ? 'On' : 'Off'}" readOnly="false"/>
+	<p:field name="person.knowledge.Dutch" value="#{fillInForms.knowsDutch ? 'On' : 'Off'}" readOnly="false"/>
+</p:form>

@@ -1,0 +1,40 @@
+.forumPostingHeaderInfoControls {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.forumPostingHeaderInfo {
+    text-align: left;
+}
+
+.forumPostingHeaderControls {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.forumPostingControls {
+    text-align: right;
+    white-space: nowrap;
+}
+    
+.forumPostingDocumentWrapper {
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    border-top: 1px solid #C3BBB6;
+    padding: 5px;
+}
+
+.forumPostingDocumentWrapper .subjectLink {
+    margin-left: 10px;
+    font-weight: normal;
+    line-height: 100%;
+}
+
+.forumPostingDocumentWrapper .subjectIcon {
+    vertical-align: text-top;
+}
+
+.noComments {
+    border-bottom: 1px solid #C3BBB6;
+}
+

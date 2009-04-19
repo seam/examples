@@ -1,0 +1,61 @@
+<ui:decorate template="popupDialog.xhtml"
+             xmlns:s="http://jboss.com/products/seam/taglib"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:c="http://java.sun.com/jstl/core"
+             xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+             xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+    <ui:param name="dialogId" value="dialogHelp"/>
+    <ui:param name="hideCancelButton" value="true"/>
+    <ui:param name="disableResize" value="true"/>
+
+    <ui:define name="dialogInit">
+        <script type="text/javascript">
+            function showHelpPopup(width, height, offsetId) {
+                var offset = jQuery("#"+offsetId).offset();
+                jsf('dialogHelpPopup')
+                    .css({width: width+"px", height: height+"px", top: offset.top-100+"px", left: offset.left-150+"px"})
+                    .jqm({
+                        closeClass: "closeDialog",
+                        overlay: 0
+                    });
+
+                jQuery("#dialogHelpContent").css("width", width-20+"px").css("height", height-75+"px");
+                jQuery("#dialogHelpContent").css("overflow", "auto");
+
+                jsf('dialogHelpPopup').jqmShow();
+            }
+        </script>
+
+    </ui:define>
+    <ui:define name="dialogTitle">#{messages['lacewiki.label.help.DialogTitle']}</ui:define>
+    <ui:define name="dialogContent">
+
+        <c:if test="#{not empty help.selectedHelpDoc}">
+
+            <s:div rendered="#{help.selectedHelpDoc.nameAsTitle}">
+                <h1 class="documentTitle">#{help.selectedHelpDoc.name}</h1>
+            </s:div>
+
+            <wiki:formattedText value="#{help.selectedHelpDoc.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{help.selectedHelpDoc}"
+                                currentAreaNumber="#{help.selectedHelpDoc.areaNumber}"
+                                enableMacroRendering="false"/>
+        </c:if>
+
+    </ui:define>
+    <ui:define name="dialogControls">
+        <s:div style="padding:5px;">
+            <h:outputLink styleClass="buttonNonpersistent closeDialog">
+                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.help.CloseHelp']}"/>
+            </h:outputLink>
+        </s:div>
+    </ui:define>
+
+</ui:decorate>

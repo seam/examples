@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pay="http://jboss.com/products/seam/examples/quartz"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:async="http://jboss.com/products/seam/async"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+    <pay:payment-home name="paymentHome" 
+                      new-instance="#{newPayment}" 
+                      created-message="Created a new payment to #{newPayment.payee}" />
+
+    <pay:payment name="newPayment" 
+                 payee="Somebody"
+                 account="#{selectedAccount}"
+                 payment-date="#{currentDatetime}"
+                 created-date="#{currentDatetime}" />
+
+    <factory name="selectedAccount" 
+             value="#{accountHome.instance}"/>
+
+    <framework:entity-home name="accountHome" 
+                           entity-class="org.jboss.seam.example.quartz.Account"
+                           entity-manager="#{entityManager}" />
+
+    <framework:entity-query name="accounts" 
+                            ejbql="from Account"
+                            order="accountNumber" 
+                            max-results="20" 
+                            entity-manager="#{entityManager}" />
+        
+    <persistence:managed-persistence-context name="entityManager"
+                                      auto-create="true"
+                                      persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
+
+    <!-- Install the QuartzDispatcher -->
+    <async:quartz-dispatcher/>
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+
+</components>

@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Quartz Example" verbose="2" parallel="false">
+	<test name="Quartz Example">
+      
+        <parameter name="datasourceJndiName" value="java:/DefaultDS"/>
+        <parameter name="database" value="HSQL" />
+        <parameter name="binaryDir" value="" />
+        
+		<classes>
+			<class name="org.jboss.seam.example.quartz.test.AccountTest" />
+            <class name="org.jboss.seam.example.quartz.test.CronTest" />
+            <class name="org.jboss.seam.example.quartz.test.OnceTest" />
+            <class name="org.jboss.seam.example.quartz.test.RepeatingTest" />
+            <class name="org.jboss.seam.example.quartz.test.AsynchronousTest" />
+            <class name="org.jboss.seam.example.quartz.test.EventsTest" />
+		</classes>
+	</test>
+</suite>

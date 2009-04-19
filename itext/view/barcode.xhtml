@@ -1,0 +1,38 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:p="http://jboss.com/products/seam/pdf" 
+            type="PDF" pageSize="A4"
+            title="barcode">
+    <p:header>
+        <p:paragraph>
+            Types of barcode supported in this release
+        </p:paragraph>
+    </p:header>
+    
+    <p:paragraph>Code128</p:paragraph>
+    <p:barCode type="code128" code="My BarCode" barColor="green" textColor="yellow" />
+
+    <p:paragraph>Code128 ucc</p:paragraph>
+    <p:barCode type="code128" code="(10)45566(17)040301" codeType="code128_ucc" textColor="blue" />
+    
+    <p:paragraph>Code39</p:paragraph>
+    <p:barCode type="code39" code="123456" />
+
+    
+    <p:paragraph>EAN</p:paragraph>
+    <p:barCode type="ean" code="4512345678906" />
+    
+
+    <p:paragraph>Codabar</p:paragraph>
+    <p:barCode type="codabar" code="A123456A" />
+    
+    <p:paragraph>Inter 2 of 5</p:paragraph>
+    <p:barCode type="inter25" code="1234567896543241" />
+    
+    <p:paragraph>PostNet</p:paragraph>
+    <p:barCode type="postnet" code="12345689" />
+    
+    <p:paragraph>Absolute Positioning:</p:paragraph>
+    <p:barCode type="code128" code="absolute" xpos="200" ypos="300" rotDegrees="45"/>
+
+</p:document>

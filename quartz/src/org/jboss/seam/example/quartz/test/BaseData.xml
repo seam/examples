@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+  <ACCOUNT 
+    id="1"
+    accountNumber="23001"
+    balance="1001.46"
+    />
+    
+  <ACCOUNT 
+    id="2"
+    accountNumber="23002"
+    balance="1002.46"
+    />
+  
+  <ACCOUNT 
+    id="3"
+    accountNumber="23003"
+    balance="1003.46"
+    />
+    
+  <ACCOUNT 
+    id="4"
+    accountNumber="23004"
+    balance="1004.46"
+    />
+   
+  <ACCOUNT 
+    id="5"
+    accountNumber="23005"
+    balance="1005.46"
+    />
+    
+  <!-- This causes the payment table to be cleaned every time -->
+  <PAYMENT />
+    
+</dataset>

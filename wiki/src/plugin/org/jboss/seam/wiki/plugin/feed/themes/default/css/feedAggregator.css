@@ -1,0 +1,22 @@
+.feedAggregatorTitle {
+    margin-left: auto;
+}
+
+.feedEntryColumn {
+    padding: 10px;
+}
+
+.feedEntryTitle {
+    font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.feedEntryInfo {
+    text-align: right;
+}
+
+.feedEntryBody {
+    line-height: 150%;
+    text-align:justify;
+}

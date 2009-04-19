@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/90"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.bea.com/ns/weblogic/90 http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd">
+   <library-ref>
+      <library-name>jsf</library-name>
+      <specification-version>1.2</specification-version>
+      <implementation-version>1.2</implementation-version>
+      <exact-match>false</exact-match>
+   </library-ref>
+   <container-descriptor>
+      <prefer-web-inf-classes>true</prefer-web-inf-classes>
+   </container-descriptor>
+</weblogic-web-app>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:core="http://jboss.com/products/seam/core"
+	xmlns:security="http://jboss.com/products/seam/security"
+	xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:web="http://jboss.com/products/seam/web"
+	xmlns:framework="http://jboss.com/products/seam/framework"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd 
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd 
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd">
+
+	<core:init debug="false" jndi-pattern="@jndiPattern@" />
+
+	<core:manager concurrent-request-timeout="500"
+		conversation-timeout="120000" 
+		conversation-id-parameter="cid"/>
+
+	<persistence:managed-persistence-context name="entityManager"
+		auto-create="true"
+		persistence-unit-jndi-name="java:/seamdiscsEntityManagerFactory" />
+
+	<security:identity
+		authenticate-method="#{authenticator.authenticate}" />
+
+    <event type="org.jboss.seam.security.notLoggedIn">
+        <action execute="#{redirect.captureCurrentView}"/>
+    </event>
+    
+    <event type="org.jboss.seam.security.loginSuccessful">
+        <action execute="#{redirect.returnToCapturedView}"/>
+    </event>
+	
+	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" max-results="5"/>
+	
+	<framework:entity-query name="artists" ejbql="select artist from Artist artist" order="artist.name DESC" max-results="5">
+      <framework:restrictions>
+        <value>lower(artist.name) like lower(concat(#{exampleArtist.name}, '%'))</value>
+      </framework:restrictions>
+    </framework:entity-query>
+	
+	<framework:entity-query name="allArtists" ejbql="select artist from Artist artist" order="artist.name"/>
+	
+	<framework:entity-home entity-class="org.jboss.seam.example.seamdiscs.model.Disc" name="discHome"/>
+	
+	<factory name="disc" value="#{discHome.instance}"/>
+  
+    <component name="exampleArtist" class="org.jboss.seam.example.seamdiscs.model.Artist" scope="session" />
+
+</components>

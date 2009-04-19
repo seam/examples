@@ -1,0 +1,95 @@
+div.content {
+  margin: 16px 8px 16px 8px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+}
+
+div.sellHeader {
+  background-color: #d6d6ff;
+  padding: 2px 8px 2px 24px;
+  border-top: 2px solid #9999cc;
+  border-bottom: 2px solid #9999cc;
+  font-family: arial, helvetica, sans-serif;
+  font-weight: bold;  
+  font-size: 16px;
+}
+
+div.sellSubHeader {
+  background-color: #eeeeff;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  padding-left: 24px;
+}
+
+hr.thinLine {
+  border: 0px;
+  border-top: 1px solid #cccccc;
+  margin-top: 6px;
+  margin-bottom: 32px;
+}
+
+hr.baseLine {
+  border: 0px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  border-top: 2px solid #9999cc;
+}
+
+div.formRow {
+  padding: 8px 4px 4px 4px;
+}
+
+div.formRow label {
+  padding-right: 8px;
+}
+
+input.itemDescription {
+  width: 380px;
+}
+
+div.navBar {
+  padding: 4px 16px 4px 16px;
+}
+
+div.navBarLeft {
+  float: left;
+}
+
+div.navBarRight {
+  float: right;
+}
+
+/* Page 2 - Category selection */
+
+div.category {
+  height: 174px;
+  border: 1px solid #aaaaaa;
+  margin: 12px 4px 4px 4px;
+  overflow: auto;
+  nowrap: true;
+}
+
+div.category div {
+  float: left;
+  margin: 4px 4px 4px 4px;
+}
+
+select.categoryList {
+  font-size: 10px;
+  height: 150px;
+  width: 160px;
+  border: 1px solid #cccccc;  
+}
+
+textarea.description {
+  width: 740px;
+  height: 500px;
+  padding: 4px 4px 4px 4px;
+}
+
+div.preview {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #000000;
+  padding: 2px 2px 2px 2px;
+}

@@ -1,0 +1,346 @@
+<html>
+<head></head>
+<body>
+
+<p>
+    This package contains the infrastructure for a transparent nested set overlay on an adjacency list representation
+    of hierarchical data structures.
+</p>
+
+<h3>
+    The Nested Set approach and background information
+</h3>
+
+<p>
+    The nested set approach allows extremely scalabe and fast querying of data represented in a hierarchy, a directed
+    acyclic graph. On the other hand, a nested set approach has extra cost when the tree is modified, so it's only
+    appropriate for read-mostly trees. Consider the following representation of hierarchical data:
+</p>
+<pre>
+      A
+     / \
+    B   C
+       / \
+      D   E
+     /\
+    F  G
+</pre>
+
+<p>
+    (Note: This particular graph is a binary tree, however, it doesn't have to be binary or balanced.)
+</p>
+
+<p>
+    This is traditionally implemented with an adjacency list in a SQL DBMS:
+</p>
+
+<pre>
+    NODE
+    ---------------
+    | ID | PARENT |
+    ---------------
+    | A  | NULL   |
+    | B  | A      |
+    | C  | A      |
+    | D  | C      |
+    | E  | C      |
+    | F  | D      |
+    | G  | D      |
+    ---------------
+</pre>
+
+<p>
+    You can now query for the whole subtree of node <tt>C</tt> (or any other node) - this is called a
+    <i>bill of materials explosion</i> - with the following strategies:
+</p>
+
+<ol>
+    <li>
+        <p>
+        <b>Manual Recursion</b>: Select all the children of node <tt>C</tt>, and if these nodes have children, recursively
+        query until the whole subtree is loaded. This can be implemented with a stored procedure in SQL or by
+        recursively executing <tt>SELECT</tt> statements in the application language. This strategy does not scale.
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Proprietary Recursion:</b> Oracle offers a <tt>CONNECT BY ... PRIOR</tt> extension to standard SQL that executes
+        a recursive query inside the database, so you only have to execute one <tt>SELECT</tt> in the application language.
+        This extension is proprietary to Oracle DBMS and has several flaws (conceptually), as documented here:
+        <a href="http://www.amazon.com/Practical-Issues-Database-Management-Practitioner/dp/0201485559">Practical Issues in
+        Database Management: A Reference for the Thinking Practitioner by Fabian Pascal</a>.
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Standardized Recursion:</b> The SQL:1999 standard allows a recursive <tt>SELECT</tt> syntax using the
+        <tt>WITH</tt> clause (subquery factoring). This however also has numerous flaws (see the Pascal book) and
+        is not implemented by many SQL DBMSs. Furthermore, the implementation is often suboptimal,
+        with global temporary tables. As a stopgap measure, please remind your SQL DBMS vendor to implement it
+        (or a proper explode() operator as explained by Pascal), so that workarounds like the nested set or materialized
+        paths are no longer needed.
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Materialized Path:</b> An additional column named <tt>PATH</tt> is added to the table and the values
+        are concatenated strings such as <tt>/A/C/D</tt> for the tuple <tt>(F, D)</tt>. This path value has to be manipulated
+        whenever a node is added, deleted, or moved in the tree. You can query for a subtree by using string operations
+        such as <tt>where NODES.PATH like "/A/C/%"</tt>, which would return all children of <tt>C</tt>. The performance
+        depends on the query optimizer and index usage for such an operation. The cost of each tree modification is
+        high, although, it can be implemented with stored procedures in the DBMS.
+        </p>
+    </li>
+    <li>
+        <p>
+        <b>Nested Set</b>: A nested set approach is often the most flexible and portable strategy.
+        </p>
+    </li>
+</ol>
+
+<p>
+    Consider the following addition of <tt>LEFT</tt> and <tt>RIGHT</tt> values to each node:
+</p>
+
+<pre>
+    NODE
+    ------------------------------
+    | ID | PARENT | LEFT | RIGHT |
+    ------------------------------
+    | A  | NULL   |  1   |   14  |
+    | B  | A      |  2   |    3  |
+    | C  | A      |  4   |   13  |
+    | D  | C      |  5   |   10  |
+    | E  | C      |  11  |   12  |
+    | F  | D      |  6   |    7  |
+    | G  | D      |  8   |    9  |
+    ------------------------------
+</pre>
+
+<p>
+    These values have been created by traversing the tree from top-down from left to right. You can now query for all
+    children of <tt>C</tt> as follows:
+</p>
+
+<pre>
+    select
+      count(n1.ID) as NODE_LEVEL,
+      n1.ID
+    from
+      NODE n1, NODE n2
+    where
+      n1.LEFT between n2.LEFT and n2.RIGHT
+      and
+      n2.LEFT => 4 and n2.RIGHT &lt;=13
+    group by
+      n1.ID
+    order by
+      n1.LEFT
+</pre>
+
+<p>
+    Which returns the following result:
+</p>
+
+<pre>
+    RESULT
+    -------------------
+    | NODE_LEVEL | ID |
+    -------------------
+    |     1      | C  |
+    |     2      | D  |
+    |     3      | F  |
+    |     3      | G  |
+    |     2      | E  |
+    -------------------
+</pre>
+
+<p>
+    The disadvantage of the nested set model is the high cost of tree modifications, which require, depending on the
+    actual data, significant recalculation of left/right values of nodes. This is where the Hibernate implementation
+    in this package comes into the picture, it can transparently renumber a nested set tree when you modify your
+    parent/child relationships in Java application code, and it can support you when you query for whole subtrees.
+</p>
+
+<p>
+    (Note: The <tt>PARENT</tt> column of the adjacency list is no longer needed if you have the <tt>LEFT</tt> and
+    <tt>RIGHT</tt> values of each node - which can also be used to identify the parent of each node. However, the
+    following examples and the implementation in this package assumes that you keep this column intact and that
+    you use it for non-nested traversal "up the tree". In other words, this implementation is an overlay
+    on the adjacency list structure with nested set tree traversal and queries.)
+</p>
+
+<h3>
+    The Hibernate implementation
+</h3>
+
+<p>
+    Assuming that you have an existing adjacency list implementation with a typical parent/child relationship
+    represented with associations in Java:
+</p>
+
+<pre>
+    &#064;Entity
+    &#064;Table("ITEM")
+    class Item {
+
+        &#064;Id &#064;GeneratedValue
+        &#064;Column(name = "ID")
+        private Long id;
+
+        &#064;ManyToOne
+        &#064;JoinColumn(name = "PARENT")
+        private Item parent;
+
+        &#064;OneToMany(mappedBy = "parent")
+        private Set&lt;Item> children;
+
+        // Constructor, getters and setters
+        ...
+    }
+</pre>
+
+<p>
+    This implementation is based on mix-in and delegates. The <tt>ITEM</tt> table of the <tt>Item</tt> class
+    does not carry the left, right, and thread values. This job is delegated to an additional
+    <tt>ItemNestedSetDelegate</tt> class:
+</p>
+
+<pre>
+    &#064;Entity
+    &#064;Table("ITEM")
+    class Item implements NestedSetDelegateOwner {
+
+        &#064;Id &#064;GeneratedValue
+        &#064;Column(name = "ID")
+        private Long id;
+
+        &#064;ManyToOne
+        &#064;JoinColumn(name = "PARENT")
+        private Item parent;
+
+        &#064;OneToMany(mappedBy = "parent")
+        &#064;org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+        private Set&lt;Item> children;
+
+        &#064;OneToOne(mappedBy="owner",
+                       fetch = FetchType.EAGER,
+                       cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+        private ItemNestedSetDelegate nestedSetDelegate;
+
+        // Constructor, getters and setters
+        ...
+    }
+</pre>
+
+<p>
+    The delegate class maintains the nested set information transparently and stores it in a separate table:
+</p>
+
+<pre>
+    &#064;Entity
+    &#064;Table("ITEM_NESTED_SET")
+    class ItemNestedSetDelegate extends AbstractNestedSetDelegate&lt;Item> {
+
+        protected ItemNestedSetDelegate() {}
+
+        public ItemNestedSetDelegate(Item owner) {
+            super(owner);
+        }
+    }
+</pre>
+
+<p>
+    It is recommended that you enable <tt>ON DELETE CASCADE</tt> as a foreign key option on the join column of the
+    adjacency list. With this option, you can easily delete a node in the tree and have the guarantee that all its
+    children are deleted as well (note that this might conflict with in-memory state if you continue using the
+    persistence context after deletion or if you have the second-level cache enabled).
+</p>
+<p>
+    You need to call <tt>entityManager.persist(item)</tt> in the right order, e.g.: You need to call persist(A) before you
+    call persist(B) and persist(C) if B and C are children of A. In any case, the order in which B and C are inserted is
+    undefined, this is a Set in the example - and it doesn't matter. However, parents need to be inserted before children.
+</p>
+
+<p>
+    The tree is manipulated through the <tt>parent</tt> property and <tt>children</tt> collection of each node. Remember
+    to always set both references if you link a node to a parent. If you want to save a new item, create it, link it
+    to its parent with <tt>addChild()</tt>, persist it with the
+    <tt>EntityManager</tt> and flush the persistence context.
+    If you want to remove an item from the tree, unlink it with <tt>removeChild()</tt> from its parent, remove it
+    with the <tt>EntityManager</tt>, then flush the persistence context.
+</p>
+
+<p>
+    The nested set tree table is automatically updated by the event listeners in this package, which you have to add
+    to your Hibernate configuration, here for JPA with <tt>persistence.xml</tt>:
+</p>
+
+<pre>
+    &lt;persistence-unit ...>
+        ...
+        &lt;properties>
+            &lt;property name="hibernate.ejb.event.flush"
+                      value="nestedset.NestedSetFlushEventListener"/>
+            &lt;property name="hibernate.ejb.event.post-insert"
+                      value="nestedset.NestedSetPostInsertEventListener"/>
+            &lt;property name="hibernate.ejb.event.post-delete"
+                      value="nestedset.NestedSetPostDeleteEventListener"/>
+        &lt;/properties>
+    &lt;/persistence-unit>
+</pre>
+
+<p>
+    Consult the Hibernate documentation if you want to configure them in a different environment. Note that these
+    new listeners <i>extend</i> the Hibernate EntityManager listeners and that all classes require JDK 5.0. You
+    can however rewrite the code easily to make it work with plain Hibernate Core in JDK 1.4.
+</p>
+
+<p>
+    Note that concurrent nested set tree modifications need to be serialized. This implementation locks flush events
+    in-memory with a <tt>ReentrantLock</tt> and a timeout of 15 seconds. See <tt>NestedSetFlushEventListener.java</tt>
+    for more information.
+</p>
+
+<p>
+    To query for a subtree, use the <tt>NestedSetWrapper</tt> and <tt>NestedSetResultTransformer</tt>
+    convenience classes. An example, loading the whole subtree starting at <tt>startNode</tt> (which would
+    be an instance of <tt>Item</tt> you have already loaded):
+</p>
+
+<pre>
+NestedSetQueryBuilder nsQuery = new NestedSetQueryBuilder(startNode);
+Query nestedSetQuery =  session.createQuery(nsQuery.getSimpleQuery());
+
+// Bind parameters
+nestedSetQuery.setParameter("nsThread", startNode.getNestedSetDelegate().getNsThread());
+nestedSetQuery.setParameter("nsLeft", startNode.getNestedSetDelegate().getNsLeft());
+nestedSetQuery.setParameter("nsRight", startNode.getNestedSetDelegate().getNsRight());
+
+// Apply transformer that marshalls flat table result into an in-memory tree
+NestedSetNodeWrapper&lt;ItemNestedSetDelegate> startNodeWrapper = new NestedSetNodeWrapper&lt;ItemNestedSetDelegate>(startNode);
+
+nestedSetQuery.setResultTransformer( new NestedSetResultTransformer&lt;ItemNestedSetDelegate>(startNodeWrapper) );
+
+nestedSetQuery.list();
+</pre>
+
+<p>
+    You can now traverse the tree by accessing <tt>startNodeWrapper.getWrappedParent()</tt>,
+    <tt>startNodeWrapper.getWrappedChildren()</tt>, <tt>startNodeWrapper.getLevel()</tt>, and
+    <tt>startNodeWrapper.getWrappedNode()</tt>. These wrappers wrap nested set delegates, so you get the real node by calling
+    <tt>getOwner()</tt> if necessary. All sub-children as well as their owners are initialized with this single query.
+</p>
+
+<p>
+    Note that moving of nodes between parents is not yet supported by the even listeners. If you remove a node
+    from a parent, and add it to another parent, the behavior is undefined.
+</p>
+
+<p>
+    Consult the Javadoc of each interface and class for more information. This implementation is licensed under the LGPL,
+    any modification and distribution of modifications requires distribution of any modified source under the LGPL.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE facelet-taglib PUBLIC
+  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+  "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+<facelet-taglib xmlns="http://java.sun.com/JSF/Facelet">
+<namespace>http://richfaces.org/rich</namespace>
+
+<tag>
+  <tag-name>dndParam</tag-name>
+  <component>
+      <component-type>org.richfaces.DndParam</component-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dropSupport</tag-name>
+  <component>
+      <component-type>org.richfaces.DropSupport</component-type>
+      <renderer-type>
+        org.richfaces.DropSupportRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.DropSupportHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dragIndicator</tag-name>
+  <component>
+      <component-type>org.richfaces.DragIndicator</component-type>
+      <renderer-type>
+        org.richfaces.DragIndicatorRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dragSupport</tag-name>
+  <component>
+      <component-type>org.richfaces.DragSupport</component-type>
+      <renderer-type>
+        org.richfaces.DragSupportRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.DragSupportHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dropListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DropListenerHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>dragListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DragListenerHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>effect</tag-name>
+  <component>
+      <component-type>org.richfaces.Effect</component-type>
+      <renderer-type>
+        org.richfaces.EffectRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panel</tag-name>
+  <component>
+      <component-type>org.richfaces.panel</component-type>
+      <renderer-type>
+        org.richfaces.PanelRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panelBar</tag-name>
+  <component>
+      <component-type>org.richfaces.PanelBar</component-type>
+      <renderer-type>
+        org.richfaces.PanelBarRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panelBarItem</tag-name>
+  <component>
+      <component-type>org.richfaces.PanelBarItem</component-type>
+      <renderer-type>
+        org.richfaces.PanelBarItemRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataFilterSlider</tag-name>
+  <component>
+      <component-type>org.richfaces.DataFilterSlider</component-type>
+      <renderer-type>
+        org.richfaces.DataFilterSliderRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.DataFilterSliderTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>sliderListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DataFilterSliderListenerTagHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>gmap</tag-name>
+  <component>
+      <component-type>org.richfaces.Gmap</component-type>
+      <renderer-type>
+        org.richfaces.GmapRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>virtualEarth</tag-name>
+  <component>
+      <component-type>org.richfaces.VirtualEarth</component-type>
+      <renderer-type>
+        org.richfaces.VirtualEarthRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>separator</tag-name>
+  <component>
+      <component-type>org.richfaces.separator</component-type>
+      <renderer-type>
+        org.richfaces.SeparatorRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>spacer</tag-name>
+  <component>
+      <component-type>org.richfaces.spacer</component-type>
+      <renderer-type>
+        org.richfaces.SpacerRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>paint2D</tag-name>
+  <component>
+      <component-type>org.richfaces.Paint2D</component-type>
+      <renderer-type>
+        org.richfaces.Paint2DRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.Paint2DTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>togglePanel</tag-name>
+  <component>
+      <component-type>org.richfaces.TogglePanel</component-type>
+      <renderer-type>
+        org.richfaces.TogglePanelRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>toggleControl</tag-name>
+  <component>
+      <component-type>org.richfaces.ToggleControl</component-type>
+      <renderer-type>
+        org.richfaces.ToggleControlRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>tabPanel</tag-name>
+  <component>
+      <component-type>org.richfaces.TabPanel</component-type>
+      <renderer-type>
+        org.richfaces.TabPanelRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.TabPanelTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>tab</tag-name>
+  <component>
+      <component-type>org.richfaces.Tab</component-type>
+      <renderer-type>
+        org.richfaces.TabRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>simpleTogglePanel</tag-name>
+  <component>
+      <component-type>org.richfaces.SimpleTogglePanel</component-type>
+      <renderer-type>
+        org.richfaces.SimpleTogglePanelRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.SimpleTogglePanelTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>toolBar</tag-name>
+  <component>
+      <component-type>org.richfaces.ToolBar</component-type>
+      <renderer-type>
+        org.richfaces.ToolBarRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>toolBarGroup</tag-name>
+  <component>
+      <component-type>org.richfaces.ToolBarGroup</component-type>
+      <renderer-type>
+        org.richfaces.ToolBarGroupRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>inputNumberSlider</tag-name>
+  <component>
+      <component-type>org.richfaces.inputNumberSlider</component-type>
+      <renderer-type>
+        org.richfaces.InputNumberSliderRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>inputNumberSpinner</tag-name>
+  <component>
+      <component-type>org.richfaces.inputNumberSpinner</component-type>
+      <renderer-type>
+        org.richfaces.InputNumberSpinnerRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>tree</tag-name>
+  <component>
+      <component-type>org.richfaces.Tree</component-type>
+      <renderer-type>
+        org.richfaces.TreeRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.TreeTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>treeNode</tag-name>
+  <component>
+      <component-type>org.richfaces.TreeNode</component-type>
+      <renderer-type>
+        org.richfaces.TreeNodeRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.TreeNodeTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dropListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DropListenerHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>dragListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DragListenerHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>changeExpandListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.ChangeExpandListenerTagHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>nodeSelectListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.NodeSelectListenerTagHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>suggestionbox</tag-name>
+  <component>
+      <component-type>org.richfaces.SuggestionBox</component-type>
+      <renderer-type>
+        org.richfaces.SuggestionBox
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.SuggestionBoxTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>subTable</tag-name>
+  <component>
+      <component-type>org.richfaces.SubTable</component-type>
+      <renderer-type>
+        org.richfaces.SubTableRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>column</tag-name>
+  <component>
+      <component-type>org.richfaces.Column</component-type>
+      <renderer-type>
+        org.richfaces.ColumnRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataList</tag-name>
+  <component>
+      <component-type>org.richfaces.DataList</component-type>
+      <renderer-type>
+        org.richfaces.DataListRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataOrderedList</tag-name>
+  <component>
+      <component-type>org.richfaces.DataOrderedList</component-type>
+      <renderer-type>
+        org.richfaces.DataOrderedListRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataDefinitionList</tag-name>
+  <component>
+      <component-type>org.richfaces.DataDefinitionList</component-type>
+      <renderer-type>
+        org.richfaces.DataDefinitionListRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataGrid</tag-name>
+  <component>
+      <component-type>org.richfaces.DataGrid</component-type>
+      <renderer-type>
+        org.richfaces.DataGridRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dataTable</tag-name>
+  <component>
+      <component-type>org.richfaces.DataTable</component-type>
+      <renderer-type>
+        org.richfaces.DataTableRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>columnGroup</tag-name>
+  <component>
+      <component-type>org.richfaces.ColumnGroup</component-type>
+      <renderer-type>
+        org.richfaces.ColumnGroupRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>modalPanel</tag-name>
+  <component>
+      <component-type>org.richfaces.ModalPanel</component-type>
+      <renderer-type>
+        org.richfaces.ModalPanelRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>datascroller</tag-name>
+  <component>
+      <component-type>org.richfaces.Datascroller</component-type>
+      <renderer-type>
+        org.richfaces.DataScrollerRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.DataScrollerTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>scrollerListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.DataScrollerListenerTagHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>menuGroup</tag-name>
+  <component>
+      <component-type>org.richfaces.MenuGroup</component-type>
+      <renderer-type>
+        org.richfaces.MenuGroupRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>menuItem</tag-name>
+  <component>
+      <component-type>org.richfaces.MenuItem</component-type>
+      <renderer-type>
+        org.richfaces.MenuItemRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>menuSeparator</tag-name>
+  <component>
+      <component-type>org.richfaces.MenuSeparator</component-type>
+      <renderer-type>
+        org.richfaces.MenuSeparatorRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>dropDownMenu</tag-name>
+  <component>
+      <component-type>org.richfaces.DropDownMenu</component-type>
+      <renderer-type>
+        org.richfaces.DropDownMenuRenderer
+      </renderer-type>
+        <handler-class>
+        org.richfaces.taglib.DropDownMenuTagHandler
+      </handler-class>
+  </component>
+  
+ </tag><tag>
+  <tag-name>toolTip</tag-name>
+  <component>
+      <component-type>org.richfaces.component.ToolTip</component-type>
+      <renderer-type>
+        org.richfaces.renderkit.html.ToolTipRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panelMenu</tag-name>
+  <component>
+      <component-type>org.richfaces.PanelMenu</component-type>
+      <renderer-type>
+        org.richfaces.PanelMenuRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panelMenuGroup</tag-name>
+  <component>
+      <component-type>org.richfaces.PanelMenuGroup</component-type>
+      <renderer-type>
+        org.richfaces.PanelMenuGroupRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>panelMenuItem</tag-name>
+  <component>
+      <component-type>org.richfaces.PanelMenuItem</component-type>
+      <renderer-type>
+        org.richfaces.PanelMenuItemRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>calendar</tag-name>
+  <component>
+      <component-type>org.richfaces.Calendar</component-type>
+      <renderer-type>
+        org.richfaces.CalendarRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>currentDateChangeListener</tag-name>
+        <handler-class>
+        org.richfaces.taglib.CurrentDateChangeListenerTagHandler
+      </handler-class>
+  
+ </tag><tag>
+  <tag-name>treeNodesAdaptor</tag-name>
+  <component>
+      <component-type>org.richfaces.TreeNodesAdaptor</component-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>recursiveTreeNodesAdaptor</tag-name>
+  <component>
+      <component-type>org.richfaces.RecursiveTreeNodesAdaptor</component-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>message</tag-name>
+  <component>
+      <component-type>org.richfaces.component.RichMessage</component-type>
+      <renderer-type>
+        org.richfaces.RichMessageRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>messages</tag-name>
+  <component>
+      <component-type>org.richfaces.component.RichMessages</component-type>
+      <renderer-type>
+        org.richfaces.RichMessagesRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>scrollableDataTable</tag-name>
+  <component>
+      <component-type>org.richfaces.component.ScrollableDataTable</component-type>
+      <renderer-type>
+        org.richfaces.renderkit.html.ScrollableDataTableRenderer
+      </renderer-type>
+  </component>
+  
+ </tag><tag>
+  <tag-name>insert</tag-name>
+  <component>
+      <component-type>org.richfaces.ui.Insert</component-type>
+      <renderer-type>
+        org.richfaces.ui.InsertRenderer
+      </renderer-type>
+  </component>
+  
+ </tag>
+</facelet-taglib>

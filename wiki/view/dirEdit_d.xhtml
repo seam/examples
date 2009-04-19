@@ -1,0 +1,281 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:j4j="http://javascript4jsf.dev.java.net/"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.CreateDirectory']}" rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.EditDirectory']}" rendered="#{directoryHome.managed}"/>
+</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:link id="exitManaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{directoryHome.managed}" action="exitManaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+    <s:link id="exitUnmanaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{!directoryHome.managed}" action="exitUnmanaged"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+<s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and directoryHome.managed and directoryHome.instance.id != memberArea.id}">
+    <ui:include src="includes/ownerSelector.xhtml">
+        <ui:param name="home" value="#{directoryHome}"/>
+    </ui:include>
+</s:span>
+
+<h:form id="directoryEditForm" styleClass="box">
+<div class="form">
+
+<script type="text/javascript">startSessionTimeoutCheck()</script>
+
+<div class="formHead">
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.CreateDirectory']}" rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.EditDirectory']}" rendered="#{directoryHome.managed}"/>
+</div>
+
+<div class="formFields formBorder">
+
+    <s:validateAll>
+
+        <s:div styleClass="entry" rendered="#{!empty directoryHome.parentNode}">
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.Parent']}:"/>
+            </div>
+            <div class="output">
+                <h:outputText value="#{directoryHome.parentNode.name}"/>
+            </div>
+        </s:div>
+
+        <s:div styleClass="entry" rendered="#{directoryHome.managed}">
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.CreatedOn']}:"/>
+            </div>
+            <div class="output">
+                <h:outputText value="#{directoryHome.instance.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                <s:span id="ownerDisplay">&#160;(#{directoryHome.instance.createdBy.username})</s:span>
+                <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
+                              rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and directoryHome.instance.id != memberArea.id}"><j4j:idProxy
+                                id="openDialogOwnerSelection"/><span class="buttonLabel">...</span></h:outputLink>
+            </div>
+        </s:div>
+
+        <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
+            <ui:define name="label">#{messages['lacewiki.label.dirEdit.Name']}</ui:define>
+            <h:inputText styleClass="ajaxSupport" size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
+                <a:support status="globalStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+            </h:inputText>
+        </s:decorate>
+
+        <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
+            <ui:define name="label">#{messages['lacewiki.label.dirEdit.Description']}</ui:define>
+            <h:inputText styleClass="ajaxSupport" size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
+                <a:support status="globalStatus" event="onchange" reRender="descriptionDecorate" oncomplete="onAjaxRequestComplete()"/>
+            </h:inputText>
+        </s:decorate>
+
+        <s:span rendered="#{directoryHome.instance.id != memberArea.id}">
+            <ui:include src="includes/accessLevelSelector.xhtml">
+                <ui:param name="home" value="#{directoryHome}"/>
+            </ui:include>
+        </s:span>
+
+    </s:validateAll>
+
+    <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.parentNode and !empty directoryHome.childDocuments}">
+        <div class="label">
+            <h:outputText value="#{messages['lacewiki.label.dirEdit.DefaultDocument']}:"/>
+        </div>
+        <div class="input">
+            <h:selectOneMenu value="#{directoryHome.instance.defaultFile}" converter="#{restrictedEntityConverter}" tabindex="1">
+                <s:selectItems value="#{directoryHome.childDocuments}"
+                               var="document"
+                               label="#{wiki:truncateString(document.name, 40, '...')}"
+                               noSelectionLabel="#{messages['lacewiki.label.dirEdit.NoDefaultDocument']}"/>
+            </h:selectOneMenu>
+        </div>
+    </s:div>
+
+    <s:div id="menuEditor">
+        <s:div styleClass="entry"
+               rendered="#{(!empty directoryHome.availableMenuItems or !empty directoryHome.menuItems) 
+                           and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.MenuItems']}:"/>
+            </div>
+            <div class="input">
+
+                <h:panelGrid columns="1" styleClass="topLeftBottomBorder rightBorder" cellpadding="0" cellspacing="0" border="0">
+
+                    <a:region>
+                    <s:div styleClass="minorPadding" rendered="#{not empty directoryHome.availableMenuItems}">
+                        <h:panelGroup>
+                            <h:selectOneMenu value="#{directoryHome.selectedChildDirectory}" converter="#{restrictedEntityConverter}" tabindex="1">
+                                <s:selectItems value="#{directoryHome.availableMenuItems}"
+                                               var="dir"
+                                               label="#{wiki:truncateString(dir.name, 40, '...')}"/>
+                            </h:selectOneMenu>
+                            <a:commandLink status="globalStatus" tabindex="1"
+                                           action="#{directoryHome.addMenuItem}"
+                                           reRender="menuEditor"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="buttonNonpersistent sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Add']}"/>
+                            </a:commandLink>
+                        </h:panelGroup>
+                    </s:div>
+                    </a:region>
+
+                    <a:region>
+                    <h:dataTable id="menuItemTable" var="menuItem"
+                                 value="#{directoryHome.menuItems}"
+                                 styleClass="datatable"
+                                 columnClasses="onePercentColumn alignCenter, defaultColumn alignLeft, onePercentColumn alignCenter, onePercentColumn alignCenter, onePercentColumn alignCenter"
+                                 rowClasses="rowEven,rowOdd"
+                                 cellpadding="0" cellspacing="0" border="0">
+
+                        <h:column>
+                            <a:outputPanel>
+                                <h:graphicImage value="#{imagePath}/icon.dir.gif" width="18" height="20"/>
+                            </a:outputPanel>
+                        </h:column>
+
+                        <h:column>
+                            <a:outputPanel>
+                                <h:outputText value="#{wiki:truncateString(menuItem.directory.name, 40, '...')}"/>
+                            </a:outputPanel>
+                        </h:column>
+
+                        <h:column>
+                            <a:commandLink status="globalStatus" tabindex="1"
+                                           action="#{directoryHome.removeMenuItem(menuItem.directoryId)}"
+                                           reRender="menuEditor"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="buttonNonpersistent sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Remove']}"/>
+                            </a:commandLink>
+                        </h:column>
+
+                        <h:column>
+                            <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != 0}"
+                                           status="globalStatus"
+                                           action="#{directoryHome.moveMenuItem(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex-1)}"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="sessionEventTrigger" tabindex="1"
+                                           reRender="menuEditor">
+                                <h:graphicImage value="#{imagePath}/up.gif" width="18" height="18"/>
+                            </a:commandLink>
+                        </h:column>
+                        <h:column>
+                            <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != uiComponent['directoryEditForm:menuItemTable'].rowCount-1}"
+                                           status="globalStatus"
+                                           action="#{directoryHome.moveMenuItem(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex+1)}"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="sessionEventTrigger" tabindex="1"
+                                           reRender="menuEditor">
+                                <h:graphicImage value="#{imagePath}/down.gif" width="18" height="18"/>
+                            </a:commandLink>
+                        </h:column>
+
+                    </h:dataTable>
+                    </a:region>
+
+                </h:panelGrid>
+
+            </div>
+        </s:div>
+    </s:div>
+
+    <s:div styleClass="entry">
+        <div class="label">
+            <h:outputText value="#{messages['lacewiki.label.dirEdit.Options']}:"/>
+        </div>
+        <div class="input">
+            <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="1"
+                                     disabled="#{empty directoryHome.parentNode}"/>
+            <h:outputText value="#{messages['lacewiki.label.dirEdit.EnableFeed']}"/>
+            <a:commandLink id="resetFeed" reRender="messageBoxContainer"
+                           action="#{directoryHome.resetFeed}"
+                           rendered="#{!empty directoryHome.instance.feed}"
+                           oncomplete="onAjaxRequestComplete()"
+                           styleClass="buttonNonpersistent sessionEventTrigger" tabindex="1">
+                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.ResetFeed']}"/>
+            </a:commandLink>
+        </div>
+    </s:div>
+
+    <ui:include src="includes/writeProtectionSelector.xhtml">
+        <ui:param name="home" value="#{directoryHome}"/>
+    </ui:include>
+
+</div>
+<div class="formControls wideLabels">
+
+    <div class="entry">
+        <div class="label">&#160;</div>
+        <div class="input">
+
+            <h:commandLink id="save" styleClass="button sessionEventTrigger"
+                           action="#{directoryHome.persist}"
+                           rendered="#{!directoryHome.managed}"
+                           tabindex="1" accesskey="#{messages['lacewiki.button.dirEdit.Save.accesskey']}">
+                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Save']}"/>
+            </h:commandLink>
+
+            <h:commandLink id="update" styleClass="button sessionEventTrigger"
+                           action="#{directoryHome.update}"
+                           rendered="#{directoryHome.managed}"
+                           tabindex="1" accesskey="#{messages['lacewiki.button.dirEdit.Update.accesskey']}">
+                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Update']}"/>
+            </h:commandLink>
+
+            <s:fragment rendered="#{directoryHome.removable}">
+
+                <ui:decorate template="includes/confirmationAction.xhtml">
+                    <ui:param name="label" value="#{messages['lacewiki.button.dirEdit.Delete']}"/>
+                    <ui:param name="accesskey" value="#{messages['lacewiki.button.dirEdit.Delete.accesskey']}"/>
+                    <ui:param name="tabindex" value="1"/>
+                    <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                    <ui:param name="escapeLabel" value="false"/>
+                    <ui:param name="jsFunctionName" value="deleteDirectory"/>
+                    <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                        .concat(': \'').concat(directoryHome.instance.name).concat('\'?')}"/>
+                    <ui:define name="jsFunction">
+                        <a:jsFunction name="#{jsFunctionName}"
+                                      action="#{directoryHome.remove}"
+                                      status="globalStatus"/>
+                    </ui:define>
+                </ui:decorate>
+
+            </s:fragment>
+
+        </div>
+    </div>
+
+</div>
+
+</div>
+</h:form>
+
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd">
+
+	<page view-id="/index.xhtml">
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+		<begin-conversation join="true"/>
+	</page>
+	
+	<page view-id="/selectItems.xhtml">
+		<begin-conversation join="true"/>
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+	
+	<page view-id="/formattedText.xhtml">
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+	
+	<page view-id="/fileUpload.xhtml">
+		<begin-conversation join="true"/>
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+	
+	<page view-id="/graphicImage.xhtml">
+		<begin-conversation join="true"/>
+		<param name="personId" converterId="javax.faces.Integer" value="#{personHome.id}" />
+	</page>
+	
+	<page view-id="/linkAndButton.xhtml">
+		<param name="foo" value="#{buttonLink.foo}" />
+	</page>
+	
+</pages>

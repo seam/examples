@@ -1,0 +1,50 @@
+<wiki:plugin 
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="box dirMenu">
+
+        <s:div styleClass="boxHeader" rendered="#{not preferences.get('DirMenu', currentMacro).showSubscribeIcon}">
+            <h:outputText value="#{preferences.get('DirMenu', currentMacro).title}"/>
+        </s:div>
+
+        <h:panelGrid rendered="#{preferences.get('DirMenu', currentMacro).showSubscribeIcon}"
+                     columns="2" cellpadding="0" cellspacing="0" border="0"
+                     styleClass="boxHeader fullWidth">
+
+            <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:outputLink  target="_top"
+                               value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}">
+                    <h:graphicImage value="#{imagePath}/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+                </h:outputLink>
+                <h:outputLink  target="_top"
+                               value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}">
+                    <h:outputText value="#{currentMacro.getMessage('label.Subscribe')}"/>
+                </h:outputLink>
+            </h:panelGrid>
+
+            <h:outputText value="#{preferences.get('DirMenu', currentMacro).title}"/>
+
+        </h:panelGrid>
+
+        <div class="boxContent">
+
+            <s:cache region="#{currentMacro.getCacheRegion('DirMenuList')}"
+                     key="#{currentMacro.cacheKey}">
+                <ui:include src="dirMenuItem.xhtml">
+                    <ui:param name="node" value="#{dirMenu.getRoot(currentMacro)}"/>
+                </ui:include>
+            </s:cache>
+        </div>
+
+        <s:div styleClass="boxFooter"/>
+
+    </s:div>
+
+
+</wiki:plugin>

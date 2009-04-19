@@ -1,0 +1,178 @@
+<wiki:plugin id="forumRepliesPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+
+    <!-- The forumPostingDocumentWrapper <div> is open! -->
+
+        <s:div styleClass="commentSignature"
+               rendered="#{not empty currentDocument.createdBy.profile.signature and not empty currentDocument.areaNumber}">
+            <s:div styleClass="commentSignatureSeparator">
+                <h:outputText value="&#160;"/>
+            </s:div>
+            <s:cache region="wiki.Signature" key="#{currentDocument.createdBy.id}">
+                <wiki:formattedText value="#{currentDocument.createdBy.profile.signature}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </s:cache>
+        </s:div>
+
+        <s:div rendered="#{not empty currentDocument.tags}"
+               styleClass="documentTags undecoratedLink smallFont">
+            <s:div>
+                #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
+                <ui:repeat var="tag" value="#{currentDocument.tagsAsList}">
+                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
+                        <h:outputText value="#{tag}"/>
+                    </h:outputLink>
+                    <h:outputText rendered="#{not wiki:isLastItemInList(currentDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>
+                </ui:repeat>
+            </s:div>
+        </s:div>
+
+        <s:div id="forumPostingControls" styleClass="forumPostingControls">
+            <h:form>
+                <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
+
+                    <h:commandLink tabindex="1" action="#{replyHome.replyToDocument()}"
+                                   accesskey="#{messages['forum.button.Reply.accesskey']}"
+                                   styleClass="buttonNonpersistent">
+                        <f:param name="conversationPropagation" value="none"/>
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
+                     </h:commandLink>
+
+                    <h:commandLink tabindex="1" action="#{replyHome.quoteDocument()}"
+                                   styleClass="buttonNonpersistent"
+                                   accesskey="#{messages['forum.button.Quote.accesskey']}">
+                        <f:param name="conversationPropagation" value="none"/>
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Quote']}"/>
+                    </h:commandLink>
+
+                </h:panelGroup>
+            </h:form>
+        </s:div>
+
+    <!-- The forumPostingDocumentWrapper <div> is closed here! -->
+    <h:outputText escape="false" value="&lt;/div>"/>
+
+    <s:div id="forumRepliesContainer">
+
+        <s:fragment rendered="#{currentDocument.enableComments}">
+
+            <ui:decorate template="/includes/commentsDisplay.xhtml">
+                <ui:param name="titleSingular" value="#{messages['forum.label.Reply']}"/>
+                <ui:param name="titlePlural" value="#{messages['forum.label.Replies']}"/>
+                <ui:define name="controls">
+
+                    <h:panelGrid columns="2" styleClass="forumReplyControls"
+                                 columnClasses="forumReplyRating, forumReplyControl"
+                                 cellpadding="0" cellspacing="0" border="0">
+
+                        <s:fragment>
+
+                            <s:fragment rendered="#{not replyHome.showForm
+                                                    and c.rating == 0
+                                                    and not currentUser.guest
+                                                    and c.createdBy.id != currentUser.id
+                                                    and currentDocument.createdBy.id == currentUser.id}">
+                                
+                                <h:panelGrid columns="7" styleClass="commentRatingChooser"
+                                             columnClasses="label, star, star, star, star, star, star"
+                                             border="0" cellpadding="0" cellspacing="0">
+                                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.comment.RateThisPosting']}:&#160;"/>
+                                    <c:forEach begin="1" var="r" end="5">
+                                        <a:commandLink action="#{replyHome.rate(c.id, r)}"
+                                                       reRender="comments, messageBoxContainer"
+                                                       status="globalStatus">
+                                            <h:graphicImage styleClass="item#{c.id}-rate#{r}"
+                                                            onmouseover="highlightStars('#{c.id}', '5', '#{r}')"
+                                                            onmouseout="highlightStars('#{c.id}', '5', '0')"
+                                                            value="#{imagePath}/star_grey.gif"
+                                                            alt="*"
+                                                            width="16" height="16"/>
+                                        </a:commandLink>
+                                    </c:forEach>
+                                </h:panelGrid>
+                            </s:fragment>
+
+                            <s:fragment rendered="#{c.rating > 0}">
+                                <h:panelGrid columns="#{c.rating + 1}" styleClass="commentRating"
+                                             columnClasses="label, star, star, star, star, star, star"
+                                             border="0" cellpadding="0" cellspacing="0">
+                                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.comment.Rating']}:&#160;"/>
+                                    <c:forEach begin="1" var="r" end="#{c.rating}">
+                                        <h:graphicImage value="#{imagePath}/star.gif"
+                                                        width="16" height="16" alt="*"/>
+                                    </c:forEach>
+                                </h:panelGrid>
+                            </s:fragment>
+
+                        </s:fragment>
+
+                        <s:fragment>
+
+                            <s:fragment rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
+
+                                <h:commandLink tabindex="102" action="#{replyHome.replyTo()}"
+                                               styleClass="buttonNonpersistent">
+                                    <f:param name="conversationPropagation" value="none"/>
+                                    <f:param name="parentCommentId" value="#{c.id}"/>
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
+                                </h:commandLink>
+
+                                <h:commandLink tabindex="102" action="#{replyHome.quote()}"
+                                               styleClass="buttonNonpersistent">
+                                    <f:param name="conversationPropagation" value="none"/>
+                                    <f:param name="parentCommentId" value="#{c.id}"/>
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
+                                </h:commandLink>
+
+                            </s:fragment>
+
+                             <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
+                                 <ui:decorate template="/includes/confirmationAction.xhtml">
+                                     <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                     <ui:param name="jsFunctionName" value="deleteReplyId#{c.id}"/>
+                                     <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                         .concat(' ')
+                                                                         .concat(messages['lacewiki.label.commentsDisplay.CommentThread'])
+                                                                         .concat(': \'')
+                                                                         .concat(c.subject)
+                                                                         .concat('\'?')}"/>
+                                     <ui:define name="jsFunction">
+                                         <a:jsFunction name="#{jsFunctionName}"
+                                                       reRender="forumRepliesContainer, messageBoxContainer"
+                                                       action="#{replyHome.remove(c.id)}"
+                                                       oncomplete="onAjaxRequestComplete()"
+                                                       status="globalStatus"/>
+                                     </ui:define>
+                                 </ui:decorate>
+                            </s:fragment>
+
+                        </s:fragment>
+
+                    </h:panelGrid>
+
+                </ui:define>
+            </ui:decorate>
+
+            <ui:include src="replyForm.xhtml">
+                <ui:param name="home" value="#{replyHome}"/>
+            </ui:include>
+
+        </s:fragment>
+
+    </s:div>
+
+</wiki:plugin>

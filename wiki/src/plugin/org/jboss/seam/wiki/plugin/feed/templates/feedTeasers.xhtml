@@ -1,0 +1,73 @@
+<wiki:plugin
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:cache region="#{currentMacro.getCacheRegion('TeaserList')}"
+         key="#{currentMacro.cacheKey}">
+
+    <s:div styleClass="feedTeasers box">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{preferences.get('FeedTeasers', currentMacro).title}"/>
+        </s:div>
+
+        <div class="boxContent">
+
+            <h:dataTable value="#{feedTeasers.getTeasers(currentMacro)}"
+                         var="fe"
+                         styleClass="datatable feedTeaserTable"
+                         columnClasses="teaserColumn"
+                         rowClasses="rowOdd, rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+                <h:column>
+                    <div class="teaserAuthorDate smallFont">
+                        <s:span styleClass="teaserDate">
+                            <h:outputText value="#{fe.updatedDate}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                        </s:span>
+                        <s:span styleClass="undecoratedLink"
+                                rendered="#{preferences.get('FeedTeasers', currentMacro).showAuthor}">
+                            <h:outputText value=",&#160;#{messages['feed.teasers.label.By']}&#160;"/>
+                            <h:outputText styleClass="teaserAuthor" value="#{fe.author}"/>
+                        </s:span>
+
+                    </div>
+
+                    <div class="teaserTitle undecoratedLink">
+                        <h:outputLink target="_top" value="#{fe.link}">
+                            <h:outputText value="#{wiki:removeHtml(fe.title)}"/>
+                        </h:outputLink>
+                    </div>
+
+                    <h:outputText styleClass="teaserBody"
+                                  value="#{wiki:truncateStringOnWordBoundary(
+                                            wiki:removeHtml(fe.descriptionValue),
+                                            preferences.get('FeedTeasers', currentMacro).truncateDescription
+                                          )}"/>
+
+                    <h:outputLink target="_top" styleClass="teaserBody"
+                                  value="#{fe.link}"
+                                  rendered="#{wiki:length(wiki:removeHtml(fe.descriptionValue))
+                                              > preferences.get('FeedTeasers', currentMacro).truncateDescription}">
+                        <h:outputText value="&#160;#{messages['feed.teasers.label.More']}"/>
+                    </h:outputLink>
+
+                </h:column>
+            </h:dataTable>
+
+        </div>
+
+        <div class="boxFooter"/>
+
+    </s:div>
+
+</s:cache>
+
+</wiki:plugin>

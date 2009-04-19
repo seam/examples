@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>     
+
+      <s:div rendered="#{selectedMember == null}">
+        Sorry, but this member does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedMember != null}">
+      
+        <s:div id="memberCard">
+          <h1>#{selectedMember.memberName}'s profile</h1>
+                    
+          <s:div id="memberCardPicture" rendered="#{selectedMember.picture ne null}">
+            <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=170"/>
+          </s:div>
+          
+          <div id="memberCardText">
+            <span class="tagline">"#{selectedMember.tagline}"</span><br/><br/>
+            #{selectedMember.gender.descr}<br/>
+            #{selectedMember.age}<br/>
+            #{selectedMember.location}<br/>
+          </div>
+          
+          <br style="clear:both"/>
+          
+          View My: 
+          <s:link view="/pictures.xhtml" value="Pics">
+            <f:param name="name" value="#{selectedMember.memberName}"/>
+          </s:link>
+          
+        </s:div>
+        
+        <s:div id="memberBlog">
+          <div class="sectionHeader">#{selectedMember.memberName}'s latest blog entries</div>
+          
+          <ui:repeat value="#{profile.latestBlogs}" var="latestBlog">
+            <div class="blogSummary">#{latestBlog.title} 
+              (<s:link view="/blogentry.seam" value="view more">
+                 <f:param name="name" value="#{selectedMember.memberName}"/>
+                 <f:param name="blogId" value="#{latestBlog.blogId}"/>
+               </s:link>)
+            </div>
+          </ui:repeat>            
+          
+          [<s:link id="viewBlog" view="/blog.seam" value="View all blog entries" propagation="none">
+             <f:param name="name" value="#{selectedMember.memberName}"/>
+           </s:link>]
+          
+          <s:span rendered="#{s:hasPermission(selectedMember, 'createBlog')}">
+            [<s:link id="createBlog" action="#{blog.createEntry}" value="Create new blog entry" propagation="none"/>]
+          </s:span>
+        </s:div>
+        
+        <s:div id="memberFriends">
+          <div class="sectionHeader">#{selectedMember.memberName}'s friends</div>
+          
+          <ui:repeat value="#{profile.friends}" var="f">
+            <div class="friend">
+              
+              <s:link view="/profile.seam" propagation="none">
+                <f:param name="name" value="#{f.memberName}"/>
+                #{f.memberName}<br/>
+                <h:graphicImage value="/content/images?id=#{f.picture.imageId}&amp;width=90"/>                
+              </s:link>
+              
+            </div>          
+          </ui:repeat>          
+          
+          <br class="clear"/>
+        
+          <s:span rendered="#{selectedMember.memberId != authenticatedMember.memberId and s:hasPermission(selectedMember, 'createFriendRequest')}">
+            [<s:link view="/friendrequest.seam" value="Send a friend request" propagation="none"/>]
+          </s:span>
+          
+        </s:div>
+        
+        <s:div id="friendComments">
+          <div class="sectionHeader">#{selectedMember.memberName}'s friend's comments</div>
+          
+	        <ui:repeat value="#{profile.friendComments}" var="c">
+	          <table class="friendComments">
+	            <tr>
+		            <td class="friendCommentor">					        
+					        <s:link view="/profile.seam">
+					          <f:param name="name" value="#{c.friend.memberName}"/>
+					          #{c.friend.memberName}<br/>
+                        <h:graphicImage value="/content/images?id=#{c.friend.picture.imageId}&amp;width=90"/>
+					        </s:link>
+		            </td>
+		            
+		            <td style="text-align: left">
+                  <b>#{c.formattedCommentDate}</b><br/>
+		              <p><s:formattedText value="#{c.comment}"/></p>
+		            </td>	            
+	            </tr>
+	          </table>	          	          
+	        </ui:repeat>            
+          
+          <s:span rendered="#{s:hasPermission(selectedMember, 'createFriendComment')}">
+            [<s:link view="/friendcomment.seam" value="Add Comment"/>]
+          </s:span>          
+        </s:div>        
+      </s:div>                
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

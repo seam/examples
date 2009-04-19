@@ -1,0 +1,109 @@
+<wiki:plugin
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:stringutils="http://org.apache.commons.lang/StringUtils"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="feedAggregator box">
+
+        <s:div styleClass="boxHeader">
+
+            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0"
+                         styleClass="feedAggregatorTitle">
+
+                <h:outputLink value="#{wikiURLRenderer.renderAggregateFeedURL(preferences.get('FeedAggregator', currentMacro).aggregateId)}"
+                              rendered="#{not empty preferences.get('FeedAggregator', currentMacro).aggregateId}"
+                              style="margin-right:10px;">
+                    <h:graphicImage value="#{imagePath}/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"
+                                    />
+                </h:outputLink>
+
+                <h:outputText value="#{preferences.get('FeedAggregator', currentMacro).title}"/>
+
+            </h:panelGrid>
+
+        </s:div>
+    
+
+        <div class="boxContent">
+            <h:dataTable value="#{feedAggregator.getFeedEntries(currentMacro)}" var="feDTO"
+                         rendered="#{not empty feedAggregator.getFeedEntries(currentMacro) and feedAggregator.getFeedEntries(currentMacro).size() > 0}"
+                         styleClass="datatable feedAggregatorTable"
+                         columnClasses="feedEntryColumn"
+                         rowClasses="rowOdd, rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <s:div styleClass="feedEntryInfo smallFont">
+
+                        <s:span rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDate}" styleClass="noWrapWhitespace">
+                            <h:outputText value="#{feDTO.feedEntry.publishedDate}" rendered="#{empty feDTO.feedEntry.updatedDate}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="#{feDTO.feedEntry.updatedDate}" rendered="#{not empty feDTO.feedEntry.updatedDate}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                        </s:span>
+
+                        <s:span styleClass="undecoratedLink noWrapWhitespace"
+                                rendered="#{not preferences.get('FeedAggregator', currentMacro).hideAuthor}">
+                            <h:outputText value=",&#160;#{messages['feed.aggregator.label.By']}&#160;"/>
+                            <h:outputText styleClass="feedEntryAuthor" value="#{wiki:escapeAtSymbol(feDTO.feedEntry.author)}"/>
+                        </s:span>
+
+                        <s:span styleClass="undecoratedLink noWrapWhitespace"
+                                rendered="#{not preferences.get('FeedAggregator', currentMacro).hideFeedInfo}">
+                            <h:outputText value="&#160;#{messages['feed.aggregator.label.On']}&#160;"/>
+                            <h:outputLink value="#{feDTO.feed.link}">
+                                <h:outputText value="#{feDTO.feed.title}"/>
+                            </h:outputLink>
+                        </s:span>
+
+                    </s:div>
+
+                    <s:div styleClass="feedEntryTitle undecoratedLink"
+                           rendered="#{not preferences.get('FeedAggregator', currentMacro).hideTitle}">
+                        <h:outputLink target="_top" value="#{feDTO.feedEntry.link}">
+                            <h:outputText value="#{wiki:escapeAtSymbol(wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.title)))}"/>
+                        </h:outputLink>
+                    </s:div>
+
+                    <s:div styleClass="feedEntryBody" rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDescription}">
+                        <h:outputText value="#{wiki:truncateStringOnWordBoundary(
+                                                wiki:escapeAtSymbol(
+                                                    wiki:removeHtml(
+                                                        stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)
+                                                    )
+                                                ),
+                                                preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
+
+                        <h:outputLink target="_top" styleClass="feedEntryBodyMoreLink"
+                                      value="#{feDTO.feedEntry.link}"
+                                      rendered="#{wiki:length(wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)))
+                                                  > preferences.get('FeedAggregator', currentMacro).truncateDescription}">
+                            &#160;#{messages['feed.aggregator.label.More']}
+                        </h:outputLink>
+                    </s:div>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </div>
+
+        <s:div styleClass="feedAggregatorEmpty minorPadding"
+               rendered="#{empty feedAggregator.getFeedEntries(currentMacro) or
+                                 feedAggregator.getFeedEntries(currentMacro).size() == 0}">
+            <h:outputText value="#{messages['feed.aggregator.label.NoEntriesFound']}"/>
+        </s:div>
+
+        <div class="boxFooter"/>
+
+    </s:div>
+
+</wiki:plugin>

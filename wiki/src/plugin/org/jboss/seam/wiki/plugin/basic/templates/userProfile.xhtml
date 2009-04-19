@@ -1,0 +1,18 @@
+<wiki:plugin
+        rendered="#{currentDocument.ownedByRegularUser}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <!-- TODO: see Basic.plugin.xml
+    <s:cache region="#{currentMacro.getCacheRegion('UserProfile')}"
+             key="#{currentMacro.getCacheKey(currentDocument.createdBy.id)}">
+     -->
+        <ui:include src="/includes/userInfo.xhtml">
+            <ui:param name="user" value="#{currentDocument.createdBy}"/>
+        </ui:include>
+
+</wiki:plugin>

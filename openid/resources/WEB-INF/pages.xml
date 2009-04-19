@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+    no-conversation-view-id="/main.xhtml" login-view-id="/home.xhtml">
+
+    <page view-id="/openid.xhtml">
+        <navigation evaluate="#{openid.loginImmediately()}">
+            <rule if-outcome="true">
+                <redirect view-id="/main.xhtml">
+                    <message>OpenID login successful...</message>
+                </redirect>
+            </rule>
+            <rule if-outcome="false">
+                <redirect view-id="/main.xhtml">
+                    <message>OpenID login rejected...</message>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
+    <page view-id="/main.xhtml">
+        <rewrite pattern="/" />
+
+        <navigation from-action="#{postHome.persist}" evaluate="#{postHome.clearInstance()}">
+            <redirect view-id="/main.xhtml" />
+        </navigation>
+    </page>
+
+
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/main.xhtml">
+            <message severity="warn">Your session expired.  Please try again.</message>
+        </redirect>
+    </exception>
+
+</pages>

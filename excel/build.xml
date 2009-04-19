@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<project name="excel" default="deploy" basedir=".">
+    <!-- Example name -->
+    <property name="Name"                   value="Jxl Excel document example"/>
+    <property name="example.name"           value="jboss-seam-excel"/>
+
+    <!-- Libraries -->
+	     <property name="seam.ui.lib"     value="yes"/>
+    <property name="seam.excel.lib"    value="yes"/>
+    <property name="seam.debug.lib"  value="yes"/>
+    <property name="facelets.lib"    value="yes"/>
+    <property name="richfaces.lib"    value="yes"/>
+    <property name="richfaces-ui.lib"   value="yes"/>
+
+    <import file="../build.xml"/>
+
+    <patternset id="test.view.files">
+      <include name="*.*" />
+    </patternset>
+    
+            <patternset id="test.src.files">
+	                    <include name="**/*.xml" />
+			                    <include name="**/*.xhtml" />
+					            </patternset>
+						    
+
+    <path id="test.classpath.extras">
+      <path location="${lib.dir}/jboss-seam-ui.jar" />
+    </path>
+
+    <path id="build.classpath.extras">
+      <path location="${lib.dir}/jboss-seam-excel.jar" />
+      <path location="${lib.dir}/jboss-seam-pdf.jar" />
+    </path>
+
+
+</project>
+

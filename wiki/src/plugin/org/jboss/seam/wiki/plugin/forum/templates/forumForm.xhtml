@@ -1,0 +1,123 @@
+<s:div id="forumFormContainer"
+       styleClass="forumFormContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:fragment rendered="#{forumHome.showForm}">
+
+<div class="box">
+
+<h:form id="forumForm">
+
+    <div class="form">
+
+        <div class="formHead">
+            <h:outputText value="#{forumHome.managed ? messages['forum.label.EditForum'] : messages['forum.label.NewForum']}"/>
+        </div>
+
+        <s:div styleClass="formFields formBorder">
+
+            <s:decorate id="nameDecorate" template="/includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['forum.label.ForumName']}</ui:define>
+                <h:inputText styleClass="ajaxSupport" size="40" maxlength="255" required="true" tabindex="1" value="#{forumHome.instance.name}">
+                    <a:support event="onchange" status="globalStatus" reRender="nameDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="descriptionDecorate" template="/includes/formFieldDecorate.xhtml">
+                <ui:define name="label">#{messages['forum.label.ForumDescription']}</ui:define>
+                <h:inputText styleClass="ajaxSupport" size="70" maxlength="512" required="false" tabindex="1" value="#{forumHome.instance.description}">
+                    <a:support event="onchange" status="globalStatus" reRender="descriptionDecorate"/>
+                </h:inputText>
+            </s:decorate>
+
+            <ui:include src="/includes/accessLevelSelector.xhtml">
+                <ui:param name="home" value="#{forumHome}"/>
+            </ui:include>
+
+            <s:div styleClass="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+                    <h:selectBooleanCheckbox value="#{forumHome.hasFeed}" tabindex="1"/>
+                    <h:outputText value="#{messages['forum.label.EnableFeed']}"/>
+                    <a:commandLink id="resetFeed" reRender="messageBoxContainer"
+                                   action="#{forumHome.resetFeed}"
+                                   status="globalStatus"
+                                   rendered="#{!empty forumHome.instance.feed}"
+                                   styleClass="buttonNonpersistent sessionEventTrigger">
+                        <h:outputText  styleClass="buttonLabel" value="#{messages['forum.button.ResetFeed']}"/>
+                    </a:commandLink>
+                </div>
+            </s:div>
+
+        </s:div>
+
+        <div class="formControls">
+            <div class="entry">
+                <div class="label">&#160;</div>
+                <div class="input">
+
+                    <a:commandLink action="#{forumHome.update}" rendered="#{forumHome.managed}"
+                                   reRender="forumListPluginContainer, messageBoxContainer"
+                                   status="globalStatus"
+                                   tabindex="1" accesskey="#{messages['forum.button.Update.accesskey']}"
+                                   styleClass="button saveButton sessionEventTrigger">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Update']}"/>
+                    </a:commandLink>
+
+
+                    <s:fragment rendered="#{forumHome.removable}">
+                        <ui:decorate template="/includes/confirmationAction.xhtml">
+                            <ui:param name="label" value="#{messages['forum.button.Remove']}"/>
+                            <ui:param name="accesskey" value="#{messages['forum.button.Remove.accesskey']}"/>
+                            <ui:param name="tabindex" value="1"/>
+                            <ui:param name="linkClass" value="button sessionEventTrigger saveButton"/>
+                            <ui:param name="escapeLabel" value="false"/>
+                            <ui:param name="jsFunctionName" value="deleteForum"/>
+                            <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                .concat(': \'').concat(forumHome.instance.name).concat('\'?')}"/>
+                            <ui:define name="jsFunction">
+                                <a:jsFunction name="#{jsFunctionName}"
+                                              reRender="forumListPluginContainer, messageBoxContainer"
+                                              action="#{forumHome.remove}"
+                                              status="globalStatus"/>
+                            </ui:define>
+                        </ui:decorate>
+                    </s:fragment>
+
+                    <a:commandLink action="#{forumHome.persist}" rendered="#{!forumHome.managed}"
+                                   reRender="forumListPluginContainer, messageBoxContainer"
+                                   status="globalStatus"
+                                   tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
+                                   styleClass="button saveButton sessionEventTrigger">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
+                    </a:commandLink>
+
+                    <a:region>
+                        <a:commandLink action="#{forumHome.cancel}"
+                                       immediate="true"
+                                       status="globalStatus"
+                                       reRender="forumListPluginContainer, messageBoxContainer"
+                                       tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
+                                       accesskey="#{messages['forum.button.Cancel.accesskey']}">
+                            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
+                        </a:commandLink>
+                    </a:region>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</h:form>
+
+</div>
+</s:fragment>
+
+</s:div>

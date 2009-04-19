@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Registration" verbose="2" parallel="false">
+
+   <test name="Register">
+     <classes>
+       <class name="org.jboss.seam.example.registration.test.RegisterTest"/>
+     </classes>
+   </test>
+	
+</suite>

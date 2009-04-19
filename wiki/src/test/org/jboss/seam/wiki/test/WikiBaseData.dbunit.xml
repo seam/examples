@@ -1,0 +1,432 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <PREFERENCE PREF_ID = "1" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "baseUrl" STRING_VALUE = "http://localhost:8080/wiki" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "2" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "timeZone" STRING_VALUE = "CET" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "3" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "themeName" STRING_VALUE = "default" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "4" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "memberArea" STRING_VALUE = "Members" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "5" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "helpArea" STRING_VALUE = "Help" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "6" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "defaultDocumentId" STRING_VALUE = "[NULL]" LONG_VALUE = "6" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "7" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "renderPermlinks" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
+    <PREFERENCE PREF_ID = "8" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "permlinkSuffix" STRING_VALUE = ".lace" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "9" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "feedTitlePrefix" STRING_VALUE = "LaceWiki - " LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "10" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "purgeFeedEntriesAfterDays" STRING_VALUE = "[NULL]" LONG_VALUE = "999" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "11" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "atSymbolReplacement" STRING_VALUE = "(AT)" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "12" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "mainMenuLevels" STRING_VALUE = "[NULL]" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "13" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "mainMenuDepth" STRING_VALUE = "[NULL]" LONG_VALUE = "2" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "14" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "mainMenuShowAdminOnly" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
+    <PREFERENCE PREF_ID = "15" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showDocumentCreatorHistory" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "16" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showTags" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "17" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showEmailToLoggedInOnly" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "18" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "trashArea" STRING_VALUE = "Trash" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "19" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showSiteFeedInMenu" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "20" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "workspaceSwitcherDescriptionLength" STRING_VALUE = "[NULL]" LONG_VALUE = "25" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "50" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "minorRevisionEnabled" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "51" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaRows" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "52" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaColumns" STRING_VALUE = "[NULL]" LONG_VALUE = "65" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "60" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "activationCodeSalt" STRING_VALUE = "MySecretSalt123" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "61" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "passwordRegex" STRING_VALUE = "^[0-9A-Za-z]{6,15}" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "62" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "newUserInRole" STRING_VALUE = "member" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "63" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "enableRegistration" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "64" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "createHomeAfterUserActivation" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
+    <PREFERENCE PREF_ID = "65" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "homepageDefaultContent" STRING_VALUE = "This is your homepage, login to edit it." LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "70" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Comments" PROPERTY_NAME = "listAscending" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
+    <PREFERENCE PREF_ID = "71" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Comments" PROPERTY_NAME = "enableByDefault" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "72" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Comments" PROPERTY_NAME = "threaded" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+
+    <!-- PLUGINS -->
+
+    <PREFERENCE PREF_ID = "110" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "numberOfItems" STRING_VALUE = "[NULL]" LONG_VALUE = "5" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "111" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "showUsernames" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "112" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "documentTitleLength" STRING_VALUE = "[NULL]" LONG_VALUE = "50" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "113" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "title" STRING_VALUE = "Last Site Updates" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "120" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "pageSize" STRING_VALUE = "[NULL]" LONG_VALUE = "5" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "121" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "archiveSubscribeIcon" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
+    <PREFERENCE PREF_ID = "122" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "recentEntriesItems" STRING_VALUE = "[NULL]" LONG_VALUE = "10" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "123" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "recentEntriesTruncateTitle" STRING_VALUE = "[NULL]" LONG_VALUE = "40" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "124" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "recentEntriesSubscribeIcon" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+
+    <PREFERENCE PREF_ID = "130" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedTeasers" PROPERTY_NAME = "title" STRING_VALUE = "Site News Feed" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "131" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedTeasers" PROPERTY_NAME = "numberOfTeasers" STRING_VALUE = "[NULL]" LONG_VALUE = "5" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "132" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedTeasers" PROPERTY_NAME = "truncateDescription" STRING_VALUE = "[NULL]" LONG_VALUE = "200" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "133" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedTeasers" PROPERTY_NAME = "showAuthor" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+
+    <PREFERENCE PREF_ID = "140" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Flash" PROPERTY_NAME = "allowedDomains" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]" STRING_VALUE = "video.google.com,www.youtube.com"/>
+
+    <PREFERENCE PREF_ID = "150" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DirMenu" PROPERTY_NAME = "title" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]" STRING_VALUE = "Directory Menu"/>
+    <PREFERENCE PREF_ID = "151" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DirMenu" PROPERTY_NAME = "menuLevels" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]" STRING_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "152" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DirMenu" PROPERTY_NAME = "menuDepth" LONG_VALUE = "3" BOOLEAN_VALUE = "[NULL]" STRING_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "160" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Tags" PROPERTY_NAME = "linkToCurrentDocument" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+
+    <PREFERENCE PREF_ID = "170" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocPager" PROPERTY_NAME = "showNames" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+
+    <PREFERENCE PREF_ID = "180" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Forum" PROPERTY_NAME = "topicsPerPage" STRING_VALUE = "[NULL]" LONG_VALUE = "20" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "190" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "title" STRING_VALUE = "JIRA Issues" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "191" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "truncateSummary" STRING_VALUE = "[NULL]" LONG_VALUE = "80" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "200" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "title" STRING_VALUE = "Aggregated Feeds" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "201" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "truncateDescription" STRING_VALUE = "[NULL]" LONG_VALUE = "100" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "210" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "ForumTopPosters" PROPERTY_NAME = "title" STRING_VALUE = "Top Forum Posters" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "211" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "ForumTopPosters" PROPERTY_NAME = "numberOfPosters" STRING_VALUE = "[NULL]" LONG_VALUE = "10" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "220" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FlashVideo" PROPERTY_NAME = "allowedDomains" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]" STRING_VALUE = "video.google.com,www.youtube.com"/>
+
+    <!-- CONNECTORS -->
+
+    <PREFERENCE PREF_ID = "300" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "connectionTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "301" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "replyTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "10" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "302" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "issueListCacheUpdateTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "600" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "303" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "issueListCacheIdleTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "36000" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "310" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "connectionTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "30" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "311" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "feedCacheUpdateTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "600" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "312" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "feedCacheIdleTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "36000" BOOLEAN_VALUE = "[NULL]"/>
+
+    <ROLES ROLE_ID = "1" OBJ_VERSION = "0" DISPLAY_NAME = "Administrator" NAME = "admin" ACCESS_LEVEL = "1000" CREATED_ON = "2006-06-27 13:45:00"/>
+    <ROLES ROLE_ID = "2" OBJ_VERSION = "0" DISPLAY_NAME = "Guest" NAME = "guest" ACCESS_LEVEL = "0" CREATED_ON = "2006-06-27 13:45:00"/>
+    <ROLES ROLE_ID = "3" OBJ_VERSION = "0" DISPLAY_NAME = "Member" NAME = "member" ACCESS_LEVEL = "1" CREATED_ON = "2006-06-27 13:45:00"/>
+
+    <USER_PROFILE
+        USER_PROFILE_ID = "1"
+        OBJ_VERSION = "0"
+        CREATED_ON = "2006-06-27 13:45:00"
+        BIO="[NULL]"
+        WEBSITE="[NULL]"
+        LOCATION="[NULL]"
+        OCCUPATION="[NULL]"
+        SIGNATURE="[NULL]"
+        IMAGE_DATA="[NULL]"
+        IMAGE_CONTENT_TYPE="[NULL]"
+    />
+    <USERS
+        USER_ID = "1"
+        OBJ_VERSION = "0"
+        FIRSTNAME = "System" LASTNAME = "Administrator"
+        USERNAME = "admin"
+        PASSWORDHASH = "21232f297a57a5a743894a0e4a801fc3"
+        EMAIL = "admin@email.tld"
+        ACTIVATED = "true"
+        ACTIVATION_CODE ="[NULL]"
+        USER_PROFILE_ID = "1"
+        MEMBER_HOME_WIKI_DIRECTORY_ID="[NULL]"
+        CREATED_ON = "2006-06-27 13:45:00"
+    />
+
+    <USER_PROFILE
+        USER_PROFILE_ID = "2"
+        OBJ_VERSION = "0"
+        CREATED_ON = "2006-06-27 13:45:00"
+        BIO="[NULL]"
+        WEBSITE="[NULL]"
+        LOCATION="[NULL]"
+        OCCUPATION="[NULL]"
+        SIGNATURE="[NULL]"
+        IMAGE_DATA="[NULL]"
+        IMAGE_CONTENT_TYPE="[NULL]"
+    />
+    <USERS
+        USER_ID = "2"
+        OBJ_VERSION = "0"
+        FIRSTNAME = "Anonymous" LASTNAME = "Guest"
+        USERNAME = "guest"
+        PASSWORDHASH = "guest"
+        EMAIL = "guest"
+        ACTIVATED = "false"
+        ACTIVATION_CODE ="[NULL]"
+        USER_PROFILE_ID = "2"
+        MEMBER_HOME_WIKI_DIRECTORY_ID="[NULL]"
+        CREATED_ON = "2006-06-27 13:45:00"
+    />
+
+    <USER_PROFILE
+        USER_PROFILE_ID = "3"
+        OBJ_VERSION = "0"
+        CREATED_ON = "2006-06-27 13:45:00"
+        BIO="Lorem *ipsum dolor* sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.&#xA;&#xA;Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum."
+        WEBSITE="http://a.really.long.url.so.we.can.see.how.the.layout.fits/foo/bar/baz/My/Website/123/123/123?foo=barbaz"
+        LOCATION="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.&#xA;&#xA;Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis."
+        OCCUPATION="Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.&#xA;&#xA;Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum."
+        SIGNATURE="My member signature&#xA;&#xA;Lorem ipsum dolor sit amet, *consectetuer* adipiscing elit, _sed diam nonummy_ nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum."
+        IMAGE_DATA="[BINARY_DIR]/testimage_w80.jpg"
+        SMALL_IMAGE_DATA="[BINARY_DIR]/testimage_w40.jpg"
+        IMAGE_CONTENT_TYPE="image/jpg"/>
+
+    />
+    <USERS
+        USER_ID = "3"
+        OBJ_VERSION = "0"
+        FIRSTNAME = "Regular" LASTNAME = "Member"
+        USERNAME = "member"
+        PASSWORDHASH = "aa08769cdcb26674c6706093503ff0a3"
+        EMAIL = "christian.bauer@gmail.com"
+        ACTIVATED = "true"
+        ACTIVATION_CODE ="ebb0bce9eeeee191e8089afd1120c4a7"
+        USER_PROFILE_ID = "3"
+        MEMBER_HOME_WIKI_DIRECTORY_ID="[NULL]"
+        CREATED_ON = "2006-06-27 13:45:00"
+        LAST_LOGIN_ON="2007-03-01 13:45:00"
+    />
+
+    <USER_ROLE USER_ID="1" ROLE_ID="1"/>
+    <USER_ROLE USER_ID="2" ROLE_ID="2"/>
+    <USER_ROLE USER_ID="3" ROLE_ID="3"/>
+
+    <WIKI_NODE
+        NODE_ID="1" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="[NULL]"
+        AREA_NR="1" NAME="AAA" WIKINAME="AAA"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="1" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="1" NS_RIGHT="999" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="2" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="2" NAME="BBB" WIKINAME="BBB"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="2" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="2" NS_RIGHT="3" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="3" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="3" NAME="CCC" WIKINAME="CCC"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="3" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="6"
+        NS_LEFT="4" NS_RIGHT="9" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="4" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="3"
+        AREA_NR="3" NAME="DDD" WIKINAME="DDD"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="4" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="5" NS_RIGHT="6" NS_THREAD="1"/>
+
+    <WIKI_NODE
+        NODE_ID="5" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="3"
+        AREA_NR="3" NAME="EEE" WIKINAME="EEE"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_DIRECTORY
+        NODE_ID="5" DESCRIPTION="[NULL]" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="7" NS_RIGHT="8" NS_THREAD="1"/>
+
+
+    <WIKI_MENU_ITEM DIRECTORY_ID="2" DISPLAY_POSITION="0"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="3" DISPLAY_POSITION="1"/>
+    <WIKI_MENU_ITEM DIRECTORY_ID="4" DISPLAY_POSITION="0"/>
+
+
+    <WIKI_NODE
+        NODE_ID="6" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="3"
+        AREA_NR="3" NAME="One" WIKINAME="One"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="2006-09-26 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="6" FILE_REVISION="3"/>
+    <WIKI_DOCUMENT
+        NODE_ID="6"
+        CONTENT="Testdocument One with some plugins:&#xA;&#xA;[&lt;=docPager]&#xA;&#xA;&lt;table>&#xA;&lt;tr>&#xA;&lt;td style=&quot;vertical-align:top; padding-right: 20px; width:60%&quot;>&#xA;[&lt;=feedTeasers[feed=1]]&#xA;&lt;br/>&#xA;[&lt;=lastModifiedDocuments[documentTitleLength=60][showUsernames=true]]&#xA;&lt;br/>&#xA;[&lt;=tags[linkToCurrentDocument=false]]&#xA;&lt;br/>&#xA;[&lt;=dirMenu[title=Test Menu]]&#xA;&lt;/td>&#xA;&lt;td style=&quot;vertical-align:top;&quot;>&#xA;[&lt;=userProfile]&#xA;&lt;/td>&#xA;&lt;/tr>&#xA;&lt;/table>&#xA;&#xA;And some images/attachments:&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]&#xA;&#xA;"
+        HEADER="[&lt;=headerMacro1]&#xA;[&lt;=headerMacro2]" FOOTER="[&lt;=footerMacro1]&#xA;[&lt;=footerMacro2]&#xA;"
+        HEADER_MACROS="headerMacro1 headerMacro2" CONTENT_MACROS="docPager feedTeasers lastModifiedDocuments tags dirMenu userProfile" FOOTER_MACROS="footerMacro1 footerMacro2"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+    <WIKI_TAG FILE_ID="6" TAG="Tag One"/>
+
+    <WIKI_NODE
+        NODE_ID="7" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="3"
+        AREA_NR="3" NAME="Two" WIKINAME="Two"
+        CREATED_ON="2006-09-24 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-25 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="7" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="7" CONTENT="[&lt;=docPager]&#xA;&#xA;Testdocument Two with a link to [=>wiki://8] and another link to [=>wiki://9] and a movie:&#xA;&#xA;[&lt;=flash[url=http://www.youtube.com/v/lGVwm326rnk][width=425][height=355]]"
+        HEADER="[NULL]" FOOTER="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="docPager flash" FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+    <WIKI_TAG FILE_ID="7" TAG="Tag One"/>
+    <WIKI_TAG FILE_ID="7" TAG="Tag Two"/>
+    <WIKI_FILE_LINK SOURCE_WIKI_FILE_ID="7" TARGET_WIKI_FILE_ID="8"/>
+    <WIKI_FILE_LINK SOURCE_WIKI_FILE_ID="7" TARGET_WIKI_FILE_ID="9"/>
+
+    <WIKI_NODE
+        NODE_ID="8" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="4"
+        AREA_NR="3" NAME="Three" WIKINAME="Three"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="8" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageBox&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][aggregateId=My Aggregated Feed][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
+        HEADER="[NULL]" FOOTER="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="feedAggregator" FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+    <WIKI_TAG FILE_ID="8" TAG="Tag One"/>
+    <WIKI_TAG FILE_ID="8" TAG="Tag Two"/>
+    <WIKI_TAG FILE_ID="8" TAG="Tag Three"/>
+
+    <WIKI_NODE
+        NODE_ID="9" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="2"
+        AREA_NR="2" NAME="Four" WIKINAME="Four"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_FILE
+        NODE_ID="9" FILE_REVISION="0"/>
+    <WIKI_DOCUMENT
+        NODE_ID="9" CONTENT="Testdocument Four&#xA;&#xA;[&lt;=helloWorld[message=Foo]]&#xA;&#xA;[&lt;=jiraIssueList[url=http://jira.jboss.com/jira][username=myusername][password=mypassword][filterId=12311591][numberOfIssues=10]]&#xA;&#xA;[&lt;=forumTopPosters[forumLink=Forums|Seam Users Forum]]&#xA;"
+        HEADER="[NULL]" FOOTER="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="helloWorld jiraIssueList forumTopPosters" FOOTER_MACROS="[NULL]"
+        NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
+
+
+    <WIKI_NODE
+        NODE_ID="10" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="6"
+        AREA_NR="3" NAME="One.Comment11967298211870" WIKINAME="OneComment11967298211870"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="10"
+        SUBJECT="This is the first comment with a very long title so we can test the layout on different browsers"
+        CONTENT="Comment One&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="1" NS_RIGHT="8" NS_THREAD="10"/>
+
+    <WIKI_NODE
+        NODE_ID="11" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="10"
+        AREA_NR="3" NAME="One.Comment1196729823870" WIKINAME="OneComment1196729823870"
+        CREATED_ON="2006-09-24 13:45:00" CREATED_BY_USER_ID="3" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="11"
+        SUBJECT="Two" CONTENT="Comment Two" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="2" NS_RIGHT="3" NS_THREAD="10"/>
+
+    <WIKI_NODE
+        NODE_ID="12" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="10"
+        AREA_NR="3" NAME="One.Comment1196729874870" WIKINAME="OneComment.1196729874870"
+        CREATED_ON="2006-09-25 13:46:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="12"
+        SUBJECT="Three" CONTENT="Comment Three" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="4" NS_RIGHT="7" NS_THREAD="10"/>
+
+    <WIKI_NODE
+        NODE_ID="13" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="12"
+        AREA_NR="3" NAME="One.Comment11967293211870" WIKINAME="OneComment11967293211870"
+        CREATED_ON="2006-09-26 13:47:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="13"
+        SUBJECT="Four" CONTENT="Comment Four" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="5" NS_RIGHT="6" NS_THREAD="10"/>
+
+    <WIKI_NODE
+        NODE_ID="14" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="6"
+        AREA_NR="3" NAME="One.Comment11967293211830" WIKINAME="OneComment11967293211830"
+        CREATED_ON="2006-09-27 13:48:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="14"
+        SUBJECT="Five" CONTENT="Comment Five" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="1" NS_RIGHT="4" NS_THREAD="14"/>
+
+    <WIKI_NODE
+        NODE_ID="15" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="14"
+        AREA_NR="3" NAME="One.Comment119672932118230" WIKINAME="OneComment119672932118230"
+        CREATED_ON="2006-09-28 13:49:00" CREATED_BY_USER_ID="2" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
+    <WIKI_COMMENT
+        NODE_ID="15"
+        SUBJECT="Six" CONTENT="Comment Six" USE_WIKI_TEXT="true"
+        FROM_USER_NAME="My Anonymous Name" FROM_USER_EMAIL="foo@bar.baz.somemoretext.tld" FROM_USER_HOMEPAGE="http://foo.bar.baz/foo/bar?foo=123"
+        NS_LEFT="2" NS_RIGHT="3" NS_THREAD="14"/>
+
+    <WIKI_DOCUMENT_LAST_COMMENT
+        WIKI_DOCUMENT_ID="6"
+        LAST_COMMENT_CREATED_ON="2006-09-28 13:49:00"
+        LAST_COMMENT_ID="15"/>
+
+    <WIKI_DOCUMENT_HISTORY
+        FILE_HISTORY_ID="1" FILE_ID="6" FILE_REVISION="0"
+        NAME="One" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USERNAME="admin" content="Original text of Testdocument One"/>
+
+    <WIKI_DOCUMENT_HISTORY
+        FILE_HISTORY_ID="2" FILE_ID="6" FILE_REVISION="1"
+        NAME="OneOtherRevision" LAST_MODIFIED_ON="2006-09-24 13:45:00" LAST_MODIFIED_BY_USERNAME="guest" content="Another text of Testdocument One"/>       
+
+    <WIKI_DOCUMENT_HISTORY
+        FILE_HISTORY_ID="3" FILE_ID="6" FILE_REVISION="2"
+        NAME="One" LAST_MODIFIED_ON="2006-09-25 13:45:00" LAST_MODIFIED_BY_USERNAME="admin" content="One more text of Testdocument One"/>
+
+
+    <FEED
+        FEED_ID = "1"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/ROOT"
+        TITLE = "AAA"
+        AUTHOR = "System Administrator"
+        PUBLISHED_ON = "2006-09-23 13:45:00"
+        DIRECTORY_ID = "1"
+    />
+
+    <FEED
+        FEED_ID = "2"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/BBB"
+        TITLE = "BBB"
+        AUTHOR = "System Administrator"
+        PUBLISHED_ON = "2006-09-25 13:45:00"
+        DIRECTORY_ID = "2"
+    />
+
+    <!-- Member Area -->
+    <WIKI_NODE
+        NODE_ID="16" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="16" NAME="Members" WIKINAME="Members"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="1000" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="16" DESCRIPTION="Default member area" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="10" NS_RIGHT="11" NS_THREAD="1"/>
+    
+
+    <!-- Trash Area -->
+    <WIKI_NODE
+        NODE_ID="17" OBJ_VERSION="0" RATING="0" PARENT_NODE_ID="1"
+        AREA_NR="17" NAME="Trash" WIKINAME="Trash"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="17" DESCRIPTION="Trash area" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="12" NS_RIGHT="13" NS_THREAD="1"/>
+
+    <!-- Clean these tables -->
+    <FEEDENTRY/>
+    <FEED_FEEDENTRY/>
+    <WIKI_UPLOAD/>
+    <WIKI_UPLOAD_IMAGE/>
+
+    <LINK_PROTOCOL LINK_PROTOCOL_ID = "1" OBJ_VERSION = "0" PREFIX = "jbseam" LINK = "http://jira.jboss.com/jira/browse/JBSEAM-[[link]]"/>
+    <LINK_PROTOCOL LINK_PROTOCOL_ID = "2" OBJ_VERSION = "0" PREFIX = "hhh" LINK = "http://opensource.atlassian.com/projects/hibernate/browse/HHH-[[link]]"/>
+    <LINK_PROTOCOL LINK_PROTOCOL_ID = "3" OBJ_VERSION = "0" PREFIX = "youtube" LINK = "http://www.youtube.com/watch?v=[[link]]"/>
+
+</dataset>
+

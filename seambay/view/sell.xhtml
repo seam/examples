@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/sell.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>
+
+      <div class="banner"></div>
+
+      <div class="content">
+        <div class="sellHeader">
+          List a new item for sale
+        </div>
+
+        <div class="sellSubHeader">
+          Enter the details below then click next
+        </div>
+
+        <h:form id="sellForm">
+        
+          <s:validateAll>
+            <div class="formRow">
+              <h:outputLabel for="title">Enter a short description of the item you wish to sell</h:outputLabel>
+              <h:inputText id="title" value="#{auctionAction.auction.title}" required="true" styleClass="itemDescription"/>
+              <div class="validationError"><h:message for="title"/></div>
+            </div>
+          </s:validateAll>
+
+          <div class="navBar">
+            <div class="navBarRight">
+              <h:commandButton id="next" action="next" value="Next >"/>
+            </div>            
+            <br class="clear"/>
+          </div>
+
+          <hr class="thinLine"/>
+
+          <hr class="baseLine"/>
+
+        </h:form>
+
+      </div>
+
+    </div>
+  </body>
+</html>

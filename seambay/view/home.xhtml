@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>  
+      
+      <div class="banner"></div>
+     
+      <div class="categories">
+        <div class="sectionHeader">
+          Categories
+        </div>
+        
+        <ui:repeat id="categories" value="#{categories}" var="cat">
+          <s:link id="link" view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{cat.name}" propagation="none">
+            <f:param name="categoryId" value="#{cat.categoryId}"/>
+          </s:link>
+        </ui:repeat>
+                       
+      </div>
+      
+      <div id="content">
+        <p>
+          Welcome to <img src="img/seambay_inline.png" border="0"/>, an example Seam application that parodies a popular 
+          online auction site.  This example demonstrates how Seam integrates with JBossWS to provide web services that 
+          take advantage of Seam's contextual framework.
+        </p>
+        
+        <p>
+          <span>You can access the web service test page </span>
+          <s:link view="/test.seam" propagation="none">here</s:link>.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

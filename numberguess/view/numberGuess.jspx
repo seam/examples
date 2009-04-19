@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:s="http://jboss.com/products/seam/taglib"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+  <jsp:output doctype-root-element="html" 
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+  <jsp:directive.page contentType="text/html"/>
+  <html>
+  <head>
+    <title>Guess a number...</title>
+    <link href="niceforms.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript" src="niceforms.js"><!--  --></script>
+  </head>
+  <body>
+    <h1>Guess a number...</h1>
+    <f:view>
+	  <h:form id="NumberGuessMain" styleClass="niceform">
+	    
+	    <div>
+	    <h:messages id="messages" globalOnly="true"/>
+	    <h:outputText id="Higher"
+                          value="Higher!" 
+	                  rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
+	    <h:outputText id="Lower"
+                          value="Lower!" 
+	                  rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
+		</div>
+		
+		<div>
+        I'm thinking of a number between <h:outputText id="Smallest" value="#{numberGuess.smallest}"/> and 
+        <h:outputText id="Biggest" value="#{numberGuess.biggest}"/>. You have 
+        <h:outputText id="RemainingGuesses" value="#{numberGuess.remainingGuesses}"/> guesses.
+        </div>
+        
+        <div>
+        Your guess: 
+        <h:inputText id="inputGuess" value="#{numberGuess.currentGuess}" required="true" size="3" 
+                 rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
+          <f:validateLongRange maximum="#{numberGuess.biggest}" 
+                               minimum="#{numberGuess.smallest}"/>
+        </h:inputText>
+        <h:selectOneMenu id="selectGuessMenu" value="#{numberGuess.currentGuess}" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and (numberGuess.biggest-numberGuess.smallest) gt 4}">
+          <s:selectItems id="PossibilitiesMenuItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneMenu>
+        <h:selectOneRadio id="selectGuessRadio" value="#{numberGuess.currentGuess}" required="true"
+                       rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
+          <s:selectItems id="PossibilitiesRadioItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+        </h:selectOneRadio>
+		<h:commandButton id="GuessButton" value="Guess" action="guess"/>
+        <s:button id="CheatButton" value="Cheat" action="cheat"/>
+        <s:button id="GiveUpButton" value="Give up" action="giveup"/>
+		</div>
+		
+		<div>
+        <h:message id="message" for="inputGuess" style="color: red"/>
+        </div>
+        
+	  </h:form>
+    </f:view>
+  </body>
+  </html>
+</jsp:root>
+

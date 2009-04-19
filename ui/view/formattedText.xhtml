@@ -1,0 +1,14 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:formattedText" />
+	<ui:define name="body">
+		<p>Output Seam Text:</p>	
+		<p>In his/her spare time, <h:outputText value="#{person.name}"/> <s:formattedText value="#{person.hobbies}" /></p>
+	</ui:define>
+</ui:composition>

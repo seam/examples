@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<project name="Drools" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Drools Example"/>
+    <property name="example.name"           value="jboss-seam-drools"/>
+
+    <!-- Libraries -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="jbpm.lib"        value="yes"/>
+	<property name="drools.lib"      value="yes"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

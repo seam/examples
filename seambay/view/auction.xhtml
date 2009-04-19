@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay - Search Results</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="#{facesContext.externalContext.requestContextPath}/style/auction.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>
+
+      <div class="banner"></div>
+
+      <h:messages globalOnly="true"/>
+
+      <br class="clear"/>
+
+      <div class="headerNav">
+        <div class="navHome">
+          <s:link view="/home.xhtml"><img src="#{facesContext.externalContext.requestContextPath}/img/arrow_left.png" border="0"/></s:link>
+        </div>
+        <div class="navHome">
+          <s:link view="/home.xhtml" value="Back to home page"/>
+        </div>
+
+        <div class="navCategory">
+          Listed in category:
+          <s:link value="#{auction.category.name}" view="/search.xhtml" propagation="none">
+            <f:param name="categoryId" value="#{auction.category.categoryId}"/>
+          </s:link>
+        </div>
+
+        <br class="clear"/>
+      </div>
+
+      <div class="mainHeader">
+        <div class="headerTitle">
+          #{auction.title}
+        </div>
+
+        <div class="headerContent">
+          &nbsp;
+          
+          <s:fragment rendered="#{auctionDetail.status == 'highBidder'}">
+            You are the high bidder.  Yay!
+          </s:fragment>
+          
+          <s:fragment rendered="#{auctionDetail.status == 'outbid'}">
+            <div class="outbidImage"/>
+            
+            <div class="alertContent">
+              <span class="outbidHeader">You have been outbid by another bidder (if you like, you can bid again)</span>
+            </div>
+                          
+            <div class="outbidMessage">
+              <b>Important:</b> Another bidder placed a higher maximum bid than yours, possibly
+              <b>days or hours before you did</b>. To increase your chance
+              of winning this item, enter the <b>highest</b> amount that you would be willing to
+              pay.
+            </div>
+            
+            <div class="itemDetailRow">
+              <label>Time left:</label>
+              <div>#{auction.daysHoursLeft}</div>
+            </div>            
+          </s:fragment>
+        </div>
+      </div>
+
+      <div id="itemSummary">
+        <div class="itemImage">
+          <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}">
+            <s:transformImageSize width="200" maintainRatio="true"/>
+          </s:graphicImage>
+
+          <div>
+            <a href="#pictures">View larger picture</a>
+          </div>
+
+        </div>
+
+        <div class="itemDetails">
+          <div class="itemDetailRow">
+            <h:form id="bid">
+              <label>
+                <s:fragment rendered="#{auction.highBid ne null}">
+                  Current bid:
+                </s:fragment>
+                <s:fragment rendered="#{auction.highBid eq null}">
+                  Starting price:
+                </s:fragment>
+              </label>
+              <div>
+                $<b><h:outputText value="#{auction.currentPrice}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText></b>
+                <h:commandButton id="placeBid" styleClass="placeBid" action="#{bidAction.placeBid}">
+                  <s:conversationName value="PlaceBid"/>
+                </h:commandButton>
+              </div>
+            </h:form>              
+          </div>
+
+          <hr class="itemDetailSeparator" />
+
+          <div class="itemDetailRow">
+            <label>End time:</label>
+            <div>
+              <b>
+                <h:outputText value="#{auction.endDate}">
+                  <f:convertDateTime pattern="dd-MMM-yyyy H:mm:ss"/>
+                </h:outputText>
+              </b>
+              <span> (#{auction.daysHoursLeft})</span>
+            </div>
+          </div>
+
+          <div class="itemDetailRow">
+            <label>Item location:</label>
+            <div>
+              #{auction.account.location}
+            </div>
+          </div>
+
+          <div class="itemDetailRow">
+            <label>History:</label>
+            <div>
+                          
+              <h:outputLink id="bidHistory" value="#{facesContext.externalContext.requestContextPath}/bidhistory/#{auction.auctionId}">
+                #{auction.bids} bids
+              </h:outputLink>              
+              
+            </div>
+          </div>
+
+          <div class="itemDetailRow">
+            <label>High bidder:</label>
+            <div>
+              <span id="highBidder">#{auction.highBid.account.name}</span>
+              <h:outputText value="No bids" rendered="#{auction.highBid eq null}"/>
+            </div>
+          </div>
+
+          <hr class="itemDetailSeparator" />
+
+        </div>
+
+      </div>
+
+      <div id="sellerDetail">
+        <div class="sellerHeader">Meet the seller</div>
+
+        <div class="sellerDetailRow">
+          <label>Seller:</label>
+          <div>#{auction.account.name}</div>
+        </div>
+
+        <div class="sellerDetailRow">
+          <label>Feedback:</label>
+          <div>
+            <b>
+              <h:outputText value="#{auction.account.feedbackPercent}">
+                <f:convertNumber maxFractionDigits="0"/>
+              </h:outputText>% Positive
+            </b>
+          </div>
+        </div>
+
+        <div class="sellerDetailRow">
+          <label>Member:</label>
+          <div>
+            <span>since </span>
+            <h:outputText value="#{auction.account.memberSince}">
+              <f:convertDateTime pattern="dd-MMM-yyyy"/>
+            </h:outputText>
+          </div>
+        </div>
+
+        <div class="sellerHeader">Buy safely</div>
+
+        <div><b>1. Check the seller's reputation</b></div>
+        <div style="margin-left:16px">
+          Score: <span>#{auction.account.feedbackScore} | </span>
+          <h:outputText value="#{auction.account.feedbackPercent}">
+            <f:convertNumber maxFractionDigits="0"/>
+          </h:outputText>% Positive<br/>
+          <h:outputLink value="#{facesContext.externalContext.requestContextPath}/feedback/#{auction.account.name}">Read the feedback comments</h:outputLink>
+        </div>
+      </div>
+
+      <div class="descriptionHeader">
+        Description
+      </div>
+
+      <div class="descriptionContent">
+        <s:formattedText value="#{auction.description}" />
+
+        <hr/>
+
+        <a name="pictures">
+          <div class="images">
+            <s:graphicImage rendered="#{auction.image ne null}" value="#{auction.image.data}"/>
+          </div>
+        </a>
+      </div>
+
+      <div class="actionHeader">
+        Take action on this item
+      </div>
+
+      <div class="actionContent">
+        <div class="actionTitle">
+          <span>Item title: </span>
+          #{auction.title}
+        </div>
+
+        <div class="bidContent">
+          <b>Place a bid</b>
+          <hr class="blueLine"/>
+
+          <h:form id="newBid">
+
+            <div class="bidRow">
+              <s:fragment rendered="#{auction.highBid ne null}">
+                <label>Current bid:</label>
+              </s:fragment>
+              <s:fragment rendered="#{auction.highBid eq null}">
+                <label>Starting price:</label>
+              </s:fragment>
+
+              <span>$ </span><b><h:outputText value="#{auction.currentPrice}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+              </h:outputText></b>
+
+            </div>
+
+            <div class="bidRow">
+              <h:outputLabel for="bidAmount">Your maximum bid:</h:outputLabel>
+              <span>$ </span><h:inputText id="bidAmount" value="#{bidAmount}" required="true"/>
+              (Enter $ <h:outputText value="#{auction.requiredBid}">
+                  <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+               </h:outputText><b> or more</b>)
+            </div>
+
+            <div class="indented">
+              <h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}">
+                <s:conversationName value="PlaceBid"/>
+              </h:commandButton>
+            </div>
+
+          </h:form>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

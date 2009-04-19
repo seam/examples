@@ -1,0 +1,46 @@
+<s:div styleClass="contextMenu"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid styleClass="undecoratedLink smallFont" rendered="#{not empty feed}" columns="2"
+                 cellpadding="2" cellspacing="0" border="0">
+
+        <h:outputLink value="javascript://no-op"
+                      onmouseover="jQuery(this).parents('.contextMenu').menu();">
+            <h:graphicImage value="#{imagePath}/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+        </h:outputLink>
+
+        <h:outputLink value="javascript://no-op"
+                      onmouseover="jQuery(this).parents('.contextMenu').menu();">
+            <h:outputText value="#{messages['lacewiki.label.Subscribe']}"/>
+        </h:outputLink>
+
+    </h:panelGrid>
+
+    <ul class="contextMenuItems">
+        <li>
+            <h:outputLink
+                    target="_top"
+                    value="#{wikiURLRenderer.renderFeedURL(feed, null, null)}">
+                <h:outputText value="#{messages['lacewiki.label.SubscribeWithComments']}"/>
+            </h:outputLink>
+        </li>
+        <li>
+            <h:outputLink
+                    target="_top"
+                    value="#{wikiURLRenderer.renderFeedURL(feed, null, 'exclude')}">
+                <h:outputText value="#{messages['lacewiki.label.SubscribeWithoutComments']}"/>
+            </h:outputLink>
+        </li>
+        <li>
+            <h:outputLink
+                    target="_top"
+                    value="#{wikiURLRenderer.renderFeedURL(feed, null, 'only')}">
+                <h:outputText value="#{messages['lacewiki.label.SubscribeOnlyComments']}"/>
+            </h:outputLink>
+        </li>
+    </ul>
+
+</s:div>

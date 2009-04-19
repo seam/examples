@@ -1,0 +1,16 @@
+<server>
+
+  <mbean code="org.jboss.mq.server.jmx.Topic"
+         name="jboss.mq.destination:service=Topic,name=chatroomTopic">
+    <depends optional-attribute-name="DestinationManager">jboss.mq:service=DestinationManager</depends>
+    <depends optional-attribute-name="SecurityManager">jboss.mq:service=SecurityManager</depends>
+    <attribute name="SecurityConf">
+      <security>
+        <role name="guest" read="true" write="true"/>
+        <role name="publisher" read="true" write="true" create="false"/>
+        <role name="durpublisher" read="true" write="true" create="true"/>
+      </security>
+    </attribute>
+  </mbean>
+
+</server>

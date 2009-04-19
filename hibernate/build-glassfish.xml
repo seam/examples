@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<project name="Hibernate Booking" default="noejb.archive" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The Hibernate Example for GlassFish"/>
+    <property name="example.name"           value="jboss-seam-hibernate"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-glassfish" />
+	<property name="dist.dir" value="dist-glassfish" />
+	<property name="exploded-archives.dir" value="exploded-archives-glassfish" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="richfaces.lib"   value="true"/>
+    <property name="jboss-common-core.lib" value="true" />
+
+    <import file="../build.xml"/>
+
+    <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
+    	<!-- Seam deps -->
+    	<include name="lib/javassist.jar"/>
+    	<include name="lib/dom4j.jar" />
+    	
+    	<!-- Hibernate and deps -->
+        <include name="lib/hibernate.jar"/>
+    	<include name="lib/hibernate-commons-annotations.jar"/>
+        <include name="lib/hibernate-annotations.jar"/>
+    	<include name="lib/hibernate-entitymanager.jar"/>
+    	<include name="lib/hibernate-validator.jar"/>
+    	
+        <include name="lib/asm.jar" />
+    	<include name="lib/cglib.jar"/>
+    	<include name="lib/antlr.jar" />
+    	<include name="lib/commons-logging.jar" />
+    	<include name="lib/commons-collections.jar" />
+    </fileset>
+	
+	<fileset id="noejb.war.extras" dir="${resources.dir}">
+		<include name="WEB-INF/classes/**/*" />
+	</fileset>
+       
+</project>
+

@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="SeamBay" verbose="2" parallel="false">
+
+   <test name="SeamBay: Create Auction">
+     <classes>
+       <class name="org.jboss.seam.example.seambay.test.AuctionTest"/>
+     </classes>
+   </test>
+	
+</suite>

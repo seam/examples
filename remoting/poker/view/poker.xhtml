@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>Seam Poker</title>
+	<link href="poker.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+
+  <script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
+  <script type="text/javascript" src="seam/resource/remoting/interface.js?playerAction"></script>
+  
+  <script type="text/javascript" src="poker.js"></script>
+ 
+  <div id="welcome">
+  
+  </div>
+
+  <div id="playarea">
+    <div id="cardfan"></div>
+  
+    <div id="dealer"></div>
+        
+    <div id="player1box"></div>
+    <div id="player2box"></div>
+    <div id="player3box"></div>
+    <div id="player4box"></div>
+    <div id="player5box"></div>
+    <div id="player6box"></div>
+    <div id="player7box"></div>
+    <div id="player8box"></div>
+    <div id="player9box"></div>
+    <div id="player10box"></div>
+    
+    <div id="login">
+      <p><b>Let's get started!</b></p>
+      <br/>      
+      <p>Please enter your name:</p>
+      <br/>
+      <p><input id="playerName" type="text"></input></p>
+      <br/>
+      <button onclick="Poker.login();return false;" class="loginButton">Login</button>
+    </div>
+  
+  </div>
+  
+  <div id="messages">
+    <div id="messageBox"></div>
+    <input id="messageInput"></input>
+  </div>
+  
+  <div id="control">
+    <input type="checkbox"></input><button>Call</button>
+    <input type="checkbox"></input><button>Fold</button>
+    <input type="checkbox"></input><button>Raise</button>
+    <input type="checkbox"></input><button>Check</button>
+  </div>
+
+</body>
+</html>
+

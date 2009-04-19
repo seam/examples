@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:e="http://jboss.com/products/seam/excel"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<e:workbook type="#{exportType}">
+	<e:worksheet name="People" value="#{people}" var="person">
+		<e:header>
+			<f:facet name="left">
+				The date is #date# and the time is #time#
+			</f:facet>
+		</e:header>
+		<e:column style="xls-column-autosize: true">
+			<f:facet name="header">
+				<e:cell value="Name" style="xls-font: red bold 10 Verdana"/>
+			</f:facet>
+			<e:cell value="#{person.name}" forceType="text" />
+		</e:column>
+		<e:column style="xls-column-autosize: true">
+			<f:facet name="header">
+				<e:cell value="Company" style="xls-font: red bold 10 Verdana"/>
+			</f:facet>
+			<e:cell value="#{person.company}" />
+		</e:column>
+		<e:column style="xls-column-autosize: true">
+			<f:facet name="header">
+				<e:cell value="Working on" style="xls-font: red bold 10 Verdana"/>
+			</f:facet>
+			<e:cell value="#{person.task}" forceType="text" />
+		</e:column>
+	</e:worksheet>
+</e:workbook>
+</html>

@@ -1,0 +1,68 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:c="http://java.sun.com/jstl/core"
+            xmlns:wiki="http://jboss.com/products/seam/wiki">
+    <m:header name="X-Sent-From" value="SeamFramework.org" />
+    <m:header name="Precedence" value="list"/>
+    <m:from name="SeamFramework.org" address="do-not-reply@jboss.com" />
+    <m:to name="#{notifyPoster.fullname}">#{notifyPoster.email}</m:to>
+    <m:subject>[SeamFramework.org Forums] #{replyHome.instance.subject}</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{notifyPoster.firstname},</p>
+
+            <p>
+              a <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">response</a> was made
+              on a <a href="#{wikiURLRenderer.renderURL(currentDocument, true)}">thread</a> on the
+              Seam community forum. You also commented on this topic, and you have this notification enabled
+              in your profile preferences.
+            </p>
+
+            <p>
+                This is the new comment, posted by #{replyHome.instance.createdBy.fullname}:
+            </p>
+
+            <hr/>
+
+            <c:if test="#{replyHome.instance.useWikiText}">
+                <wiki:formattedText value="#{replyHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </c:if>
+            <c:if test="#{not replyHome.instance.useWikiText}">
+                <div style="font-family: Andale Mono, Courier New, monospace;">
+                    <h:outputText escape="false" value="#{wiki:escapeHTML(replyHome.instance.content, true, true)}"/>
+                </div>
+            </c:if>
+
+            <hr/>
+            <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">Click here</a> to reply...
+
+            </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{notifyPoster.firstname},
+
+a response was made on a forum thread on the Seam community forum. You also
+commented on this topic, and you have this notification enabled in your
+profile preferences:
+
+From: #{replyHome.instance.createdBy.fullname}
+Subject:#{replyHome.instance.subject}
+
+Follow this link to read and reply:
+
+#{wikiURLRenderer.renderURL(replyHome.instance, true)}
+</h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

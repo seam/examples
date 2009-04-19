@@ -1,0 +1,46 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head></head>
+
+<body>
+
+<!-- content -->
+<div wicket:id="body">
+
+<div class="section">
+	<h1>Confirm Hotel Booking</h1>
+</div>
+
+<div class="section">
+
+	<div wicket:id="hotel">[include hotel details]</div>
+		
+	<div wicket:id="totalBorder">
+		<span wicket:id="total">[total payment]</span>
+	</div>
+	
+	<div wicket:id="checkinDateBorder">
+		<span wicket:id="checkinDate">[checkin date]</span>
+	</div>
+	
+	<div wicket:id="checkoutDateBorder">
+		<span wicket:id="checkoutDate">[checkout date]</span>
+	</div>
+	
+	<div wicket:id="creditCardNumberBorder">
+		<span wicket:id="creditCardNumber">[credit card number]</span>
+	</div>
+	
+	<div class="buttonBox">
+		<input id="confirm" type="button" wicket:id="confirm" value="Confirm" />
+		&#160;
+		<input id="revise" type="button" wicket:id="revise" value="Revise" />
+   		&#160;
+   		<input id="cancel" type="button" wicket:id="cancel" value="Cancel" />
+	</div>
+
+</div>
+
+</div>
+</body>
+</html>

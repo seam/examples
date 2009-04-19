@@ -1,0 +1,22 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      template="template.xhtml"
+      >
+	<ui:param name="tagName" value="s:graphicImage" />
+	<ui:define name="body">
+		<p>Outputs an image</p>
+		<h:panelGrid>
+			<s:fragment>
+				<s:graphicImage value="#{person.picture.data}">
+					<s:transformImageSize factor="0.5" />
+				</s:graphicImage>
+				<h:outputText value="No image found (upload one)" rendered="#{person.picture.contentType eq null}" />
+			</s:fragment>
+			<h:outputText value="Picture of #{person.name}" />
+		</h:panelGrid>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,15 @@
+<components xmlns="http://jboss.com/products/seam/components">
+
+    <component name="org.jboss.seam.core.init">
+        <property name="jndiPattern">@jndiPattern@</property>
+    </component>
+ 
+    <component name="org.jboss.seam.core.manager">
+        <property name="conversationTimeout">120000</property>
+    </component>
+    
+    <component name="org.jboss.seam.remoting.remoting">
+      <property name="debug">true</property>
+    </component>
+
+</components>

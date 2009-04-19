@@ -1,0 +1,68 @@
+<wiki:plugin
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{currentMacro.getCacheRegion('BlogRecentEntriesList')}"
+             key="#{currentMacro.cacheKey}">
+
+    <s:div styleClass="blogRecentEntries box">
+
+        <s:div styleClass="blogRecentEntries">
+
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog', currentMacro).recentEntriesSubscribeIcon}">
+                <h:outputText value="#{messages['blog.recentEntries.label.RecentEntries']}"/>
+            </s:div>
+
+            <h:panelGrid rendered="#{preferences.get('Blog', currentMacro).recentEntriesSubscribeIcon}"
+                         columns="2" cellpadding="0" cellspacing="0" border="0"
+                         styleClass="boxHeader fullWidth">
+
+                <ui:include src="/includes/feedSubscribeMenu.xhtml">
+                    <ui:param name="feed" value="#{currentDirectory.feed}"/>
+                </ui:include>
+
+                <h:outputText value="#{messages['blog.recentEntries.label.RecentEntries']}"/>
+
+            </h:panelGrid>
+
+            <h:dataTable value="#{recentBlogEntries}" var="dayMap"
+                         rendered="#{recentBlogEntries.rowCount > 0}"
+                         styleClass="datatable boxContent"
+                         columnClasses="defaultColumn"
+                         cellpadding="0" cellspacing="0" border="0">
+                <h:column>
+                    <div class="blogRecentEntriesDay smallFont">
+                        <h:outputText value="#{dayMap.key}">
+                            <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                    </div>
+
+                    <h:dataTable value="#{dayMap.value}" var="be"
+                                 columnClasses="blogRecentEntriesItem smallFont"
+                                 cellpadding="0" cellspacing="0" border="0">
+                        <h:column>
+                            <h:outputLink styleClass="blogRecentEntriesItemLink" target="_top" value="#{wikiURLRenderer.renderURL(be.entryDocument)}">
+                                <h:outputText styleClass="blogRecentEntriesItemLinkText"
+                                              value="#{wiki:truncateString(be.entryDocument.name, preferences.get('Blog', currentMacro).recentEntriesTruncateTitle, '...')}"/>
+                            </h:outputLink>
+                        </h:column>
+                    </h:dataTable>
+
+                </h:column>
+            </h:dataTable>
+
+            <div class="boxFooter"/>
+
+        </s:div>
+
+    </s:div>
+
+    </s:cache>
+
+</wiki:plugin>

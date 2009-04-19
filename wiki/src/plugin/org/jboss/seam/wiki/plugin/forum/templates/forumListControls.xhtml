@@ -1,0 +1,69 @@
+<s:div id="forumListControlsContainer"
+       styleClass="forumListControlsContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+    
+<s:fragment rendered="#{not forumListHome.managed}">
+
+    <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
+        <h:outputLink value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}"
+                      tabindex="1">
+            <h:graphicImage value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
+            <h:outputText value="#{currentDocument.name}&#160;#{messages['forum.label.Feed']}"/>
+        </h:outputLink>
+    </s:div>
+
+</s:fragment>
+
+<h:form rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+<s:fragment rendered="#{not forumListHome.managed}">
+
+    <script type="text/javascript">stopSessionTimeoutCheck();</script>
+
+    <h:panelGroup>
+
+        <a:commandLink action="#{forumListHome.manage()}"
+                       reRender="forumListPluginContainer, messageBoxContainer"
+                       accesskey="#{messages['forum.button.ManageForums.accesskey']}"
+                       tabindex="1" styleClass="buttonNonpersistent">
+            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ManageForums']}"/>
+        </a:commandLink>
+
+    </h:panelGroup>
+
+</s:fragment>
+
+<s:fragment rendered="#{forumListHome.managed}">
+    <script type="text/javascript">startSessionTimeoutCheck();</script>
+</s:fragment>
+
+<s:fragment rendered="#{forumListHome.managed and not forumHome.showForm}">
+
+    <h:panelGroup>
+
+        <a:commandLink action="#{forumHome.newForum()}"
+                       reRender="forumListPluginContainer, messageBoxContainer"
+                       accesskey="#{messages['forum.button.NewForum.accesskey']}"
+                       status="globalStatus"
+                       tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
+            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewForum']}"/>
+        </a:commandLink>
+
+        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory)}"
+                      accesskey="#{messages['forum.button.Exit.accesskey']}"
+                      tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
+           <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Exit']}"/>
+        </h:outputLink>
+
+    </h:panelGroup>
+
+</s:fragment>
+
+</h:form>
+
+</s:div>

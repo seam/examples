@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/test.css" rel="stylesheet" type="text/css"/> 
+  </head>
+
+  <body>
+    <h2>seamBay Web Services - Test Page</h2>
+  
+    <div id="services">
+
+    </div>
+    
+    <div id="tip">
+      <div>
+        <b>Tip:</b> use demo/demo to login.
+      </div>
+    </div>
+
+    <div id="detail">
+      <div>
+        Selected Web Service: <span id="selectedService">None</span>
+      </div>
+
+      <div>
+        Endpoint: 
+        <input id="endpoint" type="text" value="/jboss-seam-bay-jboss-seam-bay/AuctionService" style="width:400px"/>
+      </div>
+      
+      <div>
+        <h3>Context</h3>      
+        Conversation ID <input id="conversationId" type="text" readonly="true" onkeyup="javascript:setAllParams()"/>
+      </div>
+      
+      <div>
+        <h3>Parameters</h3>
+        
+        <div id="parameters">
+          None
+        </div>
+        
+        <button onclick="javascript:sendRequest()">Invoke service</button>
+      </div>
+           
+      <div>
+        <h3>Request</h3>
+      
+        <textarea id="serviceRequest"/>
+      </div>
+      
+      <div>
+        <h3>Response</h3>
+        
+        <textarea id="serviceResponse"/>
+      </div>
+    
+    </div>
+    
+    <script type="text/javascript" src="test.js"/>       
+
+  </body>
+</html>

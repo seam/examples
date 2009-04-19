@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:e="http://jboss.com/products/seam/excel"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<e:workbook type="jxl">
+	<e:worksheet name="Five first commiters" value="#{excelTest.repeat}"
+		var="list">
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="Names of committers" />
+			</f:facet>
+			<e:cell>
+				<ui:repeat value="#{list}" var="person">
+					#{person.name},  
+				</ui:repeat>
+			</e:cell>
+		</e:column>
+	</e:worksheet>
+</e:workbook>
+</html>

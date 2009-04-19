@@ -1,0 +1,94 @@
+<s:fragment
+     rendered="#{pager.severalPages}"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="5"
+                 styleClass="pager #{pagerStyleClass}"
+                 columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <s:fragment>
+            <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
+                    rendered="#{pager.previousPageAvailable and not useAjax}">
+                <f:param name="page" value="0"/>
+                <f:param name="pageSize" value="#{pager.pageSize}"/>
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+            </s:link>
+            <a:commandLink action="#{pager.setFirstPage}" tabindex="1"
+                           rendered="#{pager.previousPageAvailable and useAjax}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}">
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+            </a:commandLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!pager.previousPageAvailable}"/>
+        </s:fragment>
+
+        <s:fragment>
+            <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
+                    rendered="#{pager.previousPageAvailable and not useAjax}">
+                <f:param name="page" value="#{pager.previousPage}"/>
+                <f:param name="pageSize" value="#{pager.pageSize}"/>
+                <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+            </s:link>
+            <a:commandLink action="#{pager.setPreviousPage}" tabindex="1"
+                           rendered="#{pager.previousPageAvailable and useAjax}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}">
+                <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+            </a:commandLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!pager.previousPageAvailable}"/>
+        </s:fragment>
+
+        <s:fragment>
+            <h:outputText value="#{pager.firstRecord} #{messages['lacewiki.label.pagerTo']}
+                                 #{pager.lastRecord} #{messages['lacewiki.label.pagerOf']}
+                                 #{pager.numOfRecords}
+                                 #{pager.numOfRecords > 1 ? pagerPluralLabel : pagerSingularLabel}"/>
+        </s:fragment>
+
+        <s:fragment>
+            <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
+                    rendered="#{pager.nextPageAvailable and not useAjax}">
+                <f:param name="page" value="#{pager.nextPage}"/>
+                <f:param name="pageSize" value="#{pager.pageSize}"/>
+                <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+            </s:link>
+            <a:commandLink action="#{pager.setNextPage}" tabindex="1"
+                           rendered="#{pager.nextPageAvailable and useAjax}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}">
+                <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+            </a:commandLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!pager.nextPageAvailable}"/>
+        </s:fragment>
+
+        <s:fragment>
+            <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
+                    rendered="#{pager.nextPageAvailable and not useAjax}">
+                <f:param name="page" value="#{pager.lastPage}"/>
+                <f:param name="pageSize" value="#{pager.pageSize}"/>
+                <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+            </s:link>
+            <a:commandLink action="#{pager.setLastPage}" tabindex="1"
+                           rendered="#{pager.nextPageAvailable and useAjax}"
+                           status="globalStatus"
+                           reRender="#{renderOnSelect}">
+                <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+            </a:commandLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!pager.nextPageAvailable}"/>
+        </s:fragment>
+
+
+    </h:panelGrid>
+
+</s:fragment>

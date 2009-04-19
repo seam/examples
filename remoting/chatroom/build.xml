@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="ChatRoom" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Remoting Chat Room Example"/>
+    <property name="example.name"           value="jboss-seam-chatroom"/>
+
+    <!-- Libraries -->
+	<property name="seam.ui.lib"       value="yes"/>
+	<property name="seam.debug.lib"    value="yes"/>
+	<property name="seam.remoting.lib" value="yes"/>
+	<property name="facelets.lib"      value="yes"/>
+	<property name="cache.lib"         value="yes"/>
+
+    <import file="../../build.xml"/>
+
+</project>
+

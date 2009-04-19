@@ -1,0 +1,17 @@
+.jiraIssueList {}
+
+.jiraIssueListTable {}
+
+.jiraIssueListTable .priorityColumn {}
+
+.jiraIssueListTable .summaryColumn {}
+
+.jiraIssueListTable .jiraIssueComponents {
+    text-align: right;
+}
+
+.jiraIssueListEmpty {
+    padding: 5px;
+}
+
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/login.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+
+    <div class="content">
+      <s:link view="/home.xhtml" propagation="none"><div class="seambay-logo"></div></s:link>
+  
+      <br class="clear"/>
+  
+      <table width="100%" cellspacing="0" cellpadding="0" class="colourBar">
+        <tr>
+          <td class="lc1"/>
+          <td class="lc2"/>
+          <td class="lc3"/>
+          <td class="lc4"/>
+          <td class="lc5"/>
+          <td class="lc6"/>
+          <td class="lc7"/>
+        </tr>
+      </table>
+     
+      <h:messages globalOnly="true"/>
+      
+      <div class="loginHeader">
+        Sign In
+      </div>
+      
+      <table width="100%" cellspacing="0" cellpadding="0" class="login">
+        <tr class="loginSubHeader">
+          <td class="subHeaderCol1">New to seamBay?</td>
+          <td class="verticalLine"><img src="img/or.png"/></td>
+          <td class="subHeaderCol3">Already a seamBay user?</td>
+        </tr>
+        
+        <tr>
+          <td class="indented">
+            <p>
+              If you want to sign in, you need to register first.
+            </p>
+            
+            <p>
+              Registration is fast, <b>free</b> and <i>relatively painless</i>.
+            </p>
+            
+            <s:button view="/register.xhtml" value="Register >"/>
+          </td>
+          <td class="verticalLine"/>
+          <td class="indented">
+            <p>
+              seamBay members, please sign in now to save time for bidding and selling.
+            </p>
+            
+            <p>
+              <b>*tip*</b> you can log in using <i>demo/demo</i>.            
+            </p>
+            
+            <h:form id="login">
+              <p>
+                <b>seamBay User ID</b><br/>
+                <h:inputText id="username" value="#{identity.username}"/>
+              </p>
+              
+              <p>
+                <b>Password</b><br/>
+                <h:inputSecret id="password" value="#{identity.password}"/>
+              </p>
+              
+              <h:commandButton id="submit" action="#{identity.login}" value="Sign In > "/>
+          
+              <p>
+                <h:selectBooleanCheckbox id="rememberMe" value="#{identity.rememberMe}"/>
+                Remember me on this computer
+              </p>
+              
+            </h:form>
+          </td>
+        </tr>
+      
+      </table>
+      
+      <hr class="thinLine"/>
+      
+      <hr class="baseLine"/>
+     
+    </div>
+      
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<datasources>
+    <local-tx-datasource>
+        <jndi-name>bookingDatasource</jndi-name>
+        <connection-url>jdbc:mysql://localhost:3306/seamdemo</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <user-name>demoadmin</user-name>
+        <password>secretpassword</password>
+    </local-tx-datasource>
+</datasources>
+

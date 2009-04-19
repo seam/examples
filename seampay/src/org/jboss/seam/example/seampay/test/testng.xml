@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="seampay" verbose="2" parallel="false">
+	<test name="seampay">
+		<classes>
+			<class
+				name="org.jboss.seam.example.seampay.test.PaymentProcessorTest" />
+			<class
+				name="org.jboss.seam.example.seampay.test.AccountTest" />
+		</classes>
+	</test>
+</suite>

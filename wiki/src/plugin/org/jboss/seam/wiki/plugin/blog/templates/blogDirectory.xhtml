@@ -1,0 +1,190 @@
+<wiki:plugin id="blogDirectoryPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="blogDirectory">
+
+        <s:div id="blogEntries">
+        <s:div rendered="#{!empty blogDirectory.getBlogEntries(currentMacro)}">
+
+            <c:forEach var="blogEntry" items="#{blogDirectory.getBlogEntries(currentMacro)}">
+
+                <div class="box blogEntryContainer">
+
+                    <div class="boxHeader blogEntryHeader">
+
+                        <div class="title">
+                            <h:outputText value="#{blogEntry.entryDocument.name}"/>
+                        </div>
+
+                        <div class="dateAuthor smallFont">
+                            <h:outputText value="#{blogEntry.entryDocument.createdOn}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                            <h:outputText value=",&#160;by&#160;"/>
+                            <s:span styleClass="undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(blogEntry.entryDocument.createdBy.memberHome)}" target="_top"
+                                              rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
+                                    <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
+                                </h:outputLink>
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(blogEntry.entryDocument.createdBy)}" target="_top"
+                                              rendered="#{empty blogEntry.entryDocument.createdBy.memberHome}">
+                                    <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
+                                </h:outputLink>
+                            </s:span>
+                        </div>
+
+                    </div>
+
+                    <div class="boxContent blogEntryContent">
+                        <wiki:formattedText value="#{blogEntry.entryDocument.content}"
+                                            linkStyleClass="regularLink"
+                                            brokenLinkStyleClass="brokenLink"
+                                            attachmentLinkStyleClass="attachmentLink"
+                                            thumbnailLinkStyleClass="regularLink"
+                                            updateResolvedLinks="false"
+                                            internalTargetFrame="_top"
+                                            externalTargetFrame="_top"
+                                            linkBaseFile="#{blogEntry.entryDocument}"
+                                            currentAreaNumber="#{currentDirectory.areaNumber}"
+                                            enableMacroRendering="true"/>
+
+                        <s:div rendered="#{preferences.get('Wiki').showTags and not blogEntry.entryDocument.macroPresent('hideTags') and not empty blogEntry.entryDocument.tags}"
+                               styleClass="documentTags undecoratedLink">
+                            <s:div>
+                                <h:outputText rendered="#{blogEntry.entryDocument.tags.size()==1}" value="#{messages['blog.directory.label.Tag']}:&#160;"/>
+                                <h:outputText rendered="#{blogEntry.entryDocument.tags.size()>1}" value="#{messages['blog.directory.label.Tags']}:&#160;"/>
+                                <ui:repeat var="tag" value="#{blogEntry.entryDocument.tagsAsList}">
+                                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
+                                        <h:outputText value="#{tag}"/>
+                                    </h:outputLink>
+                                    <h:outputText rendered="#{not wiki:isLastItemInList(blogEntry.entryDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>
+                                </ui:repeat>
+                            </s:div>
+                        </s:div>
+
+                    </div>
+
+                    <div class="boxFooter blogEntryFooter">
+                        <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
+                            <s:div styleClass="blogEntryCommentCount undecoratedLink"
+                                   rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}#comments" target="_top">
+                                    <span class="blogEntryCommentCountText">
+                                        <h:outputText value="#{blogEntry.commentCount}&#160;"/>
+                                        <h:outputText value="#{blogEntry.commentCount>1
+                                                             ? messages['lacewiki.label.commentsDisplay.Comments']
+                                                             : messages['lacewiki.label.commentsDisplay.Comment']}"/>
+                                    </span>
+                                </h:outputLink>
+                            </s:div>
+                            <s:div styleClass="blogEntryCommentLink undecoratedLink"
+                                   rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
+                                <h:outputLink target="_top" value="#{wikiURLRenderer.renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
+                                    <h:outputText styleClass="blogEntryCommentLinkText" value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
+                                </h:outputLink>
+                            </s:div>
+                            <s:div styleClass="blogEntryAttachmentsLink undecoratedLink"
+                                    rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}#attachments" target="_top">
+                                    <span class="blogEntryAttachmentsLinkText">
+                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
+                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1
+                                                             ? messages['blog.directory.label.Attachments']
+                                                             : messages['blog.directory.label.Attachment']}"/>
+                                    </span>
+                                </h:outputLink>
+                            </s:div>
+                            <s:div styleClass="blogEntryPermLink undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}" target="_top">
+                                    <h:outputText styleClass="blogEntryPermLinkText" value="#{messages['lacewiki.label.PermLink']}"/>
+                                </h:outputLink>
+                            </s:div>
+                            <s:div styleClass="blogEntryWikiLink undecoratedLink">
+                                <h:outputLink value="#{wikiURLRenderer.renderWikiURL(blogEntry.entryDocument)}" target="_top">
+                                    <h:outputText styleClass="blogEntryWikiLinkText" value="#{messages['lacewiki.label.WikiLink']}"/>
+                                </h:outputLink>
+                            </s:div>
+                        </h:panelGrid>
+                    </div>
+
+                </div>
+
+                <div class="blogEntrySeparator"/>
+
+            </c:forEach>
+
+        </s:div>
+
+        <h:panelGrid columns="5" rendered="#{blogDirectory.pager.numOfRecords > blogDirectory.pager.pageSize}"
+                     styleClass="blogPagerTable"
+                     columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}#{blogDirectory.tagUrl}">
+                <div style="width:30px;">
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
+                </div>
+            </h:outputLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!blogDirectory.pager.previousPageAvailable}"/>
+
+            <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.previousPage}#{blogDirectory.tagUrl}">
+                <div style="width:30px;">
+                <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
+                </div>
+            </h:outputLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!blogDirectory.pager.previousPageAvailable}"/>
+
+            <s:span>
+                <h:outputText value="#{messages['blog.directory.label.Showing']}
+                                        #{blogDirectory.pager.firstRecord} #{messages['blog.directory.label.To']}
+                                        #{blogDirectory.pager.lastRecord} #{messages['blog.directory.label.Of']}
+                                        #{blogDirectory.pager.numOfRecords} #{messages['blog.directory.label.BlogEntries']}"/>
+
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year}"
+                              value="&#160;#{messages['blog.directory.label.In']}"/>
+                <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
+                <h:outputText rendered="#{!empty param.month}" value="&#160;#{messages[wiki:concat('lacewiki.label.', converters.monthNames[param.month])]}"/>
+                <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
+                <h:outputText rendered="#{!empty param.tag}" value="&#160;#{messages['blog.directory.label.Tagged']} '#{param.tag}'"/>
+            </s:span>
+
+            <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.nextPage}#{blogDirectory.tagUrl}">
+                <div style="width:30px;">
+                <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
+                </div>
+            </h:outputLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!blogDirectory.pager.nextPageAvailable}"/>
+
+            <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.lastPage}#{blogDirectory.tagUrl}">
+                <div style="width:30px;">
+                <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
+                </div>
+            </h:outputLink>
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
+                            rendered="#{!blogDirectory.pager.nextPageAvailable}"/>
+
+        </h:panelGrid>
+
+        </s:div>
+
+        <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.getBlogEntries(currentMacro)}">
+            <h:outputText value="#{messages['blog.directory.label.NoBlogEntriesFound']}"/>
+        </s:div>
+
+    </s:div>
+
+</wiki:plugin>

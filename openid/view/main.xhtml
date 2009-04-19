@@ -1,0 +1,91 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib" xmlns:a="http://richfaces.org/a4j">
+
+<html>
+    <head>
+        <title>OpenID Wall</title>
+        <style type="text/css">
+.openid_input {
+    background: #fff url("login-bg.gif") no-repeat;
+    border: 1px solid #666;
+    width: 232px;
+    padding-left: 18px;
+}
+        </style>
+
+    </head>
+    <body>
+        
+        <div id="top">
+            <rich:toolBar height="34" itemSeparator="line">
+                <rich:toolBarGroup>
+                    <h:outputLabel value="OpenId Wall Demo"  />
+                </rich:toolBarGroup>
+
+                <rich:toolBarGroup location="right">
+                    <s:div rendered="#{!identity.loggedIn}">
+                        <h:form>
+                            <h:inputText value="#{openid.id}" styleClass="openid_input"/>
+                            <h:commandButton action="#{openid.login}" value="OpenID Login"/>
+                        </h:form>
+                    </s:div>
+                    <s:div rendered="#{identity.loggedIn}">
+                        <h:form>
+                            <h:outputLabel value="#{openid.validatedId}" />
+                            <h:commandButton action="#{identity.logout}" value="Logout"/>
+                        </h:form>
+                    </s:div>
+                </rich:toolBarGroup>
+            </rich:toolBar>
+        </div>
+
+        <rich:panel>
+            <f:facet name="header">About the Demo</f:facet>
+
+            <rich:messages />
+
+            <s:div rendered="#{!identity.loggedIn}">
+            This application demonstrates the basic use of OpenID in an application.  To login, simply enter
+            your OpenId into the login box at the top.  Don't have an OpenId?  Actually, you might have one
+            and not know it.  If you have a <a href="http://openid.yahoo.com/">Yahoo</a> account, a 
+            <a href="http://www.livejournal.com/openid/">liveournal</a> account, a blog at 
+            <a href="http://blogger.com">blogger.com</a>, to name a few you might already have an 
+            OpenID available to you.  If not, you can establish an independent OpenID at
+            a free service like <a href="https://www.myopenid.com/">myOpenID</a>.
+            </s:div>
+
+            <s:div rendered="#{identity.loggedIn}">
+                Congratulations, you have logged into the Wall with an OpenID of <b>#{openid.validatedId}</b>.
+            </s:div>
+        </rich:panel>
+        
+
+
+        <rich:panel rendered="#{identity.loggedIn}">
+            <f:facet name="header">New Post</f:facet>
+
+            <h:form>
+                <h:inputText value="#{postHome.instance.message}" required="true" />
+                <h:commandButton value="Post" action="#{postHome.persist}" />
+            </h:form>
+        </rich:panel>
+
+        
+        <rich:panel>
+            <f:facet name="header">Wall Posts</f:facet>
+            <ui:repeat value="#{posts.resultList}" var="post">
+                <rich:panel>
+                    #{post.message}
+                    <br />
+                    <b>#{post.creator}</b> --&nbsp;
+                    <h:outputText value="#{post.createDate}">
+                        <s:convertDateTime dateStyle="full" type="both" />
+                    </h:outputText>
+                </rich:panel>
+            </ui:repeat>
+        </rich:panel>
+    </body>
+</html>
+</ui:composition>

@@ -1,0 +1,31 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:cache region="#{tagQuery.cacheRegion}"
+             key="#{tagQuery.getCacheKey(maxNumberOfTags, minimumCount)}">
+
+        <s:fragment rendered="#{not empty tagQuery.getTagsSortedByCount(maxNumberOfTags, minimumCount)}">
+            <h:outputText styleClass="tagListLabel" value="#{messages['lacewiki.label.tagDisplay.RelatedTags']}:&#160;"/>
+        </s:fragment>
+
+        <ui:repeat var="tagCount" value="#{tagQuery.getTagsSortedByCount(maxNumberOfTags, minimumCount)}">
+            <s:span styleClass="tagListItem noWrapWhitespace"
+                    style="font-size: #{maxFontIncrease+(100/tagQuery.getHighestTagCount(maxNumberOfTags, minimumCount)*tagCount.count)}%;">
+                <s:span styleClass="undecoratedLink">
+                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tagCount.tag)}">
+                        <h:outputText value="#{tagCount.tag}"/>
+                    </h:outputLink>
+                </s:span>
+            </s:span>
+            <h:outputText value="&#160;&#160; "/>
+        </ui:repeat>
+
+    </s:cache>
+
+</s:fragment>

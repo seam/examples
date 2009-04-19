@@ -1,0 +1,39 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="#{not empty membersPerRow ? membersPerRow : '8'}" 
+                 rendered="#{not empty wikiHttpSessionManager.onlineMembers}"
+                 columnClasses="alignBottom alignCenter minorPadding"
+                 style="margin-left:auto;margin-right:auto;">
+        <c:forEach var="ou" items="#{wikiHttpSessionManager.onlineMembers}">
+            <s:div>
+                <s:div>
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(ou.user)}">
+                        <h:graphicImage styleClass="userInfoPortraitImage"
+                                        rendered="#{!empty ou.user.profile.imageContentType}"
+                                        value="#{wikiURLRenderer.renderUserPortraitURL(ou.user, true)}"/>
+                        <h:graphicImage rendered="#{empty ou.user.profile.imageContentType}"
+                                        value="#{imagePath}/default_portrait.gif" width="40" height="50"/>
+                    </h:outputLink>
+                </s:div>
+                <s:div styleClass="undecoratedLink smallFont">
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(ou.user)}">
+                        <h:outputText value="#{ou.user.fullname}"/>
+                    </h:outputLink>
+                    <br/>
+                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.userList.Idle']}:&#160;#{ou.idleTime}"/>
+                </s:div>
+            </s:div>
+        </c:forEach>
+    </h:panelGrid>
+
+    <s:div styleClass="minorPadding" rendered="#{empty wikiHttpSessionManager.onlineMembers}">
+        <h:outputText value="#{messages['lacewiki.msg.userList.NoOnlineMembers']}"/>
+    </s:div>
+
+</s:fragment>

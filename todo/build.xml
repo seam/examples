@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<project name="Todo" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Todo List Example"/>
+    <property name="example.name"           value="jboss-seam-todo"/>
+
+    <!-- Libraries -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="jbpm.lib"        value="yes"/>
+
+    <import file="../build.xml"/>
+
+</project>
+

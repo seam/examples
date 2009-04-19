@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>JBoss Suites: Seam Framework</title>
+	<wicket:link>
+		<link href="css/screen.css" rel="stylesheet" type="text/css" />
+	</wicket:link>
+</head>
+<body id="pgHome">
+<div id="document">
+	<div id="header">
+		<div id="title"><wicket:link><img src="img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></wicket:link></div>
+	</div>
+	<div id="container">
+		<div id="sidebar">
+            <form wicket:id="login">
+			<fieldset>
+				<div>
+					<label for="username">Login Name</label>
+					<input id="username" wicket:id="username" style="width: 175px;"/>
+				</div>
+				<div>
+					<label for="password">Password</label>
+					<input id="password" wicket:id="password" type="password" style="width: 175px;"/>
+				</div>
+				<div class="errors" wicket:id="messages" />
+				<div class="buttonBox"><input id="login" type="submit" value="Account Login"/></div>
+				<div class="notes"><a id="register" wicket:id="register">Register New User</a></div>
+                <div class="subnotes">
+                    Or use a demo account:
+                    <ul>
+                        <li>gavin/foobar</li>
+                        <li>demo/demo</li>
+                    </ul>
+                </div>
+			</fieldset>
+            </form>
+		</div>
+		<div id="content">
+			<div class="section">
+				
+			    <h1>About this example application</h1>
+			    
+			    <p>
+			       This sample application demonstrates how easy it is to develop stateful web 
+			       applications using JBoss Seam. Just register, login, and book a room to see 
+			       Seam with Wicket in action.
+                </p>
+			    
+			    <p>
+			       Note: Please do NOT enter personal information or your credit card number in 
+			       this sample application.
+			    </p>
+								
+			</div>
+		</div>
+	</div>
+	<div id="footer">Created with Seam 2.0, JBoss EJB 3.0 and Apache Wicket</div>
+</div>
+</body>
+</html>

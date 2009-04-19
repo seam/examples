@@ -1,0 +1,37 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:s="http://jboss.com/products/seam/taglib" template="template.xhtml">
+	<ui:param name="tagName" value="s:validateEquality" />
+	<ui:define name="body">
+		<h:form>
+			<p>Validates that two java.lang.String inputs are equal</p>
+			<h:panelGrid columns="3">
+				<s:label for="name">Name</s:label>
+				<h:inputText id="name" value="#{equalityValidatorBean.name}" />
+				<h:message for="name" />
+				<s:label for="nameVerification">Name Verification</s:label>
+				<h:inputText id="nameVerification">
+					<s:validateEquality for="name" message="Must be the same as name!" />
+				</h:inputText>
+				<h:message for="nameVerification" />
+				<h:commandButton action="#{equalityValidatorBean.check}" value="Check name" />
+			</h:panelGrid>
+			</h:form>
+
+			<h:form>
+			<p>Validates that one number is greater than another</p>
+			<h:panelGrid columns="3">
+				<s:label for="min">Minimum age (e.g. 18)</s:label>
+				<h:inputText id="min" value="#{equalityValidatorBean.age}" />
+				<h:message for="min" />
+				<s:label for="minVerification">Maximum age (e.g. 25)</s:label>
+				<h:inputText id="minVerification">
+					<f:convertNumber integerOnly="true" />
+					<s:validateEquality for="min" message="Must be larger than minimum!" operator="greater" />
+				</h:inputText>
+				<h:message for="minVerification" />
+				<h:commandButton action="#{equalityValidatorBean.check}" value="Check ages" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,47 @@
+/* Setup defaults since variable in browsers
+----------------------------------------------- */
+body, div, span, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
+	margin: 0;
+	padding: 0;
+}
+/* Element Defaults
+----------------------------------------------- */
+html {
+	height: 100%;
+	margin: 5px;
+	
+}
+img {
+	border: 0;
+}
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	line-height: 1.25em;
+	position: relative;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+input {
+	border: 1px solid #C3BBB6;
+	padding: 2px;
+	margin: 3px 0;
+}
+select {
+	border: 1px solid #C3BBB6;
+	padding: 4px;
+	margin: 5px 0;
+}
+
+.header {
+	font-size: 16px;
+}
+
+.subheader {
+	font-size: 14px;
+}
+
+.plain {
+	font-size: 12px;
+}

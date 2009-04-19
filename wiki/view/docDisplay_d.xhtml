@@ -1,0 +1,288 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                xmlns:c="http://java.sun.com/jstl/core"
+                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
+
+<ui:param name="showDirectoryTags" value="true"/>
+
+<ui:define name="includeHeaders">
+
+    <s:fragment rendered="#{not empty documentHome.instance.parent.feed}">
+        <link rel="alternate" type="application/atom+xml"
+              title="#{documentHome.instance.parent.name}"
+              href="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed)}"/>
+        
+    </s:fragment>
+
+</ui:define>
+
+<ui:define name="screenname">#{documentHome.instance.name}</ui:define>
+
+<ui:define name="controlTwo">
+
+    <s:fragment rendered="#{not documentHome.instance.macroPresent('hideControls') or s:hasPermission('User', 'isAdmin', currentUser)}">
+
+        <s:div id="createDoc" styleClass="linkNavigationMenu"
+               rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">
+            <h:outputLink value="javascript://no-op"
+                          onmouseover="jQuery(this).parent().menu();"
+                          accesskey="#{messages['lacewiki.button.CreateDocument.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.CreateDocument']}"/>
+            </h:outputLink><ul
+                class="contextMenuItems">
+                <li>
+                    <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                        <h:outputText escape="false" value="#{messages['lacewiki.label.template.RegularWikiDocument']}"/>
+                        <f:param name="documentId" value=""/>
+                        <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
+                    </s:link>
+                </li>
+                <ui:repeat var="templateType" value="#{templateRegistry.templateTypes}">
+                    <li>
+                        <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                            <h:outputText escape="false" value="#{templateRegistry.templates[templateType]}"/>
+                            <f:param name="documentId" value=""/>
+                            <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
+                            <f:param name="templateType" value="#{templateType.name}"/>
+                        </s:link>
+                    </li>
+                </ui:repeat>
+            </ul></s:div>
+
+        <s:link id="editDoc" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditDocument.accesskey']}"
+                view="/docEdit_#{skin}.xhtml" propagation="none"
+                rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditDocument']}"/>
+        </s:link>
+
+        <s:link id="showHistory" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.HistoryDocument.accesskey']}"
+                view="/docHistory_#{skin}.xhtml" propagation="none"
+                rendered="#{documentHome.historicalFilesPresent}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.HistoryDocument']}"/>
+            <f:param name="fileId" value="#{documentHome.nodeId}"/>
+        </s:link>
+
+        <s:link id="browseDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}"
+                view="/dirDisplay_#{skin}.xhtml" propagation="none">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.BrowseDirectory']}"/>
+            <f:param name="directoryId" value="#{documentHome.instance.parent.id}"/>
+        </s:link>
+
+    </s:fragment>
+
+    <s:fragment rendered="#{documentHome.instance.macroPresent('hideControls') and not s:hasPermission('User', 'isAdmin', currentUser)}">
+        <script type="text/javascript">jQuery(function() {
+            jQuery("#wikiControls").hide();
+        })</script>
+    </s:fragment>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
+        <script type="text/javascript">jQuery(function() {
+            clearDocumentBackground();
+        });</script>
+    </s:fragment>
+
+    <div id="documentDisplayContainer" class="box">
+        <s:div id="documentDisplay" styleClass="documentDisplay">
+
+            <c:if test="#{not empty documentHome.instance.areaNumber}">
+
+                <wiki:formattedText value="#{documentHome.instance.header}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{documentHome.instance}"
+                                    currentAreaNumber="#{documentHome.instance.areaNumber}"
+                                    enableMacroRendering="true"/>
+
+                <s:div rendered="#{documentHome.instance.nameAsTitle}">
+                    <h1 class="documentTitle">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
+                            <h:outputText value="#{documentHome.instance.name}"/>
+                        </h:outputLink>
+                    </h1>
+                </s:div>
+
+                <c:if test="#{not documentHome.instance.macroPresent('disableContentMarkup')}">
+                    <wiki:formattedText value="#{documentHome.instance.content}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{documentHome.instance}"
+                                        currentAreaNumber="#{documentHome.instance.areaNumber}"
+                                        enableMacroRendering="#{not documentHome.instance.macroPresent('disableContentMacros')}"/>
+                </c:if>
+
+                <c:if test="#{documentHome.instance.macroPresent('disableContentMarkup')}">
+                    <s:div styleClass="plaintext">
+                        <h:outputText escape="false" value="#{wiki:escapeHTML(documentHome.instance.content, true, true)}"/>
+                    </s:div>
+                </c:if>
+
+                <wiki:formattedText value="#{documentHome.instance.footer}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{documentHome.instance}"
+                                    currentAreaNumber="#{documentHome.instance.areaNumber}"
+                                    enableMacroRendering="true"/>
+            </c:if>
+
+        </s:div>
+
+        <s:div rendered="#{preferences.get('Wiki').showTags and not documentHome.instance.macroPresent('hideTags') and not empty documentHome.instance.tags}"
+               styleClass="documentTags undecoratedLink smallFont">
+            <!-- TODO: This should use wikiUrlRenderer for user link -->
+            <s:div>
+                #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
+                <ui:repeat var="tag" value="#{documentHome.tagEditor.tagsAsList}">
+                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
+                        <h:outputText value="#{tag}"/>
+                    </h:outputLink>
+                    <h:outputText rendered="#{not wiki:isLastItemInList(documentHome.tagEditor.tagsAsList, tag)}" value="&#160;|&#160;"/>
+                </ui:repeat>
+            </s:div>
+        </s:div>
+
+        <s:div rendered="#{preferences.get('Wiki').showDocumentCreatorHistory and not documentHome.instance.macroPresent('hideCreatorHistory')}"
+               styleClass="documentCreatorHistory undecoratedLink smallFont">
+            <s:div>
+                #{messages['lacewiki.label.docDisplay.Created']}:&#160;
+                <h:outputText value="#{documentHome.instance.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(documentHome.instance.createdBy.memberHome)}"
+                              rendered="#{!empty documentHome.instance.createdBy.memberHome}">
+                    <h:outputText value="#{documentHome.instance.createdBy.fullname}"/>
+                </h:outputLink>
+                <h:outputText rendered="#{empty documentHome.instance.createdBy.memberHome}"
+                              value="#{documentHome.instance.createdBy.fullname}"/>
+                <h:outputText value=")"/>
+            </s:div>
+            <s:div rendered="#{not empty documentHome.instance.lastModifiedBy}">
+                #{messages['lacewiki.label.docDisplay.LastModified']}:&#160;
+                <h:outputText value="#{documentHome.instance.lastModifiedOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(documentHome.instance.lastModifiedBy.memberHome)}"
+                              rendered="#{!empty documentHome.instance.lastModifiedBy.memberHome}">
+                    <h:outputText value="#{documentHome.instance.lastModifiedBy.fullname}"/>
+                </h:outputLink>
+                <h:outputText rendered="#{empty documentHome.instance.lastModifiedBy.memberHome}"
+                              value="#{documentHome.instance.lastModifiedBy.fullname}"/>
+                <h:outputText value=")"/>
+            </s:div>
+
+            <s:div rendered="#{documentHome.historicalFilesPresent}">
+                #{messages['lacewiki.label.docDisplay.Revisions']}:&#160;
+                <ui:repeat var="hfile" value="#{documentHome.historicalFiles}">
+
+                    <s:fragment rendered="#{not empty hfile.lastModifiedOn}">
+                        <h:outputText value="#{hfile.lastModifiedOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;(#{hfile.lastModifiedByUsername})"/>
+                    </s:fragment>
+                    <s:fragment rendered="#{empty hfile.lastModifiedOn}">
+                        <h:outputText value="(#{messages['lacewiki.label.docDisplay.InitialRevision']})"/>
+                    </s:fragment>
+                    &#160;
+                    <s:link view="/docHistory_#{skin}.xhtml" action="#{documentHistory.diff}" propagation="none">
+                        <h:outputText value="#{messages['lacewiki.label.docDisplay.Diff']}"/>
+                        <f:param name="fileId" value="#{documentHome.instance.id}"/>
+                        <f:param name="historicalFileId" value="#{hfile.historicalFileId}"/>
+                    </s:link>
+
+                    <h:outputText rendered="#{documentHome.historicalFiles.indexOf(hfile) &lt; documentHome.historicalFiles.size()-1}"
+                                  value="&#160;-&#160; "/>
+
+                </ui:repeat>
+            </s:div>
+
+        </s:div>
+    </div>
+
+    <ui:include src="includes/attachmentDisplay.xhtml"/>
+
+    <s:div id="commentDisplayForm">
+        <c:if test="#{not documentHome.instance.macroPresent('hideComments') and documentHome.instance.enableComments}">
+            <ui:decorate template="includes/commentsDisplay.xhtml">
+                <ui:param name="titleSingular" value="#{messages['lacewiki.label.commentsDisplay.Comment']}"/>
+                <ui:param name="titlePlural" value="#{messages['lacewiki.label.commentsDisplay.Comments']}"/>
+                <ui:define name="controls">
+
+                    <h:panelGroup>
+
+                        <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">
+
+                            <h:commandLink tabindex="102" action="#{commentHome.replyTo()}"
+                                           styleClass="buttonNonpersistent">
+                                <f:param name="conversationPropagation" value="none"/>
+                                <f:param name="parentCommentId" value="#{c.id}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
+                            </h:commandLink>
+
+                            <h:commandLink tabindex="102" action="#{commentHome.quote()}"
+                                           styleClass="buttonNonpersistent">
+                                <f:param name="conversationPropagation" value="none"/>
+                                <f:param name="parentCommentId" value="#{c.id}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
+                            </h:commandLink>
+
+                        </s:fragment>
+
+                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                <ui:param name="jsFunctionName" value="deleteCommentId#{c.id}"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(' ')
+                                                                    .concat(messages['lacewiki.label.commentsDisplay.CommentThread'])
+                                                                    .concat(': \'')
+                                                                    .concat(c.subject)
+                                                                    .concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  reRender="commentDisplayForm, messageBoxContainer"
+                                                  action="#{commentHome.remove(c.id)}"
+                                                  oncomplete="onAjaxRequestComplete()"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
+                        </s:fragment>
+
+                    </h:panelGroup>
+
+                </ui:define>
+            </ui:decorate>
+            <s:fragment rendered="#{s:hasPermission('Comment', 'create', documentHome.instance)}">
+                <ui:include src="includes/commentForm.xhtml"/>
+            </s:fragment>
+        </c:if>
+    </s:div>
+
+</ui:define>
+
+<ui:define name="footer">&#160;</ui:define>
+
+</ui:composition>
+

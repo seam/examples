@@ -1,0 +1,42 @@
+<s:div id="accessLevelSelector"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:s="http://jboss.com/products/seam/taglib"
+     rendered="#{!currentUser.guest}">
+
+    <s:div styleClass="entry">
+        <div class="label">#{messages['lacewiki.label.ReadableBy']}:</div>
+        <div class="input">
+            <h:selectOneMenu value="#{home.readAccessLevel}" tabindex="1">
+                <s:selectItems value="#{assignableAccessLevelsList}"
+                               var="aLvl"
+                               label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
+                               noSelectionLabel="#{currentUser.id == home.instance.createdBy.id
+                                                   || empty home.instance.createdBy
+                                                   ? wiki:concat('User: ', currentUser.username)
+                                                   : null}"/>
+            </h:selectOneMenu>
+        </div>
+    </s:div>
+
+    <s:div styleClass="entry">
+        <div class="label">#{messages['lacewiki.label.WritableBy']}:</div>
+        <div class="input">
+            <h:selectOneMenu value="#{home.writeAccessLevel}" tabindex="1">
+                <s:selectItems value="#{assignableAccessLevelsList}"
+                               var="aLvl"
+                               label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
+                               noSelectionLabel="#{currentUser.id == home.instance.createdBy.id
+                                                   || empty home.instance.createdBy
+                                                   ? wiki:concat('User: ', currentUser.username)
+                                                   : null}"/>
+            </h:selectOneMenu>
+        </div>
+    </s:div>
+    
+
+</s:div>
+

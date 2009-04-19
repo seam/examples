@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<project name="JPA Booking" default="tomcat.deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="The JPA Example for JBoss Embedded in Tomcat"/>
+    <property name="example.name"           value="jboss-seam-jpa"/>
+
+    <!-- resources -->
+    <property name="resources.dir" value="resources-jboss" />
+	<property name="dist.dir" value="dist-jboss-embedded" />
+	<property name="exploded-archives.dir" value="exploded-archives-jboss-embedded" />
+       
+    <!-- Libraries to include -->
+    <property name="seam.ui.lib"    value="true"/>
+    <property name="seam.debug.lib" value="true"/>
+    <property name="facelets.lib"   value="true"/>
+    <property name="richfaces.lib"  value="true"/>
+
+    <import file="../build.xml"/>
+	
+	<fileset id="war.lib.extras" dir="${seam.dir}">
+		<include name="lib/jsf-api.jar" />
+		<include name="lib/jsf-impl.jar" />
+		<include name="lib/jstl.jar" />
+	</fileset>
+
+</project>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<dataset>
+
+    <FEEDENTRY
+        FEEDENTRY_TYPE="WIKI_DOCUMENT" WIKI_COMMENT_ID="[NULL]" WIKI_DOCUMENT_ID="9"
+        FEEDENTRY_ID="1" AUTHOR="System Administrator"
+        DESCRIPTION_TYPE="html" TITLE="Four" DESCRIPTION_VALUE="&lt;p class=&quot;wikiPara&quot;>&#xA;Testdocument Four&lt;/p>&#xA;"
+        LINK="http://localhost:8080/wiki/4.lace" PUBLISHED_ON="2007-09-23 13:45:00" UPDATED_ON="2007-09-23 13:45:00" OBJ_VERSION="0"/>
+
+    <FEED_FEEDENTRY FEED_ID="1" FEEDENTRY_ID="1"/>
+    <FEED_FEEDENTRY FEED_ID="2" FEEDENTRY_ID="1"/>
+
+</dataset>
+

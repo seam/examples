@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+
+Maps only properties of WikiFile subclasses we want to keep a history of.
+
+@author Christian Bauer
+-->
+<hibernate-mapping package="org.jboss.seam.wiki.core.model" default-access="field">
+
+    <class name="WikiDocument" entity-name="HistoricalWikiDocument" table="WIKI_DOCUMENT_HISTORY" polymorphism="explicit">
+        <id name="historicalFileId" column="FILE_HISTORY_ID">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="sequence_name">WIKI_SEQUENCE</param>
+            </generator>
+        </id>
+        <!-- Mandatory WikiFile properties -->
+        <property name="id" column="FILE_ID" not-null="true" unique-key="unique_revision_per_file_id"/>
+        <property name="revision" column="FILE_REVISION" not-null="true" unique-key="unique_revision_per_file_id"/>
+        <property name="name" length="255" not-null="true" column="NAME"/>
+        <property name="lastModifiedOn" column="LAST_MODIFIED_ON" type="timestamp" not-null="false"/>
+        <property name="lastModifiedByUsername" column="LAST_MODIFIED_BY_USERNAME" not-null="false"/>
+
+        <!-- Optional WikiFile subclass properties -->
+        <property name="content" column="CONTENT" length="32767" lazy="true"/>
+
+    </class>
+
+</hibernate-mapping>
+

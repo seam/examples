@@ -1,0 +1,46 @@
+<s:div id="directoryBrowserTree"
+     styleClass="directoryBrowserTree smallFont"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:rich="http://richfaces.ajax4jsf.org/rich"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:form id="directoryTreeForm" rendered="#{directoryBrowserSettings.treeVisible}">
+        <rich:tree switchType="ajax"
+                   ajaxSubmitSelection="true"
+                   adviseNodeOpened="#{directoryBrowser.adviseTreeNodeOpened}"
+                   adviseNodeSelected="#{directoryBrowser.adviseTreeNodeSelected}"
+                   changeExpandListener="#{directoryBrowser.listenTreeNodeExpand}"
+                   nodeSelectListener="#{directoryBrowser.listenTreeNodeSelected}"
+                   status="globalStatus"
+                   reRender="#{renderOnSelect}"
+                   onselected="jQuery('.menu-div').hide()">
+
+            <rich:recursiveTreeNodesAdaptor
+                    var="dir"
+                    roots="#{directoryBrowser.treeRoot.wrappedChildrenSorted}"
+                    nodes="#{dir.wrappedChildrenSorted}">
+
+                <rich:treeNode>
+                    <f:facet name="icon">
+                        <h:graphicImage value="#{imagePath}/icon.dir.gif" width="18" height="20"/>
+                    </f:facet>
+                    <f:facet name="iconLeaf">
+                        <h:graphicImage value="#{imagePath}/icon.dir.gif" width="18" height="20"/>
+                    </f:facet>
+
+                    <s:div styleClass="directoryTreeLabel">
+                        <h:outputText value="#{wiki:truncateString(dir.wrappedNode.name, 40, '...')}"/>
+                    </s:div>
+
+                </rich:treeNode>
+
+            </rich:recursiveTreeNodesAdaptor>
+        </rich:tree>
+    </h:form>
+
+</s:div>

@@ -1,0 +1,9 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:include src="people.xhtml">
+		<ui:param name="exportType" value="csv" />
+		<ui:param name="people" value="#{excelTest.people}" />
+	</ui:include>
+
+</html>

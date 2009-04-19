@@ -1,0 +1,84 @@
+body {
+  font-family: Lucida Grande, Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.9em;
+  line-height: 1.4em;
+  text-align: center;
+}
+td {
+  font-size: 0.9em;
+  line-height: 1.4em;
+}
+p {
+  font-size: 0.9em;
+  line-height: 1.4em;
+}
+#menu {
+  width: 600px;
+  text-align: right;
+  margin-left: auto;
+  margin-right: auto;
+}
+#menu form {
+  text-align: right;
+}
+#container {
+  background: transparent url(header.png) no-repeat top center;
+  width: 600px;
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+}
+a:link {
+  color: #4169AA;
+  text-decoration: none;
+  border-bottom: 1px dotted #4169AA;
+}
+a:visited {
+  color: gray;
+  text-decoration: none;
+  border-bottom: 1px dotted gray;
+}
+a:hover {
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+h1 {
+  font-size: 2em;
+  text-align: center;
+  color: white;
+  padding-top: 60px;
+}
+h2 {
+  font-size: 1.3em;
+  text-align: center;
+  color: white;
+  padding-bottom: 60px;
+}
+h3 {
+  font-size: 1.3em;
+}
+h4 {
+  font-size: 1em;
+}
+h5 {
+  font-size: 1.1em;
+}
+h6 {
+  font-size: 1em;
+}
+.blogEntry {
+  margin-top: 20px;
+}
+.menuItem {
+  padding-left: 15px;
+}
+.errors {
+  color: red;
+}
+.errors input {
+  color: red;
+  border: 1px solid red;
+}
+.errors textarea {
+  border: 1px solid red;
+}

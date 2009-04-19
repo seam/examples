@@ -1,0 +1,247 @@
+package SeamSpacePermissions;
+
+dialect 'mvel'
+
+import java.security.Principal;
+
+import org.jboss.seam.security.permission.PermissionCheck;
+import org.jboss.seam.security.permission.RoleCheck;
+import org.jboss.seam.security.Role;
+
+import org.jboss.seam.example.seamspace.BlogComment;
+import org.jboss.seam.example.seamspace.Member;
+import org.jboss.seam.example.seamspace.MemberAccount;
+import org.jboss.seam.example.seamspace.MemberBlog;
+import org.jboss.seam.example.seamspace.MemberFriend;
+import org.jboss.seam.example.seamspace.MemberImage;
+
+# These rules allow members to manage permissions on their own images
+
+rule ManageImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.read-permissions", granted == false)
+then
+  check.grant();
+end
+
+rule GrantImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.grant-permission", granted == false)
+then
+  check.grant();
+end
+
+# Allow all users to read the available roles
+
+rule ReadRoles
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "seam.role", action == "read", granted == false)
+  Role(name == "user")
+then
+  check.grant();
+end
+
+# This rule allows a member to delete their own images
+
+rule DeleteImage
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "delete", granted == false)
+then
+  check.grant();
+end
+
+# This rule allows members to revoke permissions on their images to other users/roles
+
+rule RevokeImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.revoke-permission", granted == false)
+then
+  check.grant();
+end
+
+rule ViewProfileImage
+  no-loop
+  activation-group "permissions"
+when
+  image: MemberImage()
+  check: PermissionCheck(target == image, action == "view", granted == false)
+  eval( image.getMember().getPicture() == image )
+then
+  check.grant();
+end
+
+rule FriendViewImage
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.isFriend(acct.member)))
+  PermissionCheck(target == image, action == "view")
+  role: RoleCheck(name == "friends")
+then
+  role.grant();
+end
+
+rule GuestViewImage
+  no-loop
+  activation-group "permissions"
+when
+  image: MemberImage()
+  PermissionCheck(target == image, action == "view")
+  role: RoleCheck(name == "guest")
+then
+  role.grant();
+end
+
+rule ViewMyImages
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "view")
+then
+  check.grant();
+end
+
+rule RestrictCommentPage
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "/comment.xhtml", granted == false)
+  Role(name == "user")
+then
+  check.grant();
+end
+
+rule CanCreateBlogComment
+  no-loop
+  activation-group "permissions"
+when
+  blog: MemberBlog()
+  check: PermissionCheck(target == blog, action == "create", granted == false)
+  Role(name == "user")
+then
+  check.grant();
+end
+
+rule CreateBlogComment
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "blogComment", action == "insert", granted == false)
+  Role(name == "user")
+then
+  check.grant();
+end
+
+# This rule grants permission for users to create their own blog entries
+rule CreateBlog
+  no-loop
+  activation-group "permissions"
+when
+  mbr: Member()
+  acct: MemberAccount(member.memberId == mbr.memberId)
+  check: PermissionCheck(target.memberId == mbr.memberId, action == "createBlog", granted == false)
+then
+  check.grant();
+end
+
+# This rule grants permission for users to upload pictures to their profile
+rule UploadImage
+  no-loop
+  activation-group "permissions"
+when
+  mbr: Member()
+  acct: MemberAccount(member.memberId == mbr.memberId)
+  check: PermissionCheck(target.memberId == mbr.memberId, action == "uploadImage", granted == false)
+then
+  check.grant();
+end
+
+rule InsertMemberBlog
+  no-loop
+  activation-group "permissions"  
+when
+  acct: MemberAccount()
+  blog: MemberBlog(member == acct.member)
+  check: PermissionCheck(target == blog, action == "insert", granted == false)  
+then
+  check.grant();
+end
+
+rule CreateFriendComment
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  member: Member() //friends contains acct.member)
+  check: PermissionCheck(target == member, action == "createFriendComment", granted == false)
+then
+  check.grant();
+end
+
+rule CreateFriendRequest
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  member: Member() //friends not contains acct.member)
+  check: PermissionCheck(target == member, action == "createFriendRequest", granted == false)
+then
+  check.grant();
+end
+
+rule CreateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "seam.account", action == "create", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+/*****************************************************************************************
+
+  The Following Rules are for Identity Management
+  
+******************************************************************************************/
+
+rule ManageUsers
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "seam.user", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule ManageRoles
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(target == "seam.role", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end

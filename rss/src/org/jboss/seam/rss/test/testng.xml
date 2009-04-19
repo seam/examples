@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="RSS" verbose="2" parallel="false">
+
+   <test name="RSS Tests">
+     <classes>
+     </classes>
+   </test>
+	
+</suite>

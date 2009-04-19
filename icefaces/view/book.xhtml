@@ -1,0 +1,127 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ice="http://www.icesoft.com/icefaces/component" 
+				template="template.xhtml">
+
+<!-- content -->
+<ui:define name="content">
+<div class="section">
+	<h1>Book Hotel</h1>
+</div>
+<div class="section">
+	<div class="entry errors">
+		<h:messages globalOnly="true"/>
+	</div>
+
+	<ui:include src="hotelview.xhtml"/>
+	
+	<div style="clear:both"/>
+
+	<ice:form id="booking">
+	<fieldset>
+			
+		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
+		   <ui:define name="label">Check In Date:</ui:define>
+	           <span class="calendar">
+                      <ice:selectInputDate id="checkinDate" value="#{booking.checkinDate}" 
+                             renderAsPopup="true" partialSubmit="true"/>
+                   </span>
+		</s:decorate>		
+                
+		<br/>
+		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
+		   <ui:define name="label">Check Out Date:</ui:define>
+		   <span class="calendar">
+                       <ice:selectInputDate id="checkoutDate" value="#{booking.checkoutDate}" 
+                                   renderAsPopup="true" partialSubmit="true"/>
+		   </span>
+		</s:decorate>
+				<br/>	
+		<s:decorate id="bedsDecorate" template="edit.xhtml">
+			<ui:define name="label">Room Preference:</ui:define>
+			<h:selectOneMenu id="beds" value="#{booking.beds}">
+				<f:selectItem itemLabel="One king-size bed" itemValue="1"/>
+				<f:selectItem itemLabel="Two double beds" itemValue="2"/>
+				<f:selectItem itemLabel="Three beds" itemValue="3"/>
+			</h:selectOneMenu>
+		</s:decorate>
+		
+		<s:decorate id="smokingDecorate" template="edit.xhtml">
+			<ui:define name="label">Smoking Preference:</ui:define>
+               <ice:selectOneRadio id="smoking" value="#{booking.smoking}" 
+                                 layout="pageDirection" styleClass="radio">
+				<f:selectItem itemLabel="Smoking" itemValue="true"/>
+				<f:selectItem itemLabel="Non Smoking" itemValue="false"/>
+              </ice:selectOneRadio>
+		</s:decorate>
+
+		<s:decorate id="creditCardDecorate" template="edit.xhtml">
+			<ui:define name="label">Credit Card #:</ui:define>
+                   <ice:inputText id="creditCard" value="#{booking.creditCard}" 
+                                           required="true" partialSubmit="true"/> 
+		</s:decorate>
+
+		<s:decorate id="creditCardNameDecorate" template="edit.xhtml">
+			<ui:define name="label">Credit Card Name:</ui:define>
+                  <ice:inputText id="creditCardName" value="#{booking.creditCardName}" 
+                             partialSubmit="true" required="true"/>           
+		</s:decorate>
+
+		<s:decorate id="creditCardExpiryDecorate" template="edit.xhtml">
+			<ui:define name="label">Credit Card Expiry:</ui:define>
+               <ice:selectOneMenu id="creditCardExpiryMonth" value="#{booking.creditCardExpiryMonth}">
+				<f:selectItem itemLabel="Jan" itemValue="1"/>
+				<f:selectItem itemLabel="Feb" itemValue="2"/>
+				<f:selectItem itemLabel="Mar" itemValue="3"/>
+				<f:selectItem itemLabel="Apr" itemValue="4"/>
+				<f:selectItem itemLabel="May" itemValue="5"/>
+				<f:selectItem itemLabel="Jun" itemValue="6"/>
+				<f:selectItem itemLabel="Jul" itemValue="7"/>
+				<f:selectItem itemLabel="Aug" itemValue="8"/>
+				<f:selectItem itemLabel="Sep" itemValue="9"/>
+				<f:selectItem itemLabel="Oct" itemValue="10"/>
+				<f:selectItem itemLabel="Nov" itemValue="11"/>
+				<f:selectItem itemLabel="Dec" itemValue="12"/>
+               </ice:selectOneMenu>
+               <ice:selectOneMenu id="creditCardExpiryYear" value="#{booking.creditCardExpiryYear}">
+                                <f:selectItem itemLabel="2007" itemValue="2007"/>
+                                <f:selectItem itemLabel="2008" itemValue="2008"/>
+                                <f:selectItem itemLabel="2009" itemValue="2009"/>
+                                <f:selectItem itemLabel="2010" itemValue="2010"/>
+                                <f:selectItem itemLabel="2011" itemValue="2011"/>
+                </ice:selectOneMenu>
+		</s:decorate>
+		
+		<div class="buttonBox">
+			<h:commandButton id="proceed" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>
+			&#160;
+			<s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+		</div>
+		
+	</fieldset>
+	</ice:form>
+</div>
+</ui:define>
+
+<!-- sidebar -->
+<ui:define name="sidebar">
+
+<h1>Workspace management</h1>
+<p>
+   As you can see, Seam makes it easy to work in multiple windows or multiple browser 
+   tabs. But you can even switch between multiple tasks inside a single browser tab!
+   The "Workspaces" section showcases this advanced feature.
+</p>
+<p>
+   <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
+	  How does the workspace list work?
+   </a>
+</p>
+
+</ui:define>
+
+</ui:composition>

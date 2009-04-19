@@ -1,0 +1,16 @@
+<components xmlns="http://jboss.com/products/seam/components"
+   xmlns:excel="http://jboss.com/products/seam/excel"
+   xmlns:core="http://jboss.com/products/seam/core"
+   xmlns:framework="http://jboss.com/products/seam/framework"
+   xmlns:document="http://jboss.com/products/seam/document"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                                http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
+                                http://jboss.com/products/seam/document http://jboss.com/products/seam/document-2.1.xsd
+                                http://jboss.com/products/seam/excel http://jboss.com/products/seam/excel-2.1.xsd   
+                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+
+
+   <core:init debug="true" jndi-pattern="@jndiPattern@" />
+
+</components>

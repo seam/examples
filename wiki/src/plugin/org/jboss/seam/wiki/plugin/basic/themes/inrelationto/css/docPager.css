@@ -1,0 +1,22 @@
+.docPager {
+    width: 100%;
+    background: #f5f5f5;
+}
+
+.docPagerPrevious {
+    text-align: left;
+}
+
+.docPagerNext {
+    text-align: right;
+}
+
+.docPagerButton {
+    vertical-align: text-bottom;
+}
+
+.docPagerLabel {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+

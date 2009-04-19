@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      <h1>Password Hash Generator</h1>
+      
+      <p>
+        This page uses the methods in JpaIdentityStore to generate password hash values that you can
+        use in your own application's import.sql to create default accounts for your application. 
+      </p>
+      
+      <p>
+        Please note that you must have a property annotated @PasswordSalt for these hash values to work!
+      </p>
+      
+      <h:form>    
+        
+        <div class="formRow">
+          <h:outputLabel for="password">Enter a password</h:outputLabel>
+          <h:inputText id="password" value="#{hashgenerator.password}" required="true" styleClass="wide"/>
+          <div class="validationError"><h:message for="password"/></div>
+        </div>         
+
+        <div class="formRow">
+          <h:outputLabel for="salt">Password salt</h:outputLabel>
+          <h:inputText id="salt" value="#{hashgenerator.passwordSalt}" required="false" styleClass="wide"/>
+          <span>(Leave blank to generate a random salt)</span>
+          <div class="validationError"><h:message for="salt"/></div>
+        </div>         
+        
+        <h:commandButton action="#{hashgenerator.generate}" value="Generate hash"/>                    
+      
+      </h:form>
+      
+      <h2>Results</h2>
+      
+      <div>Generated hash (hex encoded): <pre>#{hashgenerator.passwordHash}</pre></div>
+      
+      <div>Example SQL:<br/><textarea style="width:640px;height:50px">#{hashgenerator.sql}</textarea></div>
+             
+    </ui:define>
+    
+  </ui:composition>
+</html>

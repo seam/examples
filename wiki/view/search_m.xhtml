@@ -1,0 +1,82 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
+
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.search.Search']}: #{wikiSearch.simpleQuery}"/>
+</ui:define>
+
+<ui:define name="control">
+
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
+
+</ui:define>
+
+<ui:define name="content">
+
+    <h:form id="searchForm">
+
+        <h:inputText value="#{wikiSearch.simpleQuery}" size="28" maxlength="1000"/>
+        <h:commandButton action="#{wikiSearch.search()}" value="#{messages['lacewiki.button.Find']}"/>
+
+    </h:form>
+
+    <s:div id="searchPager">
+        <h:form>
+            <h:panelGrid columns="5"
+                         cellpadding="0" cellspacing="0" border="0"
+                         rendered="#{wikiSearch.totalCount > 0}">
+                <h:commandButton  action="#{wikiSearch.firstPage()}" rendered="#{wikiSearch.previousPageAvailable}"
+                                  value="#{messages['lacewiki.button.FirstPage']}"/>
+                <h:commandButton  action="#{wikiSearch.previousPage()}" rendered="#{wikiSearch.previousPageAvailable}"
+                                  value="#{messages['lacewiki.button.PreviousPage']}"/>
+
+                <h:outputText value="#{wikiSearch.firstRow} #{messages['lacewiki.label.search.To']}
+                                     #{wikiSearch.lastRow} #{messages['lacewiki.label.search.Of']}
+                                     #{wikiSearch.totalCount} #{messages['lacewiki.label.search.Hits']}"/>
+
+                <h:commandButton action="#{wikiSearch.nextPage()}" rendered="#{wikiSearch.nextPageAvailable}"
+                                 value="#{messages['lacewiki.button.NextPage']}"/>
+                <h:commandButton action="#{wikiSearch.lastPage()}" rendered="#{wikiSearch.nextPageAvailable}"
+                                 value="#{messages['lacewiki.button.LastPage']}"/>
+            </h:panelGrid>
+        </h:form>
+    </s:div>
+
+    <s:div id="searchResult">
+
+        <h:dataTable id="searchResultTable" var="hit"
+                     value="#{wikiSearch.searchResult}"
+                     rendered="#{wikiSearch.searchResult.size() > 0}"
+                     rowClasses="rowOdd,rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <h:panelGrid columns="2">
+                    <h:graphicImage value="#{imagePath}/#{hit.icon}" width="18" height="20"/>
+                    <h:outputLink value="#{hit.link}" tabindex="1"><h:outputText escape="false" value="#{hit.title}"/></h:outputLink>
+                </h:panelGrid>
+                <h:outputText escape="false" value="#{hit.fragment}"/>
+            </h:column>
+
+        </h:dataTable>
+
+        <s:div styleClass="formFields minorPadding" rendered="#{wikiSearch.totalCount == 0}">
+            <h:outputText value="#{messages['lacewiki.label.search.NoHits']}"/>
+        </s:div>
+
+    </s:div>
+
+
+</ui:define>
+
+</ui:composition>

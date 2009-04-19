@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<project name="Messages" default="deploy" basedir=".">
+
+    <!-- Example name -->
+    <property name="Name"                   value="Seam Message List Example"/>
+    <property name="example.name"           value="jboss-seam-messages"/>
+
+    <!-- Libraries -->
+	<property name="seam.ui.lib"     value="yes"/>
+	<property name="tomcat.standard.tag" value="yes" />
+ 
+    <import file="../build.xml"/>    
+
+	<target name="copyextradependencies">
+		<copyInlineDependencies id="jstl" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="apache-taglibs" artifactId="jstl" version="1.1.2" />
+		</copyInlineDependencies>	
+	</target>
+
+</project>
+

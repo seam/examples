@@ -1,0 +1,14 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+           xmlns:m="http://jboss.com/products/seam/mail"
+           xmlns:h="http://java.sun.com/jsf/html">
+    
+          <m:from name="Peter" address="peter@example.com" />
+          <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
+          <m:subject>Try out Seam!</m:subject>
+          <m:body>
+              <p><h:outputText value="Dear #{person.firstname}" />,</p>
+        <p>You can try out Seam by visiting <a href="http://www.seamframework.org">http://www.seamframework.org</a>.</p>
+        <p>Regards</p>
+        <p>Peter</p>
+    </m:body>
+</m:message>

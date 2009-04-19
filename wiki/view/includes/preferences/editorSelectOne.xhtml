@@ -1,0 +1,18 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:selectOneMenu value="#{v.value}" tabindex="1">
+        <s:selectItems value="#{editorSelectOne.getAllValues(v.preferenceProperty)}"
+                       var="templateValue"
+                       label="#{templateValue}"
+                       noSelectionLabel="#{editorSelectOne.isNullable(v.preferenceProperty)
+                                           ? messages['lacewiki.preferences.editor.SelectNone']
+                                           : null}"/>
+    </h:selectOneMenu>
+
+</s:fragment>

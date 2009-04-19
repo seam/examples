@@ -1,0 +1,28 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<c:forEach var="childWrapper" items="#{node.wrappedChildrenSorted}">
+    <s:div styleClass="level#{childWrapper.level}">
+        <s:div styleClass="level#{childWrapper.level}Body">
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerDot" value="&#183;"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerGreaterThan" value=">"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerSlash" value="&#47;"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerSpace" value="&#160;"/>
+            <h:outputLink styleClass="level#{childWrapper.level}Link"
+                          value="#{wikiURLRenderer.renderURL(childWrapper.wrappedNode)}">#{childWrapper.wrappedNode.name}</h:outputLink>
+        </s:div>
+        <s:div styleClass="level#{childWrapper.level}Children" style="padding-left: #{childWrapper.level*7}px;">
+            <ui:include src="mainMenuItem.xhtml">
+                <ui:param name="node" value="#{childWrapper}"/>
+            </ui:include>
+        </s:div>
+    </s:div>
+</c:forEach>
+
+</ui:composition>

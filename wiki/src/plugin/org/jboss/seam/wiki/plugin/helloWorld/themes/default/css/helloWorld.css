@@ -1,0 +1,9 @@
+.justABox {
+    background: #fff url(#{request.contextPath}#{currentPluginModule.imagePath}/background.gif) 0 0 repeat-x;
+    border: 1px solid green;
+    margin: 20px;
+}
+
+.justAMessage {
+    color: green;
+}

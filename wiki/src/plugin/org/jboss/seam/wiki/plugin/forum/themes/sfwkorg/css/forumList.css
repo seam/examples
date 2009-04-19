@@ -1,0 +1,69 @@
+.forumListControlsContainer {
+    text-align: right;
+    white-space: nowrap;
+    margin-bottom: 15px;
+}
+
+.forumListTableContainer {
+}
+
+.forumFormContainer {
+    margin-bottom: 20px;
+}
+
+.forumTitle {
+    font-weight: normal;
+    line-height: 180%;
+}
+
+.forumDescription {
+    white-space: normal;
+    line-height: 130%;
+}
+
+.topicGotoIcon {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.forumsFeedLink {
+    margin: 10px;
+    float: right;
+    margin-top: -40px;
+}
+
+.forumsFeedLink img {
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.forumFeedLink {
+
+}
+
+.forumFeedLink img {
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+
+.forumLegendContainer {
+}
+
+.forumLegendTable {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.forumLegendColumn {
+    padding-right:30px;
+    padding-top:10px;
+    white-space:nowrap;
+}
+
+.forumLegendIcon {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.forumLegendText {
+}

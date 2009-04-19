@@ -1,0 +1,46 @@
+<components xmlns:pay="http://jboss.com/products/seam/examples/seampay"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+            xmlns:framework="http://jboss.com/products/seam/framework"
+            xmlns:async="http://jboss.com/products/seam/async"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                 http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.1.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd" >
+
+    <pay:payment-home 
+                       new-instance="#{newPayment}" 
+                      created-message="Created a new payment to #{newPayment.payee}" />
+
+
+    <pay:payment name="newPayment" 
+                 payee="Somebody"
+                 account="#{selectedAccount}"
+                 payment-date="#{currentDatetime}"
+                 created-date="#{currentDatetime}" />
+
+    <factory name="selectedAccount" 
+             value="#{accountHome.instance}"/>
+
+    <framework:entity-home name="accountHome" 
+                           entity-class="org.jboss.seam.example.seampay.Account"
+                           entity-manager="#{entityManager}" />
+
+    <framework:entity-query name="accounts" 
+                            ejbql="from Account"
+                            order="accountNumber" 
+                            max-results="20" 
+                            entity-manager="#{entityManager}" />
+
+    <persistence:managed-persistence-context name="entityManager"
+                                             auto-create="true"
+                                             persistence-unit-jndi-name="java:/seampayEntityManagerFactory" />
+
+    <async:timer-service-dispatcher />
+    <component class="org.jboss.seam.async.ThreadPoolDispatcher" precedence="40" /> 
+
+    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+
+</components>

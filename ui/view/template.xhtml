@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+<head>
+<title>UI Example: #{tagName}</title>
+<link href="date.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.label {
+	font-weight: bold;
+	color: #5E5147;
+}
+.errors {
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+	color: #600;
+}
+.errors div {
+	text-align: left;
+}
+.errors span {
+	text-align: left;
+}
+.errors input {
+	border: 1px solid #600;
+}
+.errors ul {
+	list-style: none;
+}
+.entry {
+	padding-top: 10px;
+}
+.entry .label {
+	float: left;
+	padding-right: 5px;
+	font-weight: bold;
+	width: 250px;
+	text-align: right;
+}
+
+.entry .input {
+	width: 600px;
+	text-align: left;
+}
+.entry .error {
+	width: 600px;
+	text-align: left;
+	margin-left: 270px;
+}
+
+.entry .description {
+	font-size: x-small;
+	margin-left: 270px;
+}
+
+.menu {
+	width: 220px;
+	float: left;
+	padding: 10px;
+}
+
+.content {
+	margin-left: 200px;
+}
+</style>
+<ui:debug id="debug" />
+</head>
+
+<body>
+<s:div styleClass="menu">
+	<ul>
+		<li><s:link view="/selectItems.xhtml" propagation="join">
+			<code>s:selectItems</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+		<li><s:link view="/fragment.xhtml" propagation="none">
+			<code>s:fragment</code>
+		</s:link></li>
+		<li><s:link view="/formattedText.xhtml" propagation="join">
+			<code>s:formattedText</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+		<li><s:link view="/fileUpload.xhtml" propagation="join">
+			<code>s:fileUpload</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+		<li><s:link view="/linkAndButton.xhtml" propagation="none">
+			<code>s:button</code> and <code>s:link</code>
+		</s:link></li>
+		<li><s:link view="/cache.xhtml" propagation="none">
+			<code>s:cache</code>
+		</s:link></li>
+		<li><s:link view="/graphicImage.xhtml">
+			<code>s:graphicImage</code>
+			<f:param name="personId" value="1" />
+		</s:link></li>
+		
+		<li><s:link view="/equalityValidator.xhtml">
+			<code>s:validateEquality</code>
+		</s:link></li>
+		
+		<li><s:link view="/equalityValidatorWConvert.xhtml">
+			<code>s:validateEquality(2)</code>
+		</s:link></li>		
+	
+		<li><s:link view="/resource.xhtml">
+			<code>s:resource/download</code>
+		</s:link></li>		
+		
+		
+		<li><s:span title="#{spanTitle}" style="font-weight:bold">
+		    <code>s:span</code>
+		  </s:span>
+		</li>		
+	
+	</ul>
+</s:div>
+<s:div styleClass="content">
+	<h1><code><h:outputText value="#{tagName}" /></code></h1>
+	<ui:insert name="body" />
+	<h:messages />
+</s:div>
+</body>
+
+</html>

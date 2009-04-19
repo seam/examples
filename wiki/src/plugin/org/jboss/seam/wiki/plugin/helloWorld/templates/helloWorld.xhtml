@@ -1,0 +1,68 @@
+<wiki:plugin
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="2" styleClass="justABox">
+
+        <h:outputText value="The backing bean says: "/>
+        <h:panelGrid id="helloWorldOutput" columns="2" styleClass="someBackground">
+            <h:graphicImage value="#{currentMacro.requestImagePath}/example.gif"/>
+            <s:span styleClass="justAMessage">
+                <h:outputText value="#{helloWorld.getHello(currentMacro)}"/>
+            </s:span>
+        </h:panelGrid>
+
+        <h:outputText value="Regular JSF form:"/>
+        <s:div id="theRegularForm">
+            <h:form>
+                <h:inputText value="#{helloWorld.greeting}" size="30"/>
+                <h:commandLink styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" value="#{currentMacro.getMessage('button.UpdateGreeting')}"/>
+                </h:commandLink>
+            </h:form>
+        </s:div>
+
+        <h:outputText value="AJAX form with partial re-render:"/>
+        <s:div id="theFirstAjaxForm">
+            <h:form>
+                <h:inputText value="#{helloWorld.greeting}" size="30"/>
+                <a:commandLink styleClass="buttonNonpersistent"
+                               reRender="helloWorldOutput, theRegularForm, theFirstAjaxForm, theSecondAjaxForm"
+                               status="globalStatus">
+                    <h:outputText styleClass="buttonLabel" value="#{currentMacro.getMessage('button.UpdateGreeting')}"/>
+                </a:commandLink>
+            </h:form>
+        </s:div>
+
+        <h:outputText value="AJAX form with automatic re-render:"/>
+        <s:div id="theSecondAjaxForm">
+            <h:form>
+                <h:inputText value="#{helloWorld.greeting}" size="30">
+                    <a:support action="#{helloWorld.printAMessage()}"
+                               event="onkeyup"
+                               requestDelay="3000"
+                               ignoreDupResponses="true"
+                               ajaxSingle="true"
+                               eventsQueue="ajaxEventQueue"
+                               reRender="helloWorldOutput, theRegularForm, theFirstAjaxForm"
+                               status="globalStatus"/>
+                </h:inputText>
+            </h:form>
+        </s:div>
+
+        <h:outputText value="Message in preferences: "/>
+        <h:outputText value="#{preferences.get('HelloWorld', currentMacro).message}"/>
+
+        <h:outputText value="The other template says: "/>
+        <ui:include src="justAnotherTemplate.xhtml"/>
+
+    </h:panelGrid>
+
+    <wiki:loadStyle src="#{currentMacro.requestStylesheetPath}/anotherOne.css"/>
+
+</wiki:plugin>

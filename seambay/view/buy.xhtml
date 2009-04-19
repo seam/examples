@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>seamBay</title>
+    <link href="style/home.css" rel="stylesheet" type="text/css"/>
+    <link href="style/common.css" rel="stylesheet" type="text/css"/>
+    <link href="style/buy.css" rel="stylesheet" type="text/css"/>
+  </head>
+
+  <body>
+    <div class="container">
+      <ui:include src="header.xhtml"/>
+
+      <div class="content">
+
+        <div class="buyHeader">
+          Buy
+        </div>
+        
+        <div class="buyContent">
+        
+          <div class="buySectionHeader">
+            Search
+          </div>
+          
+          <div class="search">
+            <h:form>
+              <h:inputText id="searchTerm" value="#{auctionSearch.searchTerm}" styleClass="searchTerm"/>
+              <h:selectOneMenu id="selectedCat" value="#{auctionSearch.searchCategory}">
+                <s:selectItems value="#{categories}" var="cat" label="#{cat.name}" noSelectionLabel="All Categories"/>
+                <s:convertEntity />
+              </h:selectOneMenu>
+              
+              <br/>
+              
+              <h:selectBooleanCheckbox value="#{auctionSearch.titleAndDescription}"/>
+              <span>Search title <b>and</b> description</span>
+              
+              <br/>
+              
+              <h:commandButton action="#{auctionSearch.queryAuctions}" value="Search"/>
+            </h:form>
+          
+          </div>
+          
+          <div class="buySectionHeader">
+            Browse Categories
+          </div>
+          
+          <div class="buyCategories">
+
+            <div class="leftCategories">
+              <ui:repeat value="#{leftCategories}" var="cat">
+                <div>
+                  <s:link view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{cat.name}" propagation="none" styleClass="mainCategory">
+                    <f:param name="categoryId" value="#{cat.categoryId}"/>
+                  </s:link><span class="dot">...</span>
+                  
+                </div>
+                <div class="subCatContainer">
+                  <ui:repeat value="#{categoryAction.getSubCategories(cat)}" var="subcat">
+                    <s:link view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{subcat.name}" propagation="none" styleClass="subCategory">
+                      <f:param name="categoryId" value="#{subcat.categoryId}"/>
+                    </s:link>            
+                  </ui:repeat>
+                </div>
+              </ui:repeat>
+            </div>
+            
+            <div class="rightCategories">
+              <ui:repeat value="#{rightCategories}" var="cat">
+                <div>
+                  <s:link view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{cat.name}" propagation="none" styleClass="mainCategory">
+                    <f:param name="categoryId" value="#{cat.categoryId}"/>
+                  </s:link><span class="dot">...</span>
+
+                </div>
+                <div class="subCatContainer">
+                  <ui:repeat value="#{categoryAction.getSubCategories(cat)}" var="subcat">
+                    <s:link view="/search.xhtml" action="#{auctionSearch.queryAuctions}" value="#{subcat.name}" propagation="none" styleClass="subCategory">
+                      <f:param name="categoryId" value="#{subcat.categoryId}"/>
+                    </s:link>            
+                  </ui:repeat>
+                </div>
+              </ui:repeat>            
+            </div>
+            
+            <br class="clear"/>
+          
+          </div>
+        
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>

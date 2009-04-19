@@ -1,0 +1,78 @@
+<wiki:plugin
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:div styleClass="forumTopPosters box">
+
+    <s:div styleClass="boxHeader">
+        <h:outputText value="#{preferences.get('ForumTopPosters', currentMacro).title}"/>
+    </s:div>
+
+    <div class="boxContent">
+
+        <h:dataTable value="#{forumQuery.getTopPosters(currentMacro)}" var="p"
+                     rendered="#{not empty forumQuery.getTopPosters(currentMacro) and forumQuery.getTopPosters(currentMacro).size() > 0}"
+                     styleClass="datatable forumTopPostersTable"
+                     headerClass="alignCenter"
+                     columnClasses="fifteenPercentColumn alignCenter indexColumn,
+                                    defaultColumn alignCenter nameColumn,
+                                    twentyPercentColumn alignCenter joinedOnColumn,
+                                    twentyPercentColumn alignCenter ratingPointsColumn"
+                     rowClasses="rowOdd, rowEven"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{messages['forum.topPosters.label.Position']}"/>
+                </f:facet>
+                <h:outputText value="#{forumQuery.getTopPosters(currentMacro).indexOf(p)+1}."/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{messages['forum.topPosters.label.User']}"/>
+                </f:facet>
+                <ui:include src="/includes/userProfileLink.xhtml">
+                    <ui:param name="user" value="#{p}"/>
+                </ui:include>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{messages['forum.topPosters.label.JoinedOn']}"/>
+                </f:facet>
+                <h:outputText value="#{p.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                </h:outputText>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="#{messages['forum.topPosters.label.RatingPoints']}"/>
+                </f:facet>
+                <h:outputText value="#{p.ratingPoints}"/>
+            </h:column>
+
+        </h:dataTable>
+
+    </div>
+
+    <s:div styleClass="forumTopPostersEmpty"
+           rendered="#{empty forumQuery.getTopPosters(currentMacro) or forumQuery.getTopPosters(currentMacro).size() == 0}">
+        <h:outputText value="#{messages['forum.topPosters.label.NoPostersFound']}"/>
+    </s:div>
+
+    <div class="boxFooter"/>
+
+</s:div>
+
+</wiki:plugin>
+
+

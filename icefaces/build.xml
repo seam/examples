@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<project name="Icefaces Booking" default="deploy" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+	<!-- Naming -->
+	<property name="Name" value="Seam on JBoss ICEfaces Booking Example" />
+	<property name="example.name" value="seam-icefaces" />
+
+	<!-- Overrides -->
+	<property name="seam.ui.lib" value="yes" />
+	<property name="seam.debug.lib" value="yes" />
+
+	<!-- Add icefaces -->
+
+	<property name="example.tmp.lib.dir" value="${basedir}/lib" />
+	<property name="clean.extra" value="${example.tmp.lib.dir}"/>
+
+	<!-- Datasource -->
+	<property name="example.ds" value="seam-icefaces-ds.xml" />
+
+	<import file="../build.xml" />
+	
+	<fileset id="war.lib.extras" dir="${example.tmp.lib.dir}">
+		<include name="*.jar" />
+		<exclude name="servlet-api.jar"/>
+	</fileset>
+
+	<target name="copyextradependencies">
+		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.8.0">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.8.0">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.8.0">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
+			<remoteRepository refId="repository.jboss.org" />
+		</artifact:dependencies>
+		<copy todir="${example.tmp.lib.dir}">
+			<fileset refid="icefaces.fileset" />
+			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${icefaces.versions}" to="flatten" />
+		</copy>
+	</target>
+</project>

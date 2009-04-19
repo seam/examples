@@ -1,0 +1,72 @@
+.faqControlsContainer {
+    margin-bottom: 10px;
+}
+
+.faqBrowserPanel {
+    border: 1px solid #C3BBB6;
+    background: white url(#{themePathGetRequest}/img/th.bg.gif) 0 0 repeat-x;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 250%;
+}
+
+.faqBrowserPanel .categoryLabel {
+    padding-left: 5px;
+    white-space:nowrap;
+}
+
+.faqBrowserPanel .categoryMenu {
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space:nowrap;
+}
+
+.faqBrowserPanel .questionsControl {
+    white-space:nowrap;
+}
+
+.faqBrowserPanel .categoryLink {
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space:nowrap;
+}
+
+.faqQuestionPanel {
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    border-bottom: 1px solid #C3BBB6;
+    background: white url(#{themePathGetRequest}/img/th.bg.inverse.gif) 0 0 repeat-x;
+}
+
+.faqQuestionPanel .header {
+    white-space:nowrap;
+    width: 100%;
+}
+
+.faqQuestionPanel .header .categoryDescription {
+    padding-left: 10px;
+    line-height: 250%;
+    font-weight: bold;
+}
+
+.faqQuestionPanel .header .newQuestionButton {
+    text-align:right;
+}
+
+.faqQuestionPanel .noQuestions {
+    padding-left: 10px;
+    line-height: 250%;
+}
+
+.faqQuestionList {
+    width: 100%;
+}
+
+.faqQuestionList .rowOdd {
+    background-color: #fff;
+}
+
+.faqQuestionList .rowEven {
+    background-color: #eae8e5;
+}

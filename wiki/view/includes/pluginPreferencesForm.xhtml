@@ -1,0 +1,81 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="1" styleClass="pluginPreferencesEditor"
+        cellpadding="0" cellspacing="0" border="0">
+
+        <h:panelGrid columns="2" styleClass="pluginPreferencesEditorHeader"
+                     columnClasses="pluginPreferencesEditorTitle, pluginPreferencesEditorAction"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:outputText styleClass="pluginPreferencesEditorTitleText" value="#{pluginPreferencesEditor.preferenceComponent.description}"/>
+
+            <a:commandLink action="#{pluginPreferencesEditor.apply}" tabindex="1"
+                           reRender="#{pluginDiv}" oncomplete="onAjaxRequestComplete()"
+                           styleClass="buttonNonpersistent"><span class="buttonLabel">Apply</span></a:commandLink>
+
+        </h:panelGrid>
+
+        <h:panelGrid columns="1"
+                     styleClass="pluginPreferencesEditorFormTable"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <h:dataTable var="v" style="width:10%;"
+                         value="#{pluginPreferencesEditor.preferenceValues}"
+                         styleClass="datatable topLeftBottomBorder"
+                         columnClasses="tenPercentColumn alignLeft minorPadding pluginPreferencesEditorPropertyDescription,
+                                        tenPercentColumn alignLeft rightBorder pluginPreferencesEditorPropertyInput"
+                         rowClasses="rowEven,rowOdd"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column rendered="#{v.preferenceProperty.allowsInstanceOverride()}">
+                        <h:outputText value="#{v.preferenceProperty.description}"/>
+                </h:column>
+                <h:column rendered="#{v.preferenceProperty.allowsInstanceOverride()}">
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Boolean'}">
+                        <h:selectBooleanCheckbox value="#{v.value}" tabindex="1"/>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
+                        <h:inputText value="#{v.value}" size="32" tabindex="1"/>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">
+                        <h:inputText value="#{v.value}" size="5" tabindex="1">
+                            <f:converter converterId="javax.faces.Long"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Double'}">
+                        <h:inputText value="#{v.value}" size="10" tabindex="1">
+                            <f:converter converterId="javax.faces.Double"/>
+                        </h:inputText>
+                    </s:div>
+
+                    <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
+                        <h:inputText id="dt" value="#{v.value}" tabindex="1">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:inputText>
+                        <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
+                            <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
+                                            value="#{imagePath}/icon.calendar.gif" width="16"
+                                            height="16"/>
+                        </s:selectDate>
+                    </s:div>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </h:panelGrid>
+
+    </h:panelGrid>
+
+</h:form>
+

@@ -1,0 +1,69 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:p="http://jboss.com/products/seam/pdf">
+
+    <p:image alignment="right" wrap="true" value="/jboss.jpg" /> 
+    <p:font size="24"><p:paragraph spacingAfter="50">List examples</p:paragraph></p:font>  
+    
+    <p:paragraph>Basic list:</p:paragraph>
+    <p:list>
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Numbered:</p:paragraph>
+    <p:list style="numbered">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Lettered:</p:paragraph>
+    <p:list style="lettered">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Roman:</p:paragraph>
+    <p:list style="roman">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Greek:</p:paragraph>
+    <p:list style="greek">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Dingbats:</p:paragraph>
+    <p:list style="zapfdingbats" charNumber="51">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>Dingbats numeric:</p:paragraph>
+    <p:list style="zapfdingbats_number" numberType="0">
+        <ui:repeat value="#{lists.numbers}" var="item">
+            <p:listItem><p:font style="bold">#{item}</p:font>: This is some information...</p:listItem>
+        </ui:repeat>
+    </p:list>
+
+    <p:paragraph>SubLists:</p:paragraph>
+    <p:list>
+        <ui:repeat value="#{lists.daysOfWeek}" var="day">
+            <p:listItem>Things to do on #{day}
+                <p:list>
+                    <ui:repeat value="#{lists.numbers}" var="number">
+                        <p:listItem>Do thing #{number}</p:listItem>
+                    </ui:repeat>
+                </p:list>
+            </p:listItem>
+        </ui:repeat>
+    </p:list>
+</p:document>    

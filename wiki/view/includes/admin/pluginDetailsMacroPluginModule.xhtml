@@ -1,0 +1,53 @@
+<s:fragment rendered="#{module.class.simpleName == 'MacroPluginModule'}"
+	 xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:wiki="http://jboss.com/products/seam/wiki"
+     xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+     xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <div class="entry">
+        <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.macro.Name']}:"/></div>
+        <div class="output">
+            <h:outputText value="#{module.name}"/>
+        </div>
+    </div>
+    <div class="entry">
+        <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.macro.Skins']}:"/></div>
+        <div class="output">
+            <ui:repeat var="skin" value="#{module.skins}">
+                <h:outputText value="#{skin}&#160;&#160;"/>
+            </ui:repeat>
+        </div>
+    </div>
+    <div class="entry">
+        <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.macro.ApplicableToArea']}:"/></div>
+        <div class="output">
+            <ui:repeat var="applicableArea" value="#{module.applicableTo}">
+                <h:outputText value="#{applicableArea.name()}&#160;&#160;"/>
+            </ui:repeat>
+        </div>
+    </div>
+    <s:fragment rendered="#{not empty module.renderOptions}">
+        <div class="entry">
+            <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.macro.RenderOptions']}:"/></div>
+            <div class="output">
+                <ui:repeat var="renderOption" value="#{module.renderOptions}">
+                    <h:outputText value="#{renderOption.name()}&#160;&#160;"/>
+                </ui:repeat>
+            </div>
+        </div>
+    </s:fragment>
+    <s:fragment rendered="#{not empty module.renderDependencies}">
+        <div class="entry">
+            <div class="label"><h:outputText value="#{messages['lacewiki.label.adminHome.plugins.macro.RenderDependencies']}:"/></div>
+            <div class="output">
+                <ui:repeat var="renderDependency" value="#{module.renderDependencies}">
+                    <h:outputText value="#{renderDependency.type.name()}:&#160;#{renderDependency.onMacro}&#160;&#160;"/>
+                </ui:repeat>
+            </div>
+        </div>
+    </s:fragment>
+
+</s:fragment>

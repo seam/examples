@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-diagram name="OrderManagement" width="859" height="792">
+  <node name="start" x="52" y="47" width="140" height="40">
+    <transition>
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="approval" x="52" y="175" width="140" height="40">
+    <transition name="cancel">
+      <label x="11" y="3"/>
+      <bendpoint w1="94" h1="64" w2="-152" h2="0"/>
+    </transition>
+    <transition name="approve">
+      <label x="5" y="-10"/>
+    </transition>
+    <transition name="reject">
+      <label x="-52" y="-21"/>
+      <bendpoint w1="147" h1="-1" w2="-99" h2="-65"/>
+    </transition>
+  </node>
+  <node name="process" x="51" y="342" width="140" height="40">
+    <transition name="shipped">
+      <label x="5" y="-10"/>
+    </transition>
+  </node>
+  <node name="complete" x="50" y="499" width="140" height="40"/>
+  <node name="cancelled" x="298" y="239" width="140" height="40"/>
+</process-diagram>

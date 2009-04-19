@@ -1,0 +1,7 @@
+<a:commandLink
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        ajaxSingle="true"
+        oncomplete="showHelpPopup( '#{width}', '#{height}', '#{offsetId}' ); onAjaxRequestComplete()"
+        reRender="dialogHelpContent"
+        action="#{help.selectDocumentByName(helpDocument)}"
+        styleClass="buttonNonpersistent sessionEventTrigger"><span class="buttonLabel">#{label}</span></a:commandLink>
