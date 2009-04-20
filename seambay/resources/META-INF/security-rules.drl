@@ -1,5 +1,0 @@
-package SeamBayPermissions;
-
-import org.jboss.seam.security.PermissionCheck;
-import org.jboss.seam.security.Role;
-
