@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+   version="2.0">
+    
+   <application>
+      <!--
+      <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+      -->
+   </application>
+
+   <navigation-rule>
+	   <!-- navigation rules are required to reset request-scoped producer variables -->
+	   <from-view-id>/main.xhtml</from-view-id>
+	   <navigation-case>
+		   <from-action>#{hotelSearch.find}</from-action>
+		   <to-view-id>/main.xhtml</to-view-id>
+		   <if>#{true}</if>
+		   <redirect/>
+	   </navigation-case>
+	   <navigation-case>
+		   <from-action>#{hotelSearch.nextPage}</from-action>
+		   <to-view-id>/main.xhtml</to-view-id>
+		   <if>#{true}</if>
+		   <redirect/>
+	   </navigation-case>
+   </navigation-rule>
+
+</faces-config>

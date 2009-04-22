@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.jboss.seam.examples</groupId>
+      <artifactId>seam-booking</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>seam-booking-war</artifactId>
+   <packaging>war</packaging>
+   <name>Seam Booking Example (Web module)</name>
+
+   <build>
+      <defaultGoal>package</defaultGoal>
+      <finalName>${project.parent.artifactId}</finalName>
+   </build>
+
+   <dependencies>
+
+      <!--
+      <dependency>
+         <groupId>com.sun.facelets</groupId>
+         <artifactId>jsf-facelets</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.el</groupId>
+         <artifactId>jboss-el</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.el</groupId>
+               <artifactId>el-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      -->
+
+      <dependency>
+         <groupId>javax.el</groupId>
+         <artifactId>el-ri</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.el</groupId>
+               <artifactId>el-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+   </dependencies>
+
+</project>

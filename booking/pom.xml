@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -10,10 +10,62 @@
       <version>3.0.0-SNAPSHOT</version>
    </parent>
 
-   <groupId>org.jboss.seam.examples</groupId>
    <artifactId>seam-booking</artifactId>
-   <packaging>war</packaging>
+   <packaging>pom</packaging>
    <name>Seam Booking Example</name>
+   <description>Seam Booking Example</description>
+
+   <modules>
+      <module>${project.artifactId}-ejb</module>
+      <module>${project.artifactId}-war</module>
+      <module>${project.artifactId}-ear</module>
+   </modules>
+
+   <build>
+      <defaultGoal>package</defaultGoal>
+      <pluginManagement>
+         <plugins>
+
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <configuration>
+                  <source>1.5</source>
+                  <target>1.5</target>
+               </configuration>
+            </plugin>
+
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-ejb-plugin</artifactId>
+               <configuration>
+                  <ejbVersion>3.0</ejbVersion>
+               </configuration>
+            </plugin>
+
+         </plugins>
+      </pluginManagement>
+   </build>
+
+   <dependencyManagement>
+      <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>seam-booking-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>seam-booking-war</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+
+      </dependencies>
+   </dependencyManagement>
 
    <dependencies>
 
@@ -24,43 +76,6 @@
          <classifier>jdk15</classifier>
       </dependency>
 
-      <dependency>
-         <groupId>org.jboss.webbeans</groupId>
-         <artifactId>jsr299-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>javax.faces</groupId>
-         <artifactId>jsf-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>com.sun.facelets</groupId>
-         <artifactId>jsf-facelets</artifactId>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.el</groupId>
-         <artifactId>jboss-el</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>javax.el</groupId>
-               <artifactId>el-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-
-      <dependency>
-         <groupId>javax.annotation</groupId>
-         <artifactId>jsr250-api</artifactId>
-      </dependency>
-
    </dependencies>
-
-   <build>
-      <finalName>seam-booking</finalName>
-   </build>
 
 </project>

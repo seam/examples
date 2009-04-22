@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:s="http://jboss.com/products/seam/taglib"
+   template="/WEB-INF/layout/template.xhtml">
+
+   <ui:define name="content">
+
+      <div class="section">
+  
+         <span class="errors">
+            <h:messages id="messages" globalOnly="true"/>
+         </span>
+    
+         <h1>Search Hotels</h1>
+
+         <h:form id="searchForm">
+            <fieldset> 
+               <h:inputText id="searchString" value="#{searchCriteria.searchString}" style="width: 165px;">
+                  <f:ajax event="keyup" listener="#{hotelSearch.find}" render="searchResults"/>
+               </h:inputText>
+               #{' '}
+               <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}">
+                  <ui:remove><f:ajax listener="#{hotelSearch.find}" render="searchResults"/></ui:remove>
+               </h:commandButton>
+               <ui:remove>
+               <!--
+               <a:status id="status">
+                  <f:facet id="startStatus" name="start">
+                     <h:graphicImage id="SpinnerGif" value="/img/spinner.gif"/>
+                  </f:facet>
+               </a:status>
+               -->
+               </ui:remove>
+               <br/>
+               <h:outputLabel id="lblPageSize" for="pageSize" value="Maximum results:"/>
+               #{' '}
+               <h:selectOneMenu id="pageSize" value="#{searchCriteria.pageSize}">
+                  <f:selectItem itemLabel="5" itemValue="5"/>
+                  <f:selectItem itemLabel="10" itemValue="10"/>
+                  <f:selectItem itemLabel="20" itemValue="20"/>
+               </h:selectOneMenu>
+            </fieldset>
+         </h:form>
+      </div>
+
+      <h:panelGroup id="searchResults">
+         <div class="section">
+            <h:outputText id="noHotelsMsg" value="No Hotels Found" rendered="#{empty hotels}"/>
+            <h:dataTable id="hotels" value="#{hotels}" var="_hotel" rendered="#{not empty hotels}">
+               <h:column id="nameCol">
+                  <f:facet id="nameFct" name="header">Name</f:facet>
+                  #{_hotel.name}
+               </h:column>
+               <h:column id="addressCol">
+                  <f:facet id="addressFct" name="header">Address</f:facet>
+                  #{_hotel.address}
+               </h:column>
+               <h:column id="locationCol">
+                  <f:facet id="locationFct" name="header">Location</f:facet>
+                  #{_hotel.city}, #{_hotel.state}, #{_hotel.country}
+               </h:column> 
+               <h:column id="zipCol">
+                  <f:facet id="zipFct" name="header">Zip</f:facet>
+                  #{_hotel.zip}
+               </h:column>
+               <h:column id="actionCol">
+                  <f:facet id="actionFct" name="header">Action</f:facet>
+                  <ui:remove><!--<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>--></ui:remove>
+               </h:column>
+            </h:dataTable>
+            <h:form id="paginationForm">
+               <h:commandButton id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}"/>
+               #{' '}
+               <h:commandButton id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
+               <ui:remove>
+               <!-- links in Mojarra are broken -->
+               <h:commandLink id="previousResults" value="More results" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
+                  <f:ajax listener="#{hotelSearch.previousPage}" render="searchResults"/>
+               </h:commandLink>
+               <h:commandLink id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
+                  <f:ajax listener="#{hotelSearch.nextPage}" render="searchResults"/>
+               </h:commandLink>
+               </ui:remove>
+            </h:form>
+         </div>
+       </h:panelGroup>
+
+<ui:remove>
+<div class="section">
+   <h1>Current Hotel Bookings</h1>
+</div>
+<div class="section">
+  <h:form id="bookings">
+   <h:outputText id="NoBookingsFoundMessage" value="No Bookings Found" rendered="#{bookings.rowCount==0}"/>
+   <h:dataTable id="bookings" value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
+      <h:column id="column1">
+         <f:facet id="NameFacet" name="header">Name</f:facet>
+         #{book.hotel.name}
+      </h:column>
+      <h:column id="column2">
+         <f:facet id="AddressFacet" name="header">Address</f:facet>
+         #{book.hotel.address}
+      </h:column>
+      <h:column id="column3">
+         <f:facet id="CityStateFacet" name="header">City, State</f:facet>
+         #{book.hotel.city}, #{book.hotel.state}
+      </h:column>
+        <h:column id="column4">
+            <f:facet id="CheckInDateFacet" name="header">Check in date</f:facet>
+            <h:outputText id="BookingCheckInDate" value="#{book.checkinDate}"/>
+        </h:column>
+        <h:column id="column5">
+            <f:facet id="CheckOutDateFacet" name="header">Check out date</f:facet>
+            <h:outputText id="BookingCheckOutDate" value="#{book.checkoutDate}"/>
+        </h:column>
+      <h:column id="column6">
+         <f:facet id="ConfNumberFacet" name="header">Confirmation number</f:facet>
+         #{book.id}
+      </h:column>
+      <h:column id="column7">
+         <f:facet id="ActionFacet" name="header">Action</f:facet>
+         <h:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
+      </h:column>
+   </h:dataTable>
+  </h:form>
+</div>
+</ui:remove>
+
+   </ui:define>
+
+   <ui:define name="sidebar">
+
+      <h1>State management in Seam</h1>
+      <p>
+         State in Seam is <em>contextual</em>. When you click "Find Hotels", the application
+         retrieves a list of hotels from the database and caches it in the session context. When you
+         navigate to one of the hotel records by clicking the "View Hotel" link, a <em>conversation</em> 
+         begins. The conversation is attached to a particular tab, in a particular browser window. You can
+         navigate to multiple hotels using "open in new tab" or "open in new window" in your web browser.
+         Each window will execute in the context of a different conversation. The application keeps state
+         associated with your hotel booking in the conversation context, which ensures that the concurrent
+         conversations do not interfere with each other.
+      </p>
+
+      <p>
+         <a href="#" onclick="window.open('exp/mainExp.html','exp','width=752,height=500,scrollbars=yes');">
+            How does the search page work?
+         </a>
+      </p>
+
+   </ui:define>
+
+</ui:composition>
