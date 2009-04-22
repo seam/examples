@@ -6,10 +6,12 @@
 
    <display-name>Seam Booking Example</display-name>
    
+   <!--
    <context-param>
       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
       <param-value>.xhtml</param-value>
    </context-param>
+   -->
    
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
