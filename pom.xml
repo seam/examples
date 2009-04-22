@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>seam-version-matrix</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
+   </parent>
+
+   <groupId>org.jboss.seam.examples</groupId>
+   <artifactId>parent</artifactId>
+   <packaging>pom</packaging>
+   <version>3.0.0-SNAPSHOT</version>
+   <name>Seam Examples</name>
+
+   <description>
+      Examples for the Seam Framework
+   </description>
+   
+   <url>http://www.seamframework.org</url>
+
+   <developers>
+      <developer>
+         <name>Pete Muir</name>
+         <roles>
+            <role>Project Lead</role>
+         </roles>
+         <email>pete.muir@jboss.org</email>
+         <organization>JBoss, a division of Red Hat</organization>
+         <url>http://in.relation.to/Bloggers/Pete</url>
+      </developer>
+
+      <developer>
+         <name>Gavin King</name>
+         <roles>
+            <role>Project Founder</role>
+         </roles>
+         <url>http://in.relation.to/Bloggers/Gavin</url>
+         <organization>JBoss, a division of Red Hat</organization>
+      </developer>
+
+      <developer>
+         <name>Norman Richards</name>
+         <roles>
+            <role>Core Developer</role>
+         </roles>
+         <url>http://in.relation.to/Bloggers/Norman</url>
+         <organization>JBoss, a division of Red Hat</organization>
+      </developer>
+
+      <developer>
+         <name>Shane Bryzak</name>
+         <roles>
+            <role>Core Developer</role>
+         </roles>
+         <url>http://in.relation.to/Bloggers/Shane</url>
+         <organization>JBoss, a division of Red Hat</organization>
+      </developer>
+
+      <developer>
+         <name>Dan Allen</name>
+         <roles>
+            <role>Core Developer</role>
+         </roles>
+         <url>http://in.relation.to/Bloggers/Dan</url>
+         <organization>JBoss, a division of Red Hat</organization>
+      </developer>
+      
+      <!-- TODO continue adding core developers -->
+      
+   </developers>
+   
+   <modules>
+      <module>booking</module>
+   </modules>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+         </plugin>
+         <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-release-plugin</artifactId>
+           <version>2.0-beta-8</version>
+           <configuration>
+             <tagBase>https://svn.jboss.org/repos/seam/examples/tags</tagBase>
+             <autoVersionSubmodules>true</autoVersionSubmodules>
+           </configuration>
+         </plugin>
+      </plugins>
+      <defaultGoal>package</defaultGoal>
+
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <configuration>
+                  <source>1.5</source>
+                  <target>1.5</target>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-jar-plugin</artifactId>
+               <configuration>
+                  <archive>
+                     <manifest>
+                        <addDefaultImplementationEntries>
+                           true
+                        </addDefaultImplementationEntries>
+                        <addDefaultSpecificationEntries>
+                           true
+                        </addDefaultSpecificationEntries>
+                     </manifest>
+                  </archive>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>emma-maven-plugin</artifactId>
+               <configuration>
+                  <forkMode>once</forkMode>
+                  <metadataFile>../target/coverage.em</metadataFile>
+                  <outputDirectory>${project.build.directory}/generated-classes</outputDirectory>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-war-plugin</artifactId>
+               <!--
+               <configuration>
+                  <warSourceDirectory>${basedir}/WebContent</warSourceDirectory>
+               </configuration>
+               -->
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-ejb-plugin</artifactId>
+               <configuration>
+                  <ejbVersion>3.0</ejbVersion>
+               </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+   </build>
+   
+   <ciManagement>
+      <system>Hudson</system>
+      <url />
+   </ciManagement>
+
+   <issueManagement>
+      <system>JIRA</system>
+      <url>http://jira.jboss.org/browse/JBSEAM</url>
+   </issueManagement>
+
+   <inceptionYear>2005</inceptionYear>
+
+   <licenses>
+      <license>
+         <name>Lesser Gnu Public License, Version 2.1</name>
+         <url>http://www.gnu.org/licenses/lgpl-2.1.html</url>
+      </license>
+   </licenses>
+
+   <scm>
+      <connection>scm:svn:http://anonsvn.jboss.org/repos/seam/examples</connection>
+      <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/examples</developerConnection>
+      <url>http://fisheye.jboss.org/browse/Seam/examples</url>
+   </scm>
+
+   <distributionManagement>
+      <repository>
+         <!-- Copy the dist to the local checkout of the JBoss maven2 repo ${maven.repository.root} -->
+         <!-- It is anticipated that ${maven.repository.root} be set in user's settings.xml -->
+         <!-- todo : replace this with direct svn access once the svnkit providers are available -->
+         <id>repository.jboss.org</id>
+         <url>file://${maven.repository.root}</url>
+      </repository>
+      <snapshotRepository>
+         <id>snapshots.jboss.org</id>
+         <name>JBoss Snapshot Repository</name>
+         <url>dav:https://snapshots.jboss.org/maven2</url>
+      </snapshotRepository>
+   </distributionManagement>
+
+   <reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <configuration>
+               <formats>
+                  <format>html</format>
+                  <format>xml</format>
+               </formats>
+               <!--
+               <instrumentation>
+                  <ignores>
+                     <ignore>org.jboss.seam.*</ignore>
+                  </ignores>
+               </instrumentation>
+               -->
+            </configuration>
+         </plugin>
+      </plugins>
+   </reporting>
+
+</project>
