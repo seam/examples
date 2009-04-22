@@ -26,7 +26,7 @@
                <defaultJavaBundleDir>lib</defaultJavaBundleDir>
                <jboss>
                   <version>4.2</version>
-                  <!-- If you use loader-repository, it will break Web Beans -->
+                  <!-- loader-repository gets added automatically by Web Beans -->
                   <!--<loader-repository>${project.groupId}:loader=${project.build.finalName}</loader-repository>-->
                   <data-sources>
                      <data-source>${project.parent.artifactId}-ds.xml</data-source>
