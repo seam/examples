@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+   <Resource name="jcdi/Manager"
+      auth="Container"
+      type="javax.inject.manager.Manager"
+      factory="org.jboss.webbeans.resources.ManagerReferenceFactory"/>
+</Context>

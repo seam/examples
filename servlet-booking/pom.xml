@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.jboss.seam.examples</groupId>
+      <artifactId>parent</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
+   </parent>
+
+   <artifactId>seam-servlet-booking</artifactId>
+   <packaging>war</packaging>
+   <name>Seam Booking Example (Servlet Container)</name>
+
+   <build>
+      <defaultGoal>package</defaultGoal>
+      <finalName>${project.artifactId}</finalName>
+      <plugins>
+
+         <plugin>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>maven-jetty-plugin</artifactId>
+            <version>6.1.16</version>
+            <configuration>
+               <connectors>
+                  <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                     <port>${jetty.run.port}</port>
+                     <maxIdleTime>3600000</maxIdleTime>
+                  </connector>
+               </connectors>
+               <scanIntervalSeconds>10</scanIntervalSeconds>
+               <webAppConfig>
+                  <contextPath>/${project.build.finalName}</contextPath>
+               </webAppConfig>
+            </configuration>
+            <dependencies/>
+         </plugin>
+
+      </plugins>
+   </build>
+
+   <properties>
+      <jetty.run.port>9090</jetty.run.port>
+      <jetty.debug.port>9190</jetty.debug.port>
+   </properties>
+
+   <dependencies>
+
+      <dependency>
+         <groupId>org.testng</groupId>
+         <artifactId>testng</artifactId>
+         <scope>test</scope>
+         <classifier>jdk15</classifier>
+      </dependency>
+
+      <!-- disable after upgrading to JSF 2 -->
+      <dependency>
+         <groupId>com.sun.facelets</groupId>
+         <artifactId>jsf-facelets</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.annotation</groupId>
+         <artifactId>jsr250-api</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-api</artifactId>
+         <version>1.2_12</version>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-impl</artifactId>
+         <scope>runtime</scope>
+         <version>1.2_12</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.webbeans</groupId>
+         <artifactId>jsr299-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.webbeans.servlet</groupId>
+         <artifactId>webbeans-servlet</artifactId>
+         <scope>compile</scope> <!-- change to runtime after removing ManagerReference -->
+      </dependency>
+
+   </dependencies>
+
+</project>
