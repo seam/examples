@@ -22,7 +22,6 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-ear-plugin</artifactId>
-            <version>2.3.2</version> <!-- why is this not inheriting? w/o it I get 2.3.1! -->
             <configuration>
                <defaultJavaBundleDir>lib</defaultJavaBundleDir>
                <jboss>
