@@ -4,5 +4,5 @@
    <Resource name="jcdi/Manager"
       auth="Container"
       type="javax.inject.manager.Manager"
-      factory="org.jboss.webbeans.resources.ManagerReferenceFactory"/>
+      factory="org.jboss.webbeans.resources.ManagerObjectFactory"/>
 </Context>

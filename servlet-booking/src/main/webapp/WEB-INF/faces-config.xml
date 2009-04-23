@@ -6,13 +6,17 @@
     
    <application>
       <!-- disable after upgrading to JSF 2 -->
+      <!--
       <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+      -->
    </application>
 
+   <!--
    <managed-bean>
       <managed-bean-name>beanLookup</managed-bean-name>
-	  <managed-bean-class>org.jboss.seam.examples.booking.BeanLookup</managed-bean-class>
-	  <managed-bean-scope>request</managed-bean-scope>
+      <managed-bean-class>org.jboss.seam.examples.booking.BeanLookup</managed-bean-class>
+      <managed-bean-scope>request</managed-bean-scope>
    </managed-bean>
+   -->
 
 </faces-config>

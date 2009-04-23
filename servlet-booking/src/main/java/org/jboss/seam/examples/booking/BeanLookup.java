@@ -2,14 +2,14 @@ package org.jboss.seam.examples.booking;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.faces.ManagedBean;
-//import javax.faces.RequestScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.inject.manager.Manager;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-//@ManagedBean
-//@RequestScoped
+@ManagedBean(name = "beanLookup")
+@RequestScoped
 public class BeanLookup {
    public void lookupManager() {
       try {

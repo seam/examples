@@ -12,8 +12,8 @@
 
    <artifactId>seam-booking</artifactId>
    <packaging>pom</packaging>
-   <name>Seam Booking Example</name>
-   <description>Seam Booking Example</description>
+   <name>Seam Booking Example (Java EE 5)</name>
+   <description>The Seam booking example for deployment to a Java EE 5 application server</description>
 
    <modules>
       <module>${project.artifactId}-ejb</module>
@@ -27,7 +27,6 @@
          <plugins>
 
             <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-compiler-plugin</artifactId>
                <configuration>
                   <source>1.5</source>
@@ -36,7 +35,6 @@
             </plugin>
 
             <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-ejb-plugin</artifactId>
                <configuration>
                   <ejbVersion>3.0</ejbVersion>
@@ -46,6 +44,17 @@
          </plugins>
       </pluginManagement>
    </build>
+
+   <profiles>
+
+      <profile>
+         <id>explode</id>
+         <properties>
+            <maven.test.skip>true</maven.test.skip>
+         </properties>
+      </profile>
+
+   </profiles>
 
    <dependencyManagement>
       <dependencies>

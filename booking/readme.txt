@@ -18,21 +18,39 @@ inside an EAR, execute the following command:
  mvn
 
 Then, set the JBOSS_HOME environment variable to the location of a JBoss AS 5
-installation. Once that's done, execute the following command to deploy the
-application to JBoss AS via JMX:
+installation and start the server. Maven will assume that JBoss AS is running
+on port 8080. Once that's done, you can deploy the application to JBoss AS via
+JMX by executing this command:
 
- mvn -f seam-booking-ear/pom.xml jboss:deploy
+ mvn -o -f seam-booking-ear/pom.xml jboss:deploy
 
 You can undeploy the application via JMX using this command:
 
- mvn -f seam-booking-ear/pom.xml jboss:undeploy
+ mvn -o -f seam-booking-ear/pom.xml jboss:undeploy
 
-Here's the chained restart command:
+Here's the chained restart command via JMX:
 
- mvn -f seam-booking-ear/pom.xml jboss:undeploy && mvn package && mvn -f seam-booking-ear/pom.xml jboss:deploy
+ mvn -o -f seam-booking-ear/pom.xml jboss:undeploy && mvn -o package && mvn -o -f seam-booking-ear/pom.xml jboss:deploy
 
 If you would rather deploy more traditional way by copying the archive directly
 to the deploy directory of the JBoss AS domain, use this command instead:
 
- mvn -f seam-booking-ear/pom.xml jboss:harddeploy
+ mvn -o -f seam-booking-ear/pom.xml jboss:harddeploy
 
+But it's better to use the antrun plugin since it is smarter about what it
+copies, which is bound to the end of the package goal when the jboss-explode
+profile is active:
+
+ mvn -o package -Pexplode
+
+You can remove the archive by activating the jboss-unexplode profile:
+
+ mvn -o validate -Punexplode
+
+Note that the -o puts Maven in offline mode so that it doesn't perform time
+consuming update checks.
+
+---
+When this profile is activated, the maven-antrun-plugin will copy the exploded
+packages for the WAR, EJB-JAR, and EAR to the JBoss AS deploy directory. This
+all happens in the maven package phase.

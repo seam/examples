@@ -7,10 +7,12 @@
    <display-name>Seam Booking Example (Servlet Container)</display-name>
    
    <!-- disable after upgrading to JSF 2 -->
+   <!--
    <context-param>
       <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
       <param-value>.xhtml</param-value>
    </context-param>
+   -->
    
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>

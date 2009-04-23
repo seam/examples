@@ -26,10 +26,15 @@ immediately. If a change to a configuration file is made, the application will
 automatically redeploy. The redeploy behavior can be fined tuned in the plugin
 configuration (at least for Jetty).
 
-If you want to run the application on a standalone Tomcat 6, first download,
-extract and start Tomcat 6. This build assumes that Tomcat is available at
-localhost on port 8080. You can deploy the packaged archive to Tomcat via HTTP
-PUT using this command:
+If you want to run the application on a standalone Tomcat 6, first download and
+extract Tomcat 6.  This build assumes you will be running Tomcat in its default
+configuration, with a hostname of localhost and port 8080. Before starting
+Tomcat, add the following line to conf/tomcat-users.xml to allow the Maven
+Tomcat plugin to access the manager application, then start Tomcat:
+
+ <user username="admin" password="" roles="manager"/>
+
+You can deploy the packaged archive to Tomcat via HTTP PUT using this command:
 
  mvn package tomcat:deploy
 
@@ -55,3 +60,8 @@ But likely you want to run one or more build goals first before you redeploy:
 Use of the war:inplace + tomcat:inplace goals are not recommended as it causes
 files to be copied to your src/main/webapp directory. You may accidently check
 them into the source repository or include them in the deployable archive.
+
+---
+Have to decide if you want war:inplace which mixes compiled files w/ source
+files but gives you instant change or change the warSourceDirectory and require
+war:exploded to be run to see changes take affect.
