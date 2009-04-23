@@ -27,9 +27,9 @@ You can undeploy the application via JMX using this command:
 
  mvn -f seam-booking-ear/pom.xml jboss:undeploy
 
-Here's the restart (mega) command:
+Here's the chained restart command:
 
-mvn -f seam-booking-ear/pom.xml jboss:undeploy && mvn package && mvn -f seam-booking-ear/pom.xml jboss:deploy
+ mvn -f seam-booking-ear/pom.xml jboss:undeploy && mvn package && mvn -f seam-booking-ear/pom.xml jboss:deploy
 
 If you would rather deploy more traditional way by copying the archive directly
 to the deploy directory of the JBoss AS domain, use this command instead:
