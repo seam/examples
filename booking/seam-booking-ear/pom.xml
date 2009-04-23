@@ -56,7 +56,9 @@
    </build>
 
    <properties>
+      <!-- To override jboss.home, set the jboss.home property in an active profile in the Maven 2 settings.xml file -->
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
+      <jboss.domain>default</jboss.domain>
    </properties>
 
    <profiles>
@@ -77,7 +79,7 @@
                               <property name="ejb-jar.staging.dir" value="../${archive.name}-ejb/target/classes"/>
                               <property name="war.staging.dir" value="../${archive.name}-war/target/${archive.name}"/>
 
-                              <property name="ear.deploy.dir" value="${jboss.home}/server/default/deploy/${archive.name}.ear"/>
+                              <property name="ear.deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy/${archive.name}.ear"/>
                               <property name="ejb-jar.deploy.dir" value="${ear.deploy.dir}/${archive.name}-ejb.jar"/>
                               <property name="war.deploy.dir" value="${ear.deploy.dir}/${archive.name}.war"/>
 
@@ -93,22 +95,30 @@
                                  <fileset dir="${ejb-jar.staging.dir}"/>
                               </copy>
 
-                              <!-- This reads "if none of the files in EJB-JAR are newer than application.xml, set the property ejb-jar.unchanged" -->
+                              <!-- Read as: if none of the files in EJB-JAR are newer than application.xml, set the property ejb-jar.unchanged -->
                               <uptodate property="ejb-jar.unchanged" targetfile="${ear.deploy.dir}/META-INF/application.xml">
                                  <srcfiles dir="${ejb-jar.deploy.dir}" includes="**/*"/>
                               </uptodate>
 
-                              <!-- Only touch application.xml if the application is not yet deployed or a file in EJB-JAR has changed -->
+                              <copy todir="${war.deploy.dir}" verbose="false" preservelastmodified="true" includeEmptyDirs="false">
+                                 <fileset dir="${war.staging.dir}"/>
+                              </copy>
+
+                              <!-- Read as: if none of the config files in WAR are newer than application.xml, set the property webapp-config.unchanged -->
+                              <uptodate property="webapp-config.unchanged" targetfile="${ear.deploy.dir}/META-INF/application.xml">
+                                 <srcfiles dir="${war.deploy.dir}">
+                                    <include name="WEB-INF/web.xml"/>
+                                 </srcfiles>
+                              </uptodate>
+
+                              <!-- Only touch application.xml if the application is not deployed, a file in EJB-JAR has changed or a webapp config file has changed -->
                               <condition property="restart">
                                  <or>
                                      <not><isset property="deployed"/></not>
                                      <not><isset property="ejb-jar.unchanged"/></not>
+                                     <not><isset property="webapp-config.unchanged"/></not>
                                  </or>
                               </condition>
-
-                              <copy todir="${war.deploy.dir}" verbose="false" preservelastmodified="true" includeEmptyDirs="false">
-                                 <fileset dir="${war.staging.dir}"/>
-                              </copy>
 
                               <!-- do a checksum to see if application.xml, jboss-app.xml, or -ds.xml need to be updated -->
                               <!-- this copy implicitly touches application.xml if the restart property is set since it is generated each time -->
@@ -134,7 +144,7 @@
       </profile>
 
       <profile>
-         <id>unexplode</id>
+         <id>restart</id>
          <build>
             <plugins>
                <plugin>
@@ -144,8 +154,42 @@
                         <phase>validate</phase>
                         <configuration>
                            <tasks>
-                              <property name="ear.deploy.dir" value="${env.JBOSS_HOME}/server/default/deploy/${project.build.finalName}.ear"/>
+                              <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy"/>
+                              <property name="ear.archive.name" value="${project.build.finalName}.ear"/>
+                              <property name="ear.deploy.dir" value="${deploy.dir}/${ear.archive.name}"/>
+                              <available property="deployed" file="${ear.deploy.dir}/META-INF/application.xml" type="file"/>
+                              <touch>
+                                 <fileset dir="${deploy.dir}">
+                                    <include name="${ear.archive.name}/META-INF/application.xml" if="deployed"/>
+                                 </fileset>
+                              </touch>
+                           </tasks>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+
+            </plugins>
+         </build>
+      </profile>
+
+      <profile>
+         <id>undeploy</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <phase>validate</phase>
+                        <configuration>
+                           <tasks>
+                              <property name="ear.deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy/${project.build.finalName}.ear"/>
                               <delete dir="${ear.deploy.dir}" quiet="true" failonerror="true"/>
+                              <delete file="${ear.deploy.dir}" quiet="true" failonerror="true"/>
                            </tasks>
                         </configuration>
                         <goals>
