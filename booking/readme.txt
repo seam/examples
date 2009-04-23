@@ -50,7 +50,9 @@ You can remove the archive by activating the jboss-unexplode profile:
 Note that the -o puts Maven in offline mode so that it doesn't perform time
 consuming update checks.
 
----
+----------------------
+Unfinished intructions
+----------------------
 When this profile is activated, the maven-antrun-plugin will copy the exploded
 packages for the WAR, EJB-JAR, and EAR to the JBoss AS deploy directory. This
 all happens in the maven package phase.

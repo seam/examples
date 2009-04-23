@@ -61,7 +61,9 @@ Use of the war:inplace + tomcat:inplace goals are not recommended as it causes
 files to be copied to your src/main/webapp directory. You may accidently check
 them into the source repository or include them in the deployable archive.
 
----
+-----------------------
+Unfinished instructions
+-----------------------
 Have to decide if you want war:inplace which mixes compiled files w/ source
 files but gives you instant change or change the warSourceDirectory and require
 war:exploded to be run to see changes take affect.
