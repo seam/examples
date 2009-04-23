@@ -38,14 +38,18 @@ to the deploy directory of the JBoss AS domain, use this command instead:
  mvn -o -f seam-booking-ear/pom.xml jboss:harddeploy
 
 But it's better to use the antrun plugin since it is smarter about what it
-copies, which is bound to the end of the package goal when the jboss-explode
-profile is active:
+copies, which is bound to the end of the package goal when the explode profile
+is active:
 
  mvn -o package -Pexplode
 
-You can remove the archive by activating the jboss-unexplode profile:
+You can force a restart of the application by activating the restart profile:
 
- mvn -o validate -Punexplode
+ mvn -o validate -Prestart
+
+You can remove the archive by activating the undeploy profile:
+
+ mvn -o validate -Pundeploy
 
 Note that the -o puts Maven in offline mode so that it doesn't perform time
 consuming update checks.
