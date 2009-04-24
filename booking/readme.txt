@@ -1,5 +1,5 @@
-Seam Booking Example
-====================
+Seam Booking Example (Java EE 5)
+================================
 
 This example demonstrates the use of Seam 3 in a Java EE 6 environment (or a
 Java EE 5 environment enhanced with JSR-299 [Web Beans] and JSF 2.0).
