@@ -14,7 +14,7 @@ public class BeanLookup {
    public void lookupManager() {
       try {
          InitialContext ic = new InitialContext();
-         Manager manager = (Manager) ic.lookup("java:comp/env/jcdi/Manager");
+         Manager manager = (Manager) ic.lookup("java:comp/env/app/Manager");
          if (manager != null) {
             Logger logger = Logger.getLogger(BeanLookup.class.getName());
             logger.log(Level.INFO, "JCDI manager: " + manager.toString());

@@ -1,8 +1,8 @@
-Seam Booking Example
-====================
+Seam Booking Example (Servlet Container)
+========================================
 
 This example demonstrates the use of Seam 3 in a Servlet container environment
-(Tomcat 6 or Jetty 6). Contextual state management and dependency injection are
+(Tomcat 6 / Jetty 6). Contextual state management and dependency injection are
 handled by JSR-299. Transaction and persistence context management is handled
 by the EJB 3 container. No alterations are expected to be made to the Servlet
 container. All services are self-contained within the deployment.
@@ -13,26 +13,46 @@ the build.
 
  mvn
 
+Now you are ready to deploy.
+
+== Deploying with an embedded servlet container
+
 Run this command to execute the application in an embedded Jetty 6 container:
 
- mvn jetty:run
+ mvn war:inplace jetty:run
 
 You can also execute the application in an embedded Tomcat 6 container:
 
- mvn tomcat:run
+ mvn war:inplace tomcat:run
 
-In both cases, any changes to assets in src/main/webapp will take affect
-immediately. If a change to a configuration file is made, the application will
-automatically redeploy. The redeploy behavior can be fined tuned in the plugin
-configuration (at least for Jetty).
+In both cases, any changes to assets in src/main/webapp take affect
+immediately. If a change to a webapp configuration file is made, the
+application may automatically redeploy. The redeploy behavior can be fined
+tuned in the plugin configuration (at least for Jetty). If you make a change
+to a classpath resource, you need to execute a build:
+
+ mvn compile war:inplace
+
+Note that war:inplace copies the compiled classes and JARs inside WebContent,
+under WEB-INF/classes and WEB-INF/lib, respectively, mixing source and compiled
+files. However, the build does work around these temporary files by excluding
+them from the packaged WAR and cleaning them during the Maven clean phase.
+These folders are also ignored by SVN.
+
+== Deploying to standalone Tomcat
 
 If you want to run the application on a standalone Tomcat 6, first download and
-extract Tomcat 6.  This build assumes you will be running Tomcat in its default
+extract Tomcat 6. This build assumes you will be running Tomcat in its default
 configuration, with a hostname of localhost and port 8080. Before starting
 Tomcat, add the following line to conf/tomcat-users.xml to allow the Maven
 Tomcat plugin to access the manager application, then start Tomcat:
 
  <user username="admin" password="" roles="manager"/>
+
+To override this username and password, add a <server> with id tomcat in your
+Maven 2 settings.xml file, set the <username> and <password> elements to the
+appropriate values and uncomment the <server> element inside the
+tomcat-maven-plugin configuration in the pom.xml.
 
 You can deploy the packaged archive to Tomcat via HTTP PUT using this command:
 
@@ -57,13 +77,3 @@ But likely you want to run one or more build goals first before you redeploy:
  mvn war:exploded tomcat:redeploy
  mvn compile war:exploded tomcat:redeploy
 
-Use of the war:inplace + tomcat:inplace goals are not recommended as it causes
-files to be copied to your src/main/webapp directory. You may accidently check
-them into the source repository or include them in the deployable archive.
-
------------------------
-Unfinished instructions
------------------------
-Have to decide if you want war:inplace which mixes compiled files w/ source
-files but gives you instant change or change the warSourceDirectory and require
-war:exploded to be run to see changes take affect.

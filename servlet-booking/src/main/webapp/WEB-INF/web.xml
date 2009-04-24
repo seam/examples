@@ -6,14 +6,6 @@
 
    <display-name>Seam Booking Example (Servlet Container)</display-name>
    
-   <!-- disable after upgrading to JSF 2 -->
-   <!--
-   <context-param>
-      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-      <param-value>.xhtml</param-value>
-   </context-param>
-   -->
-   
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
       <param-value>true</param-value>
@@ -40,7 +32,7 @@
 
    <resource-env-ref>
      <description>Object factory for the JCDI Manager</description>
-     <resource-env-ref-name>jcdi/Manager</resource-env-ref-name>
+     <resource-env-ref-name>app/Manager</resource-env-ref-name>
      <resource-env-ref-type>javax.inject.manager.Manager</resource-env-ref-type>
    </resource-env-ref>
    
