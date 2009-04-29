@@ -1,0 +1,21 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://http://java.sun.com/jsf/composite/property">
+    
+   <p:display label="Name" value="#{hotel.name}"/>
+   <p:display label="Address" value="#{hotel.address}"/>
+   <p:display label="City" value="#{hotel.city}"/>
+   <p:display label="State" value="#{hotel.state}"/>
+   <p:display label="Zip" value="#{hotel.zip}"/>
+   <p:display label="Country" value="#{hotel.country}"/>
+   <p:display label="Nightly rate" override="true">
+      <h:outputText value="#{hotel.price}">
+         <f:convertNumber type="currency" currencySymbol="$"/>
+      </h:outputText>
+   </p:display>
+
+</ui:composition>

@@ -1,0 +1,115 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://http://java.sun.com/jsf/composite/property"
+   template="/WEB-INF/layout/template.xhtml">
+
+   <ui:define name="content">
+      <div class="section">
+         <h1>Book Hotel</h1>
+      </div>
+
+      <div class="section">
+         <div class="entry errors">
+            <h:messages id="messages" globalOnly="true"/>
+         </div>
+      
+         <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
+         
+         <div style="clear: both;"/>
+      
+         <h:form id="booking">
+            <fieldset>
+                  
+               <p:edit id="checkinDate" label="Check-in date">
+                  <h:inputText id="input" value="#{booking.checkinDate}">
+                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                  </h:inputText>
+               </p:edit>
+
+               <p:edit id="checkoutDate" label="Check-out date">
+                  <h:inputText id="input" value="#{booking.checkoutDate}">
+                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                  </h:inputText>
+               </p:edit>
+               
+               <p:edit id="beds" label="Room preference">
+                  <h:selectOneMenu id="input" value="#{booking.beds}">
+                     <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
+                     <f:selectItem itemLabel="Two double beds" itemValue="2"/>
+                     <f:selectItem itemLabel="Three beds" itemValue="3"/>
+                  </h:selectOneMenu>
+               </p:edit>
+               
+               <p:edit id="smoking" label="Smoking preference">
+                  <h:selectOneRadio id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
+                     <f:selectItem itemLabel="Smoking" itemValue="true"/>
+                     <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
+                  </h:selectOneRadio>
+               </p:edit>
+
+               <p:edit id="creditCardName" label="Credit card name">
+                  <h:inputText id="input" value="#{booking.creditCardName}"/>
+               </p:edit>
+
+               <p:edit id="creditCardNumber" label="Credit card #">
+                  <h:inputText id="input" value="#{booking.creditCard}"/>
+               </p:edit>
+
+               <p:edit id="creditCardExpiry" label="Credit card expiry">
+                  <h:selectOneMenu id="input" value="#{booking.creditCardExpiryMonth}">
+                     <f:selectItem itemLabel="Jan" itemValue="1"/>
+                     <f:selectItem itemLabel="Feb" itemValue="2"/>
+                     <f:selectItem itemLabel="Mar" itemValue="3"/>
+                     <f:selectItem itemLabel="Apr" itemValue="4"/>
+                     <f:selectItem itemLabel="May" itemValue="5"/>
+                     <f:selectItem itemLabel="Jun" itemValue="6"/>
+                     <f:selectItem itemLabel="Jul" itemValue="7"/>
+                     <f:selectItem itemLabel="Aug" itemValue="8"/>
+                     <f:selectItem itemLabel="Sep" itemValue="9"/>
+                     <f:selectItem itemLabel="Oct" itemValue="10"/>
+                     <f:selectItem itemLabel="Nov" itemValue="11"/>
+                     <f:selectItem itemLabel="Dec" itemValue="12"/>
+                  </h:selectOneMenu>
+                  <h:selectOneMenu id="input2" value="#{booking.creditCardExpiryYear}">
+                     <f:selectItem itemLabel="2009" itemValue="2009"/>
+                     <f:selectItem itemLabel="2010" itemValue="2010"/>
+                     <f:selectItem itemLabel="2011" itemValue="2011"/>
+                     <f:selectItem itemLabel="2012" itemValue="2012"/>
+                     <f:selectItem itemLabel="2013" itemValue="2013"/>
+                  </h:selectOneMenu>
+               </p:edit>
+
+               <div class="buttonBox">
+                  <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validateBooking}"/>
+                  #{' '}
+                  <h:commandButton id="cancel" value="Cancel" action="#{bookingAgent.cancel}" immediate="true"/>
+               </div>
+               
+            </fieldset>
+         </h:form>
+      </div>
+
+   </ui:define>
+
+   <ui:define name="sidebar">
+
+      <h1>Workspace management</h1>
+      <p>
+         As you can see, Seam makes it easy to work in multiple windows or
+         multiple browser tabs. But you can even switch between multiple tasks
+         inside a single browser tab!  The "Workspaces" section showcases this
+         advanced feature.
+      </p>
+      <p>
+         <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
+            How does the workspace list work?
+         </a>
+      </p>
+
+   </ui:define>
+
+</ui:composition>

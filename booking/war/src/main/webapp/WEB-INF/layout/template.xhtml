@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"><ui:remove><!-- Using <f:view> as the root prevents conversation from propagating correctly--></ui:remove>
+   <h:head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <title>JBoss Suites: Seam Framework</title>
+      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+      <link href="#{request.contextPath}/css/screen.css" rel="stylesheet" type="text/css"/>
+      <ui:insert name="head"/>
+   </h:head>
+   <h:body>
+      <div id="document">
+         <div id="header">
+            <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
+            <div id="status">
+               <h:link id="about" outcome="/home.xhtml" value="About"/>
+               #{' | '}
+               <h:link id="search" outcome="/main.xhtml" value="Search"/>
+               <ui:remove><!--
+               Welcome #{user.name} or use (#{user.name})
+               | <h:link id="search" outcome="/main.xhtml" value="Search"/>
+               | <h:link id="settings" outcome="/password.xhtml" value="Settings"/>
+               | <s:link id="logout" action="#{identity.logout}" value="Logout"/>
+               --></ui:remove>
+            </div>
+         </div>
+         <div id="container">
+            <div id="sidebar">
+               <ui:insert name="sidebar"/>
+            </div>
+            <div id="content">
+               <ui:insert name="content"/>
+            </div>
+         </div>
+         <div id="footer">
+            Created with Seam 3.0, Web Beans, EJB 3.0 and JSF 2.0
+            <br/>
+            #{javax.context.conversation}
+         </div>
+      </div>
+   </h:body>
+</html>
