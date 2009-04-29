@@ -23,13 +23,24 @@
 
       <!--
       <dependency>
-         <groupId>com.sun.facelets</groupId>
-         <artifactId>jsf-facelets</artifactId>
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-api</artifactId>
+         <scope>provided</scope>
       </dependency>
 
       <dependency>
-         <groupId>org.jboss.el</groupId>
-         <artifactId>jboss-el</artifactId>
+         <groupId>javax.el</groupId>
+         <artifactId>el-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      -->
+
+      <!-- is this necessary? is it for upgrading to EL 1.2? -->
+      <!--
+      <dependency>
+         <groupId>javax.el</groupId>
+         <artifactId>el-ri</artifactId>
+         <scope>runtime</scope>
          <exclusions>
             <exclusion>
                <groupId>javax.el</groupId>
@@ -39,9 +50,18 @@
       </dependency>
       -->
 
+      <!--
       <dependency>
-         <groupId>javax.el</groupId>
-         <artifactId>el-ri</artifactId>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-faces</artifactId>
+      </dependency>
+      -->
+
+      <!-- pulled in by seam-el
+      <dependency>
+         <groupId>org.jboss.el</groupId>
+         <artifactId>jboss-el</artifactId>
+         <scope>runtime</scope>
          <exclusions>
             <exclusion>
                <groupId>javax.el</groupId>
@@ -49,6 +69,7 @@
             </exclusion>
          </exclusions>
       </dependency>
+      -->
       
    </dependencies>
 

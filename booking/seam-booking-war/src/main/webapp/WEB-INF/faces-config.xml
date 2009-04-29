@@ -3,28 +3,81 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
    version="2.0">
-    
-   <application>
-      <!--
-      <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-      -->
-   </application>
+   
+   <navigation-rule>
+      <from-view-id>*</from-view-id>
+
+      <navigation-case>
+         <from-action>#{bookingAgent.cancel}</from-action>
+         <to-view-id>/main.xhtml</to-view-id>
+         <if>#{true}</if>
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
 
    <navigation-rule>
-	   <!-- navigation rules are required to reset request-scoped producer variables -->
-	   <from-view-id>/main.xhtml</from-view-id>
-	   <navigation-case>
-		   <from-action>#{hotelSearch.find}</from-action>
-		   <to-view-id>/main.xhtml</to-view-id>
-		   <if>#{true}</if>
-		   <redirect/>
-	   </navigation-case>
-	   <navigation-case>
-		   <from-action>#{hotelSearch.nextPage}</from-action>
-		   <to-view-id>/main.xhtml</to-view-id>
-		   <if>#{true}</if>
-		   <redirect/>
-	   </navigation-case>
+      <from-view-id>/main.xhtml</from-view-id>
+
+      <!-- navigation rules are required to reset request-scoped producer variables -->
+      <!--
+      <navigation-case>
+         <from-action>#{hotelSearch.find}</from-action>
+         <to-view-id>/main.xhtml</to-view-id>
+         <if>#{true}</if>
+         <redirect/>
+      </navigation-case>
+      <navigation-case>
+         <from-action>#{hotelSearch.nextPage}</from-action>
+         <to-view-id>/main.xhtml</to-view-id>
+         <if>#{true}</if>
+         <redirect/>
+      </navigation-case>
+      -->
+
+      <navigation-case>
+         <from-action>#{bookingAgent.selectHotel(_hotel)}</from-action>
+         <to-view-id>/hotel.xhtml</to-view-id>
+         <if>#{bookingAgent.hotelSelection != null}</if>
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/hotel.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{bookingAgent.bookHotel}</from-action>
+         <to-view-id>/book.xhtml</to-view-id>
+         <if>#{bookingAgent.booking != null}</if>
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/book.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{bookingAgent.validateBooking}</from-action>
+         <to-view-id>/confirm.xhtml</to-view-id>
+         <if>#{bookingAgent.bookingValid}</if>
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/confirm.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{bookingAgent.confirm}</from-action>
+         <to-view-id>/main.xhtml</to-view-id>
+         <if>#{true}</if>
+         <redirect/>
+      </navigation-case>
+
    </navigation-rule>
 
 </faces-config>

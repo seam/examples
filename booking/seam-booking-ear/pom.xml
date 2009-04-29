@@ -19,16 +19,6 @@
       <finalName>${project.parent.artifactId}</finalName>
       <plugins>
 
-         <!--
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jboss-maven-plugin</artifactId>
-            <configuration>
-               <fileName>${project.build.directory}/${project.build.finalName}</fileName>
-            </configuration>
-         </plugin>
-         -->
-
          <plugin>
             <artifactId>maven-ear-plugin</artifactId>
             <configuration>
@@ -55,12 +45,6 @@
       </plugins>
    </build>
 
-   <properties>
-      <!-- To override jboss.home, set the jboss.home property in an active profile in the Maven 2 settings.xml file -->
-      <jboss.home>${env.JBOSS_HOME}</jboss.home>
-      <jboss.domain>default</jboss.domain>
-   </properties>
-
    <profiles>
 
       <profile>
@@ -71,6 +55,7 @@
                   <artifactId>maven-antrun-plugin</artifactId>
                   <executions>
                      <execution>
+                        <id>explode-to-jboss-as</id>
                         <phase>package</phase>
                         <configuration>
                            <tasks>
@@ -151,6 +136,7 @@
                   <artifactId>maven-antrun-plugin</artifactId>
                   <executions>
                      <execution>
+                        <id>restart-on-jboss-as</id>
                         <phase>validate</phase>
                         <configuration>
                            <tasks>
@@ -184,6 +170,7 @@
                   <artifactId>maven-antrun-plugin</artifactId>
                   <executions>
                      <execution>
+                        <id>undeploy-from-jboss-as</id>
                         <phase>validate</phase>
                         <configuration>
                            <tasks>

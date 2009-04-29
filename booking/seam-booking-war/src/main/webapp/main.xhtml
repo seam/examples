@@ -7,6 +7,22 @@
    xmlns:s="http://jboss.com/products/seam/taglib"
    template="/WEB-INF/layout/template.xhtml">
 
+   <ui:define name="head">
+      <script type="text/javascript">
+function controlSpinner(behavior)
+{
+   if (behavior.name == 'begin')
+   {
+      document.getElementById('activity').style.display = 'inline'; 
+   }
+   else if (behavior.name == 'complete')
+   {
+      document.getElementById('activity').style.display = 'none'; 
+   }
+}
+      </script>
+   </ui:define>
+
    <ui:define name="content">
 
       <div class="section">
@@ -17,24 +33,17 @@
     
          <h1>Search Hotels</h1>
 
-         <h:form id="searchForm">
+         <h:form id="searchForm" prependId="false">
             <fieldset> 
                <h:inputText id="searchString" value="#{searchCriteria.searchString}" style="width: 165px;">
-                  <f:ajax event="keyup" listener="#{hotelSearch.find}" render="searchResults"/>
+                  <f:ajax event="keyup" listener="#{hotelSearch.find}" render="searchResults" onevent="controlSpinner"/>
                </h:inputText>
                #{' '}
                <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}">
-                  <ui:remove><f:ajax listener="#{hotelSearch.find}" render="searchResults"/></ui:remove>
+                  <f:ajax listener="#{hotelSearch.find}" execute="searchString" render="searchResults" onevent="controlSpinner"/>
                </h:commandButton>
-               <ui:remove>
-               <!--
-               <a:status id="status">
-                  <f:facet id="startStatus" name="start">
-                     <h:graphicImage id="SpinnerGif" value="/img/spinner.gif"/>
-                  </f:facet>
-               </a:status>
-               -->
-               </ui:remove>
+               #{' '}
+               <span id="activity" style="display: none;"><h:graphicImage id="spinner" value="/img/spinner.gif"/></span>
                <br/>
                <h:outputLabel id="lblPageSize" for="pageSize" value="Maximum results:"/>
                #{' '}
@@ -50,28 +59,34 @@
       <h:panelGroup id="searchResults">
          <div class="section">
             <h:outputText id="noHotelsMsg" value="No Hotels Found" rendered="#{empty hotels}"/>
-            <h:dataTable id="hotels" value="#{hotels}" var="_hotel" rendered="#{not empty hotels}">
-               <h:column id="nameCol">
-                  <f:facet id="nameFct" name="header">Name</f:facet>
-                  #{_hotel.name}
-               </h:column>
-               <h:column id="addressCol">
-                  <f:facet id="addressFct" name="header">Address</f:facet>
-                  #{_hotel.address}
-               </h:column>
-               <h:column id="locationCol">
-                  <f:facet id="locationFct" name="header">Location</f:facet>
-                  #{_hotel.city}, #{_hotel.state}, #{_hotel.country}
-               </h:column> 
-               <h:column id="zipCol">
-                  <f:facet id="zipFct" name="header">Zip</f:facet>
-                  #{_hotel.zip}
-               </h:column>
-               <h:column id="actionCol">
-                  <f:facet id="actionFct" name="header">Action</f:facet>
-                  <ui:remove><!--<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>--></ui:remove>
-               </h:column>
-            </h:dataTable>
+            <h:form id="hotelSelectionForm">
+               <h:dataTable id="hotels" value="#{hotels}" var="_hotel" rendered="#{not empty hotels}"
+                  columnClasses=",,,,action">
+                  <h:column id="nameCol">
+                     <f:facet id="nameFct" name="header">Name</f:facet>
+                     #{_hotel.name}
+                  </h:column>
+                  <h:column id="addressCol">
+                     <f:facet id="addressFct" name="header">Address</f:facet>
+                     #{_hotel.address}
+                  </h:column>
+                  <h:column id="locationCol">
+                     <f:facet id="locationFct" name="header">Location</f:facet>
+                     #{_hotel.city}, #{_hotel.state}, #{_hotel.country}
+                  </h:column> 
+                  <h:column id="zipCol">
+                     <f:facet id="zipFct" name="header">Zip</f:facet>
+                     #{_hotel.zip}
+                  </h:column>
+                  <h:column id="actionCol">
+                     <f:facet id="actionFct" name="header">Action</f:facet>
+                     <h:commandLink id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}" style="white-space: nowrap;"/>
+                     <ui:remove>
+                     <h:commandButton id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}"/>
+                     </ui:remove>
+                  </h:column>
+               </h:dataTable>
+            </h:form>
             <h:form id="paginationForm">
                <h:commandButton id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}"/>
                #{' '}
@@ -90,6 +105,7 @@
        </h:panelGroup>
 
 <ui:remove>
+<!--
 <div class="section">
    <h1>Current Hotel Bookings</h1>
 </div>
@@ -128,6 +144,7 @@
    </h:dataTable>
   </h:form>
 </div>
+-->
 </ui:remove>
 
    </ui:define>

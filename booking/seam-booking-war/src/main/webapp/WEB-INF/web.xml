@@ -5,17 +5,20 @@
    version="2.5">
 
    <display-name>Seam Booking Example</display-name>
-   
-   <!--
-   <context-param>
-      <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-      <param-value>.xhtml</param-value>
-   </context-param>
-   -->
-   
+
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>
       <param-value>true</param-value>
+   </context-param>
+   
+   <context-param>
+      <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+      <param-value>true</param-value>
+   </context-param>
+
+   <context-param>
+      <param-name>javax.faces.PROJECT_STAGE</param-name>
+      <param-value>Development</param-value>
    </context-param>
    
    <servlet>
@@ -32,5 +35,14 @@
    <session-config>
       <session-timeout>10</session-timeout> 
    </session-config>   
+
+   <security-constraint>
+      <display-name>Restrict access to XHTML documents</display-name>
+      <web-resource-collection>
+         <web-resource-name>XHTML</web-resource-name>
+         <url-pattern>*.xhtml</url-pattern>
+      </web-resource-collection>
+      <auth-constraint/>
+   </security-constraint>
    
 </web-app>

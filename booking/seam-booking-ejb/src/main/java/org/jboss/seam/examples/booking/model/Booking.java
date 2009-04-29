@@ -1,18 +1,23 @@
-/*
+/* 
  * JBoss, Home of Professional Open Source
- * Copyright 2008, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,  
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  *
  * $Id$
  */
@@ -25,7 +30,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Date;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -71,18 +75,6 @@ class Booking implements Serializable
       this.user = user;
    }
 
-   @Transient
-   public BigDecimal getTotal()
-   {
-      return hotel.getPrice().multiply(new BigDecimal(getNights()));
-   }
-
-   @Transient
-   public int getNights()
-   {
-      return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
-   }
-
    @Id
    @GeneratedValue
    public Long getId()
@@ -96,7 +88,6 @@ class Booking implements Serializable
    }
 
    @NotNull
-   @Basic
    @Temporal(DATE)
    public Date getCheckinDate()
    {
@@ -108,8 +99,8 @@ class Booking implements Serializable
       this.checkinDate = datetime;
    }
 
-   @ManyToOne
    @NotNull
+   @ManyToOne
    public Hotel getHotel()
    {
       return hotel;
@@ -120,8 +111,8 @@ class Booking implements Serializable
       this.hotel = hotel;
    }
 
-   @ManyToOne
    @NotNull
+   @ManyToOne
    public User getUser()
    {
       return user;
@@ -132,9 +123,8 @@ class Booking implements Serializable
       this.user = user;
    }
 
-   @Basic
-   @Temporal(TemporalType.DATE)
    @NotNull
+   @Temporal(TemporalType.DATE)
    public Date getCheckoutDate()
    {
       return checkoutDate;
@@ -156,15 +146,6 @@ class Booking implements Serializable
    public void setCreditCard(String creditCard)
    {
       this.creditCard = creditCard;
-   }
-
-   @Transient
-   public String getDescription()
-   {
-      DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-      return hotel == null ? null : hotel.getName() +
-         ", " + df.format(getCheckinDate()) +
-         " to " + df.format(getCheckoutDate());
    }
 
    public boolean isSmoking()
@@ -219,9 +200,30 @@ class Booking implements Serializable
       this.creditCardExpiryYear = creditCardExpiryYear;
    }
 
+   @Transient
+   public String getDescription()
+   {
+      DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+      return hotel == null ? null : hotel.getName() +
+         ", " + df.format(getCheckinDate()) +
+         " to " + df.format(getCheckoutDate());
+   }
+
+   @Transient
+   public BigDecimal getTotal()
+   {
+      return hotel.getPrice().multiply(new BigDecimal(getNights()));
+   }
+
+   @Transient
+   public int getNights()
+   {
+      return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
+   }
+
    @Override
    public String toString()
    {
-      return "Booking(" + user + "," + hotel + ")";
+      return "Booking(" + user + ", " + hotel + ")";
    }
 }
