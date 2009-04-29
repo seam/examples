@@ -61,8 +61,8 @@
                            <tasks>
                               <property name="archive.name" value="${project.build.finalName}"/>
                               <property name="ear.staging.dir" value="${project.build.directory}/${archive.name}"/>
-                              <property name="ejb-jar.staging.dir" value="../${archive.name}-ejb/target/classes"/>
-                              <property name="war.staging.dir" value="../${archive.name}-war/target/${archive.name}"/>
+                              <property name="ejb-jar.staging.dir" value="../ejb-jar/target/classes"/>
+                              <property name="war.staging.dir" value="../war/target/${archive.name}"/>
 
                               <property name="ear.deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy/${archive.name}.ear"/>
                               <property name="ejb-jar.deploy.dir" value="${ear.deploy.dir}/${archive.name}-ejb.jar"/>
