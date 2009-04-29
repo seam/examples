@@ -16,9 +16,9 @@
    <description>The Seam booking example for deployment to a Java EE 5 application server</description>
 
    <modules>
-      <module>${project.artifactId}-ejb</module>
-      <module>${project.artifactId}-war</module>
-      <module>${project.artifactId}-ear</module>
+      <module>ejb-jar</module>
+      <module>war</module>
+      <module>ear</module>
    </modules>
 
    <build>
