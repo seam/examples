@@ -1,5 +1,6 @@
 package org.jboss.seam.examples.booking.session;
 
+import javax.annotation.Named;
 import javax.annotation.PreDestroy;
 import javax.context.RequestScoped;
 import javax.ejb.Stateful;
@@ -12,21 +13,21 @@ import org.jboss.seam.international.StatusMessages;
 import ui.RegistrationFormControls;
 
 /**
- *
  * @author Dan Allen
  */
 public
+@Named("passwordManager")
 @Stateful
 @RequestScoped
 class PasswordManagerBean implements PasswordManager
 {
-   private @PersistenceContext EntityManager em;
+   @PersistenceContext EntityManager em;
 
-   private @Current StatusMessages statusMessages;
+   @Current StatusMessages statusMessages;
 
-   private @Current RegistrationFormControls formControls;
+   @Current RegistrationFormControls formControls;
 
-   private @Registered User user;
+   @Registered User user;
 
    private String confirmPassword;
 
@@ -36,7 +37,9 @@ class PasswordManagerBean implements PasswordManager
    {
       if (user.getPassword().equals(confirmPassword))
       {
-         user = em.merge(user);
+         // FIXME: dirty hack, can't merge a managed bean
+         em.merge(new User(user.getName(), user.getUsername(), user.getPassword()));
+         user.setPassword(null);
          statusMessages.add("Password successfully updated.");
          changed = true;
       }

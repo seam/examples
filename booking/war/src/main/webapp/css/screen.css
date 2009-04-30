@@ -269,6 +269,11 @@ td.action {
    color: #C7B299;
    text-decoration: none;
 }
+#status span.user {
+   padding-right: 5px;
+   color: #FFFDFB;
+   font-weight: normal;
+}
 /* Homepage Modifications
 ----------------------------------------------- */
 body.home #container {

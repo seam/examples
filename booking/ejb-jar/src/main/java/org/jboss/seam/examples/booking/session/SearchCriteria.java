@@ -81,6 +81,7 @@ class SearchCriteria implements Serializable
       this.pageSize = pageSize;
    }
 
+   // QUESTION: rename to searchTerm?
    public String getSearchString()
    {
       return searchString;

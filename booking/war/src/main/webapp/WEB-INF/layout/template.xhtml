@@ -18,17 +18,21 @@
       <div id="document">
          <div id="header">
             <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
-            <div id="status">
-               <h:link id="about" outcome="/home.xhtml" value="About"/>
-               #{' | '}
-               <h:link id="search" outcome="/main.xhtml" value="Search"/>
-               <ui:remove><!--
-               Welcome #{user.name} or use (#{user.name})
-               | <h:link id="search" outcome="/main.xhtml" value="Search"/>
-               | <h:link id="settings" outcome="/password.xhtml" value="Settings"/>
-               | <s:link id="logout" action="#{identity.logout}" value="Logout"/>
-               --></ui:remove>
-            </div>
+            <h:form id="menuForm">
+               <div id="status">
+                  <h:outputText value="(#{user.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
+                  #{' '}
+                  <h:link id="about" outcome="/home.xhtml" value="About"/>
+                  #{' | '}
+                  <h:link id="search" outcome="/main.xhtml" value="Search"/>
+                  <h:panelGroup rendered="#{identity.loggedIn}">
+                     #{' | '}
+                     <h:link id="settings" outcome="/password.xhtml" value="Settings"/>
+                     #{' | '}
+                     <h:commandLink id="logout" action="#{identity.logout}" value="Logout"/>
+                  </h:panelGroup>
+               </div>
+            </h:form>
          </div>
          <div id="container">
             <div id="sidebar">

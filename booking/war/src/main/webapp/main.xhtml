@@ -40,7 +40,7 @@ function controlSpinner(behavior)
                </h:inputText>
                #{' '}
                <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}">
-                  <f:ajax listener="#{hotelSearch.find}" execute="searchString" render="searchResults" onevent="controlSpinner"/>
+                  <f:ajax execute="searchString" render="searchResults" onevent="controlSpinner"/>
                </h:commandButton>
                #{' '}
                <span id="activity" style="display: none;"><h:graphicImage id="spinner" value="/img/spinner.gif"/></span>
@@ -48,6 +48,7 @@ function controlSpinner(behavior)
                <h:outputLabel id="lblPageSize" for="pageSize" value="Maximum results:"/>
                #{' '}
                <h:selectOneMenu id="pageSize" value="#{searchCriteria.pageSize}">
+                  <f:ajax listener="#{hotelSearch.find}" render="searchResults" onevent="controlSpinner"/>
                   <f:selectItem itemLabel="5" itemValue="5"/>
                   <f:selectItem itemLabel="10" itemValue="10"/>
                   <f:selectItem itemLabel="20" itemValue="20"/>
@@ -63,23 +64,23 @@ function controlSpinner(behavior)
                <h:dataTable id="hotels" value="#{hotels}" var="_hotel" rendered="#{not empty hotels}"
                   columnClasses=",,,,action">
                   <h:column id="nameCol">
-                     <f:facet id="nameFct" name="header">Name</f:facet>
+                     <f:facet id="nameFct" name="header">Hotel name</f:facet>
                      #{_hotel.name}
                   </h:column>
-                  <h:column id="addressCol">
-                     <f:facet id="addressFct" name="header">Address</f:facet>
+                  <h:column id="addrCol">
+                     <f:facet id="addrFct" name="header">Address</f:facet>
                      #{_hotel.address}
                   </h:column>
-                  <h:column id="locationCol">
-                     <f:facet id="locationFct" name="header">Location</f:facet>
-                     #{_hotel.city}, #{_hotel.state}, #{_hotel.country}
+                  <h:column id="locCol">
+                     <f:facet id="locFct" name="header">Location</f:facet>
+                     #{_hotel.location}
                   </h:column> 
                   <h:column id="zipCol">
                      <f:facet id="zipFct" name="header">Zip</f:facet>
                      #{_hotel.zip}
                   </h:column>
-                  <h:column id="actionCol">
-                     <f:facet id="actionFct" name="header">Action</f:facet>
+                  <h:column id="actCol">
+                     <f:facet id="actFct" name="header">Action</f:facet>
                      <h:commandLink id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}" style="white-space: nowrap;"/>
                      <ui:remove>
                      <h:commandButton id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}"/>
@@ -88,64 +89,73 @@ function controlSpinner(behavior)
                </h:dataTable>
             </h:form>
             <h:form id="paginationForm">
-               <h:commandButton id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}"/>
+               <h:commandButton id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
+                  <f:ajax render="searchResults" onevent="controlSpinner"/>
+               </h:commandButton>
                #{' '}
-               <h:commandButton id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
+               <h:commandButton id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
+                  <f:ajax render="searchResults" onevent="controlSpinner"/>
+               </h:commandButton>
                <ui:remove>
-               <!-- links in Mojarra are broken -->
-               <h:commandLink id="previousResults" value="More results" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
-                  <f:ajax listener="#{hotelSearch.previousPage}" render="searchResults"/>
+               <h:commandLink id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
+                  <f:ajax render="searchResults" onevent="controlSpinner"/>
                </h:commandLink>
+               #{' '}
                <h:commandLink id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
-                  <f:ajax listener="#{hotelSearch.nextPage}" render="searchResults"/>
+                  <f:ajax render="searchResults" onevent="controlSpinner"/>
                </h:commandLink>
                </ui:remove>
             </h:form>
          </div>
-       </h:panelGroup>
+      </h:panelGroup>
 
-<ui:remove>
-<!--
-<div class="section">
-   <h1>Current Hotel Bookings</h1>
-</div>
-<div class="section">
-  <h:form id="bookings">
-   <h:outputText id="NoBookingsFoundMessage" value="No Bookings Found" rendered="#{bookings.rowCount==0}"/>
-   <h:dataTable id="bookings" value="#{bookings}" var="book" rendered="#{bookings.rowCount>0}">
-      <h:column id="column1">
-         <f:facet id="NameFacet" name="header">Name</f:facet>
-         #{book.hotel.name}
-      </h:column>
-      <h:column id="column2">
-         <f:facet id="AddressFacet" name="header">Address</f:facet>
-         #{book.hotel.address}
-      </h:column>
-      <h:column id="column3">
-         <f:facet id="CityStateFacet" name="header">City, State</f:facet>
-         #{book.hotel.city}, #{book.hotel.state}
-      </h:column>
-        <h:column id="column4">
-            <f:facet id="CheckInDateFacet" name="header">Check in date</f:facet>
-            <h:outputText id="BookingCheckInDate" value="#{book.checkinDate}"/>
-        </h:column>
-        <h:column id="column5">
-            <f:facet id="CheckOutDateFacet" name="header">Check out date</f:facet>
-            <h:outputText id="BookingCheckOutDate" value="#{book.checkoutDate}"/>
-        </h:column>
-      <h:column id="column6">
-         <f:facet id="ConfNumberFacet" name="header">Confirmation number</f:facet>
-         #{book.id}
-      </h:column>
-      <h:column id="column7">
-         <f:facet id="ActionFacet" name="header">Action</f:facet>
-         <h:commandLink id="cancel" value="Cancel" action="#{bookingList.cancel}"/>
-      </h:column>
-   </h:dataTable>
-  </h:form>
-</div>
--->
-</ui:remove>
+      <div class="section">
+         <h1>Current Hotel Bookings</h1>
+      </div>
+      <div class="section">
+         <h:panelGroup rendered="#{not identity.loggedIn}">
+            You must be logged in to see the list of your hotel bookings.
+         </h:panelGroup>
+         <h:form id="bookings" rendered="#{identity.loggedIn}">
+            <h:outputText value="No bookings found." rendered="#{bookings.size == 0}"/>
+            <h:dataTable id="bookings" value="#{bookings}" var="_booking" rendered="#{bookings.size gt 0}">
+               <ui:remove>
+               <h:column id="nameCol">
+                  <f:facet id="nameFct" name="header">Hotel name</f:facet>
+                  #{_booking.hotel}
+               </h:column>
+               <h:column id="addrCol">
+                  <f:facet id="addrCol" name="header">Address</f:facet>
+                  #{_booking.hotel.address}
+               </h:column>
+               <h:column id="locCol">
+                  <f:facet id="locFct" name="header">Location</f:facet>
+                  #{_booking.hotel.location}
+               </h:column>
+               </ui:remove>
+               <h:column id="inCol">
+                  <f:facet id="inCol" name="header">Check-in date</f:facet>
+                  <h:outputText value="#{_booking.checkinDate}">
+                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                  </h:outputText>
+               </h:column>
+               <h:column id="outCol">
+                  <f:facet id="outFct" name="header">Check-out date</f:facet>
+                  <h:outputText value="#{_booking.checkoutDate}">
+                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                  </h:outputText>
+               </h:column>
+               <h:column id="idCol">
+                  <f:facet id="idFct" name="header">Confirmation number</f:facet>
+                  #{_booking.id}
+               </h:column>
+               <h:column id="actCol">
+                  <f:facet id="ActFct" name="header">Action</f:facet>
+                  <h:commandLink id="cancel" value="Cancel" action="#{bookingHistory.cancelBooking(_booking)}"/>
+               </h:column>
+            </h:dataTable>
+         </h:form>
+      </div>
 
    </ui:define>
 

@@ -49,11 +49,11 @@ class User implements Serializable
    private String password;
    private String name;
 
-   public User(String name, String password, String username)
+   public User(String name, String username, String password)
    {
       this.name = name;
-      this.password = password;
       this.username = username;
+      this.password = password;
    }
 
    public User()

@@ -8,8 +8,27 @@
       <from-view-id>*</from-view-id>
 
       <navigation-case>
+         <from-action>#{identity.logout}</from-action>
+         <if>#{true}</if>
+         <to-view-id>/home.xhtml</to-view-id>
+         <redirect/>
+      </navigation-case>
+
+      <navigation-case>
          <from-action>#{bookingAgent.cancel}</from-action>
          <if>#{true}</if>
+         <to-view-id>/main.xhtml</to-view-id>
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/home.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{identity.login}</from-action>
+         <if>#{identity.loggedIn}</if>
          <to-view-id>/main.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
@@ -87,7 +106,19 @@
          <from-action>#{registrar.register}</from-action>
          <if>#{registrar.registered}</if>
          <to-view-id>/account.xhtml</to-view-id>
-         <!--<redirect/> disabled until messages can be kept over redirect -->
+         <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/password.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{passwordManager.changePassword}</from-action>
+         <if>#{passwordManager.changed}</if>
+         <to-view-id>/account.xhtml</to-view-id>
+         <redirect/>
       </navigation-case>
 
    </navigation-rule>

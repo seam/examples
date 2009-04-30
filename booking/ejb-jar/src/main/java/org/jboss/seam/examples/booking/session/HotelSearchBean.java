@@ -31,10 +31,11 @@ import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.inject.Current;
 import javax.inject.Produces;
-import javax.inject.manager.Manager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.model.Hotel;
+import org.jboss.webbeans.log.Log;
+import org.jboss.webbeans.log.Logger;
 
 public
 @Named("hotelSearch")
@@ -42,11 +43,14 @@ public
 @SessionScoped
 class HotelSearchBean implements HotelSearch
 {
-   @Current Manager manager;
+   private @Logger Log log;
+
+   @PersistenceContext EntityManager em;
+
    @Current SearchCriteria criteria;
 
-   private @PersistenceContext EntityManager em;
    private boolean nextPageAvailable = false;
+
    private List<Hotel> hotels = new ArrayList<Hotel>();
 
    public void find()
@@ -98,7 +102,6 @@ class HotelSearchBean implements HotelSearch
          setParameter("pattern", criteria.getSearchPattern()).setMaxResults(criteria.getPageSize() + 1).setFirstResult(criteria.getPage() * criteria.getPageSize()).
          getResultList();
 
-      System.out.println("Found " + results.size() + " hotels");
       nextPageAvailable = results.size() > criteria.getPageSize();
       if (nextPageAvailable)
       {
@@ -108,5 +111,6 @@ class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
+      log.info("Found " + hotels.size() + " hotels matching search term '" + criteria.getSearchString() + "' (limit " + criteria.getPageSize() + ")");
    }
 }

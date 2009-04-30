@@ -73,6 +73,7 @@ class Booking implements Serializable
    {
       this.hotel = hotel;
       this.user = user;
+      this.creditCardName = user.getName();
    }
 
    @Id

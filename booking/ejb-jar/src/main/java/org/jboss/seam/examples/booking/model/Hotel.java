@@ -31,6 +31,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -146,6 +147,12 @@ class Hotel implements Serializable
    public void setPrice(BigDecimal price)
    {
       this.price = price;
+   }
+
+   @Transient
+   public String getLocation()
+   {
+      return city + ", " + state + ", " + country;
    }
 
    @Override

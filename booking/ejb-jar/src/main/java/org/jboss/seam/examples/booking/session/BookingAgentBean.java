@@ -31,10 +31,15 @@ import javax.context.ConversationScoped;
 import javax.context.RequestScoped;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.event.Event;
+import javax.event.Fires;
 import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.jboss.seam.examples.booking.BookingEvent;
+import org.jboss.seam.examples.booking.Confirmed;
+import org.jboss.seam.examples.booking.Registered;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -49,7 +54,7 @@ public
 @ConversationScoped
 class BookingAgentBean implements BookingAgent
 {
-   //private @Logger Log log;
+   private @Logger Log log;
 
    @PersistenceContext(type = EXTENDED) EntityManager em;
 
@@ -59,6 +64,10 @@ class BookingAgentBean implements BookingAgent
 
    @Current BookingFormControls formControls;
 
+   @Registered User user;
+
+   //@Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
+
    private Hotel hotelSelection;
 
    private Booking booking;
@@ -67,17 +76,16 @@ class BookingAgentBean implements BookingAgent
 
    public void selectHotel(Hotel hotel)
    {
-      conversation.begin();
-	  // get a fresh reference that's managed by the conversational persistence context
+	   // NOTE get a fresh reference that's managed by the conversational persistence context
       hotelSelection = em.find(Hotel.class, hotel.getId());
+      log.info("Selected the " + hotelSelection.getName() + " in " + hotelSelection.getCity());
+      conversation.begin();
    }
 
    public void bookHotel()
    {
-      // FIXME use current user
-      User user = em.find(User.class, "dan");
       booking = new Booking(hotelSelection, user);
-      // push logic into Booking?
+      // QUESTION push logic into Booking?
       Calendar calendar = Calendar.getInstance();
       booking.setCheckinDate(calendar.getTime());
       calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -109,7 +117,8 @@ class BookingAgentBean implements BookingAgent
    public void confirm()
    {
       em.persist(booking);
-      //log.info("New booking confirmed for...");
+      //bookingConfirmedEvent.fire(new BookingEvent(booking));
+      log.info("New booking at the " + booking.getHotel().getName() + " confirmed for " + booking.getUser().getName());
       statusMessages.add("You're booked!");
       conversation.end();
    }

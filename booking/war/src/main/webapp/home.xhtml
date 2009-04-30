@@ -39,23 +39,20 @@
    </ui:define>
 
    <ui:define name="sidebar">
-      <h:form id="login">
+      <h:form id="login" rendered="#{not identity.loggedIn}">
          <fieldset>
-            <ui:remove>
             <div>
-               <h:outputLabel id="UsernameLabel" for="username">Login Name</h:outputLabel>
+               <h:outputLabel for="username" value="Login name"/>
                <h:inputText id="username" value="#{identity.username}" style="width: 175px;"/>
-               <div class="errors"><h:message id="UsernameMessage" for="username"/></div>
+               <div class="errors"><h:message for="username"/></div>
             </div>
             <div>
-               <h:outputLabel id="PasswordLabel" for="password">Password</h:outputLabel>
+               <h:outputLabel for="password" value="Password"/>
                <h:inputSecret id="password" value="#{identity.password}" style="width: 175px;"/>
             </div>
             <div class="errors"><h:messages id="messages" globalOnly="true"/></div>
             <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"/></div>
-            </ui:remove>
             <div class="notes"><h:link id="register" outcome="/register.xhtml" value="Register New User"/></div>
-            <ui:remove>
             <div class="subnotes">
                Or use a demo account:
                <ul>
@@ -65,7 +62,6 @@
                   <li>dan/maryland</li>
                </ul>
             </div>
-            </ui:remove>
          </fieldset>
       </h:form>
    </ui:define>

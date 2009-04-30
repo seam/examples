@@ -1,6 +1,8 @@
 package org.jboss.seam.examples.booking.session;
 
 import javax.ejb.Local;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -8,10 +10,17 @@ import javax.ejb.Local;
  */
 public
 @Local
-interface PasswordManager {
+interface PasswordManager
+{
    void changePassword();
+
    boolean isChanged();
+
    void setConfirmPassword(String password);
+
+   @NotNull
+   @Size(min = 5, max = 15)
    String getConfirmPassword();
+
    void destroy();
 }

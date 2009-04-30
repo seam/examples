@@ -12,13 +12,8 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.inject.BindingType;
-import org.jboss.seam.examples.booking.model.User;
 
 /**
- * A binding type representing something that is registererd.
- * In this simple application the only thing that can be
- * registered is a {@link User}.
- *
  * @author Dan Allen
  */
 public
@@ -30,6 +25,6 @@ public
 @Documented
 @BindingType
 @Inherited
-@interface Registered
+@interface Confirmed
 {
 }
