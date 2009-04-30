@@ -4,6 +4,9 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:f="http://java.sun.com/jsf/core"><ui:remove><!-- Using <f:view> as the root prevents conversation from propagating correctly--></ui:remove>
+   <f:facet name="metadata">
+      <ui:insert name="pageMetadata"/>
+   </f:facet>
    <h:head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <title>JBoss Suites: Seam Framework</title>
@@ -11,7 +14,7 @@
       <link href="#{request.contextPath}/css/screen.css" rel="stylesheet" type="text/css"/>
       <ui:insert name="head"/>
    </h:head>
-   <h:body>
+   <h:body styleClass="#{empty pageClass ? 'page' : 'home'}">
       <div id="document">
          <div id="header">
             <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>

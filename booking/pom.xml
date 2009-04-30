@@ -24,6 +24,7 @@
    <build>
       <defaultGoal>package</defaultGoal>
       <pluginManagement>
+
          <plugins>
 
             <!-- version matrix or parent? -->

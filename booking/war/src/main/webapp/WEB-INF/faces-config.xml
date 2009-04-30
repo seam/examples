@@ -9,8 +9,8 @@
 
       <navigation-case>
          <from-action>#{bookingAgent.cancel}</from-action>
-         <to-view-id>/main.xhtml</to-view-id>
          <if>#{true}</if>
+         <to-view-id>/main.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
 
@@ -23,22 +23,22 @@
       <!--
       <navigation-case>
          <from-action>#{hotelSearch.find}</from-action>
-         <to-view-id>/main.xhtml</to-view-id>
          <if>#{true}</if>
+         <to-view-id>/main.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
       <navigation-case>
          <from-action>#{hotelSearch.nextPage}</from-action>
-         <to-view-id>/main.xhtml</to-view-id>
          <if>#{true}</if>
+         <to-view-id>/main.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
       -->
 
       <navigation-case>
          <from-action>#{bookingAgent.selectHotel(_hotel)}</from-action>
-         <to-view-id>/hotel.xhtml</to-view-id>
          <if>#{bookingAgent.hotelSelection != null}</if>
+         <to-view-id>/hotel.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
 
@@ -49,8 +49,8 @@
 
       <navigation-case>
          <from-action>#{bookingAgent.bookHotel}</from-action>
-         <to-view-id>/book.xhtml</to-view-id>
          <if>#{bookingAgent.booking != null}</if>
+         <to-view-id>/book.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
 
@@ -61,8 +61,8 @@
 
       <navigation-case>
          <from-action>#{bookingAgent.validateBooking}</from-action>
-         <to-view-id>/confirm.xhtml</to-view-id>
          <if>#{bookingAgent.bookingValid}</if>
+         <to-view-id>/confirm.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
 
@@ -73,9 +73,21 @@
 
       <navigation-case>
          <from-action>#{bookingAgent.confirm}</from-action>
-         <to-view-id>/main.xhtml</to-view-id>
          <if>#{true}</if>
+         <to-view-id>/main.xhtml</to-view-id>
          <redirect/>
+      </navigation-case>
+
+   </navigation-rule>
+
+   <navigation-rule>
+      <from-view-id>/register.xhtml</from-view-id>
+
+      <navigation-case>
+         <from-action>#{registrar.register}</from-action>
+         <if>#{registrar.registered}</if>
+         <to-view-id>/account.xhtml</to-view-id>
+         <!--<redirect/> disabled until messages can be kept over redirect -->
       </navigation-case>
 
    </navigation-rule>

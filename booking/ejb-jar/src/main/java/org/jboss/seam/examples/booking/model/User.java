@@ -85,7 +85,8 @@ class User implements Serializable
    }
 
    @Id
-   @Size(min = 4, max = 15)
+   @NotNull
+   @Size(min = 3, max = 15)
    @Pattern(regexp = "^\\w*$", message = "not a valid username")
    public String getUsername()
    {

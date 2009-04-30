@@ -13,7 +13,7 @@
       </div>
 
       <div class="section">
-         <div class="entry errors">
+         <div class="errors">
             <h:messages id="messages" globalOnly="true"/>
          </div>
       
@@ -21,17 +21,17 @@
          
          <div style="clear: both;"/>
       
-         <h:form id="booking">
+         <h:form id="bookingForm">
             <fieldset>
                   
                <p:edit id="checkinDate" label="Check-in date">
-                  <h:inputText id="input" value="#{booking.checkinDate}">
+                  <h:inputText id="input" value="#{booking.checkinDate}" binding="#{bookingFormControls.checkinDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:edit>
 
                <p:edit id="checkoutDate" label="Check-out date">
-                  <h:inputText id="input" value="#{booking.checkoutDate}">
+                  <h:inputText id="input" value="#{booking.checkoutDate}" binding="#{bookingFormControls.checkoutDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:edit>
@@ -99,15 +99,15 @@
 
       <h1>Workspace management</h1>
       <p>
-         As you can see, Seam makes it easy to work in multiple windows or
-         multiple browser tabs. But you can even switch between multiple tasks
-         inside a single browser tab!  The "Workspaces" section showcases this
-         advanced feature.
+         As you can see, Seam makes it easy to work in multiple windows or multiple browser tabs. But you can even
+         switch between multiple tasks inside a single browser tab!  The "Workspaces" section showcases this advanced
+         feature.
       </p>
       <p>
          <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
             How does the workspace list work?
          </a>
+
       </p>
 
    </ui:define>

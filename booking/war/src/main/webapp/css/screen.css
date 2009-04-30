@@ -33,13 +33,13 @@ input {
    border: 1px solid #C3BBB6;
    padding: 4px;
    margin: 5px 0;
-   background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
+   background: #FFFFFF url(../img/input.bg.gif) 0 0 repeat-x;
 }
 select {
    border: 1px solid #C3BBB6;
-   padding: 4px;
+   padding: 1px;
    margin: 5px 0;
-   background: #fff url(../img/input.bg.gif) 0 0 repeat-x;
+   background: #FFFFFF url(../img/input.bg.gif) 0 0 repeat-x;
 }
 ol, ul {
    margin: 10px 0px 10px 6px;
@@ -54,7 +54,7 @@ fieldset {
 ----------------------------------------------- */
 #document {
    padding: 0 1px;
-   background: #fff url(../img/bg.gif) 0 0 repeat-y;
+   background: #FFFFFF url(../img/bg.gif) 0 0 repeat-y;
    float: left;
    border-bottom: 1px solid #C3BBB6;
 }
@@ -81,7 +81,7 @@ fieldset {
    width: 548px;
    margin-top: 75px;
    padding-top: 5px;
-   background: #fff url(../img/cnt.bg.gif) 0 0 repeat-x;
+   background: #FFFFFF url(../img/cnt.bg.gif) 0 0 repeat-x;
 }
 #footer {
    clear: both;
@@ -89,19 +89,20 @@ fieldset {
    float: left;
    padding: 20px;
    border-top: 1px solid #C3BBB6;
-   background-color: #fff;
+   background-color: #FFFFFF;
    width: 718px;
    text-align: right;
 }
 /* General
 ----------------------------------------------- */
-input[type="submit"], input[type="button"] {
+input[type=submit], input[type=button] {
    font-weight: bold;
-   color: #fff;
+   color: #FFFFFF;
    border: 1px solid #5D1414;
    height: 26px;
-   background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+   background: #FFFFFF url(../img/btn.bg.gif) 0 0 repeat-x;
    border-style: none;
+	cursor: pointer;
 }
 .center {
    text-align: center;
@@ -116,6 +117,9 @@ input[type="submit"], input[type="button"] {
    font-weight: bold;
    width: 160px;
    text-align: right;
+}
+.entry input {
+   margin: 0;
 }
 .entry .input, .entry .output, .entry .error {
    float: right;
@@ -135,8 +139,8 @@ input[type="submit"], input[type="button"] {
 .errors {
    font-size: small;
    font-weight: bold;
-   text-align: center;
-   color: #600;
+   /*text-align: center;*/
+   color: #600000;
 }
 .errors div {
    text-align: left;
@@ -145,10 +149,17 @@ input[type="submit"], input[type="button"] {
    text-align: left;
 }
 .errors input {
-   border: 1px solid #600;
+   border: 1px solid #600000;
 }
 .errors ul {
    list-style: none;
+}
+#messages {
+   margin-left: 1px;
+   margin-bottom: 20px;
+}
+#messages li {
+   margin-left: 0;
 }
 .buttonBox {
    text-align: center;
@@ -205,7 +216,7 @@ input[type="submit"], input[type="button"] {
 }
 #content table thead th {
    border-left: 1px solid #D2C9C4;
-   background: #fff url(../img/th.bg.gif) 0 100% repeat-x;   
+   background: #FFFFFF url(../img/th.bg.gif) 0 100% repeat-x;   
    border-bottom: 1px solid #D2C9C4;
    padding: 6px;
    text-align: left;
@@ -260,12 +271,17 @@ td.action {
 }
 /* Homepage Modifications
 ----------------------------------------------- */
-#pgHome #container {
+body.home #container {
    background: url(../img/hdr.ad.jpg) 0 0 repeat-x;
 }
-#pgHome #sidebar {
+body.home #sidebar {
    margin-top: 207px;
 }
-#pgHome #content {
+body.home #content {
    margin-top: 183px;
+}
+/* Extras
+----------------------------------------------- */
+#javax_faces_developmentstage_messages {
+   display: none;
 }

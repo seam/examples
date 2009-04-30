@@ -41,6 +41,7 @@ import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.webbeans.log.Log;
 import org.jboss.webbeans.log.Logger;
+import ui.BookingFormControls;
 
 public
 @Named("bookingAgent")
@@ -55,6 +56,8 @@ class BookingAgentBean implements BookingAgent
    @Current Conversation conversation;
 
    @Current StatusMessages statusMessages;
+
+   @Current BookingFormControls formControls;
 
    private Hotel hotelSelection;
 
@@ -89,12 +92,12 @@ class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if (booking.getCheckinDate().before(calendar.getTime()))
       {
-         statusMessages.addToControl("booking:checkinDate:input", "Check in date must be a future date");
+         statusMessages.addToControl(formControls.getCheckinDateControlId(), "Check in date must be a future date");
          bookingValid = false;
       }
       else if (!booking.getCheckinDate().before(booking.getCheckoutDate()))
       {
-         statusMessages.addToControl("booking:checkoutDate:input", "Check out date must be after check in date");
+         statusMessages.addToControl(formControls.getCheckoutDateControlId(), "Check out date must be after check in date");
          bookingValid = false;
       }
       else
