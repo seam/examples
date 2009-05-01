@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.account;
 
 import javax.annotation.Named;
 import javax.annotation.PreDestroy;
@@ -7,10 +7,10 @@ import javax.ejb.Stateful;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.Registered;
+import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessages;
-import ui.RegistrationFormControls;
+import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 
 /**
  * @author Dan Allen

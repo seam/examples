@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.booking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.BookingEvent;
-import org.jboss.seam.examples.booking.Confirmed;
-import org.jboss.seam.examples.booking.Registered;
+import org.jboss.seam.examples.booking.booking.BookingEvent;
+import org.jboss.seam.examples.booking.booking.Confirmed;
+import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessages;

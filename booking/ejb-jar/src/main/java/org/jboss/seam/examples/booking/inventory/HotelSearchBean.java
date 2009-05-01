@@ -21,8 +21,9 @@
  *
  * $Id$
  */
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.inventory;
 
+import org.jboss.seam.examples.booking.session.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Named;

@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Local;
 import org.jboss.seam.examples.booking.model.User;

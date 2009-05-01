@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.account;
 
 import javax.annotation.Named;
 import javax.context.SessionScoped;
@@ -7,7 +7,7 @@ import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.Registered;
+import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.security.Identity;
 

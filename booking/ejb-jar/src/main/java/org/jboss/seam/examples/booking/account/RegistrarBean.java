@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.session;
+package org.jboss.seam.examples.booking.account;
 
 import javax.annotation.Named;
 import javax.annotation.PreDestroy;
@@ -13,7 +13,7 @@ import org.jboss.seam.examples.booking.security.Credentials;
 import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
-import ui.RegistrationFormControls;
+import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 
 /**
  * @author Dan Allen
