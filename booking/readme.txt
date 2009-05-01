@@ -117,3 +117,6 @@ consuming update checks.
 = TODO
 
 - use Cargo plugin to support deployment to other Java EE servers (GlassFish)
+
+- refactor the password/confirm password into a reusable component (needed on
+  registration and change password)
