@@ -27,7 +27,7 @@
                <filesets>
                   <fileset>
                      <!-- clean up files from war:inplace -->
-                     <directory>src/main/webapp</directory>
+                     <directory>${webapp.directory}</directory>
                      <includes>
                         <include>WEB-INF/classes/**</include>
                         <include>WEB-INF/lib/**</include>
@@ -92,6 +92,7 @@
       <tomcat.http.port>8080</tomcat.http.port>
       <embedded-tomcat.http.port>9090</embedded-tomcat.http.port>
       <embedded-tomcat.debug.port>9190</embedded-tomcat.debug.port>
+      <webapp.directory>src/main/webapp</webapp.directory>
    </properties>
 
    <dependencies>
