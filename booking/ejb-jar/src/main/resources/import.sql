@@ -1,7 +1,7 @@
 insert into Customer (username, password, name) values ('gavin', 'mexico', 'Gavin King')
 insert into Customer (username, password, name) values ('pete', 'edinburgh', 'Pete Muir')
 insert into Customer (username, password, name) values ('shane', 'brisbane', 'Shane Bryzak')
-insert into Customer (username, password, name) values ('dan', 'maryland', 'Dan Allen')
+insert into Customer (username, password, name) values ('dan', 'laurel', 'Dan Allen')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (1, 120, 'Marriott Courtyard', 'Tower Place, Buckhead', 'Atlanta', 'GA', '30305', 'USA')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (2, 180, 'Doubletree', 'Tower Place, Buckhead', 'Atlanta', 'GA', '30305', 'USA')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (3, 450, 'W Hotel', 'Union Square, Manhattan', 'NY', 'NY', '10011', 'USA')

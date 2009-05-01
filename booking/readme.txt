@@ -5,12 +5,15 @@ This example demonstrates the use of Seam 3 in a Java EE 6 environment (or a
 Java EE 5 environment enhanced with JSR-299 [Web Beans] and JSF 2.0).
 Contextual state management and dependency injection are handled by JSR-299.
 Transaction and persistence context management is handled by the EJB 3
-container.
+container. Validation of input fields is handled by Bean Validation.
 
 Please consult the Web Beans reference documentation for instructions on how to
 deploy the Web Bean implementation to JBoss AS 5. To upgrade the JSF libraries
 to JSF 2.0, go to the Seam jsf-updater-tool module and follow the instructions
-there.
+there. You will also need to have Bean Validation installed in the container
+(or added to the classpath) in order for UI validation to work. Installing Bean
+Validation is as simple as putting the JARs in the library directory of the
+application server.
 
 This example uses a Maven 2 build. To build the EJB and WAR and package them
 inside an EAR, execute the following command:

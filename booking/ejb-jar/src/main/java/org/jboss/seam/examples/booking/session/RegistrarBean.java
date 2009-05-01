@@ -9,6 +9,7 @@ import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.examples.booking.security.Credentials;
 import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
@@ -29,6 +30,8 @@ class RegistrarBean implements Registrar
 
    @Current RegistrationFormControls formControls;
 
+   @Current Credentials credentials;
+
    @Current Identity identity;
 
    private User newUser;
@@ -44,8 +47,8 @@ class RegistrarBean implements Registrar
       if (verifyPasswordsMatch() && verifyUsernameIsAvailable())
       {
          em.persist(newUser);
-         identity.setUsername(newUser.getUsername());
-         identity.login();
+         credentials.setUsername(newUser.getUsername());
+         identity.autoLogin();
          registered = true;
          statusMessages.add("You have been successfully registered as the user {0}!", newUser.getUsername());
       }

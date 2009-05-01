@@ -4,7 +4,8 @@ import java.io.Serializable;
 import javax.annotation.Named;
 import javax.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.manager.Manager;
+import javax.inject.Current;
+import javax.inject.Initializer;
 
 /**
  * @author Dan Allen
@@ -14,59 +15,50 @@ public
 @SessionScoped
 class Identity implements Serializable
 {
-   private String username;
+   @Current Authenticator authenticator;
 
-   private String password;
+   private Credentials credentials;
 
    private boolean loggedIn;
+
+   public Identity() {}
+   
+   public @Initializer Identity(Credentials credentials)
+   {
+      this.credentials = credentials;
+   }
+
 
    public boolean isLoggedIn()
    {
       return loggedIn;
    }
 
-   public void setLoggedIn(boolean loggedIn)
-   {
-      this.loggedIn = loggedIn;
-   }
-
-   public String getPassword()
-   {
-      return password;
-   }
-
-   public void setPassword(String password)
-   {
-      this.password = password;
-   }
-
    public String getUsername()
    {
-      return username;
+      return credentials.getUsername();
    }
 
-   public void setUsername(String username)
+   public void autoLogin()
    {
-      this.username = username;
+      loggedIn = true;
    }
 
-   public boolean login()
+   public void login()
    {
-      if (username != null && username.length() > 0)
+      if (authenticator.authenticate())
       {
-         password = null;
          loggedIn = true;
-         return true;
+         // authenticationEvent.fire(new AuthenticationEvent(credentials), new AnnotationLiteral<Success>() {});
+         return;
       }
 
-      return false;
+      // authenticationEvent.fire(new AuthenticationEvent(credentials), new AnnotationLiteral<Failed>() {});
    }
-
-   Manager manager;
 
    public void logout()
    {
-      username = null;
+      credentials.clear();
       loggedIn = false;
       // FIXME this is a dirty hack to reset a producer
       FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
