@@ -51,7 +51,7 @@ class BookingHistoryBean implements BookingHistory {
       return bookingsForUser;
    }
 
-   // TODO should probably observe after transaction success
+   // TODO should probably observe @AfterTransactionSuccess (but it is broken)
    public void afterBookingConfirmed(@Observes @Confirmed BookingEvent bookingEvent)
    {
       getBookingsForCurrentUser();

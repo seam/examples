@@ -31,8 +31,10 @@ import javax.context.ConversationScoped;
 import javax.context.RequestScoped;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
+import javax.inject.AnnotationLiteral;
 import javax.inject.Current;
 import javax.inject.Produces;
+import javax.inject.manager.Manager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.account.Registered;
@@ -63,6 +65,7 @@ class BookingAgentBean implements BookingAgent
    @Registered User user;
 
    //@Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
+   @Current Manager manager;
 
    private Hotel hotelSelection;
 
@@ -113,7 +116,9 @@ class BookingAgentBean implements BookingAgent
    public void confirm()
    {
       em.persist(booking);
+      // FIXME can't inject event object into bean with passivating scope
       //bookingConfirmedEvent.fire(new BookingEvent(booking));
+      manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>() {});
       log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
       statusMessages.add("You're booked!");
       conversation.end();
