@@ -155,6 +155,15 @@ the Maven CLI plugin documented above.
 
 (5) @AfterTransactionSuccess observer does not work
 
+(6) Can't read properties from Hotel object in history list. Get this exception:
+    javax.inject.IllegalProductException: Cannot return null from a non-dependent producer method
+       at org.jboss.webbeans.bean.AbstractProducerBean.checkReturnValue(AbstractProducerBean.java:209)
+       at org.jboss.webbeans.bean.AbstractProducerBean.create(AbstractProducerBean.java:349)
+       at org.jboss.webbeans.context.AbstractMapContext.get(AbstractMapContext.java:98)
+       at org.jboss.webbeans.bean.proxy.ClientProxyMethodHandler.getProxiedInstance(ClientProxyMethodHandler.java:117)
+       at org.jboss.webbeans.bean.proxy.ClientProxyMethodHandler.invoke(ClientProxyMethodHandler.java:96)
+       at org.jboss.seam.examples.booking.model.Hotel_$$_javassist_227.getAddress(Hotel_$$_javassist_227.java)
+
 = Open questions
 
 - How do I clear a contextual bean from a scope, in particular the session scope? I've had to do workarounds.
