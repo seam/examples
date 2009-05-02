@@ -20,6 +20,14 @@
       <plugins>
 
          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jboss-maven-plugin</artifactId>
+            <configuration>
+               <jbossHome>${jboss.home}</jbossHome>
+            </configuration>
+         </plugin>
+
+         <plugin>
             <artifactId>maven-ear-plugin</artifactId>
             <configuration>
                <defaultJavaBundleDir>lib</defaultJavaBundleDir>
@@ -143,10 +151,12 @@
                               <property name="deploy.dir" value="${jboss.home}/server/${jboss.domain}/deploy"/>
                               <property name="ear.archive.name" value="${project.build.finalName}.ear"/>
                               <property name="ear.deploy.dir" value="${deploy.dir}/${ear.archive.name}"/>
-                              <available property="deployed" file="${ear.deploy.dir}/META-INF/application.xml" type="file"/>
+                              <available property="deployed" file="${ear.deploy.dir}" type="file"/>
+                              <available property="exploded" file="${ear.deploy.dir}/META-INF/application.xml" type="file"/>
                               <touch>
                                  <fileset dir="${deploy.dir}">
-                                    <include name="${ear.archive.name}/META-INF/application.xml" if="deployed"/>
+                                    <include name="${ear.archive.name}" if="deployed"/>
+                                    <include name="${ear.archive.name}/META-INF/application.xml" if="exploded"/>
                                  </fileset>
                               </touch>
                            </tasks>
