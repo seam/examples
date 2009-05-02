@@ -6,6 +6,7 @@ import javax.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Current;
 import javax.inject.Initializer;
+import javax.inject.manager.Manager;
 
 /**
  * @author Dan Allen
@@ -16,6 +17,8 @@ public
 class Identity implements Serializable
 {
    @Current Authenticator authenticator;
+
+   @Current Manager manager;
 
    private Credentials credentials;
 
@@ -62,5 +65,10 @@ class Identity implements Serializable
       loggedIn = false;
       // FIXME this is a dirty hack to reset a producer
       FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+
+//      Set<Bean<User>> candidates = manager.resolveByType(User.class, new AnnotationLiteral<Registered>() {});
+//      assert candidates.size() == 1;
+//      User user = manager.getInstanceByType(User.class, new AnnotationLiteral<Registered>() {});
+//      candidates.iterator().next().destroy(user);
    }
 }

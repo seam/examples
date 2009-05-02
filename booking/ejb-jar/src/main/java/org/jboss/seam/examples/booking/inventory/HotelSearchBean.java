@@ -111,6 +111,6 @@ class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
-      log.info("Found " + hotels.size() + " hotels matching search term '" + criteria.getSearchString() + "' (limit " + criteria.getPageSize() + ")");
+      log.info("Found {0} hotel(s) matching search term ''{1}'' (limit {2})", hotels.size(), criteria.getSearchString(), criteria.getPageSize());
    }
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Named;
 import javax.annotation.PreDestroy;
-import javax.context.RequestScoped;
 import javax.context.SessionScoped;
 import javax.ejb.Stateful;
 import javax.event.Observes;
@@ -12,8 +11,6 @@ import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.booking.BookingEvent;
-import org.jboss.seam.examples.booking.booking.Confirmed;
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.User;
@@ -62,7 +59,7 @@ class BookingHistoryBean implements BookingHistory {
 
    public void cancelBooking(Booking selectedBooking)
    {
-      log.info("Canceling booking " + selectedBooking.getId() + " for " + user.getName());
+      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), user.getName());
       Booking booking = em.find(Booking.class, selectedBooking.getId());
       if (booking != null)
       {

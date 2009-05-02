@@ -31,14 +31,10 @@ import javax.context.ConversationScoped;
 import javax.context.RequestScoped;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.event.Event;
-import javax.event.Fires;
 import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.booking.BookingEvent;
-import org.jboss.seam.examples.booking.booking.Confirmed;
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
@@ -78,7 +74,7 @@ class BookingAgentBean implements BookingAgent
    {
 	   // NOTE get a fresh reference that's managed by the conversational persistence context
       hotelSelection = em.find(Hotel.class, hotel.getId());
-      log.info("Selected the " + hotelSelection.getName() + " in " + hotelSelection.getCity());
+      log.info("Selected the {0} in {1}", hotelSelection.getName(), hotelSelection.getCity());
       conversation.begin();
    }
 
@@ -118,7 +114,7 @@ class BookingAgentBean implements BookingAgent
    {
       em.persist(booking);
       //bookingConfirmedEvent.fire(new BookingEvent(booking));
-      log.info("New booking at the " + booking.getHotel().getName() + " confirmed for " + booking.getUser().getName());
+      log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
       statusMessages.add("You're booked!");
       conversation.end();
    }

@@ -7,7 +7,6 @@ import javax.ejb.Stateful;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.examples.booking.controls.RegistrationFormControls;

@@ -2,7 +2,6 @@ package org.jboss.seam.examples.booking.booking;
 
 import java.util.List;
 import javax.ejb.Local;
-import org.jboss.seam.examples.booking.booking.BookingEvent;
 import org.jboss.seam.examples.booking.model.Booking;
 
 /**

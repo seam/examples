@@ -7,9 +7,10 @@ import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.security.Identity;
+import org.jboss.webbeans.log.Log;
+import org.jboss.webbeans.log.Logger;
 
 /**
  * @author Dan Allen
@@ -18,6 +19,8 @@ public
 @Stateless
 class AccountProducerBean implements AccountProducer
 {
+   private @Logger Log log;
+
    @PersistenceContext EntityManager em;
 
    @Current Identity identity;
@@ -31,14 +34,15 @@ class AccountProducerBean implements AccountProducer
    {
       if (identity.isLoggedIn())
       {
-         User user = em.find(User.class, identity.getUsername());
-         if (user != null)
+         log.info("Producing user from username {0}", identity.getUsername());
+         User candidate = em.find(User.class, identity.getUsername());
+         if (candidate != null)
          {
-            user.setPassword(null);
-            return user;
+            return new User(candidate.getName(), candidate.getUsername());
          }
       }
 
+      log.info("Producing dummy User");
       // TODO can't return null, but then we are not honoring the semantics of our binding type
       return new User();
    }
