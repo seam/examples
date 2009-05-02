@@ -141,31 +141,41 @@ the Maven CLI plugin documented above.
 = Known issues
 
 (1) Clicking on logout throws an exception
-    java.lang.IllegalStateException: getAttribute: Session already invalidated
-      at org.apache.catalina.session.StandardSession.getAttribute(StandardSession.java:1032)
+    javax.context.ContextNotActiveException: No active contexts for scope type javax.context.RequestScoped
+       at org.jboss.webbeans.ManagerImpl.getContext(ManagerImpl.java:739)
+       at org.jboss.webbeans.bean.proxy.ClientProxyMethodHandler.getProxiedInstance(ClientProxyMethodHandler.java:116)
+       at org.jboss.webbeans.bean.proxy.ClientProxyMethodHandler.invoke(ClientProxyMethodHandler.java:96)
+       at org.jboss.webbeans.conversation.ConversationImpl_$$_javassist_213.isLongRunning(ConversationImpl_$$_javassist_213.java)
 
-(2) An attempt to login after logging out throws an exception
-    javax.faces.el.EvaluationException: java.lang.reflect.InvocationTargetException
-     at javax.faces.component.MethodBindingMethodExpressionAdapter.invoke(MethodBindingMethodExpressionAdapter.java:102)
+(2) Ajax is not working on blur in p:edit form fields (had to disable) 
 
-(3) List of bookings not refreshed after a booking is created
+(3) No list of workspaces
 
-(4) Ajax is not working on blur in p:edit form fields (had to disable) 
+(4) Cannot use <f:view> in template or else it will remove the conversation id token from the view root
 
-(5) No list of workspaces
-
-(6) Cannot use <f:view> in template or else it will remove the conversation id token from the view root
+(5) @AfterTransactionSuccess observer does not work
 
 = Open questions
 
-- How do I clear a contextual bean from a scope, in particular the session scope? This causes issue #1 and #3 above.
+- How do I clear a contextual bean from a scope, in particular the session scope? I've had to do workarounds.
 
 - How do I inject an Event object into a stateful component? I get an error that there is a reference to a
-  non-serializable object from a bean declaring a non-passivating scope. This is the reason for issue #3.
+  non-serializable object from a bean declaring a non-passivating scope. I have to use the Manager to fire an event
+  instead.
 
 = TODO
+
+- secure pages (likely will use <f:event type="beforeRenderView"/>
 
 - use Cargo plugin to support deployment to other Java EE servers (GlassFish)
 
 - refactor the password/confirm password into a reusable component (needed on
   registration and change password)
+
+- use a resource to define persistence context
+<EntityManager>
+   <PersistenceContext>
+      <unitName>booking</unitName>
+   </PersistenceContext>
+   <booking:BookingDatabase/>
+</EntityManager>
