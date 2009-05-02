@@ -61,7 +61,7 @@
                   <undeploy>seam-booking-ear validate -o -Pundeploy</undeploy>
                   <unexplode>seam-booking-ear validate -o -Pundeploy</unexplode>
                   <restart>seam-booking-ear validate -o -Prestart</restart>
-                  <reexplode>package -o -Pundeploy,explode</reexplode>
+                  <reexplode>package -o -Pundeploy -Pexplode</reexplode>
                   <!--<redeploy>this requires two distinct steps</redeploy>-->
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
                   <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
