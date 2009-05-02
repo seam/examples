@@ -46,6 +46,33 @@
 
          </plugins>
       </pluginManagement>
+
+      <plugins>
+
+         <plugin>
+            <groupId>org.twdata.maven</groupId>
+            <artifactId>maven-cli-plugin</artifactId>
+            <version>0.6.3.CR1</version> <!-- TODO move to version-matrix -->
+            <configuration>
+               <!-- userAliases are for cli:execute-phase -->
+               <userAliases>
+                  <explode>package -o -Pexplode</explode>
+                  <deploy>seam-booking-ear package -o org.codehaus.mojo:jboss-maven-plugin:harddeploy</deploy>
+                  <undeploy>seam-booking-ear validate -o -Pundeploy</undeploy>
+                  <unexplode>seam-booking-ear validate -o -Pundeploy</unexplode>
+                  <restart>seam-booking-ear validate -o -Prestart</restart>
+                  <reexplode>package -o -Pundeploy,explode</reexplode>
+                  <!--<redeploy>this requires two distinct steps</redeploy>-->
+                  <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
+                  <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
+               </userAliases>
+               <!-- commands are for cli:execute -->
+               <commands>
+               </commands>
+            </configuration>
+         </plugin>
+
+      </plugins>
    </build>
 
    <properties>
