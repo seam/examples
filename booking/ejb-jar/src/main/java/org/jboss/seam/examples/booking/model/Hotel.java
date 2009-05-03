@@ -31,7 +31,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -43,6 +46,7 @@ import javax.validation.constraints.Size;
  */
 public
 @Entity
+@Table(name = "hotel")
 class Hotel implements Serializable
 {
    private Long id;
@@ -52,6 +56,7 @@ class Hotel implements Serializable
    private String state;
    private String zip;
    private String country;
+   private Integer stars;
    private BigDecimal price;
 
    @Id
@@ -136,6 +141,18 @@ class Hotel implements Serializable
    public void setCountry(String country)
    {
       this.country = country;
+   }
+
+   @Min(1)
+   @Max(5)
+   public Integer getStars()
+   {
+      return stars;
+   }
+
+   public void setStars(Integer stars)
+   {
+      this.stars = stars;
    }
 
    @Column(precision = 6, scale = 2)

@@ -42,7 +42,7 @@ import javax.validation.constraints.Size;
  */
 public
 @Entity
-@Table(name = "Customer")
+@Table(name = "customer")
 class User implements Serializable
 {
    private String username;

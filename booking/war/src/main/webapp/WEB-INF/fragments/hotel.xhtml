@@ -12,6 +12,9 @@
    <p:display label="State" value="#{hotel.state}"/>
    <p:display label="Zip" value="#{hotel.zip}"/>
    <p:display label="Country" value="#{hotel.country}"/>
+   <p:display label="Class" override="true">
+      <h:graphicImage value="/img/#{hotel.stars}-star.gif" style="padding-top: 4px;"/>
+   </p:display>
    <p:display label="Nightly rate" override="true">
       <h:outputText value="#{hotel.price}">
          <f:convertNumber type="currency" currencySymbol="$"/>
