@@ -147,7 +147,8 @@ the Maven CLI plugin documented above.
        at org.jboss.webbeans.bean.proxy.ClientProxyMethodHandler.invoke(ClientProxyMethodHandler.java:96)
        at org.jboss.webbeans.conversation.ConversationImpl_$$_javassist_213.isLongRunning(ConversationImpl_$$_javassist_213.java)
 
-(2) Ajax is not working on blur in p:edit form fields (had to disable) 
+(2) Ajax is not working on blur in p:edit form fields (had to disable)
+    error malformedXML
 
 (3) No list of workspaces
 
@@ -175,6 +176,10 @@ the Maven CLI plugin documented above.
 = TODO
 
 - secure pages (likely will use <f:event type="beforeRenderView"/>
+
+- get status messages from default or resource bundle (not just hardcoded defaults)
+
+- auto-detect which files have @NotNull or @NotEmpty to determine whether to put the * in <p:edit>
 
 - use Cargo plugin to support deployment to other Java EE servers (GlassFish)
 
