@@ -23,6 +23,6 @@ insert into hotel (id, price, stars, name, address, city, state, zip, country) v
 insert into hotel (id, price, stars, name, address, city, state, zip, country) values (19, 145, 4, 'Swissotel Sydney', '68 Market Street', 'Sydney', 'NSW', '2000', 'AU')
 insert into hotel (id, price, stars, name, address, city, state, zip, country) values (20, 178, 4, 'Meliá White House', 'Albany Street Regents Park', 'London', '', 'NW13UP', 'GB')
 insert into hotel (id, price, stars, name, address, city, state, zip, country) values (21, 159, 3, 'Hotel Allegro', '171 W Randolph Street', 'Chicago', 'IL', '60601', 'USA')
-insert into hotel (id, price, stars, name, address, city, state, zip, country) values (22, 296, 5, 'Caesar''s Palace', '3570 Las Vegas Blvd S', 'Las Vegas', 'NV', '89109', 'USA')
+insert into hotel (id, price, stars, name, address, city, state, zip, country) values (22, 296, 5, 'Caesars Palace', '3570 Las Vegas Blvd S', 'Las Vegas', 'NV', '89109', 'USA')
 insert into hotel (id, price, stars, name, address, city, state, zip, country) values (23, 300, 4, 'Mandalay Bay Resort & Casino', '3950 Las Vegas Blvd S', 'Las Vegas', 'NV', '89119', 'USA')
 insert into hotel (id, price, stars, name, address, city, state, zip, country) values (24, 100, 2, 'Hotel Cammerpoorte', 'Nationalestraat 38-40', 'Antwerp', '', '2000', 'BE')
