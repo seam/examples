@@ -23,8 +23,18 @@
             </h:outputText>
          </p:display>
 
-         <p:display label="Check-in date" value="#{booking.checkinDate}"/>
-         <p:display label="Check-out date" value="#{booking.checkoutDate}"/>
+         <p:display label="Check-in date" override="true">
+            <h:outputText value="#{booking.checkinDate}">
+               <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+            </h:outputText>
+         </p:display>
+
+         <p:display label="Check-out date" override="true">
+            <h:outputText value="#{booking.checkoutDate}">
+               <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+            </h:outputText>
+         </p:display>
+
          <p:display label="Credit card #" value="#{booking.creditCard}"/>
    
          <div class="buttonBox">
