@@ -17,22 +17,16 @@
 
          <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
       
-         <p:display label="Total payment" override="true">
-            <h:outputText value="#{booking.total}">
-               <f:convertNumber type="currency" currencySymbol="$"/>
-            </h:outputText>
+         <p:display label="Total payment" value="#{booking.total}">
+            <f:convertNumber for="output" type="currency" currencySymbol="$"/>
          </p:display>
 
-         <p:display label="Check-in date" override="true">
-            <h:outputText value="#{booking.checkinDate}">
-               <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
-            </h:outputText>
+         <p:display label="Check-in date" value="#{booking.checkinDate}">
+            <f:convertDateTime for="output" type="date" pattern="MM/dd/yyyy"/>
          </p:display>
 
-         <p:display label="Check-out date" override="true">
-            <h:outputText value="#{booking.checkoutDate}">
-               <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
-            </h:outputText>
+         <p:display label="Check-out date" value="#{booking.checkoutDate}">
+            <f:convertDateTime for="output" type="date" pattern="MM/dd/yyyy"/>
          </p:display>
 
          <p:display label="Credit card #" value="#{booking.creditCard}"/>

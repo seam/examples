@@ -13,7 +13,6 @@
       <comp:attribute name="override" required="false" default="false"/>
    </comp:interface>
 
-   <!-- the override is a workaround because assigning an id to the output dynamically is not working -->
    <!-- TODO allow for a template to be specified, falling back to a default -->
    <comp:implementation>
       <div class="entry">
@@ -21,7 +20,7 @@
          <span class="output">
             <c:choose>
                <c:when test="#{cc.attrs.override}"><comp:insertChildren/></c:when>
-               <c:otherwise>#{cc.attrs.value}</c:otherwise>
+               <c:otherwise><h:outputText id="output" value="#{cc.attrs.value}"><comp:insertChildren/></h:outputText></c:otherwise>
             </c:choose>
          </span>
       </div>

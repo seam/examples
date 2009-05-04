@@ -15,10 +15,8 @@
    <p:display label="Class" override="true">
       <h:graphicImage value="/img/#{hotel.stars}-star.gif" style="padding-top: 4px;"/>
    </p:display>
-   <p:display label="Nightly rate" override="true">
-      <h:outputText value="#{hotel.price}">
-         <f:convertNumber type="currency" currencySymbol="$"/>
-      </h:outputText>
+   <p:display label="Nightly rate" value="#{hotel.price}">
+      <f:convertNumber for="output" type="currency" currencySymbol="$"/>
    </p:display>
 
 </ui:composition>
