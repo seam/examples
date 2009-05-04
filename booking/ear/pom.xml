@@ -46,6 +46,8 @@
                      <contextRoot>/seam-booking</contextRoot>
                   </webModule>
                </modules>
+               <!-- unpackTypes works incrementally, so I don't have to sync from the ejb-jar/target and war/target in antrun -->
+               <!--<unpackTypes>war,ejb</unpackTypes>-->
                <version>5</version>
             </configuration>
          </plugin>
