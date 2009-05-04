@@ -173,11 +173,15 @@ the Maven CLI plugin documented above.
   non-serializable object from a bean declaring a non-passivating scope. I have to use the Manager to fire an event
   instead.
 
+- Should the parent project be adjacent to ear/ejb-jar/war?
+
 = TODO
 
 - secure pages (likely will use <f:event type="beforeRenderView"/>
 
 - get status messages from default or resource bundle (not just hardcoded defaults)
+
+- demonstrate use of exception handling in JSF 2
 
 - auto-detect which files have @NotNull or @NotEmpty to determine whether to put the * in <p:edit>
 
@@ -185,6 +189,8 @@ the Maven CLI plugin documented above.
 
 - refactor the password/confirm password into a reusable component (needed on
   registration and change password)
+
+- consider using unpackTypes in the ear plugin (which works incrementally) to replace portions of the antrun logic
 
 - use a resource to define persistence context
 <EntityManager>
