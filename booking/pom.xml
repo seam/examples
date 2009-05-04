@@ -52,7 +52,7 @@
          <plugin>
             <groupId>org.twdata.maven</groupId>
             <artifactId>maven-cli-plugin</artifactId>
-            <version>0.6.3.CR1</version> <!-- TODO move to version-matrix -->
+            <version>0.6.3.CR2</version> <!-- TODO move to version-matrix -->
             <configuration>
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
