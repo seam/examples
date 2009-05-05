@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   template="/WEB-INF/layout/template.xhtml">
+   <ui:define name="viewMetadata">
+      <f:metadata>
+         <f:viewParam name="id" value="#{blog.entryId}"/>
+         <f:viewParam name="category" value="#{blog.category}"/>
+         <ui:include src="/WEB-INF/fragments/commonViewParams.xhtml"/>
+         <f:event type="preRenderView" listener="#{blog.loadEntry}"/>
+      </f:metadata>
+   </ui:define>
+   <ui:define name="content">
+      <ui:include src="/WEB-INF/fragments/singleEntry.xhtml"/>
+   </ui:define>
+</ui:composition>

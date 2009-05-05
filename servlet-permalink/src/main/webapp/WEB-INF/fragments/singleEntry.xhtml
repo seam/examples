@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html">
+
+                <ui:remove><!-- The check for phase prevents a "ghost" form submit --></ui:remove>
+                <h:panelGroup rendered="#{facesContext.currentPhaseId.ordinal == 6 and empty blog.entry}">
+                    <p>Sorry, no post exists with that identifier.</p>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not empty blog.entry or facesContext.currentPhaseId.ordinal != 6}">
+                <ui:include src="entryContent.xhtml">
+                    <ui:param name="_entry" value="#{blog.entry}"/>
+                </ui:include>
+                </h:panelGroup>
+                <div class="post-navigation">
+                    <h:panelGroup rendered="#{not empty blog.category}">
+                        <h:button outcome="category" value="Back to #{blog.category}" fragment="entry-#{blog.entry.id}" includeViewParams="true"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{empty blog.category}">
+                        <h:button outcome="home" value="Back to main page" fragment="entry-#{blog.entry.id}" includeViewParams="true"/>
+                    </h:panelGroup>
+                    #{' '}<h:button outcome="entry" value="Hide comments" disabled="true" includeViewParams="true">
+                        <f:param name="comments" value="false"/>
+                    </h:button>
+                    <ui:remove><!--
+                    <h:panelGroup rendered="#{not empty blog.category}">
+                        &#171; <h:link outcome="category" value="Back to #{blog.category}" includeViewParams="true"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{empty blog.category}">
+                        &#171; <h:link outcome="home" value="Back to main page" includeViewParams="true"/>
+                    </h:panelGroup>
+                    --></ui:remove>
+                </div>
+
+</ui:composition>
