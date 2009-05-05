@@ -76,6 +76,7 @@
    <modules>
       <module>booking</module>
       <module>servlet-booking</module>
+      <module>servlet-permalink</module>
    </modules>
 
    <build>
