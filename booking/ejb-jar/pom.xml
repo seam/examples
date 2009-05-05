@@ -114,7 +114,6 @@
       <dependency>
          <groupId>${webbeans.groupId}</groupId>
          <artifactId>webbeans-logger</artifactId>
-         <version>1.0.0-SNAPSHOT</version> <!-- TODO push to version-matrix -->
       </dependency>
 
    </dependencies>
