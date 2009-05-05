@@ -17,6 +17,10 @@ added to the classpath) in order for UI validation to work. Installing Bean
 Validation is as simple as putting the JARs in the library directory of the
 application server.
 
+You'll also need the 1.0.0-SNAPSHOT of the Web Beans logger extension. You can
+find it in the Web Beans extensions source tree. Run 'mvn install' in that
+directory to have it installed in your local Maven 2 repository.
+
 = First steps
 
 This example uses a Maven 2 build. To build the EJB and WAR and package them
