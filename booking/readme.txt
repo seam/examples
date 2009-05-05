@@ -11,7 +11,7 @@ EJB 3 container. Validation of input fields is handled by Bean Validation.
 
 Please consult the Web Beans reference documentation for instructions on how to
 deploy the Web Bean implementation to JBoss AS 5. To upgrade the JSF libraries
-to JSF 2.0, go to the Seam jsf-updater-tool module and follow the instructions
+to JSF 2.0, go to the Seam jsf-upgrade-tool module and follow the instructions
 there. You also need to have Bean Validation installed in the container (or
 added to the classpath) in order for UI validation to work. Installing Bean
 Validation is as simple as putting the JARs in the library directory of the
