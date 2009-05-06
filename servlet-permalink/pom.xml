@@ -17,7 +17,9 @@
 
    <properties>
       <jetty.http.port>9090</jetty.http.port>
+      <jetty.stop.port>9091</jetty.stop.port>
       <jetty.debug.port>9190</jetty.debug.port>
+      <jetty.daemon>true</jetty.daemon>
       <tomcat.http.port>8080</tomcat.http.port>
       <embedded-tomcat.http.port>9090</embedded-tomcat.http.port>
       <embedded-tomcat.debug.port>9190</embedded-tomcat.debug.port>
@@ -140,7 +142,7 @@
          <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
-               <!-- don't stage or package files added to src/main/webapp by war:inplace -->
+               <!-- don't stage or package files added to ${webapp.directory} by war:inplace -->
                <warSourceExcludes>WEB-INF/classes/**,WEB-INF/lib/**</warSourceExcludes>
             </configuration>
          </plugin>
@@ -171,6 +173,9 @@
                      <maxIdleTime>3600000</maxIdleTime>
                   </connector>
                </connectors>
+               <daemon>true</daemon>
+               <stopPort>${jetty.stop.port}</stopPort>
+               <stopKey>HASTA_LA_VISTA</stopKey>
                <scanIntervalSeconds>10</scanIntervalSeconds>
                <webAppConfig>
                   <contextPath>/${project.build.finalName}</contextPath>
@@ -189,9 +194,10 @@
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
                   <runjetty>compile org.apache.maven.plugins:maven-war-plugin:inplace org.mortbay.jetty:maven-jetty-plugin:run -o</runjetty>
+                  <stopjetty>org.mortbay.jetty:maven-jetty-plugin:stop -o</stopjetty>
                   <runtomcat>compile org.apache.maven.plugins:maven-war-plugin:inplace org.codehaus.mojo:tomcat-maven-plugin:run -o</runtomcat>
-                  <refresh-all>compile org.apache.maven.plugins:maven-war-plugin:inplace -o</refresh-all>
-                  <refresh-web>org.apache.maven.plugins:maven-war-plugin:inplace -o</refresh-web>
+                  <explode>compile org.apache.maven.plugins:maven-war-plugin:inplace -o</explode>
+                  <restart>validate -Prestart-embedded -o</restart>
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
                   <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
                </userAliases>
@@ -203,5 +209,34 @@
 
       </plugins>
    </build>
+
+   <profiles>
+      <profile>
+         <id>restart-embedded</id>
+      
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>touch-web-inf</id>
+                        <phase>validate</phase>
+                        <configuration>
+                           <tasks>
+                              <touch file="${webapp.directory}/WEB-INF/web.xml"/>
+                           </tasks>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 
 </project>
