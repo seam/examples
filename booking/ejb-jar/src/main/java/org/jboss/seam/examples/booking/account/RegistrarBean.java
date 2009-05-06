@@ -9,10 +9,10 @@ import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.examples.booking.security.Credentials;
-import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.security.Credentials;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 
 /**
@@ -48,7 +48,7 @@ class RegistrarBean implements Registrar
       {
          em.persist(newUser);
          credentials.setUsername(newUser.getUsername());
-         identity.autoLogin();
+         identity.login();
          registered = true;
          statusMessages.add("You have been successfully registered as the user {0}!", newUser.getUsername());
       }

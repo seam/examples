@@ -8,7 +8,8 @@ import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.examples.booking.security.Identity;
+import org.jboss.seam.security.Credentials;
+import org.jboss.seam.security.Identity;
 import org.jboss.webbeans.log.Log;
 import org.jboss.webbeans.log.Logger;
 
@@ -24,6 +25,8 @@ class AccountProducerBean implements AccountProducer
    @PersistenceContext EntityManager em;
 
    @Current Identity identity;
+   
+   @Current Credentials credentials;
 
    public
    @Produces
@@ -34,8 +37,8 @@ class AccountProducerBean implements AccountProducer
    {
       if (identity.isLoggedIn())
       {
-         log.info("Producing user from username {0}", identity.getUsername());
-         User candidate = em.find(User.class, identity.getUsername());
+         log.info("Producing user from username {0}", credentials.getUsername());
+         User candidate = em.find(User.class, credentials.getUsername());
          if (candidate != null)
          {
             return new User(candidate.getName(), candidate.getUsername());

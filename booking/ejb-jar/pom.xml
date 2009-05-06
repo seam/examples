@@ -98,6 +98,11 @@
          <groupId>${seam.groupId}</groupId>
          <artifactId>seam-faces</artifactId>
       </dependency>
+      
+      <dependency>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-security</artifactId>
+      </dependency>
 
       <dependency>
          <groupId>${webbeans.groupId}</groupId>
