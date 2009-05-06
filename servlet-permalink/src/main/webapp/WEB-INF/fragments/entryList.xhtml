@@ -16,14 +16,14 @@
                     <ui:include src="entryContent.xhtml"/>
                 </ui:repeat>
                 <div class="post-navigation">
-                    <span class="arrow">&#171;&#171;</span> #{' '}<h:link value="First Page" disabled="#{not blog.previousPageAvailable}" includeViewParams="true"
+                    <span class="arrow">&#171;&#171;</span> #{' '}<h:link id="first" value="First Page" disabled="#{not blog.previousPageAvailable}" includeViewParams="true"
                         ><f:param name="page" disable="true"
                     /></h:link>
-                    <span class="arrow">&#171;</span> #{' '}<h:link value="Newer Entries" disabled="#{not blog.previousPageAvailable}" includeViewParams="true"
+                    <span class="arrow">&#171;</span> #{' '}<h:link id="previous" value="Newer Entries" disabled="#{not blog.previousPageAvailable}" includeViewParams="true"
                         ><f:param name="page" value="#{blog.previousPage}"
                     /></h:link>
                     <span style="font-size: smaller;">&#8211;</span>
-                    #{' '}<h:link outcome="#{view.viewId}" value="Older Entries" disabled="#{not blog.nextPageAvailable}" includeViewParams="true"
+                    #{' '}<h:link outcome="#{view.viewId}" id="next" value="Older Entries" disabled="#{not blog.nextPageAvailable}" includeViewParams="true"
                         ><f:param name="page" value="#{blog.nextPage}"
                     /></h:link> <span class="arrow">&#187;</span>
                 </div>
