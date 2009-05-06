@@ -86,14 +86,13 @@
          <plugin>
             <groupId>org.twdata.maven</groupId>
             <artifactId>maven-cli-plugin</artifactId>
-            <version>0.6.3.CR2</version> <!-- TODO move to version-matrix -->
             <configuration>
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
                   <runjetty>compile org.apache.maven.plugins:maven-war-plugin:inplace org.mortbay.jetty:maven-jetty-plugin:run -o</runjetty>
                   <runtomcat>compile org.apache.maven.plugins:maven-war-plugin:inplace org.codehaus.mojo:tomcat-maven-plugin:run -o</runtomcat>
-                  <explode>compile org.apache.maven.plugins:maven-war-plugin:inplace</explode>
-                  <explode-web>org.apache.maven.plugins:maven-war-plugin:inplace</explode-web>
+                  <refresh-all>compile org.apache.maven.plugins:maven-war-plugin:inplace -o</refresh-all>
+                  <refresh-web>org.apache.maven.plugins:maven-war-plugin:inplace -o</refresh-web>
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
                   <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
                </userAliases>
