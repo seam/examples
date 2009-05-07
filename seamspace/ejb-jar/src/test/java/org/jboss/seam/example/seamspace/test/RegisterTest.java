@@ -2,12 +2,13 @@ package org.jboss.seam.example.seamspace.test;
 
 import java.util.Date;
 
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.mock.SeamTest;
+//import org.jboss.seam.core.Manager;
+//import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
-public class RegisterTest extends SeamTest
+public class RegisterTest //extends SeamTest
 {
+   /*
    @Test
    public void testRegister() throws Exception
    {
@@ -67,4 +68,6 @@ public class RegisterTest extends SeamTest
          
       }.run();       
    }
+   
+   */
 }

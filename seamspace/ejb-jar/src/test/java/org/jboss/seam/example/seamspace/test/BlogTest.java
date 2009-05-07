@@ -1,10 +1,11 @@
 package org.jboss.seam.example.seamspace.test;
 
-import org.jboss.seam.mock.SeamTest;
+//import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
-public class BlogTest extends SeamTest
-{   
+public class BlogTest //extends SeamTest
+{
+   /*
    @Test
    public void testCreateBlog() throws Exception
    {
@@ -141,4 +142,6 @@ public class BlogTest extends SeamTest
       }.run();    
       
    }
+   
+   */
 }
