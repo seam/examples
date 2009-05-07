@@ -7,25 +7,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.context.RequestScoped;
 import javax.imageio.ImageIO;
+import javax.inject.Current;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
-import org.jboss.seam.Component;
-
 /**
  * Serves images and other member content
  * 
  * @author Shane Bryzak
  */
+@RequestScoped
 public class ContentServlet extends HttpServlet
 {
    private static final long serialVersionUID = -8461940507242022217L;
 
    private static final String IMAGES_PATH = "/images";
+   
+   @Current ContentAction contentAction;
 
    /**
     * The maximum width allowed for image rescaling
@@ -63,8 +66,6 @@ public class ContentServlet extends HttpServlet
    {
       if (IMAGES_PATH.equals(request.getPathInfo()))
       {
-         ContentAction contentAction = (ContentAction) Component.getInstance(ContentAction.class);
-
          String id = request.getParameter("id");
          MemberImage mi = (id != null && !"".equals(id)) ? 
                contentAction.getImage(Integer.parseInt(id)) : null;

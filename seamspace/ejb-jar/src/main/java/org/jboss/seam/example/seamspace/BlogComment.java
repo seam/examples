@@ -10,12 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-
-import org.hibernate.validator.NotNull;
-import org.jboss.seam.annotations.Name;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Name("blogComment")
 public class BlogComment implements Serializable
 {
    private static final long serialVersionUID = 5495139096911872039L;

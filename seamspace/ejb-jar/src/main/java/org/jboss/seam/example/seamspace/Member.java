@@ -16,12 +16,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.validator.Email;
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotNull;
-import org.hibernate.validator.Pattern;
-import org.jboss.seam.annotations.Name;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Pattern;
 
 /**
  * A member account
@@ -29,7 +27,6 @@ import org.jboss.seam.annotations.Name;
  * @author Shane Bryzak
  */
 @Entity
-@Name("member")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "membername"))
 public class Member implements Serializable
 {
@@ -83,8 +80,9 @@ public class Member implements Serializable
    }
    
    @NotNull
-   @Length(min = 3, max = 40)
-   @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9_]+", 
+   @Min(3)
+   @Max(40)
+   @Pattern(regexp="[a-zA-Z]?[a-zA-Z0-9_]+", 
          message="Member name must start with a letter, and only contain letters, numbers or underscores")
    public String getMemberName()
    {
@@ -97,8 +95,9 @@ public class Member implements Serializable
    }
    
    @NotNull
-   @Length(min = 3, max = 40)
-   @Pattern(regex="[a-zA-Z]+", message="First name must only contain letters")
+   @Min(3)
+   @Max(40)
+   @Pattern(regexp="[a-zA-Z]+", message="First name must only contain letters")
    public String getFirstName()
    {
       return firstName;
@@ -110,8 +109,9 @@ public class Member implements Serializable
    }
    
    @NotNull
-   @Length(min = 3, max = 40)
-   @Pattern(regex="[a-zA-Z]+", message="Last name must only contain letters")
+   @Min(3)
+   @Max(40)
+   @Pattern(regexp="[a-zA-Z]+", message="Last name must only contain letters")
    public String getLastName()
    {
       return lastName;
@@ -122,7 +122,7 @@ public class Member implements Serializable
       this.lastName = lastName;
    }   
    
-   @NotNull @Email
+   @NotNull 
    public String getEmail()
    {
       return email;

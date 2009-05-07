@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.jboss.seam.annotations.security.permission.PermissionAction;
-import org.jboss.seam.annotations.security.permission.PermissionDiscriminator;
-import org.jboss.seam.annotations.security.permission.PermissionRole;
-import org.jboss.seam.annotations.security.permission.PermissionTarget;
-import org.jboss.seam.annotations.security.permission.PermissionUser;
+import org.jboss.seam.security.annotations.permission.PermissionAction;
+import org.jboss.seam.security.annotations.permission.PermissionDiscriminator;
+import org.jboss.seam.security.annotations.permission.PermissionRole;
+import org.jboss.seam.security.annotations.permission.PermissionTarget;
+import org.jboss.seam.security.annotations.permission.PermissionUser;
 
 @Entity
 public class AccountPermission implements Serializable

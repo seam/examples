@@ -1,38 +1,35 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
-
 import java.util.Date;
 
+import javax.annotation.Named;
+import javax.context.Conversation;
+import javax.context.ConversationScoped;
+import javax.inject.Current;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.annotations.security.Insert;
-import org.jboss.seam.core.Conversation;
+import org.jboss.seam.security.Secure;
+import org.jboss.seam.security.annotations.Insert;
 
-@Scope(CONVERSATION)
-@Name("commentAction")
-@Transactional
+@Named
+@ConversationScoped
+@Secure
 public class CommentAction 
 {
-   @In
-   private EntityManager entityManager;
+   @Current EntityManager entityManager;
    
    private BlogComment comment;     
    
-   @In(required = false)
-   private Member authenticatedMember;
+   @Current Member authenticatedMember;
    
-   @In(required = false)
-   private MemberBlog selectedBlog;
+   @Current MemberBlog selectedBlog;
    
-   @Begin(nested = true) @Insert(BlogComment.class) 
+   @Current Conversation conversation;
+   
+   @Insert(BlogComment.class) 
    public void createComment()
-   {            
+   { 
+      conversation.begin();
       comment = new BlogComment();
       comment.setCommentor(authenticatedMember);              
       comment.setBlog(selectedBlog);
@@ -45,7 +42,7 @@ public class CommentAction
             
       entityManager.refresh(selectedBlog);
       
-      Conversation.instance().end();
+      conversation.end();
    }    
    
    public BlogComment getComment()

@@ -1,35 +1,31 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.EVENT;
-
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Named;
+import javax.context.RequestScoped;
+import javax.inject.Current;
 import javax.persistence.EntityManager;
-
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.Delete;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Secure;
+import org.jboss.seam.security.annotations.Delete;
 
-@Name("pictureSearch")
-@Scope(EVENT)
+@Named
+@RequestScoped
+@Secure
 public class PictureSearch implements Serializable
 {
    private static final long serialVersionUID = -1868188969326866331L;
    
    private String memberName;
    
-   @In
-   private EntityManager entityManager;
+   @Current EntityManager entityManager;
+   @Current Identity identity;
    
-   @Out(required = false)
    private List<MemberImage> memberImages;
    
-   @RequestParameter
+   //@RequestParameter
    private Integer imageId;
    
    public String getMemberName()
@@ -59,6 +55,6 @@ public class PictureSearch implements Serializable
             "select i from MemberImage i where i.member.memberName = :name and not i = i.member.picture")
             .setParameter("name", memberName)
             .getResultList();      
-      Identity.instance().filterByPermission(memberImages, "view");
+      identity.filterByPermission(memberImages, "view");
    }
 }

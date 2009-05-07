@@ -1,46 +1,30 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
-import static org.jboss.seam.ScopeType.EVENT;
-
 import java.util.List;
 import java.util.Random;
 
+import javax.annotation.Named;
+import javax.context.RequestScoped;
 import javax.ejb.Remove;
+import javax.inject.Current;
+import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.seam.annotations.Scope;
-
-@Name("profile")
-@Scope(EVENT)
+@Named("profile")
+@RequestScoped
 public class ProfileAction
 {
-   @RequestParameter
+   //@RequestParameter
    private String name;
+   
+   @Current Member selectedMember;
+   
+   @Current Member authenticatedMember;  
+   
+   @Current EntityManager entityManager;
 
-   @In(required = false) @Out(required = false, scope = CONVERSATION)
-   private Member selectedMember;
-   
-   @In(required = false)
-   private Member authenticatedMember;
-   
-   @Out(required = false)
-   List<Member> newMembers;
-   
-   @Out(required = false)
-   List<MemberBlog> memberBlogs;   
-   
-   @In
-   private EntityManager entityManager;
-
-   @Factory("selectedMember")
+   //@Factory("selectedMember")
    public void display()
    {      
       if (name == null && authenticatedMember != null)
@@ -78,9 +62,10 @@ public class ProfileAction
     * Used to read all blog entries for a member
     */
    @SuppressWarnings("unchecked")
-   @Factory("memberBlogs")
-   public void getMemberBlogs()
+   public @Produces @Named("memberBlogs") List<MemberBlog> getMemberBlogs()
    {
+      List<MemberBlog> memberBlogs;
+      
       if (name == null && authenticatedMember != null)
       {
          name = authenticatedMember.getMemberName();
@@ -90,13 +75,14 @@ public class ProfileAction
             "from MemberBlog b where b.member.memberName = :memberName order by b.entryDate desc")
             .setParameter("memberName", name)
             .getResultList();
+      
+      return memberBlogs;
    }   
    
    @SuppressWarnings("unchecked")
-   @Factory("newMembers")
-   public void newMembers()
+   public @Produces @Named("newMembers") List<Member> newMembers()
    {
-      newMembers = entityManager.createQuery(
+      List<Member> newMembers = entityManager.createQuery(
             "from Member order by memberSince desc")
             .setMaxResults(10)
             .getResultList();
@@ -107,6 +93,8 @@ public class ProfileAction
       {
          newMembers.remove(rnd.nextInt(newMembers.size()));
       }
+      
+      return newMembers;
    }
    
    @SuppressWarnings("unchecked")
@@ -126,7 +114,4 @@ public class ProfileAction
             .setParameter("member", selectedMember)
             .getResultList();
    }
-   
-   @Remove @Destroy
-   public void destroy() { }   
 }

@@ -1,39 +1,38 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
-
 import java.util.Date;
 
+import javax.annotation.Named;
+import javax.context.Conversation;
+import javax.context.ConversationScoped;
 import javax.ejb.Remove;
+import javax.event.Observes;
+import javax.inject.Current;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.RunAsOperation;
+import org.jboss.seam.security.events.UserCreatedEvent;
 import org.jboss.seam.security.management.IdentityManager;
 import org.jboss.seam.security.management.JpaIdentityStore;
 
-@Scope(CONVERSATION)
-@Name("register")
+@Named("register")
+@ConversationScoped
 public class RegisterAction
 {
    private Member member;
    
-   @In
-   private EntityManager entityManager;
+   @Current EntityManager entityManager;
    
-   @In
-   private Identity identity;
+   @Current Identity identity;
+   @Current Credentials credentials;
    
-   @In
-   private IdentityManager identityManager;
+   @Current IdentityManager identityManager;
+   
+   @Current Conversation conversation;
+   @Current StatusMessages messages;
       
    private MemberAccount newAccount;
    
@@ -52,9 +51,9 @@ public class RegisterAction
    
    private boolean verified;
 
-   @Begin
    public void start()
    {
+      conversation.begin();
       member = new Member();
    }
    
@@ -66,13 +65,14 @@ public class RegisterAction
       
       if (!verified)
       {
-         FacesMessages.instance().addToControl("confirmPassword", "Passwords do not match");
+         messages.addToControl("confirmPassword", "Passwords do not match");
       }           
    }
    
-   @Observer(JpaIdentityStore.EVENT_USER_CREATED)
-   public void accountCreated(MemberAccount account)
+   public void accountCreated(@Observes UserCreatedEvent event)
    {
+      MemberAccount account = (MemberAccount) event.getUser();
+      
       // The user *may* have been created from the user manager screen. In that
       // case, create a dummy Member record just for the purpose of demonstrating the
       // identity management API
@@ -93,19 +93,18 @@ public class RegisterAction
       this.newAccount = account;
    }
 
-   @End
    public void uploadPicture() 
    {  
       member.setMemberSince(new Date());      
       entityManager.persist(member);      
       
-      new RunAsOperation() {
+      identity.runAs(
+        new RunAsOperation() {
          public void execute() {
             identityManager.createUser(username, password);
             identityManager.grantRole(username, "user");            
          }         
-      }.addRole("admin")
-       .run();
+      }.addRole("admin"));
             
       newAccount.setMember(member);
       newAccount = entityManager.merge(newAccount);
@@ -123,9 +122,11 @@ public class RegisterAction
       }
       
       // Login the user
-      identity.getCredentials().setUsername(username);
-      identity.getCredentials().setPassword(password);
+      credentials.setUsername(username);
+      credentials.setPassword(password);
       identity.login();
+      
+      conversation.end();
    }
    
    public Member getMember()
@@ -197,7 +198,4 @@ public class RegisterAction
    {
       return verified;
    }
-   
-   @Destroy @Remove
-   public void destroy() {}
 }

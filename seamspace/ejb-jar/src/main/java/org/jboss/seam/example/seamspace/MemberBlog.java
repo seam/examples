@@ -16,11 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.security.Restrict;
-
 @Entity
-@Name("memberBlog")
 public class MemberBlog implements Serializable
 {
    private static final long serialVersionUID = 7824113911888715595L;
@@ -41,7 +37,7 @@ public class MemberBlog implements Serializable
     * this case, because the method is annotated with <code>@PrePersist</code> 
     * the required permission is memberBlog:insert    
     */
-   @PrePersist @Restrict
+   @PrePersist // @Restrict
    public void prePersist() {}
    
    @Id @GeneratedValue

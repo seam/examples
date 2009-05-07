@@ -1,29 +1,25 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
-
+import javax.annotation.Named;
+import javax.context.Conversation;
+import javax.context.ConversationScoped;
+import javax.inject.Current;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Conversation;
-
-@Scope(CONVERSATION)
-@Name("pictureAction")
+@Named
+@ConversationScoped
 public class PictureAction
 {
    private MemberImage memberImage;
    
-   @In(required = false)
-   private Member authenticatedMember;
+   @Current Member authenticatedMember;
    
-   @In EntityManager entityManager;
+   @Current EntityManager entityManager;
+   @Current Conversation conversation;
    
-   @Begin
    public void uploadPicture()
    {
+      conversation.begin();
       memberImage = new MemberImage();
    }
    
@@ -31,7 +27,7 @@ public class PictureAction
    {
       memberImage.setMember(entityManager.find(Member.class, authenticatedMember.getMemberId()));
       entityManager.persist(memberImage);
-      Conversation.instance().end();
+      conversation.end();
    }
 
    public MemberImage getMemberImage()

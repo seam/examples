@@ -1,20 +1,17 @@
 package org.jboss.seam.example.seamspace;
 
-import static org.jboss.seam.ScopeType.CONVERSATION;
-
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Named;
+import javax.context.Conversation;
+import javax.context.ConversationScoped;
+import javax.inject.Current;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Conversation;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.security.management.IdentityManager;
@@ -22,8 +19,8 @@ import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionManager;
 import org.jboss.seam.security.permission.action.PermissionSearch;
 
-@Name("imagePermission")
-@Scope(CONVERSATION)
+@Named
+@ConversationScoped
 public class ImagePermission implements Serializable
 {
    private static final long serialVersionUID = -4943654157860780587L;
@@ -36,21 +33,23 @@ public class ImagePermission implements Serializable
    
    private List<Member> availableFriends;   
    
-   @In IdentityManager identityManager;
-   @In PermissionManager permissionManager;
+   @Current IdentityManager identityManager;
+   @Current PermissionManager permissionManager;
    
-   @In EntityManager entityManager;
+   @Current EntityManager entityManager;
    
-   @In PermissionSearch permissionSearch;   
+   @Current PermissionSearch permissionSearch;
+   @Current Conversation conversation;
+   @Current StatusMessages messages;
    
    private MemberImage target; 
    
    private Principal recipient;
    
    @SuppressWarnings("unchecked")
-   @Begin(nested = true)
    public void createPermission()
    {
+      conversation.begin();
       target = (MemberImage) permissionSearch.getTarget();
       
       selectedFriends = new ArrayList<Member>();
@@ -61,9 +60,9 @@ public class ImagePermission implements Serializable
             .getResultList();      
    }
    
-   @Begin(nested = true)
    public void editPermission()
    {
+      conversation.begin();
       target = (MemberImage) permissionSearch.getTarget();
       recipient = permissionSearch.getSelectedRecipient();
             
@@ -147,7 +146,7 @@ public class ImagePermission implements Serializable
       {
          if (selectedActions.size() == 0)
          {
-            FacesMessages.instance().add("You must select at least one action");
+            messages.add("You must select at least one action");
             return "failure";
          }
          
@@ -179,7 +178,7 @@ public class ImagePermission implements Serializable
          
          permissionManager.grantPermissions(permissions);
       }
-      Conversation.instance().endBeforeRedirect();
+      conversation.end();
       return "success";
    }
    

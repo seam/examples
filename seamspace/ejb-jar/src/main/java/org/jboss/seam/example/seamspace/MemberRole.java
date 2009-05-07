@@ -10,9 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.jboss.seam.annotations.security.management.RoleConditional;
-import org.jboss.seam.annotations.security.management.RoleGroups;
-import org.jboss.seam.annotations.security.management.RoleName;
+import org.jboss.seam.security.annotations.management.RoleConditional;
+import org.jboss.seam.security.annotations.management.RoleGroups;
+import org.jboss.seam.security.annotations.management.RoleName;
 
 @Entity
 public class MemberRole implements Serializable
