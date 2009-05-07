@@ -10,10 +10,10 @@
       <version>3.0.0-SNAPSHOT</version>
    </parent>
 
-   <artifactId>seam-booking</artifactId>
+   <artifactId>seam-space</artifactId>
    <packaging>pom</packaging>
-   <name>Seam Booking Example (Java EE 5)</name>
-   <description>The Seam booking example for deployment to a Java EE 5 application server</description>
+   <name>SeamSpace Security Example (Java EE 5)</name>
+   <description>The SeamSpace example for deployment to a Java EE 5 application server</description>
 
    <modules>
       <module>ejb-jar</module>
@@ -57,10 +57,10 @@
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
                   <explode>package -o -Pexplode</explode>
-                  <deploy>seam-booking-ear package -o org.codehaus.mojo:jboss-maven-plugin:harddeploy</deploy>
-                  <undeploy>seam-booking-ear validate -o -Pundeploy</undeploy>
-                  <unexplode>seam-booking-ear validate -o -Pundeploy</unexplode>
-                  <restart>seam-booking-ear validate -o -Prestart</restart>
+                  <deploy>seam-space-ear package -o org.codehaus.mojo:jboss-maven-plugin:harddeploy</deploy>
+                  <undeploy>seam-space-ear validate -o -Pundeploy</undeploy>
+                  <unexplode>seam-space-ear validate -o -Pundeploy</unexplode>
+                  <restart>seam-space-ear validate -o -Prestart</restart>
                   <reexplode>package -o -Pundeploy -Pexplode</reexplode>
                   <!--<redeploy>this requires two distinct steps</redeploy>-->
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
@@ -105,14 +105,14 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>seam-booking-ejb</artifactId>
+            <artifactId>seam-space-ejb</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>seam-booking-war</artifactId>
+            <artifactId>seam-space-war</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
