@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      <div id="contentMain">
+        <h1>Welcome to seamspace!</h1>
+        
+        <p>
+          This example project is an imitation of a popular social networking site, and has
+          been put together to demonstrate the various features of the Seam Security API.
+        </p>
+        
+        <p><b>New!</b> You can now use the <s:link view="/hashgen.xhtml" value="Password Hash Generator"/> 
+           page to generate password hashes for your own application.
+        </p>
+        
+      </div>
+
+      <div id="contentDivider">
+      </div>
+
+      <div id="contentSide">
+        <div class="advertising"></div>
+               
+        <h:form id="loginForm" rendered="#{not identity.loggedIn}">
+          <div class="memberLogin">
+            <div class="loginHeader">Member Login</div>
+            
+            <h:messages id="messages" globalOnly="true"/>
+            
+            <div class="loginRow">
+              <h:outputLabel for="name" value="Member name" styleClass="loginLabel"/>
+              <h:inputText id="name" value="#{credentials.username}"/>
+            </div>
+            
+            <div class="validationMsg">
+              <h:message for="name"/>
+            </div>
+            
+            <div class="loginRow">
+              <h:outputLabel for="password" value="Password" styleClass="loginLabel"/>
+              <h:inputSecret id="password" value="#{credentials.password}" redisplay="true"/>
+            </div>
+            
+            <div class="validationMsg">
+              <h:message for="password"/>
+            </div>          
+            
+            <div class="loginRow">
+              <h:outputLabel for="rememberMe" value="Remember me" styleClass="loginLabel"/>
+              <h:selectBooleanCheckbox id="rememberMe" value="#{identity.rememberMe}"/>
+            </div>
+
+            <div class="buttons">
+              <h:commandButton id="login" value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
+              <h:commandButton id="register" value="SIGN UP!" action="#{register.start}" styleClass="registerButton"/>
+            </div>
+
+            <br class="clear"/>
+          
+          </div>
+          
+          <span>Tip: You can log in using <b>demo/demo</b> as the username/password</span>
+        </h:form>
+        
+        <div class="newMembers">
+          <div class="newMembersHeader">Cool new members</div>
+                    
+          <ui:repeat value="#{newMembers}" var="newMember">
+            <div class="newMember">
+
+              <s:link view="/profile.seam" propagation="none">
+                <f:param name="name" value="#{newMember.memberName}"/>
+                #{newMember.memberName}<br/>
+                <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>
+              </s:link>
+              
+            </div>
+          </ui:repeat>          
+          
+          <br class="clear"/>
+        </div>
+      </div>
+     
+    </ui:define>
+    
+  </ui:composition>
+</html>

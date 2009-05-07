@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>SeamSpace</title>
+  <link href="style/seamspace.css" rel="stylesheet" type="text/css"/>
+  <link href="style/date.css" rel="stylesheet" type="text/css"/>
+  <ui:insert name="head"/>
+</head>
+
+<body>
+
+  <div id="header">
+    <div class="headerRight">
+      <div class="headerMenu">
+
+        <s:fragment rendered="#{identity.loggedIn}">
+          <s:link id="profile" view="/profile.xhtml" value="My Profile" propagation="none">
+            <f:param name="name" value="#{authenticatedMember.memberName}"/>
+          </s:link>
+          <h:outputText styleClass="divider" value=" | "/>
+        </s:fragment>
+
+        <s:fragment rendered="#{s:hasRole('admin')}">
+          <s:link id="security" view="/security.xhtml" value="Security" propagation="none"/>
+          <h:outputText styleClass="divider" value=" | "/>
+        </s:fragment>
+        
+        <s:link id="logout" action="#{identity.logout}" value="Log out" rendered="#{identity.loggedIn}"/>
+        <h:outputLink id="login" value="home.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
+      </div>
+      <br style="clear:both"/>
+      <h:form>
+        <div>
+          <a href="#">SeamSpace</a><h:outputText styleClass="divider" value=" | "/>
+          <a href="#">People</a><h:outputText styleClass="divider" value=" | "/>
+          <a href="#">Music</a><h:outputText styleClass="divider" value=" | "/>
+          <a href="#">Blogs</a>
+        </div>
+        <div id="search">
+          <h:inputText type="text" styleClass="searchField"/>
+          <h:commandButton value="Search SeamSpace" onclick="javascript:alert('This feature coming soon!');return false" styleClass="searchButton"/>
+        </div>
+      </h:form>
+    </div>
+  </div>
+  
+  <div id="menubar">
+    <s:link view="/home.xhtml" value="Home" propagation="none"/><h:outputText styleClass="divider" value=" | "/>
+    <s:link value="Browse" onclick="javascript:alert('This feature coming soon!');return false"/><h:outputText styleClass="divider" value=" | "/>
+    <s:link value="Blog" onclick="javascript:alert('This feature coming soon!');return false"/><h:outputText styleClass="divider" value=" | "/>
+    <s:link value="Music" onclick="javascript:alert('This feature coming soon!');return false"/>
+  </div>
+
+  <div id="content">
+    <ui:insert name="content"/>
+  </div>
+   
+</body>
+</html>
+

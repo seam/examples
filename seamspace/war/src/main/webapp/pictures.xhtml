@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="head">
+      <script type="text/javascript" src="lightbox/prototype.js"></script>
+      <script type="text/javascript" src="lightbox/scriptaculous.js?load=effects,builder"></script>
+      <script type="text/javascript" src="lightbox/lightbox.js"></script>    
+      <link rel="stylesheet" href="lightbox/lightbox.css" type="text/css" media="screen" />
+    </ui:define>
+  
+    <ui:define name="content">
+    
+      <script type="text/javascript">
+        function confirmDelete()
+        {
+          return confirm("Are you sure you wish to delete this image? This action cannot be undone.");
+        }
+      </script>    
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>     
+
+      <s:div rendered="#{selectedMember == null}">
+        Sorry, but this member does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedMember != null}">
+
+        <h1>#{selectedMember.memberName}'s pictures</h1>
+
+        <div class="memberPictureCard">
+	        <s:link view="/profile.seam" propagation="none">
+	          #{selectedMember.memberName}<br/>
+              <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          
+	        </s:link>                 
+	        
+          <s:span rendered="#{s:hasPermission(selectedMember, 'uploadImage')}">
+            [<s:link view="/pictureupload.xhtml" action="#{pictureAction.uploadPicture}" value="Upload picture" propagation="none"/>]
+          </s:span>	        
+	                  
+          <br style="clear:both"/>         
+        </div>
+
+        <div class="memberPictures">                    
+          <ui:repeat value="#{memberImages}" var="img">
+  
+            <div class="thumbnail">
+              <a href="content/images?id=#{img.imageId}" rel="lightbox[pictureset]" title="#{img.caption}">
+                <h:graphicImage value="/content/images?id=#{img.imageId}&amp;width=90" border="0"/>
+              </a>
+              <s:button view="/imagepermissions.seam" 
+                action="#{permissionSearch.search(pictureSearch.lookupImage())}" 
+                styleClass="padlock"
+                rendered="#{s:hasPermission(img, 'seam.grant-permission')}">
+                <f:param name="imageId" value="#{img.imageId}"/>
+              </s:button>
+              <s:button styleClass="trash" 
+                action="#{pictureSearch.delete(pictureSearch.lookupImage())}"
+                rendered="#{s:hasPermission(img, 'delete')}"
+                onclick="if (!confirmDelete()) return false">
+                <f:param name="imageId" value="#{img.imageId}"/>
+              </s:button>
+            </div>
+              
+          </ui:repeat> 
+        </div>
+
+      </s:div>                
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

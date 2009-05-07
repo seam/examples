@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:rich="http://richfaces.org/rich"       
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+  
+    <ui:define name="head">
+      <link href="style/security.css" rel="stylesheet" type="text/css"/>
+    </ui:define>  
+   
+    <ui:define name="content">
+        
+      <div id="contentMain">
+
+  	    <h2>Permission Details</h2>  
+  	    
+  	    <hr/>
+  	    
+  	    <h:messages globalOnly="true"/>
+
+  	    <h:form>
+          <s:fragment rendered="#{imagePermission.recipient eq null}">  	    
+      	    <h3>Recipients</h3>
+      	    
+      	    <p>
+      	      Select the roles and/or friends that you wish to grant permissions to, for the following image
+      	      (Ctrl-click to select multiple):
+      	    </p>
+      	    
+      	    <br class="clear"/>
+      	    
+            <div class="thumbnail">
+              <h:graphicImage value="/content/images?id=#{permissionSearch.target.imageId}&amp;width=90"/>
+            </div>        	      	    
+            
+            <br class="clear"/>
+      	    
+      	    <div class="formRow">
+      	      <h:outputLabel for="roles" value="Roles" styleClass="formLabel"/>
+      	      <div class="selectMany">
+      	        <h:selectManyListbox id="roles" value="#{imagePermission.selectedRoles}" styleClass="roles" size="4">
+      	          <s:selectItems value="#{identityManager.listRoles()}" var="role" label="#{role}"/>
+      	        </h:selectManyListbox>
+      	      </div>
+      	      <div class="validationError"><h:message for="actions"/></div>
+      	    </div>
+      	    
+      	    <div class="formRow">
+      	      <h:outputLabel for="friends" value="Friends" styleClass="formLabel"/>
+      	      <div class="selectMany">
+      	        <h:selectManyListbox id="friends" value="#{imagePermission.selectedFriends}" styleClass="roles" size="6">
+      	          <s:selectItems value="#{imagePermission.availableFriends}" var="friend" label="#{friend.memberName}"/>
+      	          <s:convertEntity />
+      	        </h:selectManyListbox>
+      	      </div>
+      	      <div class="validationError"><h:message for="friends"/></div>
+      	    </div>
+      	    
+      	  </s:fragment>
+                            
+          <div class="formRow">            
+            <h:outputLabel for="actions" value="Actions allowed" styleClass="formLabel"/>
+            <div class="selectMany">
+              <h:selectManyCheckbox id="actions" value="#{imagePermission.selectedActions}" layout="pageDirection" styleClass="roles">
+                <s:selectItems value="#{permissionManager.listAvailableActions(imagePermission.target)}" var="action" label="#{action}"/>
+              </h:selectManyCheckbox>
+            </div>
+            <div class="validationError"><h:message for="actions"/></div>
+          </div>
+                                                
+          <div class="formButtons">
+            <h:commandButton value="Save" action="#{imagePermission.applyPermissions}" styleClass="formButton"/>
+            <s:button view="/imagepermissions.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
+          </div>
+    
+          <br class="clear"/>
+  	    
+  	    </h:form>
+
+	    </div>
+	    
+    </ui:define>
+    
+  </ui:composition>
+</html>

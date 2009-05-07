@@ -1,0 +1,11 @@
+<page xmlns="http://jboss.com/products/seam/pages"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+    action="#{permissionSearch.refresh}">
+    <navigation from-action="#{imagePermission.createPermission}">
+        <redirect view-id="/imagepermissiondetail.xhtml"/>
+    </navigation>
+    <navigation from-action="#{imagePermission.editPermission}">
+        <redirect view-id="/imagepermissiondetail.xhtml"/>
+    </navigation>
+</page>

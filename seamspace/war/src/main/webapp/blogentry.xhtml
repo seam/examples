@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{selectedBlog == null}">
+        Sorry, but this blog entry does not exist.
+      </s:div>
+    
+      <s:div rendered="#{selectedBlog != null}">
+      
+        <s:div id="blogMemberCard">	        
+	        <s:link view="/profile.seam" propagation="none">
+	          #{selectedMember.memberName}<br/>
+              <h:graphicImage value="/content/images?id=#{selectedMember.picture.imageId}&amp;width=90"/>	          
+	        </s:link>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+          <div class="blogEntry">
+	          <div class="blogDate">#{selectedBlog.formattedEntryDate}</div>
+            <div class="blogTitle">#{selectedBlog.title}</div>
+            <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
+            <div class="blogFooter">
+              <s:span rendered="#{s:hasPermission(selectedBlog, 'create')}">              
+                [<s:link action="#{commentAction.createComment}" value="Add Comment"/>]
+              </s:span>
+              [<s:link view="/blog.seam" value="View all blog entries" propagation="none">
+                 <f:param name="name" value="#{selectedMember.memberName}"/>
+               </s:link>]
+            </div>
+          </div>
+                    
+	        <ui:repeat value="#{selectedBlog.sortedComments}" var="comment">
+	          <table class="blogComment">
+	            <tr>
+		            <td class="blogCommentor">					        
+					        <s:link view="/profile.seam" propagation="none">
+					          <f:param name="name" value="#{comment.commentor.memberName}"/>
+					          #{comment.commentor.memberName}<br/>
+					          <h:graphicImage value="/content/images?id=#{comment.commentor.picture.imageId}&amp;width=90"/>
+					        </s:link>
+		            </td>
+		            
+		            <td class="blogCommentText">
+		              <p><s:formattedText value="#{comment.comment}"/></p>
+		              <p>Posted by 					          
+					          <s:link view="/profile.seam" value="#{comment.commentor.memberName}" propagation="none">
+					            <f:param name="name" value="#{comment.commentor.memberName}"/>
+					          </s:link> on #{comment.formattedCommentDate}
+  					      </p>
+		            </td>	            
+	            </tr>
+	          </table>
+	        </ui:repeat>          
+	      </s:div>
+	                      
+      </s:div>                
+          
+      <br class="clear"/>          
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>

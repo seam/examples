@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+
+      <div class="errors"><h:messages globalOnly="true"/></div>
+
+      <s:div rendered="#{friendRequest == null}">
+        Could not create friend request.
+      </s:div>
+
+      <s:div rendered="#{friendRequest != null}">
+
+        <s:div id="blogMemberCard">	        
+	        <s:link view="/profile.seam" value="#{friendRequest.member.memberName}" propagation="none">
+            <f:param name="name" value="#{friendRequest.member.memberName}"/>	        
+              <h:graphicImage value="/content/images?id=#{friendRequest.member.picture.imageId}&amp;width=90"/>
+	        </s:link>
+
+          <br style="clear:both"/>
+        </s:div>
+
+        <div class="friendRequest">
+          <h1>Send a friend request</h1>
+          
+          <p>
+            Use this form to request that <b>#{friendRequest.member.memberName}</b> adds you to 
+            #{friendRequest.member.gender.possessive} friends list.
+          </p>
+        
+          <h:form>
+
+            <h:outputLabel for="introduction">Please type an introduction message</h:outputLabel><br/>
+            <h:inputTextarea id="introduction" value="#{friendRequest.introduction}"/><br/>
+
+            <div class="buttons">
+              <h:commandButton action="#{friendAction.saveRequest}" value="Send request" styleClass="action"/>
+            </div>
+
+            <br class="clear"/>
+          </h:form>
+        </div>
+
+      </s:div>
+
+      <br class="clear"/>
+
+    </ui:define>
+
+  </ui:composition>
+</html>

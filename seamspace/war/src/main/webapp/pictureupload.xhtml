@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      <div id="contentMain">
+        <div class="errors"><h:messages globalOnly="true"/></div> 
+        
+        <h3>Upload Picture</h3>
+        
+        <div>
+
+          <h:form styleClass="register" enctype="multipart/form-data">
+            <s:validateAll>
+
+              <div class="formRow">
+                <h:outputLabel for="caption">Caption</h:outputLabel>
+                <h:inputText id="caption" value="#{pictureAction.memberImage.caption}"/>
+                <div class="validationError"><h:message for="caption"/></div>
+              </div>               
+
+              
+              <div class="formRow">
+                <h:outputLabel for="picture">Picture</h:outputLabel>
+                <s:fileUpload id="picture" data="#{pictureAction.memberImage.data}"
+                              contentType="#{pictureAction.memberImage.contentType}" />
+                <div class="validationError"><h:message for="picture"/></div>
+              </div>               
+
+            </s:validateAll>
+            
+            <div class="buttons">
+              <h:commandButton value="Upload" action="#{pictureAction.savePicture}" styleClass="formButton"/>
+              <s:button value="Cancel" propagation="end" view="/pictures.xhtml" styleClass="formButton">
+                <f:param name="name" value="#{authenticatedMember.memberName}"/>
+              </s:button>
+            </div>
+          
+          </h:form>
+          
+          <br class="clear"/>
+        </div>
+      </div>
+     
+    </ui:define>
+    
+  </ui:composition>
+</html>

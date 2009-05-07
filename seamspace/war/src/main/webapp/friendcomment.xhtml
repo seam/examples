@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="content">
+      
+      <div class="errors"><h:messages globalOnly="true"/></div>       
+
+      <s:div rendered="#{friendComment == null}">
+        Could not create comment.
+      </s:div>
+    
+      <s:div rendered="#{friendComment != null}">
+      
+        <s:div id="blogMemberCard">
+          <h:outputLink value="profile.seam?name=#{friendComment.member.memberName}">
+	          #{friendComment.member.memberName}<br/>
+            <h:graphicImage value="/content/images?id=#{friendComment.member.picture.imageId}&amp;width=90"/>
+	        </h:outputLink>
+                           
+          <br style="clear:both"/>          
+        </s:div>
+
+				<s:div id="blog">
+          
+          <s:div rendered="#{friendComment.comment != null}">
+            Preview:
+	          <table class="blogComment">
+	            <tr>		            
+		            <td class="blogCommentText">
+		              <p><s:formattedText value="#{friendComment.comment}"/></p>
+		            </td>	            
+	            </tr>
+	          </table>          
+          </s:div>
+          
+          <div class="commentEntry">
+            <h:form>
+              
+              <h:outputLabel for="comment">Please type your comment for #{friendComment.member.memberName}</h:outputLabel><br/>
+              <h:inputTextarea id="comment" value="#{friendComment.comment}"/><br/>
+
+              <div class="buttons">
+                <h:commandButton action="#{friendAction.saveComment}" value="Add comment" styleClass="action"/>            
+                <h:commandButton value="Preview" styleClass="action"/>                            
+              </div>
+              
+              <br class="clear"/>
+            </h:form>
+          </div>
+          
+          <div>
+            <b>Seam Text Quick Reference</b><br/>
+            <pre><code>
+*bold* /italic/ |monospace| -strikethrough- ^super^ _underline_
+
++Big Heading
+Headings must be followed by text
+
+++Smaller heading
+Paragraphs are ended with a blank line.
+
+#ordered list item
+
+=unordered list item
+
+"quoted text"
+            </code></pre>
+          </div>
+          
+        </s:div>
+                
+      </s:div>                
+      
+      <br class="clear"/>
+          
+    </ui:define>
+    
+  </ui:composition>
+</html>
