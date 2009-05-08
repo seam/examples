@@ -1,5 +1,6 @@
 package org.jboss.seam.example.seamspace;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,17 +10,24 @@ import javax.context.ConversationScoped;
 import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.example.seamspace.model.BlogComment;
+import org.jboss.seam.example.seamspace.model.Member;
+import org.jboss.seam.example.seamspace.model.MemberBlog;
 
 @Named("blog")
 @ConversationScoped
-public class BlogAction
+public class BlogAction implements Serializable
 {    
+   private static final long serialVersionUID = 1048001063828543101L;
+   
    private String name;   
    private Integer blogId;
    
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
    
-   @Current Member authenticatedMember;
+   /*@Current */Member authenticatedMember;
    @Current Conversation conversation;
    
    private MemberBlog selectedBlog;

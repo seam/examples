@@ -1,15 +1,21 @@
 package org.jboss.seam.example.seamspace;
 
+import java.io.Serializable;
+
 import javax.annotation.Named;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.example.seamspace.model.MemberImage;
 import org.jboss.seam.security.Identity;
 
 @Named
-public class ContentAction
+public class ContentAction implements Serializable
 {
-   @Current EntityManager entityManager;
+   private static final long serialVersionUID = -3028986030113894868L;
+   
+   @PersistenceContext EntityManager entityManager;
    @Current Identity identity;
    
    public MemberImage getImage(int imageId)

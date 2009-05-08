@@ -1,27 +1,29 @@
-package org.jboss.seam.example.seamspace;
+package org.jboss.seam.example.seamspace.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
-public class MemberFriend implements Serializable
+public class FriendComment implements Serializable
 {
-   private static final long serialVersionUID = -167586088947004386L;
+   private static final long serialVersionUID = -288494386341008371L;
+
+   private static SimpleDateFormat df = new SimpleDateFormat("d MMMM yyyy hh:mm a");   
    
    private Integer id;
    private Member member;
    private Member friend;
+   private Date commentDate;
+   private String comment;
    
-   private String introduction;
-   private String response;
-   
-   private boolean authorized;
-
    @Id @GeneratedValue
    public Integer getId()
    {
@@ -33,15 +35,31 @@ public class MemberFriend implements Serializable
       this.id = id;
    }   
    
-   public boolean isAuthorized()
+   public String getComment()
    {
-      return authorized;
+      return comment;
    }
    
-   public void setAuthorized(boolean authorized)
+   public void setComment(String comment)
    {
-      this.authorized = authorized;
+      this.comment = comment;
    }
+   
+   public Date getCommentDate()
+   {
+      return commentDate;
+   }
+   
+   public void setCommentDate(Date commentDate)
+   {
+      this.commentDate = commentDate;
+   }
+   
+   @Transient
+   public String getFormattedCommentDate()
+   {
+     return df.format(commentDate);  
+   }   
    
    @ManyToOne
    @JoinColumn(name = "FRIEND_ID")
@@ -54,7 +72,7 @@ public class MemberFriend implements Serializable
    {
       this.friend = friend;
    }
-
+      
    @ManyToOne
    @JoinColumn(name = "MEMBER_ID")
    public Member getMember()
@@ -67,23 +85,4 @@ public class MemberFriend implements Serializable
       this.member = member;
    }
 
-   public String getIntroduction()
-   {
-      return introduction;
-   }
-
-   public void setIntroduction(String introduction)
-   {
-      this.introduction = introduction;
-   }
-
-   public String getResponse()
-   {
-      return response;
-   }
-
-   public void setResponse(String response)
-   {
-      this.response = response;
-   }      
 }

@@ -1,28 +1,35 @@
 package org.jboss.seam.example.seamspace;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Named;
 import javax.context.RequestScoped;
-import javax.ejb.Remove;
 import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.example.seamspace.model.FriendComment;
+import org.jboss.seam.example.seamspace.model.Member;
+import org.jboss.seam.example.seamspace.model.MemberBlog;
 
 @Named("profile")
 @RequestScoped
-public class ProfileAction
+public class ProfileAction implements Serializable
 {
+   private static final long serialVersionUID = 8352519286505497298L;
+
    //@RequestParameter
    private String name;
    
-   @Current Member selectedMember;
+   /*@Current */ Member selectedMember;
    
-   @Current Member authenticatedMember;  
+   /*@Current */ Member authenticatedMember;  
    
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
 
    //@Factory("selectedMember")
    public void display()

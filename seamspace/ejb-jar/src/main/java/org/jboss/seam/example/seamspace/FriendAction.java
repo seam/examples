@@ -10,7 +10,11 @@ import javax.inject.Current;
 import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.example.seamspace.model.FriendComment;
+import org.jboss.seam.example.seamspace.model.Member;
+import org.jboss.seam.example.seamspace.model.MemberFriend;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 
@@ -23,9 +27,9 @@ public class FriendAction implements Serializable
    // @RequestParameter("name")
    private String name;
      
-   @Current Member authenticatedMember;
+   /*@Current*/ Member authenticatedMember;
       
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
    @Current Identity identity;
    @Current StatusMessages messages;
    @Current Conversation conversation;

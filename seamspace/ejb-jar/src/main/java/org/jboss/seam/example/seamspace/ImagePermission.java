@@ -10,7 +10,11 @@ import javax.context.Conversation;
 import javax.context.ConversationScoped;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.example.seamspace.model.Member;
+import org.jboss.seam.example.seamspace.model.MemberAccount;
+import org.jboss.seam.example.seamspace.model.MemberImage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
@@ -36,7 +40,7 @@ public class ImagePermission implements Serializable
    @Current IdentityManager identityManager;
    @Current PermissionManager permissionManager;
    
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
    
    @Current PermissionSearch permissionSearch;
    @Current Conversation conversation;

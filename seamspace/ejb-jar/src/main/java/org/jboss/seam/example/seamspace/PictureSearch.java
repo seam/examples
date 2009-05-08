@@ -7,6 +7,9 @@ import javax.annotation.Named;
 import javax.context.RequestScoped;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.example.seamspace.model.MemberImage;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.Secure;
 import org.jboss.seam.security.annotations.Delete;
@@ -20,7 +23,7 @@ public class PictureSearch implements Serializable
    
    private String memberName;
    
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
    @Current Identity identity;
    
    private List<MemberImage> memberImages;

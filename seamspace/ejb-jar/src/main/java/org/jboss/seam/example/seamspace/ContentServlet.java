@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
+import org.jboss.seam.example.seamspace.model.MemberImage;
+
 /**
  * Serves images and other member content
  * 

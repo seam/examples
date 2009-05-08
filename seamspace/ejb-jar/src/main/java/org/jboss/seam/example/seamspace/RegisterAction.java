@@ -1,30 +1,35 @@
 package org.jboss.seam.example.seamspace;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.Named;
 import javax.context.Conversation;
 import javax.context.ConversationScoped;
-import javax.ejb.Remove;
 import javax.event.Observes;
 import javax.inject.Current;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+import org.jboss.seam.example.seamspace.model.Member;
+import org.jboss.seam.example.seamspace.model.MemberAccount;
+import org.jboss.seam.example.seamspace.model.MemberImage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.RunAsOperation;
 import org.jboss.seam.security.events.UserCreatedEvent;
 import org.jboss.seam.security.management.IdentityManager;
-import org.jboss.seam.security.management.JpaIdentityStore;
 
 @Named("register")
 @ConversationScoped
-public class RegisterAction
+public class RegisterAction implements Serializable
 {
+   private static final long serialVersionUID = 2943705513616351130L;
+
    private Member member;
    
-   @Current EntityManager entityManager;
+   @PersistenceContext EntityManager entityManager;
    
    @Current Identity identity;
    @Current Credentials credentials;

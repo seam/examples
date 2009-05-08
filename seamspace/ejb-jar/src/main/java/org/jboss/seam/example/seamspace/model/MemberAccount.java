@@ -1,4 +1,4 @@
-package org.jboss.seam.example.seamspace;
+package org.jboss.seam.example.seamspace.model;
 
 import java.io.Serializable;
 import java.util.Set;

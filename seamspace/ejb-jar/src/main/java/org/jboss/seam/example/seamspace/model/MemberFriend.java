@@ -1,29 +1,27 @@
-package org.jboss.seam.example.seamspace;
+package org.jboss.seam.example.seamspace.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 @Entity
-public class FriendComment implements Serializable
+public class MemberFriend implements Serializable
 {
-   private static final long serialVersionUID = -288494386341008371L;
-
-   private static SimpleDateFormat df = new SimpleDateFormat("d MMMM yyyy hh:mm a");   
+   private static final long serialVersionUID = -167586088947004386L;
    
    private Integer id;
    private Member member;
    private Member friend;
-   private Date commentDate;
-   private String comment;
    
+   private String introduction;
+   private String response;
+   
+   private boolean authorized;
+
    @Id @GeneratedValue
    public Integer getId()
    {
@@ -35,31 +33,15 @@ public class FriendComment implements Serializable
       this.id = id;
    }   
    
-   public String getComment()
+   public boolean isAuthorized()
    {
-      return comment;
+      return authorized;
    }
    
-   public void setComment(String comment)
+   public void setAuthorized(boolean authorized)
    {
-      this.comment = comment;
+      this.authorized = authorized;
    }
-   
-   public Date getCommentDate()
-   {
-      return commentDate;
-   }
-   
-   public void setCommentDate(Date commentDate)
-   {
-      this.commentDate = commentDate;
-   }
-   
-   @Transient
-   public String getFormattedCommentDate()
-   {
-     return df.format(commentDate);  
-   }   
    
    @ManyToOne
    @JoinColumn(name = "FRIEND_ID")
@@ -72,7 +54,7 @@ public class FriendComment implements Serializable
    {
       this.friend = friend;
    }
-      
+
    @ManyToOne
    @JoinColumn(name = "MEMBER_ID")
    public Member getMember()
@@ -85,4 +67,23 @@ public class FriendComment implements Serializable
       this.member = member;
    }
 
+   public String getIntroduction()
+   {
+      return introduction;
+   }
+
+   public void setIntroduction(String introduction)
+   {
+      this.introduction = introduction;
+   }
+
+   public String getResponse()
+   {
+      return response;
+   }
+
+   public void setResponse(String response)
+   {
+      this.response = response;
+   }      
 }
