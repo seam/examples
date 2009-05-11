@@ -13,7 +13,93 @@
    <artifactId>seam-servlet-booking</artifactId>
    <packaging>war</packaging>
    <name>Seam Booking Example (Servlet)</name>
-   <description>The Seam booking example for deployment to a servlet container</description>
+   <description>The Seam booking example for deployment to a servlet environment</description>
+
+   <properties>
+      <jetty.http.port>9090</jetty.http.port>
+      <jetty.stop.port>9091</jetty.stop.port>
+      <jetty.debug.port>9190</jetty.debug.port>
+      <jetty.daemon>true</jetty.daemon>
+      <tomcat.http.port>8080</tomcat.http.port>
+      <embedded-tomcat.http.port>9090</embedded-tomcat.http.port>
+      <embedded-tomcat.debug.port>9190</embedded-tomcat.debug.port>
+      <webapp.directory>src/main/webapp</webapp.directory>
+   </properties>
+
+   <dependencies>
+
+      <dependency>
+         <groupId>org.testng</groupId>
+         <artifactId>testng</artifactId>
+         <scope>test</scope>
+         <classifier>jdk15</classifier>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-api</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-impl</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
+      <!-- why is seam-faces forcing this requirement? -->
+      <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-faces</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-webbeans-bridge</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
+         <artifactId>jsr299-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
+         <artifactId>webbeans-core</artifactId>
+         <version>1.0.0-SNAPSHOT</version>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
+         <artifactId>webbeans-logging</artifactId>
+         <scope>provided</scope> <!-- assumes the use of Web Beans RI -->
+      </dependency>
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
+         <artifactId>webbeans-logger</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.webbeans.servlet</groupId>
+         <artifactId>webbeans-servlet</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+
+   </dependencies>
 
    <build>
       <defaultGoal>package</defaultGoal>
@@ -41,7 +127,7 @@
          <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
-               <!-- don't stage or package files added to src/main/webapp by war:inplace -->
+               <!-- don't stage or package files added to ${webapp.directory} by war:inplace -->
                <warSourceExcludes>WEB-INF/classes/**,WEB-INF/lib/**</warSourceExcludes>
             </configuration>
          </plugin>
@@ -72,6 +158,9 @@
                      <maxIdleTime>3600000</maxIdleTime>
                   </connector>
                </connectors>
+               <daemon>${jetty.daemon}</daemon>
+               <stopPort>${jetty.stop.port}</stopPort>
+               <stopKey>HASTA_LA_VISTA</stopKey>
                <scanIntervalSeconds>10</scanIntervalSeconds>
                <webAppConfig>
                   <contextPath>/${project.build.finalName}</contextPath>
@@ -83,57 +172,65 @@
             </configuration>
          </plugin>
 
+         <plugin>
+            <groupId>org.twdata.maven</groupId>
+            <artifactId>maven-cli-plugin</artifactId>
+            <version>0.6.3.CR3</version>
+            <configuration>
+               <!-- commands are for cli:execute -->
+               <commands>
+               </commands>
+               <prompt>${project.artifactId}</prompt>
+               <!-- userAliases are for cli:execute-phase -->
+               <userAliases>
+                  <runjetty>compile org.apache.maven.plugins:maven-war-plugin:inplace org.mortbay.jetty:maven-jetty-plugin:run</runjetty>
+                  <stopjetty>org.mortbay.jetty:maven-jetty-plugin:stop -o</stopjetty>
+                  <runtomcat>compile org.apache.maven.plugins:maven-war-plugin:inplace org.codehaus.mojo:tomcat-maven-plugin:run</runtomcat>
+                  <explode>compile org.apache.maven.plugins:maven-war-plugin:inplace -o</explode>
+                  <restart>org.apache.maven.plugins:maven-antrun-plugin:run -Prestart-embedded</restart>
+                  <!--<restart>validate -Prestart-embedded -o</restart>-->
+                  <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
+                  <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
+               </userAliases>
+            </configuration>
+         </plugin>
+
       </plugins>
    </build>
 
-   <properties>
-      <jetty.http.port>9090</jetty.http.port>
-      <jetty.debug.port>9190</jetty.debug.port>
-      <tomcat.http.port>8080</tomcat.http.port>
-      <embedded-tomcat.http.port>9090</embedded-tomcat.http.port>
-      <embedded-tomcat.debug.port>9190</embedded-tomcat.debug.port>
-      <webapp.directory>src/main/webapp</webapp.directory>
-   </properties>
-
-   <dependencies>
-
-      <dependency>
-         <groupId>org.testng</groupId>
-         <artifactId>testng</artifactId>
-         <scope>test</scope>
-         <classifier>jdk15</classifier>
-      </dependency>
-
-      <dependency>
-         <groupId>javax.annotation</groupId>
-         <artifactId>jsr250-api</artifactId>
-      </dependency>
-
-      <dependency>
-         <groupId>javax.faces</groupId>
-         <artifactId>jsf-api</artifactId>
-         <version>2.0.0-PR2_1</version>
-      </dependency>
-
-      <dependency>
-         <groupId>javax.faces</groupId>
-         <artifactId>jsf-impl</artifactId>
-         <scope>runtime</scope>
-         <version>2.0.0-PR2_1</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.webbeans</groupId>
-         <artifactId>jsr299-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.webbeans.servlet</groupId>
-         <artifactId>webbeans-servlet</artifactId>
-         <scope>runtime</scope>
-      </dependency>
-
-   </dependencies>
+   <profiles>
+      <profile>
+         <id>restart-embedded</id>
+         <build>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-antrun-plugin</artifactId>
+                  <configuration>
+                     <tasks>
+                        <touch file="${webapp.directory}/WEB-INF/web.xml"/>
+                     </tasks>
+                  </configuration>
+                  <!-- Hooking an execution to a phase is more correct, but slower -->
+                  <!--
+                  <executions>
+                     <execution>
+                        <id>touch-web-inf</id>
+                        <phase>validate</phase>
+                        <configuration>
+                           <tasks>
+                              <touch file="${webapp.directory}/WEB-INF/web.xml"/>
+                           </tasks>
+                        </configuration>
+                        <goals>
+                           <goal>run</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+                  -->
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 
 </project>
