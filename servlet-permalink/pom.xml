@@ -13,7 +13,7 @@
    <artifactId>seam-servlet-permalink</artifactId>
    <packaging>war</packaging>
    <name>Seam Permalink Example (Servlet)</name>
-   <description>The Seam permalink example for deployment to a servlet container</description>
+   <description>The Seam permalink example for deployment to a servlet environment</description>
 
    <properties>
       <jetty.http.port>9090</jetty.http.port>
@@ -36,8 +36,29 @@
       </dependency>
 
       <dependency>
-         <groupId>javax.annotation</groupId>
-         <artifactId>jsr250-api</artifactId>
+         <groupId>com.steeplesoft.jsf</groupId>
+         <artifactId>facestester</artifactId>
+         <scope>test</scope>
+         <version>0.2.PR1</version> <!-- TODO: move to version-matrix -->
+      </dependency>
+
+      <dependency>
+         <groupId>javax.servlet.jsp</groupId>
+         <artifactId>jsp-api</artifactId>
+         <version>2.1</version>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.el</groupId>
+         <artifactId>el-api</artifactId>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.el</groupId>
+         <artifactId>el-ri</artifactId>
+         <scope>test</scope>
       </dependency>
 
       <dependency>
@@ -49,6 +70,11 @@
          <groupId>javax.faces</groupId>
          <artifactId>jsf-impl</artifactId>
          <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.transaction</groupId>
+         <artifactId>jta</artifactId>
       </dependency>
 
       <dependency>
@@ -85,6 +111,11 @@
       </dependency>
 
       <dependency>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-webbeans-bridge</artifactId>
+      </dependency>
+
+      <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-log4j12</artifactId>
          <version>1.5.6</version>
@@ -100,7 +131,7 @@
       <dependency>
          <groupId>${webbeans.groupId}</groupId>
          <artifactId>webbeans-logging</artifactId>
-         <scope>provided</scope>
+         <scope>provided</scope> <!-- assumes the use of Web Beans RI -->
       </dependency>
 
       <dependency>
@@ -140,6 +171,38 @@
          </plugin>
 
          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>integration-tests</id>
+                  <phase>integration-test</phase>
+                  <goals>
+                     <goal>test</goal>
+                  </goals>
+                  <configuration>
+                     <!--
+                     <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/integration-test-suite.xml</suiteXmlFile>
+                     </suiteXmlFiles>
+                     -->
+                     <includes>
+                        <include>**/When*</include>
+                     </includes>
+                     <systemProperties>
+                        <property>
+                           <name>facestester.webAppPath</name>
+                           <value>${project.build.directory}/${project.build.finalName}</value>
+                           <!--
+                           <value>${webapp.directory}</value>
+                           -->
+                        </property>
+                     </systemProperties>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
             <artifactId>maven-war-plugin</artifactId>
             <configuration>
                <!-- don't stage or package files added to ${webapp.directory} by war:inplace -->
@@ -173,7 +236,7 @@
                      <maxIdleTime>3600000</maxIdleTime>
                   </connector>
                </connectors>
-               <daemon>true</daemon>
+               <daemon>${jetty.daemon}</daemon>
                <stopPort>${jetty.stop.port}</stopPort>
                <stopKey>HASTA_LA_VISTA</stopKey>
                <scanIntervalSeconds>10</scanIntervalSeconds>
@@ -190,14 +253,17 @@
          <plugin>
             <groupId>org.twdata.maven</groupId>
             <artifactId>maven-cli-plugin</artifactId>
+            <version>0.6.3.CR3</version>
             <configuration>
+               <prompt>${project.artifactId}</prompt>
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
-                  <runjetty>compile org.apache.maven.plugins:maven-war-plugin:inplace org.mortbay.jetty:maven-jetty-plugin:run -o</runjetty>
-                  <stopjetty>org.mortbay.jetty:maven-jetty-plugin:stop -o</stopjetty>
-                  <runtomcat>compile org.apache.maven.plugins:maven-war-plugin:inplace org.codehaus.mojo:tomcat-maven-plugin:run -o</runtomcat>
+                  <runjetty>compile org.apache.maven.plugins:maven-war-plugin:inplace org.mortbay.jetty:maven-jetty-plugin:run</runjetty>
+                  <stopjetty>org.mortbay.jetty:maven-jetty-plugin:stop</stopjetty>
+                  <runtomcat>compile org.apache.maven.plugins:maven-war-plugin:inplace org.codehaus.mojo:tomcat-maven-plugin:run</runtomcat>
                   <explode>compile org.apache.maven.plugins:maven-war-plugin:inplace -o</explode>
-                  <restart>validate -Prestart-embedded -o</restart>
+                  <restart>org.apache.maven.plugins:maven-antrun-plugin:run -Prestart-embedded</restart>
+                  <!--<restart>validate -Prestart-embedded -o</restart>-->
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
                   <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
                </userAliases>
@@ -213,11 +279,17 @@
    <profiles>
       <profile>
          <id>restart-embedded</id>
-      
          <build>
             <plugins>
                <plugin>
                   <artifactId>maven-antrun-plugin</artifactId>
+                  <configuration>
+                     <tasks>
+                        <touch file="${webapp.directory}/WEB-INF/web.xml"/>
+                     </tasks>
+                  </configuration>
+                  <!-- Hooking an execution to a phase is more correct, but slower -->
+                  <!--
                   <executions>
                      <execution>
                         <id>touch-web-inf</id>
@@ -232,8 +304,8 @@
                         </goals>
                      </execution>
                   </executions>
+                  -->
                </plugin>
-
             </plugins>
          </build>
       </profile>
