@@ -26,12 +26,12 @@
           <h:outputText styleClass="divider" value=" | "/>
         </s:fragment>
 
-        <s:fragment rendered="#{s:hasRole('admin')}">
+        <s:fragment rendered="#{identity.hasRole('admin')}">
           <s:link id="security" view="/security.xhtml" value="Security" propagation="none"/>
           <h:outputText styleClass="divider" value=" | "/>
         </s:fragment>
         
-        <s:link id="logout" action="#{identity.logout}" value="Log out" rendered="#{identity.loggedIn}"/>
+        <s:link id="logout" action="#{identity.logout()}" value="Log out" rendered="#{identity.loggedIn}"/>
         <h:outputLink id="login" value="home.seam" rendered="#{not identity.loggedIn}">Log in</h:outputLink>
       </div>
       <br style="clear:both"/>
