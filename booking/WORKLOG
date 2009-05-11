@@ -1,0 +1,46 @@
+KNOWN ISSUES
+============
+
+(1) Ajax is not working on blur in p:edit form fields (had to disable)
+    Alert box showing "error malformedXML"
+
+(2) No list of workspaces
+
+(3) @AfterTransactionSuccess observer does not work
+
+(4) Ghost click first time clicking on View after results are returned
+    Mojarra Issue #1116; ViewState is not being put in form on partial page update
+
+(5) If you visit the main.seam page before logging in, when you logging, you remain an anonymous user; the session-scoped
+    user bean is not being cleared on login. (temporary fix)
+
+(6) blank user shown after registering
+
+TODO
+====
+
+- secure pages (likely will use <f:event type="beforeRenderView"/>
+- get status messages from default or resource bundle (not just hardcoded defaults)
+- demonstrate use of exception handling in JSF 2
+- auto-detect which files have @NotNull or @NotEmpty to determine whether to put the * in <p:edit>
+- use Cargo plugin to support deployment to other Java EE application servers (GlassFish)
+- refactor the password/confirm password into a reusable component (needed on registration and change password)
+- consider using unpackTypes in the ear plugin (which works incrementally) to replace portions of the antrun logic
+- use a resource to define persistence context:
+<EntityManager>
+   <PersistenceContext>
+      <unitName>booking</unitName>
+   </PersistenceContext>
+   <booking:BookingDatabase/>
+</EntityManager>
+
+
+OPEN QUESTIONS
+==============
+
+- How do I clear a contextual bean from a scope, in particular the session scope? I've had to do workarounds.
+
+- How do I inject an Event object into a stateful component? I get an error that there is a reference to a
+  non-serializable object from a bean declaring a non-passivating scope. I have to use the Manager to fire an event
+  instead.
+
