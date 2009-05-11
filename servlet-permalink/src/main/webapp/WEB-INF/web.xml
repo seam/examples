@@ -4,7 +4,7 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
    version="2.5">
 
-   <display-name>Seam Permalink Example (Servlet Container)</display-name>
+   <display-name>Seam Permalink Example (Servlet Environment)</display-name>
    
    <context-param>
       <param-name>facelets.DEVELOPMENT</param-name>

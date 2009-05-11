@@ -1,11 +1,11 @@
-Seam Permalink Example (Servlet Container)
-==========================================
+Seam Permalink Example (Servlet Environment)
+============================================
 
-This example demonstrates the use of Seam 3 in a Servlet container environment
-(Tomcat 6 / Jetty 6). Contextual state management and dependency injection are
-handled by JSR-299. Transaction and persistence context management is handled
-by the EJB 3 container. No alterations are expected to be made to the Servlet
-container. All services are self-contained within the deployment.
+This example demonstrates the use of Seam 3 in a Servlet environment (Tomcat 6
+/ Jetty 6). Contextual state management and dependency injection are handled by
+JSR-299. Transaction and persistence context management is handled by the EJB 3
+container. No alterations are required to be made to the Servlet container. All
+services are self-contained within the deployment.
 
 This example uses a Maven 2 build. Execute the following command to build the
 WAR. The WAR will will be located in the target directory after completion of
