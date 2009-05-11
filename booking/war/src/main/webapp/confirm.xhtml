@@ -29,7 +29,9 @@
             <f:convertDateTime for="output" type="date" pattern="MM/dd/yyyy"/>
          </p:display>
 
-         <p:display label="Credit card #" value="#{booking.creditCard}"/>
+         <p:display label="Credit card #" value="#{booking.creditCardNumber}"/>
+
+         <p:display label="Credit card type" value="#{booking.creditCardType}"/>
    
          <div class="buttonBox">
             <h:form id="confirmForm">

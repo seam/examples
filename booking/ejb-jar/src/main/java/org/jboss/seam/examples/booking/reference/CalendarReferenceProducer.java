@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
 import javax.annotation.Named;
 import javax.context.ConversationScoped;
 import javax.inject.Current;
@@ -40,20 +41,4 @@ public class CalendarReferenceProducer {
       return months;
    }
 
-   public
-   @Produces
-   @Named
-   @ConversationScoped
-   @CreditCardExpiryYears
-   List<Integer> getCreditCardExpiryYears()
-   {
-      List<Integer> years = new ArrayList<Integer>(8);
-      int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-      for (int y = currentYear; y <= (currentYear + 8); y++)
-      {
-         years.add(y);
-      }
-
-      return years;
-   }
 }

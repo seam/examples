@@ -12,21 +12,27 @@
       <comp:attribute name="required" required="false"/>
    </comp:interface>
 
-   <!-- TODO allow for a template to be specified, falling back to a default -->
-   <!-- TODO detect required from child or from bean validation annotation -->
+   <ui:remove>
+   TODO allow for a template to be specified, falling back to a default
+   TODO detect required from child or from bean validation annotation
+   Ed claims there is #{component.messageList}, but I don't see it
+   </ui:remove>
+
    <comp:implementation>
 
       <c:set var="required" value="#{cc.attrs.required eq null ? true : cc.attrs.required}"/>
       <c:set var="invalid" value="#{not empty facesContext.getMessageList(cc.clientId.concat(':input'))}"/>
+      <c:set var="invalid2" value="#{not empty facesContext.getMessageList(cc.clientId.concat(':input2'))}"/>
 
       <div class="entry">
-         <h:outputLabel value="#{cc.attrs.label}:" for="input" styleClass="label#{invalid ? ' errors' : ''}">
+         <h:outputLabel value="#{cc.attrs.label}:" for="input" styleClass="label#{invalid || invalid2 ? ' errors' : ''}">
             <c:if test="#{required}"><span class="required">*</span></c:if>
          </h:outputLabel>
-         <span class="input#{invalid ? ' errors' : ''}">
+         <span class="input#{invalid || invalid2 ? ' errors' : ''}">
             <comp:insertChildren/>
          </span>
-         <h:message for="input" styleClass="error errors"/>
+         <h:message for="input" styleClass="error errors" rendered="#{invalid}"/>
+         <h:message for="input2" styleClass="error errors" rendered="#{invalid2}"/>
       </div>
 
    </comp:implementation>

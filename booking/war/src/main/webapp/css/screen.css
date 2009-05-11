@@ -29,17 +29,16 @@ a img {
    font-weight: bold;
    color: #5E5147;
 }
-input {
+input, select {
    border: 1px solid #C3BBB6;
-   padding: 4px;
    margin: 5px 0;
    background: #FFFFFF url(../img/input.bg.gif) 0 0 repeat-x;
 }
+input {
+   padding: 4px;
+}
 select {
-   border: 1px solid #C3BBB6;
    padding: 1px;
-   margin: 5px 0;
-   background: #FFFFFF url(../img/input.bg.gif) 0 0 repeat-x;
 }
 ol, ul {
    margin: 10px 0px 10px 6px;
@@ -148,7 +147,7 @@ input[type=submit], input[type=button] {
 .errors span {
    text-align: left;
 }
-.errors input {
+.errors input, .errors select, .errors textarea {
    border: 1px solid #600000;
 }
 .errors ul {

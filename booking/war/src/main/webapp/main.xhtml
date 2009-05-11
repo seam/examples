@@ -35,12 +35,12 @@ function controlSpinner(behavior)
 
          <h:form id="searchForm" prependId="false">
             <fieldset> 
-               <h:inputText id="searchString" value="#{searchCriteria.searchString}" style="width: 165px;">
+               <h:inputText id="query" value="#{searchCriteria.query}" style="width: 165px;">
                   <f:ajax event="keyup" listener="#{hotelSearch.find}" render="searchResults" onevent="controlSpinner"/>
                </h:inputText>
                #{' '}
                <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}">
-                  <f:ajax execute="searchString" render="searchResults" onevent="controlSpinner"/>
+                  <f:ajax execute="query" render="searchResults" onevent="controlSpinner"/>
                </h:commandButton>
                #{' '}
                <span id="activity" style="display: none;"><h:graphicImage id="spinner" value="/img/spinner.gif"/></span>
@@ -82,9 +82,9 @@ function controlSpinner(behavior)
                   <h:column id="actCol">
                      <f:facet id="actFct" name="header">Action</f:facet>
                      <h:commandLink id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}" style="white-space: nowrap;"/>
-                     <ui:remove>
+                     <ui:remove><!--
                      <h:commandButton id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}"/>
-                     </ui:remove>
+                     --></ui:remove>
                   </h:column>
                </h:dataTable>
             </h:form>
@@ -96,7 +96,7 @@ function controlSpinner(behavior)
                <h:commandButton id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
                   <f:ajax render="searchResults" onevent="controlSpinner"/>
                </h:commandButton>
-               <ui:remove>
+               <ui:remove><!--
                <h:commandLink id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
                   <f:ajax render="searchResults" onevent="controlSpinner"/>
                </h:commandLink>
@@ -104,7 +104,7 @@ function controlSpinner(behavior)
                <h:commandLink id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
                   <f:ajax render="searchResults" onevent="controlSpinner"/>
                </h:commandLink>
-               </ui:remove>
+               --></ui:remove>
             </h:form>
          </div>
       </h:panelGroup>
@@ -119,20 +119,14 @@ function controlSpinner(behavior)
          <h:form id="bookings" rendered="#{identity.loggedIn}">
             <h:outputText value="No bookings found." rendered="#{bookings.size == 0}"/>
             <h:dataTable id="bookings" value="#{bookings}" var="_booking" rendered="#{bookings.size gt 0}">
-               <ui:remove>
                <h:column id="nameCol">
                   <f:facet id="nameFct" name="header">Hotel name</f:facet>
-                  #{_booking.hotel}
-               </h:column>
-               <h:column id="addrCol">
-                  <f:facet id="addrCol" name="header">Address</f:facet>
-                  #{_booking.hotel.address}
+                  #{_booking.hotel.name}
                </h:column>
                <h:column id="locCol">
                   <f:facet id="locFct" name="header">Location</f:facet>
                   #{_booking.hotel.location}
                </h:column>
-               </ui:remove>
                <h:column id="inCol">
                   <f:facet id="inCol" name="header">Check-in date</f:facet>
                   <h:outputText value="#{_booking.checkinDate}">

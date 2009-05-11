@@ -10,12 +10,12 @@
       <version>3.0.0-SNAPSHOT</version>
    </parent>
 
-   <artifactId>seam-booking-ejb</artifactId>
+   <artifactId>seam-booking-ejb-jar</artifactId>
    <packaging>ejb</packaging>
    <name>Seam Booking Example (EJB module)</name>
 
    <build>
-      <finalName>${project.artifactId}</finalName>
+      <finalName>${project.parent.artifactId}-ejb</finalName>
       <plugins>
 
          <plugin>
@@ -65,12 +65,6 @@
       </dependency>
 
       <dependency>
-         <groupId>javax.annotation</groupId>
-         <artifactId>jsr250-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <dependency>
          <groupId>javax.ejb</groupId>
          <artifactId>ejb-api</artifactId>
          <scope>provided</scope>
@@ -96,6 +90,12 @@
 
       <dependency>
          <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-webbeans-bridge</artifactId> <!-- assumes use of Web Beans RI -->
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>${seam.groupId}</groupId>
          <artifactId>seam-faces</artifactId>
       </dependency>
       
@@ -105,20 +105,48 @@
       </dependency>
 
       <dependency>
+         <groupId>${seam.groupId}</groupId>
+         <artifactId>seam-web</artifactId>
+      </dependency>
+
+      <dependency>
          <groupId>${webbeans.groupId}</groupId>
          <artifactId>jsr299-api</artifactId>
          <scope>provided</scope>
       </dependency>
 
+      <!-- TEMPORARY! -->
       <dependency>
          <groupId>${webbeans.groupId}</groupId>
-         <artifactId>webbeans-logging</artifactId>
+         <artifactId>webbeans-spi</artifactId>
+         <version>1.0.0-SNAPSHOT</version>
          <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>${webbeans.groupId}</groupId>
+         <artifactId>webbeans-core</artifactId>
+         <version>1.0.0-SNAPSHOT</version>
+         <scope>provided</scope>
+      </dependency>
+      <!-- /TEMPORARY! -->
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
+         <artifactId>webbeans-logging</artifactId>
+         <scope>provided</scope> <!-- assumes the use of Web Beans RI -->
+      </dependency>
+
+      <dependency>
+         <groupId>${webbeans.groupId}</groupId>
          <artifactId>webbeans-logger</artifactId>
+         <exclusions>
+            <!-- This exclusion is necessary, but I don't understand why since it's marked as provided above -->
+            <exclusion>
+               <groupId>${webbeans.groupId}</groupId>
+               <artifactId>webbeans-logging</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
 
    </dependencies>

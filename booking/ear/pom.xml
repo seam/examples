@@ -208,7 +208,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>${project.parent.artifactId}-ejb</artifactId>
+            <artifactId>${project.parent.artifactId}-ejb-jar</artifactId>
             <type>ejb</type>
         </dependency>
 

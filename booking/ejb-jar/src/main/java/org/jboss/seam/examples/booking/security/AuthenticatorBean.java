@@ -10,14 +10,12 @@ import org.jboss.webbeans.log.Log;
 import org.jboss.webbeans.log.Logger;
 
 /**
- * This implementation of <strong>Authenticator</strong>
- * cross references the values of the user's credentials
- * against the database.
- *
+ * This implementation of <strong>Authenticator</strong> cross references the
+ * values of the user's credentials against the database.
+ * 
  * @author Dan Allen
  */
-public
-@Stateless
+public @Stateless
 class AuthenticatorBean implements Authenticator
 {
    private @Logger Log log;

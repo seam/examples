@@ -56,7 +56,12 @@
                </p:edit>
 
                <p:edit id="creditCardNumber" label="Credit card #">
-                  <h:inputText id="input" value="#{booking.creditCard}"/>
+                  <h:inputText id="input" value="#{booking.creditCardNumber}"/>
+                  #{' '}
+                  <h:selectOneMenu id="input2" value="#{booking.creditCardType}">
+                     <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
+                     <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
+                  </h:selectOneMenu>
                </p:edit>
 
                <p:edit id="creditCardExpiry" label="Credit card expiry">

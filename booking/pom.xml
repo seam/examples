@@ -52,23 +52,24 @@
          <plugin>
             <groupId>org.twdata.maven</groupId>
             <artifactId>maven-cli-plugin</artifactId>
-            <version>0.6.3.CR2</version> <!-- TODO move to version-matrix -->
             <configuration>
+               <!-- commands are for cli:execute -->
+               <commands>
+               </commands>
+               <prompt>${project.artifactId}</prompt>
                <!-- userAliases are for cli:execute-phase -->
                <userAliases>
-                  <explode>package -o -Pexplode</explode>
-                  <deploy>seam-booking-ear package -o org.codehaus.mojo:jboss-maven-plugin:harddeploy</deploy>
-                  <undeploy>seam-booking-ear validate -o -Pundeploy</undeploy>
-                  <unexplode>seam-booking-ear validate -o -Pundeploy</unexplode>
-                  <restart>seam-booking-ear validate -o -Prestart</restart>
-                  <reexplode>package -o -Pundeploy -Pexplode</reexplode>
+                  <!-- You can add -o to any alias to work offline -->
+                  <explode>package -Pexplode</explode>
+                  <deploy>seam-booking-ear package org.codehaus.mojo:jboss-maven-plugin:harddeploy</deploy>
+                  <undeploy>seam-booking-ear validate -Pundeploy</undeploy>
+                  <unexplode>seam-booking-ear validate -Pundeploy</unexplode>
+                  <restart>seam-booking-ear validate -Prestart</restart>
+                  <reexplode>package -Pundeploy -Pexplode</reexplode>
                   <!--<redeploy>this requires two distinct steps</redeploy>-->
                   <profiles>org.apache.maven.plugins:maven-help-plugin:active-profiles -o</profiles>
                   <pom>org.apache.maven.plugins:maven-help-plugin:effective-pom -o</pom>
                </userAliases>
-               <!-- commands are for cli:execute -->
-               <commands>
-               </commands>
             </configuration>
          </plugin>
 
@@ -105,7 +106,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>seam-booking-ejb</artifactId>
+            <artifactId>seam-booking-ejb-jar</artifactId>
             <version>${project.version}</version>
             <type>ejb</type>
         </dependency>

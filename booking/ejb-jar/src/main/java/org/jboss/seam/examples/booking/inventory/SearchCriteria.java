@@ -37,19 +37,19 @@ class SearchCriteria implements Serializable
    private static final String REPEAT_SQL_WIDCARD_REGEX = SQL_WILDCARD_STR + "+";
    private static final char HUMAN_WILDCARD_CHAR = '*';
 
-   private String searchString = "";
+   private String query = "";
    private int pageSize = 5;
    private int page = 0;
 
    public String getSearchPattern()
    {
-      if (searchString == null || searchString.length() == 0)
+      if (query == null || query.length() == 0)
       {
          return SQL_WILDCARD_STR;
       }
 
       StringBuilder pattern = new StringBuilder();
-      pattern.append(searchString.toLowerCase().replace(HUMAN_WILDCARD_CHAR, SQL_WILDCARD_CHAR).replaceAll(REPEAT_SQL_WIDCARD_REGEX, SQL_WILDCARD_STR));
+      pattern.append(query.toLowerCase().replace(HUMAN_WILDCARD_CHAR, SQL_WILDCARD_CHAR).replaceAll(REPEAT_SQL_WIDCARD_REGEX, SQL_WILDCARD_STR));
       if (pattern.length() == 0 || pattern.charAt(0) != SQL_WILDCARD_CHAR)
       {
          pattern.insert(0, SQL_WILDCARD_CHAR);
@@ -81,15 +81,14 @@ class SearchCriteria implements Serializable
       this.pageSize = pageSize;
    }
 
-   // QUESTION: rename to searchTerm?
-   public String getSearchString()
+   public String getQuery()
    {
-      return searchString;
+      return query;
    }
 
-   public void setSearchString(String searchString)
+   public void setQuery(String query)
    {
-      this.searchString = (searchString != null ? searchString.trim() : null);
+      this.query = (query != null ? query.trim() : null);
    }
 
    public void nextPage()

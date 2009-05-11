@@ -31,6 +31,8 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -58,7 +60,8 @@ class Booking implements Serializable
    private Hotel hotel;
    private Date checkinDate;
    private Date checkoutDate;
-   private String creditCard;
+   private String creditCardNumber;
+   private CreditCardType creditCardType;
    private String creditCardName;
    private int creditCardExpiryMonth;
    private int creditCardExpiryYear;
@@ -135,38 +138,50 @@ class Booking implements Serializable
    {
       this.checkoutDate = checkoutDate;
    }
-
-   @NotNull(message = "Credit card number is required")
-   @Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
-   @Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
-   public String getCreditCard()
-   {
-      return creditCard;
-   }
-
-   public void setCreditCard(String creditCard)
-   {
-      this.creditCard = creditCard;
-   }
-
+   
    public boolean isSmoking()
    {
       return smoking;
    }
-
+   
    public void setSmoking(boolean smoking)
    {
       this.smoking = smoking;
    }
-
+   
    public int getBeds()
    {
       return beds;
    }
-
+   
    public void setBeds(int beds)
    {
       this.beds = beds;
+   }
+
+   @NotNull(message = "Credit card number is required")
+   @Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
+   @Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
+   public String getCreditCardNumber()
+   {
+      return creditCardNumber;
+   }
+
+   public void setCreditCardNumber(String creditCardNumber)
+   {
+      this.creditCardNumber = creditCardNumber;
+   }
+
+   @NotNull(message = "Credit card type is required")
+   @Enumerated(EnumType.STRING)
+   public CreditCardType getCreditCardType()
+   {
+      return creditCardType;
+   }
+   
+   public void setCreditCardType(CreditCardType creditCardType)
+   {
+      this.creditCardType = creditCardType;
    }
 
    @NotNull(message = "Credit card name is required")

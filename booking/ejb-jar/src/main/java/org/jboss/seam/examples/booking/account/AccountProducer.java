@@ -12,6 +12,7 @@ import org.jboss.seam.examples.booking.model.User;
  */
 public
 @Local
-interface AccountProducer {
+interface AccountProducer
+{
    User getCurrentAccount();
 }
