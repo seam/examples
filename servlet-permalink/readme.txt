@@ -79,20 +79,20 @@ But likely you want to run one or more build goals first before you redeploy:
 
 = Importing the project into Eclipse
 
-The recommendate way to setup a Seam example in Eclipse is to use the m2eclipse
+The recommended way to setup a Seam example in Eclipse is to use the m2eclipse
 plugin. This plugin derives the build classpath from the dependencies listed in
 the pom.xml file. It also has direct integration with Maven build commands.
 
-To get started with Eclipse, you first need to hook Eclipse to your Maven
-repository. That can be done using this command:
+To get started open Eclipse and import the project by selecting "Maven
+Projects" and browsing to the project folder. You can now develop the project
+in Eclipse just like any other project.
 
-  mvn eclipse:configure-workspace
-
-You can then transform the pom.xml into an m2eclipse Eclipse project using the
-following command:
+You could also prepare the Eclipse project before hand, then import the project
+into Eclipse. First, transform the pom.xml into an m2eclipse Eclipse project
+using this command:
 
   mvn eclipse:m2eclipse
 
-Now go into Eclipse an import the project by selecting "Existing projects from
-workspace". You can also simply import the project using the native m2eclipse
-Maven project importer. However, that will miss activating the WTP features.
+Now go into Eclipse an import the project by selecting "Existing projects into
+workspace" and selecting the project folder. Both approaches use the Eclipse
+project configuration defined in the pom.xml file.
