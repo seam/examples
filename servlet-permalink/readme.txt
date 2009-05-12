@@ -77,3 +77,22 @@ But likely you want to run one or more build goals first before you redeploy:
  mvn war:exploded tomcat:redeploy
  mvn compile war:exploded tomcat:redeploy
 
+= Importing the project into Eclipse
+
+The recommendate way to setup a Seam example in Eclipse is to use the m2eclipse
+plugin. This plugin derives the build classpath from the dependencies listed in
+the pom.xml file. It also has direct integration with Maven build commands.
+
+To get started with Eclipse, you first need to hook Eclipse to your Maven
+repository. That can be done using this command:
+
+  mvn eclipse:configure-workspace
+
+You can then transform the pom.xml into an m2eclipse Eclipse project using the
+following command:
+
+  mvn eclipse:m2eclipse
+
+Now go into Eclipse an import the project by selecting "Existing projects from
+workspace". You can also simply import the project using the native m2eclipse
+Maven project importer. However, that will miss activating the WTP features.
