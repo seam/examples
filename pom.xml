@@ -80,38 +80,10 @@
    </modules>
 
    <build>
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>attach-sources</id>
-                  <phase>verify</phase>
-                  <goals>
-                     <goal>jar</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-         </plugin>
-         <plugin>
-           <groupId>org.apache.maven.plugins</groupId>
-           <artifactId>maven-release-plugin</artifactId>
-           <version>2.0-beta-8</version>
-           <configuration>
-             <tagBase>https://svn.jboss.org/repos/seam/examples/tags</tagBase>
-             <autoVersionSubmodules>true</autoVersionSubmodules>
-           </configuration>
-         </plugin>
-      </plugins>
       <defaultGoal>package</defaultGoal>
-
       <pluginManagement>
          <plugins>
+
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-compiler-plugin</artifactId>
@@ -120,6 +92,17 @@
                   <target>1.5</target>
                </configuration>
             </plugin>
+
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-eclipse-plugin</artifactId>
+               <configuration>
+                  <classpathContainers>
+                     <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5</classpathContainer>
+                  </classpathContainers>
+               </configuration>
+            </plugin>
+
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-jar-plugin</artifactId>
@@ -136,6 +119,7 @@
                   </archive>
                </configuration>
             </plugin>
+
             <plugin>
                <groupId>org.codehaus.mojo</groupId>
                <artifactId>emma-maven-plugin</artifactId>
@@ -145,15 +129,7 @@
                   <outputDirectory>${project.build.directory}/generated-classes</outputDirectory>
                </configuration>
             </plugin>
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-war-plugin</artifactId>
-               <!--
-               <configuration>
-                  <warSourceDirectory>${basedir}/WebContent</warSourceDirectory>
-               </configuration>
-               -->
-            </plugin>
+
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-ejb-plugin</artifactId>
@@ -161,8 +137,43 @@
                   <ejbVersion>3.0</ejbVersion>
                </configuration>
             </plugin>
+
          </plugins>
+
       </pluginManagement>
+      <plugins>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>attach-sources</id>
+                  <phase>verify</phase>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+         </plugin>
+
+         <plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-release-plugin</artifactId>
+           <version>2.0-beta-8</version>
+           <configuration>
+             <tagBase>https://svn.jboss.org/repos/seam/examples/tags</tagBase>
+             <autoVersionSubmodules>true</autoVersionSubmodules>
+           </configuration>
+         </plugin>
+
+      </plugins>
+
    </build>
 
    <profiles>
@@ -182,6 +193,28 @@
       </profile>
 
    </profiles>
+
+   <reporting>
+      <plugins>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <configuration>
+               <formats>
+                  <format>html</format>
+                  <format>xml</format>
+               </formats>
+               <!--
+               <instrumentation>
+                  <ignores>
+                     <ignore>org.jboss.seam.*</ignore>
+                  </ignores>
+               </instrumentation>
+               -->
+            </configuration>
+         </plugin>
+      </plugins>
+   </reporting>
    
    <ciManagement>
       <system>Hudson</system>
@@ -222,27 +255,5 @@
          <url>dav:https://snapshots.jboss.org/maven2</url>
       </snapshotRepository>
    </distributionManagement>
-
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-            <configuration>
-               <formats>
-                  <format>html</format>
-                  <format>xml</format>
-               </formats>
-               <!--
-               <instrumentation>
-                  <ignores>
-                     <ignore>org.jboss.seam.*</ignore>
-                  </ignores>
-               </instrumentation>
-               -->
-            </configuration>
-         </plugin>
-      </plugins>
-   </reporting>
 
 </project>
