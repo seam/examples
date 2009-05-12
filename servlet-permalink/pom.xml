@@ -181,9 +181,11 @@
             <artifactId>maven-eclipse-plugin</artifactId>
             <configuration>
                <additionalBuildcommands>
+                  <!-- annoyingly creates a bin directory
                   <buildCommand>
                       <name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
                   </buildCommand>
+                  -->
                   <buildCommand>
                       <name>org.jboss.tools.common.verification.verifybuilder</name>
                   </buildCommand>
