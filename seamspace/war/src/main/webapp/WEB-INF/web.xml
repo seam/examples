@@ -31,6 +31,17 @@
       <servlet-name>Faces Servlet</servlet-name>
       <url-pattern>*.seam</url-pattern>
    </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>SeamSpace Content Servlet</servlet-name>
+      <servlet-class>org.jboss.seam.example.seamspace.ContentServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   <servlet-mapping>
+      <servlet-name>SeamSpace Content Servlet</servlet-name>
+      <url-pattern>/content/images/*</url-pattern>
+   </servlet-mapping>
 
    <session-config>
       <session-timeout>10</session-timeout> 

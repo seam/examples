@@ -27,8 +27,6 @@ import org.jboss.seam.example.seamspace.model.MemberImage;
 public class ContentServlet extends HttpServlet
 {
    private static final long serialVersionUID = -8461940507242022217L;
-
-   private static final String IMAGES_PATH = "/images";
    
    @Current ContentAction contentAction;
 
@@ -66,75 +64,72 @@ public class ContentServlet extends HttpServlet
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException
    {
-      if (IMAGES_PATH.equals(request.getPathInfo()))
+      String id = request.getParameter("id");
+      MemberImage mi = (id != null && !"".equals(id)) ? 
+            contentAction.getImage(Integer.parseInt(id)) : null;
+      
+      String contentType = null;
+      byte[] data = null;
+      
+      if (mi != null && mi.getData() != null && mi.getData().length > 0)
       {
-         String id = request.getParameter("id");
-         MemberImage mi = (id != null && !"".equals(id)) ? 
-               contentAction.getImage(Integer.parseInt(id)) : null;
-         
-         String contentType = null;
-         byte[] data = null;
-         
-         if (mi != null && mi.getData() != null && mi.getData().length > 0)
+         contentType = mi.getContentType();
+         data = mi.getData();
+      }
+      else if (noImage != null)
+      {
+         contentType = "image/png";
+         data = noImage;
+      }
+      
+      if (data != null)
+      {
+         response.setContentType(contentType);
+
+         boolean rescale = false;
+         int width = 0;
+         ImageIcon icon = null;
+
+         // Check if the image needs to be rescaled
+         if (request.getParameter("width") != null)
          {
-            contentType = mi.getContentType();
-            data = mi.getData();
-         }
-         else if (noImage != null)
-         {
-            contentType = "image/png";
-            data = noImage;
-         }
-         
-         if (data != null)
-         {
-            response.setContentType(contentType);
-   
-            boolean rescale = false;
-            int width = 0;
-            ImageIcon icon = null;
-   
-            // Check if the image needs to be rescaled
-            if (request.getParameter("width") != null)
-            {
-               width = Math.min(MAX_IMAGE_WIDTH, Integer.parseInt(request
-                     .getParameter("width")));
-               icon = new ImageIcon(data);
-               if (width > 0 && width != icon.getIconWidth())
-                  rescale = true;
-            }
-   
-            // Rescale the image if required
-            if (rescale)
-            {
-               double ratio = (double) width / icon.getIconWidth();
-               int height = (int) (icon.getIconHeight() * ratio);
-               
-               int imageType = "image/png".equals(contentType) ? 
-                     BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;                  
-               BufferedImage bImg = new BufferedImage(width, height, imageType);
-               Graphics2D g2d = bImg.createGraphics();
-               g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                     RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-               g2d.drawImage(icon.getImage(), 0, 0, width, height, null);
-               g2d.dispose();
-   
-               String formatName = "";
-               if (contentType != null && contentType.indexOf("png") != -1)
-                  formatName = "png";
-               else if (contentType != null && (contentType.indexOf("jpg") != -1) ||
-                     contentType.indexOf("jpeg") != -1)
-                  formatName = "jpeg";
-   
-               ImageIO.write(bImg, formatName, response.getOutputStream());
-            }
-            else
-            {
-               response.getOutputStream().write(data);
-            }
+            width = Math.min(MAX_IMAGE_WIDTH, Integer.parseInt(request
+                  .getParameter("width")));
+            icon = new ImageIcon(data);
+            if (width > 0 && width != icon.getIconWidth())
+               rescale = true;
          }
 
-         response.getOutputStream().flush();
+         // Rescale the image if required
+         if (rescale)
+         {
+            double ratio = (double) width / icon.getIconWidth();
+            int height = (int) (icon.getIconHeight() * ratio);
+            
+            int imageType = "image/png".equals(contentType) ? 
+                  BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB;                  
+            BufferedImage bImg = new BufferedImage(width, height, imageType);
+            Graphics2D g2d = bImg.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+                  RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2d.drawImage(icon.getImage(), 0, 0, width, height, null);
+            g2d.dispose();
+
+            String formatName = "";
+            if (contentType != null && contentType.indexOf("png") != -1)
+               formatName = "png";
+            else if (contentType != null && (contentType.indexOf("jpg") != -1) ||
+                  contentType.indexOf("jpeg") != -1)
+               formatName = "jpeg";
+
+            ImageIO.write(bImg, formatName, response.getOutputStream());
+         }
+         else
+         {
+            response.getOutputStream().write(data);
+         }
       }
+
+      response.getOutputStream().flush();
    }
 }
