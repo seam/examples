@@ -22,26 +22,26 @@
         
         <div class="formRow">
           <h:outputLabel for="password">Enter a password</h:outputLabel>
-          <h:inputText id="password" value="#{hashgenerator.password}" required="true" styleClass="wide"/>
+          <h:inputText id="password" value="#{hashGenerator.password}" required="true" styleClass="wide"/>
           <div class="validationError"><h:message for="password"/></div>
         </div>         
 
         <div class="formRow">
           <h:outputLabel for="salt">Password salt</h:outputLabel>
-          <h:inputText id="salt" value="#{hashgenerator.passwordSalt}" required="false" styleClass="wide"/>
+          <h:inputText id="salt" value="#{hashGenerator.passwordSalt}" required="false" styleClass="wide"/>
           <span>(Leave blank to generate a random salt)</span>
           <div class="validationError"><h:message for="salt"/></div>
         </div>         
         
-        <h:commandButton action="#{hashgenerator.generate}" value="Generate hash"/>                    
+        <h:commandButton action="#{hashGenerator.generate}" value="Generate hash"/>                    
       
       </h:form>
       
       <h2>Results</h2>
       
-      <div>Generated hash (hex encoded): <pre>#{hashgenerator.passwordHash}</pre></div>
+      <div>Generated hash (hex encoded): <pre>#{hashGenerator.hash}</pre></div>
       
-      <div>Example SQL:<br/><textarea style="width:640px;height:50px">#{hashgenerator.sql}</textarea></div>
+      <div>Example SQL:<br/><textarea style="width:640px;height:50px">#{hashGenerator.sql}</textarea></div>
              
     </ui:define>
     

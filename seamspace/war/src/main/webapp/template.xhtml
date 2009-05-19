@@ -19,14 +19,14 @@
       <div class="headerMenu">
 
         <ui:fragment rendered="#{identity.loggedIn}">
-          <h:link id="profile" view="/profile.xhtml" value="My Profile" propagation="none">
+          <h:link id="profile" outcome="/profile.xhtml" value="My Profile" propagation="none">
             <f:param name="name" value="#{authenticatedMember.memberName}"/>
           </h:link>
           <h:outputText styleClass="divider" value=" | "/>
         </ui:fragment>
 
         <ui:fragment rendered="#{identity.hasRole('admin')}">
-          <h:link id="security" view="/security.xhtml" value="Security" propagation="none"/>
+          <h:link id="security" outcome="/security.xhtml" value="Security" propagation="none"/>
           <h:outputText styleClass="divider" value=" | "/>
         </ui:fragment>
         
@@ -50,7 +50,7 @@
   </div>
   
   <div id="menubar">
-    <h:link view="/home.xhtml" value="Home" propagation="none"/><h:outputText styleClass="divider" value=" | "/>
+    <h:link outcome="/home.xhtml" value="Home" propagation="none"/><h:outputText styleClass="divider" value=" | "/>
     <h:link value="Browse" onclick="javascript:alert('This feature coming soon!');return false"/><h:outputText styleClass="divider" value=" | "/>
     <h:link value="Blog" onclick="javascript:alert('This feature coming soon!');return false"/><h:outputText styleClass="divider" value=" | "/>
     <h:link value="Music" onclick="javascript:alert('This feature coming soon!');return false"/>
