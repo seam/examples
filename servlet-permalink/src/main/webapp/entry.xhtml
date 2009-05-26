@@ -2,6 +2,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:s="http://jboss.com/products/seam/faces"
    template="/WEB-INF/layout/template.xhtml">
    <ui:define name="viewMetadata">
       <f:metadata>
@@ -9,6 +10,7 @@
          <f:viewParam name="category" value="#{blog.category}"/>
          <ui:include src="/WEB-INF/fragments/commonViewParams.xhtml"/>
          <f:event type="preRenderView" listener="#{blog.loadEntry}"/>
+         <ui:remove><s:viewAction execute="#{blog.loadEntry}"/></ui:remove>
       </f:metadata>
    </ui:define>
    <ui:define name="content">
