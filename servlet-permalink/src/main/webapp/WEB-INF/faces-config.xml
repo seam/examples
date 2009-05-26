@@ -7,18 +7,6 @@
    <navigation-rule>
       <from-view-id>*</from-view-id>
       <navigation-case>
-         <from-outcome>home</from-outcome>
-         <to-view-id>/home.xhtml</to-view-id>
-      </navigation-case>
-      <navigation-case>
-         <from-outcome>entry</from-outcome>
-         <to-view-id>/entry.xhtml</to-view-id>
-      </navigation-case>
-      <navigation-case>
-         <from-outcome>category</from-outcome>
-         <to-view-id>/category.xhtml</to-view-id>
-      </navigation-case>
-      <navigation-case>
          <from-action>#{blog.search}</from-action>
          <to-view-id>/home.xhtml</to-view-id>
          <redirect include-view-params="true"/>
@@ -31,6 +19,12 @@
          <from-action>#{blog.search}</from-action>
          <to-view-id>#{view.viewId}</to-view-id>
          <redirect include-view-params="true"/>
+      </navigation-case>
+      <navigation-case>
+         <from-action>#{blog.loadLatestEntriesInCategory}</from-action>
+         <if>#{blog.category eq null}</if>
+         <to-view-id>/home.xhtml</to-view-id>
+         <redirect/>
       </navigation-case>
    </navigation-rule>
 
