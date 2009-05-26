@@ -16,10 +16,12 @@
       <param-value>true</param-value>
    </context-param>
 
+   <!--
    <context-param>
       <param-name>javax.faces.PROJECT_STAGE</param-name>
       <param-value>Development</param-value>
    </context-param>
+   -->
 
    <filter>
       <filter-name>Seam Filter</filter-name>
@@ -54,5 +56,20 @@
       </web-resource-collection>
       <auth-constraint/>
    </security-constraint>
+
+   <error-page>
+      <exception-type>org.jboss.seam.security.NotLoggedInException</exception-type>
+      <location>/home.seam</location>
+   </error-page>
+   
+   <error-page>
+      <exception-type>org.jboss.seam.security.AuthorizationException</exception-type>
+      <location>/error.seam</location>
+   </error-page>
+
+   <error-page>
+      <error-code>500</error-code>
+      <location>/error.seam</location>
+   </error-page>
    
 </web-app>

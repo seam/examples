@@ -1,4 +1,4 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -24,8 +24,9 @@
 package org.jboss.seam.examples.booking.inventory;
 
 import java.io.Serializable;
-import javax.annotation.Named;
-import javax.context.SessionScoped;
+
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Named;
 
 public
 @Named

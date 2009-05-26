@@ -1,7 +1,7 @@
 package org.jboss.seam.examples.booking.controls;
 
-import javax.annotation.Named;
-import javax.context.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Named;
 import javax.faces.component.UIComponent;
 
 /**

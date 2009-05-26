@@ -1,19 +1,20 @@
 package org.jboss.seam.examples.booking.account;
 
-import javax.annotation.Named;
 import javax.annotation.PreDestroy;
-import javax.context.RequestScoped;
 import javax.ejb.Stateful;
-import javax.inject.Current;
-import javax.inject.Produces;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 
 /**
  * @author Dan Allen

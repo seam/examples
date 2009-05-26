@@ -9,7 +9,7 @@
 
    <comp:interface>
       <comp:attribute name="label" required="true"/>
-      <comp:attribute name="required" required="false"/>
+      <comp:attribute name="required" required="false" default="true"/>
    </comp:interface>
 
    <ui:remove>
@@ -20,11 +20,10 @@
 
    <comp:implementation>
 
-      <c:set var="required" value="#{cc.attrs.required eq null ? true : cc.attrs.required}"/>
       <c:set var="invalid" value="#{not empty facesContext.getMessageList(cc.clientId.concat(':input'))}"/>
       <c:set var="invalid2" value="#{not empty facesContext.getMessageList(cc.clientId.concat(':input2'))}"/>
 
-      <div class="entry">
+      <div class="entry" id="#{cc.clientId}">
          <h:outputLabel value="#{cc.attrs.label}:" for="input" styleClass="label#{invalid || invalid2 ? ' errors' : ''}">
             <c:if test="#{required}"><span class="required">*</span></c:if>
          </h:outputLabel>

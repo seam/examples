@@ -7,10 +7,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import javax.annotation.Named;
-import javax.context.ConversationScoped;
-import javax.inject.Current;
-import javax.inject.Produces;
+import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
 
 /**
  * Produces calendar-oriented reference data to be used in user-interface forms.

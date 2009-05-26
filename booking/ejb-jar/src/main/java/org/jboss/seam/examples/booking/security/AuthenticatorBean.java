@@ -1,9 +1,10 @@
 package org.jboss.seam.examples.booking.security;
 
 import javax.ejb.Stateless;
-import javax.inject.Current;
+import javax.enterprise.inject.Current;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.security.Credentials;
 import org.jboss.webbeans.log.Log;

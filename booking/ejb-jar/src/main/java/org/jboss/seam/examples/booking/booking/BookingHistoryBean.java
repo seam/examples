@@ -2,15 +2,17 @@ package org.jboss.seam.examples.booking.booking;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Named;
+
 import javax.annotation.PreDestroy;
-import javax.context.SessionScoped;
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
 import javax.event.Observes;
-import javax.inject.Current;
-import javax.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.User;

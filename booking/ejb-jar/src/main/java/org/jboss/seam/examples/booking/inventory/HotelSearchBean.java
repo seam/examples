@@ -1,4 +1,4 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -25,14 +25,16 @@ package org.jboss.seam.examples.booking.inventory;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Named;
-import javax.context.SessionScoped;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.inject.Current;
-import javax.inject.Produces;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.webbeans.log.Log;
 import org.jboss.webbeans.log.Logger;

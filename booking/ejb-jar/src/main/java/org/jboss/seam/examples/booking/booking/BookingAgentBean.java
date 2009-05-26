@@ -1,4 +1,4 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -23,28 +23,31 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import java.util.Calendar;
 import static javax.persistence.PersistenceContextType.EXTENDED;
-import javax.annotation.Named;
-import javax.context.Conversation;
-import javax.context.ConversationScoped;
-import javax.context.RequestScoped;
+
+import java.util.Calendar;
+
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
-import javax.inject.AnnotationLiteral;
-import javax.inject.Current;
-import javax.inject.Produces;
-import javax.inject.manager.Manager;
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.AnnotationLiteral;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.examples.booking.account.Registered;
+import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.webbeans.log.Log;
 import org.jboss.webbeans.log.Logger;
-import org.jboss.seam.examples.booking.controls.BookingFormControls;
 
 public
 @Named("bookingAgent")
@@ -65,7 +68,7 @@ class BookingAgentBean implements BookingAgent
    @Registered User user;
 
    //@Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
-   @Current Manager manager;
+   @Current BeanManager manager;
 
    private Hotel hotelSelection;
 

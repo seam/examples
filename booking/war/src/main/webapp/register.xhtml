@@ -4,12 +4,12 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:p="http://http://java.sun.com/jsf/composite/property"
+   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
    template="/WEB-INF/layout/template.xhtml">
 
    <ui:param name="pageClass" value="home"/>
 
-   <ui:define name="pageMetadata">
+   <ui:define name="metadata">
       <f:event type="preRenderView" listener="#{registrar.notifyIfRegistrationIsInvalid(facesContext.validationFailed)}"/>
    </ui:define>
 
@@ -32,26 +32,26 @@
                <p:edit id="username" label="Username">
                   <h:inputText id="input" value="#{newUser.username}"
                      binding="#{registrationFormControls.username}">
-                     <ui:remove><f:ajax event="blur" render="username"/></ui:remove>
+                     <f:ajax event="blur" render="username"/>
                   </h:inputText>
                </p:edit>
 
                <p:edit id="name" label="Real name">
                   <h:inputText id="input" value="#{newUser.name}">
-                     <ui:remove><f:ajax event="blur" render="name"/></ui:remove>
+                     <f:ajax event="blur" render="name"/>
                   </h:inputText>
                </p:edit>
 
                <p:edit id="password" label="Password">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true">
-                     <ui:remove><f:ajax event="blur" render="password"/></ui:remove>
+                     <f:ajax event="blur" render="password"/>
                   </h:inputSecret>
                </p:edit>
 
                <p:edit id="confirmPassword" label="Confirm Password">
                   <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true"
                      binding="#{registrationFormControls.confirmPassword}">
-                     <ui:remove><f:ajax event="blur" render="confirmPassword"/></ui:remove>
+                     <f:ajax event="blur" render="confirmPassword"/>
                   </h:inputSecret>
                </p:edit>
                

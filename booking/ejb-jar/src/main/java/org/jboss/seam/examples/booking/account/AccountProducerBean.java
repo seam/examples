@@ -1,12 +1,13 @@
 package org.jboss.seam.examples.booking.account;
 
-import javax.annotation.Named;
-import javax.context.SessionScoped;
 import javax.ejb.Stateless;
-import javax.inject.Current;
-import javax.inject.Produces;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Current;
+import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;

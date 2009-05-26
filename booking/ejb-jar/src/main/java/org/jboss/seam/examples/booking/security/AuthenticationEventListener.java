@@ -1,12 +1,12 @@
 package org.jboss.seam.examples.booking.security;
 
-import javax.context.Context;
-import javax.context.RequestScoped;
-import javax.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.spi.Context;
+import javax.enterprise.inject.AnnotationLiteral;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.event.Observes;
-import javax.inject.AnnotationLiteral;
-import javax.inject.manager.Bean;
-import javax.inject.manager.Manager;
 
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
@@ -33,10 +33,10 @@ class AuthenticationEventListener
     * Clear the dummy register user when a login event occurs. Temporary workaround
     * for not being able to clear this out some other way.
     */
-   public void onLogin(@Observes LoggedInEvent loggedInEvent, Manager manager)
+   public void onLogin(@Observes LoggedInEvent loggedInEvent, BeanManager manager)
    {
       log.info(loggedInEvent.getPrincipal().getName() + " has logged in; clearing instance of @Registered User");
-      Bean<User> registeredUserBean = manager.resolveByType(User.class, new AnnotationLiteral<Registered>() {}).iterator().next();
+      Bean<User> registeredUserBean = manager.getBeans(User.class, new AnnotationLiteral<Registered>() {}).iterator().next();
       Context sessionContext = manager.getContext(SessionScoped.class);
       ((AbstractThreadLocalMapContext) sessionContext).getBeanStore().remove(registeredUserBean);
    }

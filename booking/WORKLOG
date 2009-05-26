@@ -19,7 +19,8 @@ KNOWN ISSUES
 TODO
 ====
 
-- secure pages (likely will use <f:event type="beforeRenderView"/>
+- secure pages (likely will use <s:restrictView require=""/>
+- add remember me from Seam identity
 - get status messages from default or resource bundle (not just hardcoded defaults)
 - demonstrate use of exception handling in JSF 2
 - auto-detect which files have @NotNull or @NotEmpty to determine whether to put the * in <p:edit>
@@ -32,7 +33,8 @@ TODO
       <unitName>booking</unitName>
    </PersistenceContext>
    <booking:BookingDatabase/>
-</EntityManager>
+</EntityManager> (can do with with annotations as well)
+- use conversation when changing password (and allow changing name too)
 
 
 OPEN QUESTIONS

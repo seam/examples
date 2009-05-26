@@ -4,8 +4,14 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:p="http://http://java.sun.com/jsf/composite/property"
+   xmlns:s="http://jboss.com/products/seam/faces"
+   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
    template="/WEB-INF/layout/template.xhtml">
+   <ui:define name="metadata">
+      <f:metadata>
+         <s:restrictView require="#{identity.loggedIn}"/>
+      </f:metadata>
+   </ui:define>
 
    <ui:define name="content">
       <div class="section">
