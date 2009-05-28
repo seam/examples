@@ -49,9 +49,10 @@ class RegistrarBean implements Registrar
       {
          em.persist(newUser);
          credentials.setUsername(newUser.getUsername());
-         identity.login();
+         credentials.setPassword(newUser.getPassword());
+         identity.quietLogin();
          registered = true;
-         statusMessages.add("You have been successfully registered as the user {0}!", newUser.getUsername());
+         statusMessages.addFromResourceBundleOrDefault("registration.registered", "You have been successfully registered as the user {0}!", newUser.getUsername());
       }
       else
       {
@@ -69,7 +70,7 @@ class RegistrarBean implements Registrar
    {
       if (validationFailed || registrationInvalid)
       {
-         statusMessages.add(StatusMessage.Severity.WARN, "Invalid registration. Please correct the errors and try again.");
+         statusMessages.addFromResourceBundleOrDefault(StatusMessage.Severity.WARN, "registration.invalid", "Invalid registration. Please correct the errors and try again.");
       }
    }
 
@@ -105,7 +106,8 @@ class RegistrarBean implements Registrar
    {
       if (!newUser.getPassword().equals(confirmPassword))
       {
-         statusMessages.addToControl(formControls.getConfirmPasswordControlId(), "Passwords do not match. Please re-type your password.");
+         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getConfirmPasswordControlId(),
+            "account.passwordsDoNotMatch", "Passwords do not match. Please re-type your password.");
          confirmPassword = null;
          return false;
       }
@@ -118,7 +120,8 @@ class RegistrarBean implements Registrar
       User existing = em.find(User.class, newUser.getUsername());
       if (existing != null)
       {
-         statusMessages.addToControl(formControls.getUsernameControlId(), "The username '{0}' is already taken. Please choose another username.", newUser.getUsername());
+         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getUsernameControlId(),
+            "account.usernameTaken", "The username '{0}' is already taken. Please choose another username.", newUser.getUsername());
          return false;
       }
 

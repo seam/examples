@@ -64,7 +64,7 @@
    
    <error-page>
       <exception-type>org.jboss.seam.security.AuthorizationException</exception-type>
-      <location>/error.seam</location>
+      <location>/denied.seam</location>
    </error-page>
 
    <error-page>

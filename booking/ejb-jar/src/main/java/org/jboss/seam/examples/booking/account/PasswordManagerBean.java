@@ -40,7 +40,7 @@ class PasswordManagerBean implements PasswordManager
          // FIXME: dirty hack, can't merge a managed bean
          em.merge(new User(user.getName(), user.getUsername(), user.getPassword()));
          user.setPassword(null);
-         statusMessages.add("Password successfully updated.");
+         statusMessages.addFromResourceBundleOrDefault("account.passwordChanged", "Password successfully updated.");
          changed = true;
       }
       else
@@ -48,7 +48,8 @@ class PasswordManagerBean implements PasswordManager
          // FIME reverting isn't going to work here
          //revertUser();
          confirmPassword = null;
-         statusMessages.addToControl(formControls.getConfirmPasswordControlId(), "Passwords do not match. Please re-type the new password.");
+         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getConfirmPasswordControlId(),
+            "account.passwordsDoNotMatch", "Passwords do not match. Please re-type the new password.");
       }
    }
 

@@ -66,11 +66,11 @@ class BookingHistoryBean implements BookingHistory {
       if (booking != null)
       {
          em.remove(booking);
-         statusMessages.add("The booking at the {0} on {1,date} has been canceled.", selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
+         statusMessages.addFromResourceBundleOrDefault("booking.canceled", "The booking at the {0} on {1,date} has been canceled.", selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
       }
       else
       {
-         statusMessages.add("Our records indicate that the booking you selected has already been canceled.");
+         statusMessages.addFromResourceBundleOrDefault("booking.doesNotExist", "Our records indicate that the booking you selected has already been canceled.");
       }
 
       bookingsForUser.remove(selectedBooking);

@@ -1,25 +1,21 @@
 KNOWN ISSUES
 ============
 
-(1) Ajax is not working on blur in p:edit form fields (had to disable)
-    Alert box showing "error malformedXML"
+(1) No list of workspaces
 
-(2) No list of workspaces
+(2) @AfterTransactionSuccess observer does not work
 
-(3) @AfterTransactionSuccess observer does not work
-
-(4) Ghost click first time clicking on View after results are returned
+(3) Ghost click first time clicking on View after results are returned
     Mojarra Issue #1116; ViewState is not being put in form on partial page update
 
-(5) If you visit the main.seam page before logging in, when you logging, you remain an anonymous user; the session-scoped
-    user bean is not being cleared on login. (temporary fix)
+(4) If you visit the main.seam page before logging in, when you logging, you remain an anonymous user; the session-scoped
+    user bean is not being cleared on login. (temporary fix in place, but it's a hack)
 
-(6) blank user shown after registering
+(5) would like to put messages in war/src/main/resources but loader cannot see it there at the moment
 
 TODO
 ====
 
-- secure pages (likely will use <s:restrictView require=""/>
 - add remember me from Seam identity
 - get status messages from default or resource bundle (not just hardcoded defaults)
 - demonstrate use of exception handling in JSF 2

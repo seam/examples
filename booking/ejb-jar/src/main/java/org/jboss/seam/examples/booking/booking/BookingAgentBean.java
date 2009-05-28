@@ -93,7 +93,7 @@ class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate(calendar.getTime());
 	   hotelSelection = null;
-      statusMessages.add("You've initiated a booking at {0}.", booking.getHotel().getName());
+      statusMessages.addFromResourceBundleOrDefault("booking.initiated", "You've initiated a booking at {0}.", booking.getHotel().getName());
    }
 
    public void validateBooking()
@@ -102,12 +102,12 @@ class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if (booking.getCheckinDate().before(calendar.getTime()))
       {
-         statusMessages.addToControl(formControls.getCheckinDateControlId(), "Check in date must be a future date");
+         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getCheckinDateControlId(), "booking.checkInNotFutureDate", "Check in date must be a future date");
          bookingValid = false;
       }
       else if (!booking.getCheckinDate().before(booking.getCheckoutDate()))
       {
-         statusMessages.addToControl(formControls.getCheckoutDateControlId(), "Check out date must be after check in date");
+         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getCheckoutDateControlId(), "booking.checkOutBeforeCheckIn", "Check out date must be after check in date");
          bookingValid = false;
       }
       else
@@ -123,7 +123,7 @@ class BookingAgentBean implements BookingAgent
       //bookingConfirmedEvent.fire(new BookingEvent(booking));
       manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>() {});
       log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
-      statusMessages.add("You're booked!");
+      statusMessages.addFromResourceBundleOrDefault("booking.confirmed", "Booking confirmed.");
       conversation.end();
    }
 

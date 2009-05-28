@@ -47,7 +47,7 @@ class AccountProducerBean implements AccountProducer
       }
 
       log.info("Producing dummy User");
-      // TODO can't return null, but then we are not honoring the semantics of our binding type
+      // TODO can't return null because this is a scoped producer, but then we are not honoring the semantics of our binding type
       return new User();
    }
 }
