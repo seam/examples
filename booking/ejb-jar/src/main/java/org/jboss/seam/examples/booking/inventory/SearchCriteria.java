@@ -26,7 +26,7 @@ package org.jboss.seam.examples.booking.inventory;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Named;
+import javax.inject.Named;
 
 public
 @Named

@@ -11,7 +11,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.inject.BindingType;
+import javax.inject.Qualifier;
 
 /**
  * @author Dan Allen
@@ -23,7 +23,7 @@ public
 })
 @Retention(RUNTIME)
 @Documented
-@BindingType
+@Qualifier
 @Inherited
 @interface Confirmed
 {

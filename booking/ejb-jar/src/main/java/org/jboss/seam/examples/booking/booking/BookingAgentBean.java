@@ -33,8 +33,8 @@ import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.AnnotationLiteral;
-import javax.enterprise.inject.Current;
-import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.persistence.EntityManager;
@@ -59,16 +59,16 @@ class BookingAgentBean implements BookingAgent
 
    @PersistenceContext(type = EXTENDED) EntityManager em;
 
-   @Current Conversation conversation;
+   @Default Conversation conversation;
 
-   @Current StatusMessages statusMessages;
+   @Default StatusMessages statusMessages;
 
-   @Current BookingFormControls formControls;
+   @Default BookingFormControls formControls;
 
    @Registered User user;
 
    //@Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
-   @Current BeanManager manager;
+   @Default BeanManager manager;
 
    private Hotel hotelSelection;
 

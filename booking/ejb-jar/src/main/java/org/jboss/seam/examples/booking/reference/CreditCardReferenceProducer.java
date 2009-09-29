@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Named;
+import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 
 import org.jboss.seam.examples.booking.model.CreditCardType;

@@ -3,8 +3,8 @@ package org.jboss.seam.examples.booking.account;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Current;
-import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,13 +27,13 @@ class RegistrarBean implements Registrar
 {
    @PersistenceContext EntityManager em;
 
-   @Current StatusMessages statusMessages;
+   @Default StatusMessages statusMessages;
 
-   @Current RegistrationFormControls formControls;
+   @Default RegistrationFormControls formControls;
 
-   @Current Credentials credentials;
+   @Default Credentials credentials;
 
-   @Current Identity identity;
+   @Default Identity identity;
 
    private User newUser;
 

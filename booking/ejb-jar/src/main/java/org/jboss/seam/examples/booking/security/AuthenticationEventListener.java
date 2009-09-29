@@ -3,10 +3,10 @@ package org.jboss.seam.examples.booking.security;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.context.spi.Context;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.AnnotationLiteral;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.event.Observes;
 
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.model.User;
@@ -36,9 +36,11 @@ class AuthenticationEventListener
    public void onLogin(@Observes LoggedInEvent loggedInEvent, BeanManager manager)
    {
       log.info(loggedInEvent.getPrincipal().getName() + " has logged in; clearing instance of @Registered User");
-      Bean<User> registeredUserBean = manager.getBeans(User.class, new AnnotationLiteral<Registered>() {}).iterator().next();
+      Bean<User> registeredUserBean = (Bean<User>) manager.getBeans(User.class, new AnnotationLiteral<Registered>() {}).iterator().next();
       Context sessionContext = manager.getContext(SessionScoped.class);
-      ((AbstractThreadLocalMapContext) sessionContext).getBeanStore().remove(registeredUserBean);
+      
+      // TODO - the BeanStore.remove() method is no longer available - find a workaround
+      //((AbstractThreadLocalMapContext) sessionContext).getBeanStore().remove(registeredUserBean);
    }
    
    /**

@@ -3,8 +3,8 @@ package org.jboss.seam.examples.booking.account;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Current;
-import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,9 +23,9 @@ class PasswordManagerBean implements PasswordManager
 {
    @PersistenceContext EntityManager em;
 
-   @Current StatusMessages statusMessages;
+   @Default StatusMessages statusMessages;
 
-   @Current RegistrationFormControls formControls;
+   @Default RegistrationFormControls formControls;
 
    @Registered User user;
 

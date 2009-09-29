@@ -6,10 +6,10 @@ import java.util.List;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Current;
-import javax.enterprise.inject.Named;
+import javax.enterprise.inject.Default;
+import javax.inject.Named;
 import javax.enterprise.inject.Produces;
-import javax.event.Observes;
+import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -33,7 +33,7 @@ class BookingHistoryBean implements BookingHistory {
 
    @PersistenceContext EntityManager em;
 
-   @Current StatusMessages statusMessages;
+   @Default StatusMessages statusMessages;
 
    @Registered User user;
 

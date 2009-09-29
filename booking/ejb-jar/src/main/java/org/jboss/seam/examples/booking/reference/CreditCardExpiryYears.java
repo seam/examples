@@ -10,7 +10,7 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.inject.BindingType;
+import javax.inject.Qualifier;
 
 /**
  * A binding type attached to a collection of years
@@ -26,7 +26,7 @@ public
 })
 @Retention(RUNTIME)
 @Documented
-@BindingType
+@Qualifier
 @Inherited
 @interface CreditCardExpiryYears
 {
