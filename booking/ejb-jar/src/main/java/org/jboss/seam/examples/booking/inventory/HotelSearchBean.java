@@ -29,7 +29,7 @@ import java.util.List;
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
@@ -49,7 +49,7 @@ class HotelSearchBean implements HotelSearch
 
    @PersistenceContext EntityManager em;
 
-   @Default SearchCriteria criteria;
+   @Inject SearchCriteria criteria;
 
    private boolean nextPageAvailable = false;
 

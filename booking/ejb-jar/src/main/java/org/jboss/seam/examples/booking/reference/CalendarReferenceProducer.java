@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 
@@ -20,7 +20,7 @@ import javax.enterprise.inject.Produces;
  */
 public class CalendarReferenceProducer {
 
-   @Default Locale locale;
+   @Inject Locale locale;
 
    public
    @Produces

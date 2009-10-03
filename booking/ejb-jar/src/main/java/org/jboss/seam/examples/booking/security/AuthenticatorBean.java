@@ -1,7 +1,7 @@
 package org.jboss.seam.examples.booking.security;
 
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -23,7 +23,7 @@ class AuthenticatorBean implements Authenticator
 
    @PersistenceContext EntityManager em;
 
-   @Default Credentials credentials;
+   @Inject Credentials credentials;
 
    public boolean authenticate()
    {

@@ -2,7 +2,7 @@ package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
@@ -25,9 +25,9 @@ class AccountProducerBean implements AccountProducer
 
    @PersistenceContext EntityManager em;
 
-   @Default Identity identity;
+   @Inject Identity identity;
    
-   @Default Credentials credentials;
+   @Inject Credentials credentials;
 
    public
    @Produces
