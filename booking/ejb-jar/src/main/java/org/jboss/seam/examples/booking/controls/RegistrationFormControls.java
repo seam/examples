@@ -1,5 +1,7 @@
 package org.jboss.seam.examples.booking.controls;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.faces.component.UIComponent;
@@ -13,7 +15,7 @@ import javax.faces.component.UIComponent;
 public
 @Named
 @RequestScoped
-class RegistrationFormControls
+class RegistrationFormControls implements Serializable
 {
    private UIComponent username;
 
