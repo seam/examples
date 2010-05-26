@@ -1,0 +1,69 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="/WEB-INF/layout/template.xhtml">
+
+   <ui:param name="pageClass" value="home"/>
+
+   <ui:define name="content">
+      <div class="section">
+
+         <h1>About this example application</h1>
+
+         <p>
+            This sample application demonstrates how easy it is to develop stateful web applications using JBoss Seam.
+            Just register, login, and book a room to see Seam in action. Throughout the application you'll see popup
+            links like the ones at the bottom of this page. Click them to see how the application works under the hood.
+         </p>
+
+         <p>
+            Note: Please do NOT enter personal information or your credit card number in this sample application.
+         </p>
+
+         <p>
+            <a href="#" onclick="window.open('exp/introExp.html','exp','width=752,height=500,scrollbars=yes');">
+               What is Seam?
+            </a>
+         </p>
+
+         <p>
+            <a href="#" onclick="window.open('exp/loginExp.html','exp','width=752,height=500,scrollbars=yes');">
+               What happens when I login?
+            </a>
+         </p>
+
+      </div>
+   </ui:define>
+
+   <ui:define name="sidebar">
+      <h:form id="login" rendered="#{not identity.loggedIn}">
+         <fieldset>
+            <div>
+               <h:outputLabel for="username" value="Login name"/>
+               <h:inputText id="username" value="#{credentials.username}" style="width: 175px;"/>
+               <div class="errors"><h:message for="username"/></div>
+            </div>
+            <div>
+               <h:outputLabel for="password" value="Password"/>
+               <h:inputSecret id="password" value="#{credentials.password}" style="width: 175px;"/>
+            </div>
+            <div class="errors"><h:messages id="messages" globalOnly="true"/></div>
+            <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"/></div>
+            <div class="notes"><h:link id="register" outcome="/register.xhtml" value="Register New User"/></div>
+            <div class="subnotes">
+               Or use a demo account:
+               <ul>
+                  <li>gavin/mexico</li>
+                  <li>pete/edinburgh</li>
+                  <li>shane/brisbane</li>
+                  <li>dan/laurel</li>
+               </ul>
+            </div>
+         </fieldset>
+      </h:form>
+   </ui:define>
+
+</ui:composition>

@@ -1,0 +1,69 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
+   template="/WEB-INF/layout/template.xhtml">
+
+   <ui:define name="content">
+
+      <div class="section">
+         <h1>Confirm Hotel Booking</h1>
+      </div>
+
+      <div class="section">
+
+         <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
+      
+         <p:display label="Total payment" value="#{booking.total}">
+            <f:convertNumber for="output" type="currency" currencySymbol="$"/>
+         </p:display>
+
+         <p:display label="Check-in date" value="#{booking.checkinDate}">
+            <f:convertDateTime for="output" type="date" pattern="MM/dd/yyyy"/>
+         </p:display>
+
+         <p:display label="Check-out date" value="#{booking.checkoutDate}">
+            <f:convertDateTime for="output" type="date" pattern="MM/dd/yyyy"/>
+         </p:display>
+
+         <p:display label="Credit card #" value="#{booking.creditCardNumber}"/>
+
+         <p:display label="Credit card type" value="#{booking.creditCardType}"/>
+   
+         <div class="buttonBox">
+            <h:form id="confirmForm">
+               <h:commandButton id="confirm" value="Confirm" action="#{bookingAgent.confirm}"/>
+               #{' '}
+               <h:button id="revise" value="Revise" outcome="/book.xhtml">
+                  <f:param name="cid" value="#{javax.context.conversation.id}"/>
+               </h:button>
+               #{' '}
+               <h:commandButton id="cancel" value="Cancel" action="#{bookingAgent.cancel}" immediate="true"/>
+            </h:form>
+         </div>
+
+      </div>
+
+   </ui:define>
+
+   <ui:define name="sidebar">
+      <h1>Back button navigation</h1>
+      <p>
+         When you click "Confirm", the new booking is written to the database,
+         the conversation ends, and state associated with the conversation is
+         automatically destroyed by Seam. After you confirm your booking, try
+         hitting the back button on your web browser and clicking "Confirm"
+         again. Seam makes it easy implement applications that behave elegantly
+         in response to the back, forward and refresh buttons.
+      </p>
+      <p>
+         <a href="#" onclick="window.open('exp/confirmExp.html','exp','width=752,height=500,scrollbars=yes');">
+            What happens when the conversation ends?
+         </a>
+      </p>
+   </ui:define>
+
+</ui:composition>

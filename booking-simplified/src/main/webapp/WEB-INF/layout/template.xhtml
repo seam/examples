@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"><f:view>
+   <ui:insert name="metadata"/>
+   <h:head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <title>JBoss Suites: Seam Framework</title>
+      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+      <link href="#{request.contextPath}/css/screen.css" rel="stylesheet" type="text/css"/>
+      <ui:insert name="head"/>
+   </h:head>
+   <h:body styleClass="#{empty pageClass ? 'page' : 'home'}">
+      <div id="document">
+         <div id="header">
+            <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
+            <h:form id="menuForm">
+               <div id="status">
+                  <h:outputText value="(#{user.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
+                  #{' '}
+                  <h:link id="about" outcome="/home.xhtml" value="About"/>
+                  #{' | '}
+                  <h:link id="search" outcome="/main.xhtml" value="Search"/>
+                  <h:panelGroup rendered="#{identity.loggedIn}">
+                     #{' | '}
+                     <h:link id="settings" outcome="/password.xhtml" value="Settings"/>
+                     #{' | '}
+                     <h:commandLink id="logout" action="#{identity.logout}" value="Logout"/>
+                  </h:panelGroup>
+               </div>
+            </h:form>
+         </div>
+         <div id="container">
+            <div id="sidebar">
+               <ui:insert name="sidebar"/>
+            </div>
+            <div id="content">
+               <ui:insert name="content"/>
+            </div>
+         </div>
+         <div id="footer">
+            Created with Seam 3.0, Web Beans, EJB 3.0 and JSF 2.0
+            <br/>
+            #{javax.context.conversation}
+         </div>
+      </div>
+   </h:body>
+</f:view></html>
