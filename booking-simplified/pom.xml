@@ -48,13 +48,18 @@
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
          <version>3.0.0.Alpha3</version>
-         <scope>runtime</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.xml</groupId>
          <artifactId>seam-xml-config</artifactId>
          <version>3.0.0.Alpha2</version>
+         <exclusions>
+            <exclusion>
+               <groupId>javax.enterprise</groupId>
+               <artifactId>cdi-api</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
 
       <dependency>
@@ -79,10 +84,7 @@
 
    <build>
       <defaultGoal>package</defaultGoal>
-      <finalName>weld-permalink</finalName>
-      <!--
       <finalName>${project.artifactId}</finalName>
-      -->
       <plugins>
 
          <plugin>
