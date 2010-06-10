@@ -32,11 +32,11 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.AnnotationLiteral;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.util.AnnotationLiteral;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -45,7 +45,8 @@ import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
 @Named("bookingAgent")
@@ -53,20 +54,28 @@ import org.slf4j.Logger;
 @ConversationScoped
 public class BookingAgentBean implements BookingAgent
 {
-   @Inject private Logger log;
+   @Inject
+   private Logger log;
 
-   @PersistenceContext(type = EXTENDED) private EntityManager em;
+   @PersistenceContext(type = EXTENDED)
+   private EntityManager em;
 
-   @Inject private Conversation conversation;
+   @Inject
+   private Conversation conversation;
 
-   @Inject private StatusMessages statusMessages;
+   @Inject
+   private Messages Messages;
 
-   @Inject private BookingFormControls formControls;
+   @Inject
+   private BookingFormControls formControls;
 
-   @Inject @Registered private User user;
+   @Inject
+   @Registered
+   private User user;
 
-   //@Inject @Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
-   @Inject private BeanManager manager;
+   // @Inject @Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
+   @Inject
+   private BeanManager manager;
 
    private Hotel hotelSelection;
 
@@ -74,9 +83,10 @@ public class BookingAgentBean implements BookingAgent
 
    private boolean bookingValid;
 
-   public void selectHotel(Hotel hotel)
+   public void selectHotel(final Hotel hotel)
    {
-	   // NOTE get a fresh reference that's managed by the conversational persistence context
+      // NOTE get a fresh reference that's managed by the conversational
+      // persistence context
       hotelSelection = em.find(Hotel.class, hotel.getId());
       log.info("Selected the {0} in {1}", hotelSelection.getName(), hotelSelection.getCity());
       conversation.begin();
@@ -90,8 +100,8 @@ public class BookingAgentBean implements BookingAgent
       booking.setCheckinDate(calendar.getTime());
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate(calendar.getTime());
-	   hotelSelection = null;
-      statusMessages.addFromResourceBundleOrDefault("booking.initiated", "You've initiated a booking at {0}.", booking.getHotel().getName());
+      hotelSelection = null;
+      Messages.info(new BundleKey("messages.properties", "booking.initiated")).textDefault("You've initiated a booking at {0}.").textParams(booking.getHotel().getName());
    }
 
    public void validateBooking()
@@ -100,12 +110,12 @@ public class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if (booking.getCheckinDate().before(calendar.getTime()))
       {
-         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getCheckinDateControlId(), "booking.checkInNotFutureDate", "Check in date must be a future date");
+         Messages.info(new BundleKey("messages.properties", "booking.checkInNotFutureDate")).textDefault("Check in date must be a future date").targets(formControls.getCheckinDateControlId());
          bookingValid = false;
       }
       else if (!booking.getCheckinDate().before(booking.getCheckoutDate()))
       {
-         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getCheckoutDateControlId(), "booking.checkOutBeforeCheckIn", "Check out date must be after check in date");
+         Messages.info(new BundleKey("messages.properties", "booking.checkOutBeforeCheckIn")).textDefault("Check out date must be after check in date").targets(formControls.getCheckoutDateControlId());
          bookingValid = false;
       }
       else
@@ -118,10 +128,12 @@ public class BookingAgentBean implements BookingAgent
    {
       em.persist(booking);
       // FIXME can't inject event object into bean with passivating scope
-      //bookingConfirmedEvent.fire(new BookingEvent(booking));
-      manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>() {});
+      // bookingConfirmedEvent.fire(new BookingEvent(booking));
+      manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>()
+      {
+      });
       log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
-      statusMessages.addFromResourceBundleOrDefault("booking.confirmed", "Booking confirmed.");
+      Messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
       conversation.end();
    }
 
@@ -132,8 +144,7 @@ public class BookingAgentBean implements BookingAgent
       conversation.end();
    }
 
-   public
-   @Produces
+   public @Produces
    @Named
    @ConversationScoped
    Booking getBooking()
@@ -141,8 +152,7 @@ public class BookingAgentBean implements BookingAgent
       return booking;
    }
 
-   public
-   @Produces
+   public @Produces
    @Named("hotel")
    @RequestScoped
    Hotel getHotelSelection()

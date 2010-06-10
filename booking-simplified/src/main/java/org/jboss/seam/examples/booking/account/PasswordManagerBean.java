@@ -10,7 +10,8 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author Dan Allen
@@ -20,13 +21,18 @@ import org.jboss.seam.international.StatusMessages;
 @RequestScoped
 public class PasswordManagerBean implements PasswordManager
 {
-   @PersistenceContext private EntityManager em;
+   @PersistenceContext
+   private EntityManager em;
 
-   @Inject private StatusMessages statusMessages;
+   @Inject
+   private Messages messages;
 
-   @Inject private RegistrationFormControls formControls;
+   @Inject
+   private RegistrationFormControls formControls;
 
-   @Inject @Registered private User user;
+   @Inject
+   @Registered
+   private User user;
 
    private String confirmPassword;
 
@@ -39,16 +45,15 @@ public class PasswordManagerBean implements PasswordManager
          // FIXME: dirty hack, can't merge a managed bean
          em.merge(new User(user.getName(), user.getUsername(), user.getPassword()));
          user.setPassword(null);
-         statusMessages.addFromResourceBundleOrDefault("account.passwordChanged", "Password successfully updated.");
+         messages.info(new BundleKey("messages.properties", "account.passwordChanged")).textDefault("Password successfully updated.");
          changed = true;
       }
       else
       {
          // FIME reverting isn't going to work here
-         //revertUser();
+         // revertUser();
          confirmPassword = null;
-         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getConfirmPasswordControlId(),
-            "account.passwordsDoNotMatch", "Passwords do not match. Please re-type the new password.");
+         messages.error(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
       }
    }
 
@@ -57,7 +62,7 @@ public class PasswordManagerBean implements PasswordManager
       return changed;
    }
 
-   public void setConfirmPassword(String password)
+   public void setConfirmPassword(final String password)
    {
       this.confirmPassword = password;
    }

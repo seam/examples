@@ -46,42 +46,26 @@
 
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
-         <artifactId>seam-faces-api</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-         <scope>runtime</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security-api</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-         <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security-impl</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
+         <version>3.0.0.Alpha3</version>
          <scope>runtime</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.xml</groupId>
          <artifactId>seam-xml-config</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
+         <version>3.0.0.Alpha2</version>
       </dependency>
 
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
          <version>1.5.10</version>
-         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId>
+         <version>1.5.10</version>
       </dependency>
 
       <dependency>

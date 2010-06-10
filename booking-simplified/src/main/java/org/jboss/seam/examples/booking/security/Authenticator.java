@@ -10,6 +10,6 @@ import javax.ejb.Local;
  * @author Dan Allen
  */
 @Local
-public interface Authenticator extends org.jboss.seam.security.Authenticator
+public interface Authenticator // extends org.jboss.seam.security.Authenticator
 {
 }

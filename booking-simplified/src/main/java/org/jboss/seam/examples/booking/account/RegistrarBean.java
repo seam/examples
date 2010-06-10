@@ -3,38 +3,37 @@ package org.jboss.seam.examples.booking.account;
 import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.StatusMessage;
-import org.jboss.seam.international.StatusMessages;
-import org.jboss.seam.security.Credentials;
-import org.jboss.seam.security.Identity;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author Dan Allen
  */
-@Named("registrar")
 @Stateful
+@Named("registrar")
 @RequestScoped
 public class RegistrarBean implements Registrar
 {
-   @PersistenceContext private EntityManager em;
+   @PersistenceContext
+   private EntityManager em;
 
-   @Inject private StatusMessages statusMessages;
+   @Inject
+   private Messages Messages;
 
-   @Inject private RegistrationFormControls formControls;
+   @Inject
+   private RegistrationFormControls formControls;
 
-   @Inject private Credentials credentials;
-
-   @Inject private Identity identity;
-
-   private User newUser;
+   @Inject
+   @Registered
+   User newUser;
 
    private String confirmPassword;
 
@@ -46,12 +45,8 @@ public class RegistrarBean implements Registrar
    {
       if (verifyPasswordsMatch() && verifyUsernameIsAvailable())
       {
-         em.persist(newUser);
-         credentials.setUsername(newUser.getUsername());
-         credentials.setPassword(newUser.getPassword());
-         identity.quietLogin();
          registered = true;
-         statusMessages.addFromResourceBundleOrDefault("registration.registered", "You have been successfully registered as the user {0}!", newUser.getUsername());
+         Messages.info(new BundleKey("messages.properties", "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
       }
       else
       {
@@ -64,22 +59,21 @@ public class RegistrarBean implements Registrar
       return registrationInvalid;
    }
 
-   // TODO it would be nice to move the conditional to the UI but <f:event> doesn't support if=""
-   public void notifyIfRegistrationIsInvalid(boolean validationFailed)
+   // TODO it would be nice to move the conditional to the UI but <f:event>
+   // doesn't support if=""
+   public void notifyIfRegistrationIsInvalid(final boolean validationFailed)
    {
       if (validationFailed || registrationInvalid)
       {
-         statusMessages.addFromResourceBundleOrDefault(StatusMessage.Severity.WARN, "registration.invalid", "Invalid registration. Please correct the errors and try again.");
+         Messages.warn(new BundleKey("messages.properties", "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
       }
    }
 
-   public
-   @Produces
+   public @Produces
    @Named
    @RequestScoped
    User getNewUser()
    {
-      newUser = new User();
       return newUser;
    }
 
@@ -93,7 +87,7 @@ public class RegistrarBean implements Registrar
       return confirmPassword;
    }
 
-   public void setConfirmPassword(String password)
+   public void setConfirmPassword(final String password)
    {
       this.confirmPassword = password;
    }
@@ -105,8 +99,7 @@ public class RegistrarBean implements Registrar
    {
       if (!newUser.getPassword().equals(confirmPassword))
       {
-         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getConfirmPasswordControlId(),
-            "account.passwordsDoNotMatch", "Passwords do not match. Please re-type your password.");
+         Messages.warn(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type your password.").targets(formControls.getConfirmPasswordControlId());
          confirmPassword = null;
          return false;
       }
@@ -119,8 +112,7 @@ public class RegistrarBean implements Registrar
       User existing = em.find(User.class, newUser.getUsername());
       if (existing != null)
       {
-         statusMessages.addToControlFromResourceBundleOrDefault(formControls.getUsernameControlId(),
-            "account.usernameTaken", "The username '{0}' is already taken. Please choose another username.", newUser.getUsername());
+         Messages.warn(new BundleKey("messages.properties", "account.usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(formControls.getUsernameControlId()).textParams(newUser.getUsername());
          return false;
       }
 
