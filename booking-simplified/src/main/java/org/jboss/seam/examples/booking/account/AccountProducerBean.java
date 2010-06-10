@@ -29,7 +29,7 @@ public class AccountProducerBean implements AccountProducer
    @SessionScoped
    public User getCurrentAccount()
    {
-      log.info("Producing dummy User");
-      return new User("Current User", "CurrentUser");
+      log.info("Producing canned User");
+      return new User("Dan Allen", "dan");
    }
 }

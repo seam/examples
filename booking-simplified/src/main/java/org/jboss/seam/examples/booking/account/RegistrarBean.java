@@ -69,10 +69,10 @@ public class RegistrarBean implements Registrar
       }
    }
 
-   public @Produces
+   @Produces
    @Named
    @RequestScoped
-   User getNewUser()
+   public User getNewUser()
    {
       return newUser;
    }

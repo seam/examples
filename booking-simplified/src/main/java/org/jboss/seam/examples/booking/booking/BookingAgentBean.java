@@ -136,7 +136,7 @@ public class BookingAgentBean implements BookingAgent
       manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>()
       {
       });
-      log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
+      log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
       conversation.end();
    }
@@ -148,18 +148,18 @@ public class BookingAgentBean implements BookingAgent
       conversation.end();
    }
 
-   public @Produces
+   @Produces
    @Named
    @ConversationScoped
-   Booking getBooking()
+   public Booking getBooking()
    {
       return booking;
    }
 
-   public @Produces
+   @Produces
    @Named("hotel")
    @RequestScoped
-   Hotel getHotelSelection()
+   public Hotel getHotelSelection()
    {
       return booking != null ? booking.getHotel() : hotelSelection;
    }

@@ -44,11 +44,11 @@ public class BookingHistoryBean implements BookingHistory
 
    private final List<Booking> bookingsForUser = new ArrayList<Booking>();
 
-   public @Produces
+   @Produces
    @Registered
    @Named("bookings")
    @SessionScoped
-   List<Booking> getBookingsForCurrentUser()
+   public List<Booking> getBookingsForCurrentUser()
    {
       bookingsForUser.clear();
       bookingsForUser.addAll(em.createQuery("select b from Booking b join fetch b.hotel where b.user.username = :username order by b.checkinDate").setParameter("username", user.getUsername()).getResultList());
