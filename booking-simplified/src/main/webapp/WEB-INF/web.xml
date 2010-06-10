@@ -35,6 +35,7 @@
       <auth-constraint/>
    </security-constraint>
 
+   <!--
    <error-page>
       <exception-type>org.jboss.seam.security.NotLoggedInException</exception-type>
       <location>/home.seam</location>
@@ -49,5 +50,6 @@
       <error-code>500</error-code>
       <location>/error.seam</location>
    </error-page>
+   -->
    
 </web-app>

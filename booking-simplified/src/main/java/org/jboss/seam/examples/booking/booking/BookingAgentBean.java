@@ -45,6 +45,7 @@ import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.MessageFactory;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
@@ -64,7 +65,10 @@ public class BookingAgentBean implements BookingAgent
    private Conversation conversation;
 
    @Inject
-   private Messages Messages;
+   private MessageFactory mf;
+
+   @Inject
+   private Messages messages;
 
    @Inject
    private BookingFormControls formControls;
@@ -88,7 +92,7 @@ public class BookingAgentBean implements BookingAgent
       // NOTE get a fresh reference that's managed by the conversational
       // persistence context
       hotelSelection = em.find(Hotel.class, hotel.getId());
-      log.info("Selected the {0} in {1}", hotelSelection.getName(), hotelSelection.getCity());
+      log.info(mf.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
       conversation.begin();
    }
 
@@ -101,7 +105,7 @@ public class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate(calendar.getTime());
       hotelSelection = null;
-      Messages.info(new BundleKey("messages.properties", "booking.initiated")).textDefault("You've initiated a booking at {0}.").textParams(booking.getHotel().getName());
+      messages.info(new BundleKey("messages.properties", "booking.initiated")).textDefault("You've initiated a booking at {0}.").textParams(booking.getHotel().getName());
    }
 
    public void validateBooking()
@@ -110,12 +114,12 @@ public class BookingAgentBean implements BookingAgent
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if (booking.getCheckinDate().before(calendar.getTime()))
       {
-         Messages.info(new BundleKey("messages.properties", "booking.checkInNotFutureDate")).textDefault("Check in date must be a future date").targets(formControls.getCheckinDateControlId());
+         messages.info(new BundleKey("messages.properties", "booking.checkInNotFutureDate")).textDefault("Check in date must be a future date").targets(formControls.getCheckinDateControlId());
          bookingValid = false;
       }
       else if (!booking.getCheckinDate().before(booking.getCheckoutDate()))
       {
-         Messages.info(new BundleKey("messages.properties", "booking.checkOutBeforeCheckIn")).textDefault("Check out date must be after check in date").targets(formControls.getCheckoutDateControlId());
+         messages.info(new BundleKey("messages.properties", "booking.checkOutBeforeCheckIn")).textDefault("Check out date must be after check in date").targets(formControls.getCheckoutDateControlId());
          bookingValid = false;
       }
       else
@@ -133,7 +137,7 @@ public class BookingAgentBean implements BookingAgent
       {
       });
       log.info("New booking at the {0} confirmed for {1}", booking.getHotel().getName(), booking.getUser().getName());
-      Messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
+      messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
       conversation.end();
    }
 

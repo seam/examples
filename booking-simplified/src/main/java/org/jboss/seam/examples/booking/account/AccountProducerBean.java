@@ -23,11 +23,11 @@ public class AccountProducerBean implements AccountProducer
    @PersistenceContext
    private EntityManager em;
 
-   public @Produces
+   @Produces
    @Registered
    @Named("currentUser")
    @SessionScoped
-   User getCurrentAccount()
+   public User getCurrentAccount()
    {
       log.info("Producing dummy User");
       return new User("Current User", "CurrentUser");

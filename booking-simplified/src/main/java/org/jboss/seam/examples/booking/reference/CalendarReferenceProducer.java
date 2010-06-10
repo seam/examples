@@ -5,10 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.enterprise.inject.Produces;
 
@@ -20,16 +18,14 @@ import javax.enterprise.inject.Produces;
  */
 public class CalendarReferenceProducer {
 
-   @Inject private Locale locale;
-
    @Produces
    @Named
    @ConversationScoped
    public List<Month> getMonths()
    {
       List<Month> months = new ArrayList<Month>(12);
-      DateFormat longNameFormat = new SimpleDateFormat("MMMM", locale);
-      DateFormat shortNameFormat = new SimpleDateFormat("MMM", locale);
+      DateFormat longNameFormat = new SimpleDateFormat("MMMM");
+      DateFormat shortNameFormat = new SimpleDateFormat("MMM");
       Calendar cal = Calendar.getInstance();
       for (int m = 0; m < 12; m++)
       {
