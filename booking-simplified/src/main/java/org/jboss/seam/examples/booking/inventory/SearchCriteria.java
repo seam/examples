@@ -80,6 +80,16 @@ public class SearchCriteria implements Serializable
    {
       this.pageSize = pageSize;
    }
+   
+   public int getFetchSize()
+   {
+      return pageSize + 1;
+   }
+
+   public int getFetchOffset()
+   {
+      return page * pageSize;
+   }
 
    public String getQuery()
    {

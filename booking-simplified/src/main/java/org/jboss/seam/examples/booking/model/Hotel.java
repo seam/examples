@@ -58,6 +58,18 @@ public class Hotel implements Serializable
    private Integer stars;
    private BigDecimal price;
 
+   public Hotel() {}
+
+   public Hotel(String name, String address, String city, String state, String zip, String country)
+   {
+      this.name = name;
+      this.address = address;
+      this.city = city;
+      this.state = state;
+      this.zip = zip;
+      this.country = country;
+   }
+
    @Id
    @GeneratedValue
    public Long getId()

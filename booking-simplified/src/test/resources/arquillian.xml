@@ -1,0 +1,22 @@
+<arquillian xmlns="http://jboss.com/arquillian"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:gfembed="urn:arq:org.jboss.arquillian.glassfish.embedded30"
+   xmlns:gfremote="urn:arq:org.jboss.arquillian.container.glassfish.jsr88">
+
+   <engine>
+      <deploymentExportPath>/tmp/</deploymentExportPath>
+   </engine>
+   
+   <gfremote:container>
+      <gfremote:httpPort>7070</gfremote:httpPort>
+   </gfremote:container>
+
+   <gfembed:container>
+      <gfembed:resourcesXml>src/test/resources-glassfish/sun-resources.xml</gfembed:resourcesXml>
+      <!--
+      <gfembed:instanceRoot>src/test/gfembed</gfembed:instanceRoot>
+      <gfembed:autoDelete>false</gfembed:autoDelete> 
+      -->
+   </gfembed:container>  
+
+</arquillian>

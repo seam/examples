@@ -30,17 +30,15 @@ import org.jboss.seam.examples.booking.model.Hotel;
 @Local
 public interface HotelSearch
 {
-   public void find();
+   void find();
 
-   public void previousPage();
+   void previousPage();
 
-   public void nextPage();
+   void nextPage();
 
-   public List<Hotel> getHotels();
+   List<Hotel> getHotels();
 
-   public boolean isNextPageAvailable();
+   boolean isNextPageAvailable();
 
-   public boolean isPreviousPageAvailable();
-
-   public void destroy();
+   boolean isPreviousPageAvailable();
 }
