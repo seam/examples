@@ -48,6 +48,4 @@ public interface BookingAgent
    Booking getBooking();
 
    boolean isBookingValid();
-
-	void destroy();
 }

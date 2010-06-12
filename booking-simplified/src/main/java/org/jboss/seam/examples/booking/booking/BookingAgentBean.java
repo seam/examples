@@ -27,7 +27,6 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 
 import java.util.Calendar;
 
-import javax.ejb.Remove;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -87,6 +86,7 @@ public class BookingAgentBean implements BookingAgent
 
    private boolean bookingValid;
 
+   //@Begin
    public void selectHotel(final Hotel hotel)
    {
       // NOTE get a fresh reference that's managed by the conversational
@@ -128,6 +128,7 @@ public class BookingAgentBean implements BookingAgent
       }
    }
 
+   //@End
    public void confirm()
    {
       em.persist(booking);
@@ -141,6 +142,7 @@ public class BookingAgentBean implements BookingAgent
       conversation.end();
    }
 
+   //@End
    public void cancel()
    {
       booking = null;
@@ -167,10 +169,5 @@ public class BookingAgentBean implements BookingAgent
    public boolean isBookingValid()
    {
       return bookingValid;
-   }
-
-   @Remove
-   public void destroy()
-   {
    }
 }

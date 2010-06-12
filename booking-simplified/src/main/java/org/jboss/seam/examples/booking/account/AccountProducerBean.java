@@ -30,6 +30,7 @@ public class AccountProducerBean implements AccountProducer
    public User getCurrentAccount()
    {
       log.info("Producing canned User");
-      return new User("Dan Allen", "dan");
+      //return new User("Dan Allen", "dan");
+      return em.find(User.class, "dan");
    }
 }

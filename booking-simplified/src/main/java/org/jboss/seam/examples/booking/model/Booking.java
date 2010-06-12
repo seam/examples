@@ -29,6 +29,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Date;
+import javax.enterprise.inject.Typed;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -52,6 +53,7 @@ import javax.validation.constraints.Size;
  * @author Dan Allen
  */
 @Entity
+@Typed()
 public class Booking implements Serializable
 {
    private Long id;
@@ -76,6 +78,8 @@ public class Booking implements Serializable
       this.hotel = hotel;
       this.user = user;
       this.creditCardName = user.getName();
+      this.smoking = false;
+      this.beds = 1;
    }
 
    @Id
