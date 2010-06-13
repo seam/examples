@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
       <groupId>org.jboss.seam</groupId>
-      <artifactId>seam-version-matrix</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <artifactId>seam-parent</artifactId>
+      <version>1</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
@@ -19,8 +18,12 @@
    <description>
       Examples for the Seam Framework
    </description>
-   
+
    <url>http://www.seamframework.org</url>
+
+   <properties>
+      <seam.version>3.0.0.b01</seam.version>
+   </properties>
 
    <developers>
       <developer>
@@ -68,14 +71,27 @@
          <url>http://in.relation.to/Bloggers/Dan</url>
          <organization>JBoss, a division of Red Hat</organization>
       </developer>
-      
+
       <!-- TODO continue adding core developers -->
-      
+
    </developers>
-   
+
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>seam</artifactId>
+            <version>${seam.version}</version>
+            <scope>import</scope>
+            <type>pom</type>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
    <modules>
       <module>booking</module>
       <module>servlet-booking</module>
+      <module>booking-simplified</module>
       <!--<module>servlet-permalink</module>-->
    </modules>
 
@@ -86,47 +102,11 @@
 
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-compiler-plugin</artifactId>
-               <configuration>
-                  <source>1.5</source>
-                  <target>1.5</target>
-               </configuration>
-            </plugin>
-
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-eclipse-plugin</artifactId>
                <configuration>
                   <classpathContainers>
                      <classpathContainer>org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5</classpathContainer>
                   </classpathContainers>
-               </configuration>
-            </plugin>
-
-            <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-jar-plugin</artifactId>
-               <configuration>
-                  <archive>
-                     <manifest>
-                        <addDefaultImplementationEntries>
-                           true
-                        </addDefaultImplementationEntries>
-                        <addDefaultSpecificationEntries>
-                           true
-                        </addDefaultSpecificationEntries>
-                     </manifest>
-                  </archive>
-               </configuration>
-            </plugin>
-
-            <plugin>
-               <groupId>org.codehaus.mojo</groupId>
-               <artifactId>emma-maven-plugin</artifactId>
-               <configuration>
-                  <forkMode>once</forkMode>
-                  <metadataFile>../target/coverage.em</metadataFile>
-                  <outputDirectory>${project.build.directory}/generated-classes</outputDirectory>
                </configuration>
             </plugin>
 
@@ -157,21 +137,6 @@
             </executions>
          </plugin>
 
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-         </plugin>
-
-         <plugin>
-           <groupId>org.apache.maven.plugins</groupId>
-           <artifactId>maven-release-plugin</artifactId>
-           <version>2.0-beta-8</version>
-           <configuration>
-             <tagBase>https://svn.jboss.org/repos/seam/examples/tags</tagBase>
-             <autoVersionSubmodules>true</autoVersionSubmodules>
-           </configuration>
-         </plugin>
-
       </plugins>
 
    </build>
@@ -181,7 +146,7 @@
       <profile>
          <id>jdk5</id>
          <activation>
-            <jdk>1.5</jdk> 
+            <jdk>1.5</jdk>
          </activation>
          <dependencies>
             <dependency>
@@ -194,28 +159,6 @@
 
    </profiles>
 
-   <reporting>
-      <plugins>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>cobertura-maven-plugin</artifactId>
-            <configuration>
-               <formats>
-                  <format>html</format>
-                  <format>xml</format>
-               </formats>
-               <!--
-               <instrumentation>
-                  <ignores>
-                     <ignore>org.jboss.seam.*</ignore>
-                  </ignores>
-               </instrumentation>
-               -->
-            </configuration>
-         </plugin>
-      </plugins>
-   </reporting>
-   
    <ciManagement>
       <system>Hudson</system>
       <url />
@@ -223,7 +166,7 @@
 
    <issueManagement>
       <system>JIRA</system>
-      <url>http://jira.jboss.org/browse/JBSEAM</url>
+      <url>http://jira.jboss.org/browse/SEAM</url>
    </issueManagement>
 
    <inceptionYear>2005</inceptionYear>
@@ -240,20 +183,5 @@
       <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/examples</developerConnection>
       <url>http://fisheye.jboss.org/browse/Seam/examples</url>
    </scm>
-
-   <distributionManagement>
-      <repository>
-         <!-- Copy the dist to the local checkout of the JBoss maven2 repo ${maven.repository.root} -->
-         <!-- It is anticipated that ${maven.repository.root} be set in user's settings.xml -->
-         <!-- todo : replace this with direct svn access once the svnkit providers are available -->
-         <id>repository.jboss.org</id>
-         <url>file://${maven.repository.root}</url>
-      </repository>
-      <snapshotRepository>
-         <id>snapshots.jboss.org</id>
-         <name>JBoss Snapshot Repository</name>
-         <url>dav:https://snapshots.jboss.org/maven2</url>
-      </snapshotRepository>
-   </distributionManagement>
 
 </project>

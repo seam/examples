@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
    <parent>
-      <groupId>org.jboss.weld.examples</groupId>
-      <artifactId>weld-examples-parent</artifactId>
-      <version>1.0.1-Final</version>
+      <groupId>org.jboss.seam.examples</groupId>
+      <artifactId>seam-examples-parent</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
@@ -27,7 +28,8 @@
       <webapp.directory>src/main/webapp</webapp.directory>
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
-      <arquillian.version>1.0.0-SNAPSHOT</arquillian.version>
+      <seam.faces.version>3.0.0-SNAPSHOT</seam.faces.version>
+      <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
    </properties>
 
    <dependencies>
@@ -35,20 +37,20 @@
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-jpamodelgen</artifactId>
-         <version>1.0.0.Final</version>
+         <!-- TODO Get this into Weld Parent! -->
+         <version>${jpamodelgen.version}</version>
          <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
-         <version>3.0.0.Alpha3</version>
+         <version>${seam.faces.version}</version>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.xml</groupId>
          <artifactId>seam-xml-config</artifactId>
-         <version>3.0.0.Alpha2</version>
          <exclusions>
             <exclusion>
                <groupId>javax.enterprise</groupId>
@@ -60,28 +62,29 @@
       <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
-         <version>1.5.10</version>
       </dependency>
 
       <!--
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId>
-         <version>1.5.10</version>
-      </dependency>
+         <dependency> <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-simple</artifactId> <version>1.5.10</version>
+         </dependency>
       -->
 
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.8.1</version>
          <scope>test</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.arquillian</groupId>
          <artifactId>arquillian-junit</artifactId>
-         <version>${arquillian.version}</version>
+         <scope>test</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.weld</groupId>
+         <artifactId>weld-core</artifactId>
          <scope>test</scope>
       </dependency>
 
@@ -141,8 +144,8 @@
                <wtpdefaultserver>JBossAS</wtpdefaultserver>
                <wtpversion>2.0</wtpversion>
                <!--
-               <downloadSources>true</downloadSources>
-               <downloadJavadocs>true</downloadJavadocs>
+                  <downloadSources>true</downloadSources>
+                  <downloadJavadocs>true</downloadJavadocs>
                -->
             </configuration>
          </plugin>

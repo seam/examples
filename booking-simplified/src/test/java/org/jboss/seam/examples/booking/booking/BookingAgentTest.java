@@ -3,21 +3,23 @@ package org.jboss.seam.examples.booking.booking;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
+
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.examples.booking.account.Registered;
 import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.CreditCardType;
-import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -72,7 +74,7 @@ public class BookingAgentTest
    public void testBookHotel() throws Exception
    {
       prepareSeedData();
-      ConversationContext cc = Container.instance().deploymentServices().get(ContextLifecycle.class).getConversationContext();
+      ConversationContext cc = Container.instance().services().get(ContextLifecycle.class).getConversationContext();
       cc.setBeanStore(new HashMapBeanStore());
       cc.setActive(true);
 
