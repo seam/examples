@@ -2,8 +2,6 @@ package org.jboss.seam.examples.booking.security;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 
@@ -19,28 +17,10 @@ public class AuthenticatorBean implements Authenticator
    @Inject
    private Logger log;
 
-   @PersistenceContext
-   private EntityManager em;
-
-   // @Inject
-   // private Credentials credentials;
-
    public boolean authenticate()
    {
-      // if ((credentials.getUsername() != null) &&
-      // (credentials.getUsername().length() > 0))
-      // {
-      // log.info("Authenticating {0}...", credentials.getUsername());
-      // User user = em.find(User.class, credentials.getUsername());
-      // if (user != null &&
-      // user.getPassword().equals(credentials.getPassword()))
-      // {
-      // credentials.setPassword(null);
+      log.info("Logging you in!");
       return true;
-      // }
-      // }
-
-      // return false;
    }
 
 }
