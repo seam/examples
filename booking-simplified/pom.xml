@@ -203,7 +203,7 @@
             </dependency>
             <dependency>
                <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-impl</artifactId>
+               <artifactId>slf4j-simple</artifactId>
                <version>1.5.10</version>
             </dependency>
             <dependency>
