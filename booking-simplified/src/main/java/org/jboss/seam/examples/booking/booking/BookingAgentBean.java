@@ -33,7 +33,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -128,15 +127,11 @@ public class BookingAgentBean implements BookingAgent
       }
    }
 
-   //@End
    public void confirm()
    {
       em.persist(booking);
       // FIXME can't inject event object into bean with passivating scope
-      // bookingConfirmedEvent.fire(new BookingEvent(booking));
-      manager.fireEvent(new BookingEvent(booking), new AnnotationLiteral<Confirmed>()
-      {
-      });
+      manager.fireEvent(new BookingEvent(booking), Confirmed.INSTANCE);
       log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
       conversation.end();
