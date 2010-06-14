@@ -89,10 +89,7 @@
    </dependencyManagement>
 
    <modules>
-      <module>booking</module>
-      <module>servlet-booking</module>
       <module>booking-simplified</module>
-      <!--<module>servlet-permalink</module>-->
    </modules>
 
    <build>
