@@ -30,6 +30,7 @@
       <jboss.domain>default</jboss.domain>
       <seam.faces.version>3.0.0-SNAPSHOT</seam.faces.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
+      <arquillian.version>1.0.0-SNAPSHOT</arquillian.version>
    </properties>
 
    <dependencies>
@@ -47,6 +48,12 @@
          <artifactId>seam-faces</artifactId>
          <version>${seam.faces.version}</version>
       </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.seam.faces</groupId>
+         <artifactId>seam-faces-api</artifactId>
+         <version>${seam.faces.version}</version>
+      </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.xml</groupId>
@@ -60,8 +67,15 @@
       </dependency>
 
       <dependency>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
+         <scope>provided</scope>
       </dependency>
 
       <!--
@@ -79,6 +93,7 @@
       <dependency>
          <groupId>org.jboss.arquillian</groupId>
          <artifactId>arquillian-junit</artifactId>
+         <version>${arquillian.version}</version>
          <scope>test</scope>
       </dependency>
 
