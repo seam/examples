@@ -29,9 +29,9 @@
       <webapp.directory>src/main/webapp</webapp.directory>
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
-      <seam.faces.version>3.0.0-SNAPSHOT</seam.faces.version>
+      <seam.faces.version>3.0.0.Alpha3</seam.faces.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
-      <arquillian.version>1.0.0-SNAPSHOT</arquillian.version>
+      <arquillian.version>1.0.0.Alpha2</arquillian.version>
    </properties>
 
    <dependencies>
@@ -158,6 +158,27 @@
    <profiles>
       <profile>
          <id>glassfish</id>
+         <dependencies>
+            <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-simple</artifactId>
+               <version>1.5.10</version>
+            </dependency>
+            <dependency>
+               <groupId>org.jboss.spec</groupId>
+               <artifactId>jboss-javaee-6.0</artifactId>
+               <version>1.0.0.Beta4</version>
+               <type>pom</type>
+               <scope>provided</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+      <profile>
+         <id>glassfish-embedded</id>
          <build>
             <plugins>
                <!-- Configure the Embedded GlassFish Maven plugin -->
@@ -179,6 +200,11 @@
             <dependency>
                <groupId>org.slf4j</groupId>
                <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-impl</artifactId>
+               <version>1.5.10</version>
             </dependency>
             <dependency>
                <groupId>org.jboss.spec</groupId>
