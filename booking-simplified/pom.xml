@@ -48,7 +48,7 @@
          <artifactId>seam-faces</artifactId>
          <version>${seam.faces.version}</version>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces-api</artifactId>
@@ -71,18 +71,6 @@
          <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
       </dependency>
-
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <!--
-         <dependency> <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-simple</artifactId> <version>1.5.10</version>
-         </dependency>
-      -->
 
       <dependency>
          <groupId>junit</groupId>
@@ -163,43 +151,71 @@
             </configuration>
          </plugin>
 
-         <!-- Configure the JBoss AS Maven deploy plugin -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jboss-maven-plugin</artifactId>
-            <configuration>
-               <jbossHome>${jboss.home}</jbossHome>
-               <serverName>${jboss.domain}</serverName>
-               <fileNames>
-                  <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
-               </fileNames>
-            </configuration>
-         </plugin>
-
-         <!-- Configure the Embedded GlassFish Maven plugin -->
-         <plugin>
-            <groupId>org.glassfish</groupId>
-            <artifactId>maven-embedded-glassfish-plugin</artifactId>
-            <version>3.0</version>
-            <configuration>
-               <app>${project.build.directory}/${project.build.finalName}.war</app>
-               <port>7070</port>
-               <containerType>web</containerType>
-               <instanceRoot>${project.build.directory}/gfembed${maven.build.timestamp}</instanceRoot>
-               <autoDelete>true</autoDelete>
-            </configuration>
-         </plugin>
-
       </plugins>
    </build>
 
    <profiles>
       <profile>
-         <id>default</id>
+         <id>glassfish</id>
+         <build>
+            <plugins>
+               <!-- Configure the Embedded GlassFish Maven plugin -->
+               <plugin>
+                  <groupId>org.glassfish</groupId>
+                  <artifactId>maven-embedded-glassfish-plugin</artifactId>
+                  <version>3.0</version>
+                  <configuration>
+                     <app>${project.build.directory}/${project.build.finalName}.war</app>
+                     <port>7070</port>
+                     <containerType>web</containerType>
+                     <instanceRoot>${project.build.directory}/gfembed${maven.build.timestamp}</instanceRoot>
+                     <autoDelete>true</autoDelete>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
+         <dependencies>
+            <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+            </dependency>
+            <dependency>
+               <groupId>org.jboss.spec</groupId>
+               <artifactId>jboss-javaee-6.0</artifactId>
+               <version>1.0.0.Beta4</version>
+               <type>pom</type>
+               <scope>provided</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+      <profile>
+         <id>jboss</id>
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
+         <build>
+            <plugins>
+
+               <!-- Configure the JBoss AS Maven deploy plugin -->
+               <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>jboss-maven-plugin</artifactId>
+                  <configuration>
+                     <jbossHome>${jboss.home}</jbossHome>
+                     <serverName>${jboss.domain}</serverName>
+                     <fileNames>
+                        <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
+                     </fileNames>
+                  </configuration>
+               </plugin>
+            </plugins>
+         </build>
          <dependencies>
+            <dependency>
+               <groupId>org.slf4j</groupId>
+               <artifactId>slf4j-api</artifactId>
+               <scope>provided</scope>
+            </dependency>
             <dependency>
                <groupId>org.jboss.spec</groupId>
                <artifactId>jboss-javaee-6.0</artifactId>
