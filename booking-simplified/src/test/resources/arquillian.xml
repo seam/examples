@@ -9,7 +9,7 @@
    </engine>
    
    <gfremote:container>
-      <gfremote:remoteServerHttpPort>7070</gfremote:removeServerHttpPort>
+      <gfremote:remoteServerHttpPort>7070</gfremote:remoteServerHttpPort>
    </gfremote:container>
 
    <gfembedded:container>
