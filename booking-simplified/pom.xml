@@ -125,7 +125,7 @@
       <dependency>
          <groupId>org.jboss.weld</groupId>
          <artifactId>weld-core</artifactId>
-         <version>1.0.0</version>
+         <version>1.0.1-Final</version>
          <scope>test</scope>
       </dependency>
 
