@@ -3,13 +3,14 @@ package org.jboss.seam.examples.booking.setup;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateful;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 import javax.faces.event.PostConstructApplicationEvent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -18,8 +19,7 @@ import org.jboss.seam.international.status.Messages;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@Stateful
-@ApplicationScoped
+@Stateless
 public class ApplicationSetupBean implements SetupBean
 {
    @PersistenceContext
@@ -51,30 +51,43 @@ public class ApplicationSetupBean implements SetupBean
       hotels.add(new Hotel(54, 1, "Super 8 Eau Claire Campus Area", "1151 W MacArthur Ave", "Eau Claire", "WI", "54701", "USA"));
       hotels.add(new Hotel(199, 4, "San Francisco Marriott", "55 Fourth Street", "San Francisco", "CA", "94103", "USA"));
       hotels.add(new Hotel(543, 4, "Hilton Diagonal Mar", "Passeig del Taulat 262-264", "Barcelona", "Catalunya", "08019", "ES"));
-      hotels.add(new Hotel(335, 5, "Hilton Tel Aviv", "Independence Park", "Tel Aviv", "", "63405", "IL"));
+      hotels.add(new Hotel(335, 5, "Hilton Tel Aviv", "Independence Park", "Tel Aviv", null, "63405", "IL"));
       hotels.add(new Hotel(242, 5, "InterContinental Hotel Tokyo Bay", "1-15-2 Kaigan", "Tokyo", "Minato", "105", "JP"));
-      hotels.add(new Hotel(130, 4, "Hotel Beaulac", " Esplanade Léopold-Robert 2", "Neuchatel", "", "2000", "CH"));
+      hotels.add(new Hotel(130, 4, "Hotel Beaulac", " Esplanade Léopold-Robert 2", "Neuchatel", null, "2000", "CH"));
       hotels.add(new Hotel(266, 5, "Conrad Treasury Place", "130 William Street", "Brisbane", "QL", "4001", "AU"));
       hotels.add(new Hotel(170, 4, "Ritz-Carlton Montreal", "1228 Sherbrooke St West", "Montreal", "Quebec", "H3G1H6", "CA"));
       hotels.add(new Hotel(179, 4, "Ritz-Carlton Atlanta", "181 Peachtree St NE", "Atlanta", "GA", "30303", "USA"));
       hotels.add(new Hotel(145, 4, "Swissotel Sydney", "68 Market Street", "Sydney", "NSW", "2000", "AU"));
-      hotels.add(new Hotel(178, 4, "Meliá White House", "Albany Street Regents Park", "London", "", "NW13UP", "GB"));
+      hotels.add(new Hotel(178, 4, "Meliá White House", "Albany Street Regents Park", "London", null, "NW13UP", "GB"));
       hotels.add(new Hotel(159, 3, "Hotel Allegro", "171 W Randolph Street", "Chicago", "IL", "60601", "USA"));
       hotels.add(new Hotel(296, 5, "Caesars Palace", "3570 Las Vegas Blvd S", "Las Vegas", "NV", "89109", "USA"));
       hotels.add(new Hotel(300, 4, "Mandalay Bay Resort & Casino", "3950 Las Vegas Blvd S", "Las Vegas", "NV", "89119", "USA"));
-      hotels.add(new Hotel(100, 2, "Hotel Cammerpoorte", "Nationalestraat 38-40", "Antwerp", "", "2000", "BE"));
+      hotels.add(new Hotel(100, 2, "Hotel Cammerpoorte", "Nationalestraat 38-40", "Antwerp", null, "2000", "BE"));
    }
 
    public void init(@Observes final PostConstructApplicationEvent event)
    {
-      for (User u : users)
-      {
-         if (em.find(User.class, u.getUsername()) == null)
+      try {
+
+         for (User u : users)
          {
-            em.persist(u);
+            if (em.find(User.class, u.getUsername()) == null)
+            {
+               em.persist(u);
+            }
+         }
+
+         for (Hotel h : hotels)
+         {
+            em.persist(h);
          }
       }
-
-      // TODO need to persist hotels here
+      catch (ConstraintViolationException e)
+      {
+         for (ConstraintViolation v : e.getConstraintViolations())
+         {
+            System.out.println(v.getPropertyPath() + ": " + v.getMessage());
+         }
+      }
    }
 }

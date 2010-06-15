@@ -133,7 +133,7 @@ public class Hotel implements Serializable
       this.city = city;
    }
 
-   @Size(min = 4, max = 6)
+   @Size(min = 3, max = 6)
    @NotNull
    public String getZip()
    {
@@ -146,7 +146,6 @@ public class Hotel implements Serializable
    }
 
    @Size(min = 2, max = 10)
-   @NotNull
    public String getState()
    {
       return state;
