@@ -250,9 +250,10 @@
                <version>1.5.10</version>
             </dependency>
             <dependency>
-               <groupId>org.glassfish.extras</groupId>
-               <artifactId>glassfish-embedded-all</artifactId>
-               <version>${glassfish.version}</version>
+               <groupId>org.jboss.spec</groupId>
+               <artifactId>jboss-javaee-6.0</artifactId>
+               <version>${jboss-javaee6-spec.version}</version>
+               <type>pom</type>
                <scope>provided</scope>
             </dependency>
          </dependencies>
