@@ -4,21 +4,18 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" 
    version="1.0">
    <persistence-unit name="booking">
-      <!--
+<!--      <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      -->
       <jta-data-source>jdbc/__default</jta-data-source>
       <!--
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <jta-data-source>jdbc/__arquillian</jta-data-source>
       -->
-      <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
+         <!-- Properties for Hibernate (default provider for JBoss AS) -->
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
-         <!-- These are the default for JBoss EJB 3, but not for Hibernate EntityManager -->
-         <property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider"/>
-         <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+         <property name="hibernate.format_sql" value="true"/>
 
          <!-- Properties for EclipseLink (default provider for GlassFish) -->
          <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>

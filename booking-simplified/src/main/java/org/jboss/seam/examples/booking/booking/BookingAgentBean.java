@@ -131,7 +131,7 @@ public class BookingAgentBean implements BookingAgent
    {
       em.persist(booking);
       // FIXME can't inject event object into bean with passivating scope
-      manager.fireEvent(new BookingEvent(booking), Confirmed.INSTANCE);
+      manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
       log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
       conversation.end();
