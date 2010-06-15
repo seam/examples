@@ -41,6 +41,34 @@
       <seam-faces.version>3.0.0.Alpha3</seam-faces.version>
    </properties>
 
+   <repositories>
+      <repository>
+         <id>jboss-public-repository</id>
+         <name>JBoss Repository</name>
+         <url>https://repository.jboss.org/nexus/content/groups/public</url>
+         <releases>
+            <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
+
+   <pluginRepositories>
+      <pluginRepository>
+         <id>jboss-public-repository</id>
+         <name>JBoss Repository</name>
+         <url>https://repository.jboss.org/nexus/content/groups/public</url>
+         <releases>
+            <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </pluginRepository>
+   </pluginRepositories>
+
    <dependencies>
 
       <dependency>
