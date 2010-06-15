@@ -28,7 +28,6 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 import java.util.Calendar;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -43,6 +42,8 @@ import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.faces.context.conversation.Begin;
+import org.jboss.seam.faces.context.conversation.End;
 import org.jboss.seam.international.status.MessageFactory;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
@@ -59,8 +60,8 @@ public class BookingAgentBean implements BookingAgent
    @PersistenceContext(type = EXTENDED)
    private EntityManager em;
 
-   @Inject
-   private Conversation conversation;
+//   @Inject
+//   private Conversation conversation;
 
    @Inject
    private MessageFactory mf;
@@ -85,14 +86,14 @@ public class BookingAgentBean implements BookingAgent
 
    private boolean bookingValid;
 
-   //@Begin
+   @Begin
    public void selectHotel(final Hotel hotel)
    {
       // NOTE get a fresh reference that's managed by the conversational
       // persistence context
       hotelSelection = em.find(Hotel.class, hotel.getId());
       log.info(mf.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
-      conversation.begin();
+      //conversation.begin();
    }
 
    public void bookHotel()
@@ -127,6 +128,7 @@ public class BookingAgentBean implements BookingAgent
       }
    }
 
+   @End
    public void confirm()
    {
       em.persist(booking);
@@ -134,15 +136,15 @@ public class BookingAgentBean implements BookingAgent
       manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
       log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
-      conversation.end();
+      //conversation.end();
    }
 
-   //@End
+   @End
    public void cancel()
    {
       booking = null;
       hotelSelection = null;
-      conversation.end();
+      //conversation.end();
    }
 
    @Produces
