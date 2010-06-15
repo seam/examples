@@ -77,7 +77,10 @@ function controlSpinner(behavior)
                   </h:column>
                   <h:column id="actCol">
                      <f:facet id="actFct" name="header">Action</f:facet>
-                     <h:commandLink id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}" style="white-space: nowrap;"/>
+                     <h:link id="view" value="View" outcome="hotel" style="white-space: nowrap;">
+                     	<f:param name="id" value="#{_hotel.id}" />
+                     </h:link>
+                     
                      <ui:remove><!--
                      <h:commandButton id="view" value="View" action="#{bookingAgent.selectHotel(_hotel)}"/>
                      --></ui:remove>

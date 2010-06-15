@@ -27,10 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -41,21 +42,23 @@ import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.Hotel_;
 import org.jboss.seam.international.status.MessageFactory;
 import org.slf4j.Logger;
-//import org.jboss.seam.international.status.MessageFactory;
-//import org.slf4j.Logger;
 
 @Named("hotelSearch")
 @Stateful
 @SessionScoped
 public class HotelSearchBean implements HotelSearch
 {
-   @Inject private Logger log;
+   @Inject
+   private Logger log;
 
-   @PersistenceContext private EntityManager em;
+   @PersistenceContext
+   private EntityManager em;
 
-   @Inject private SearchCriteria criteria;
+   @Inject
+   private SearchCriteria criteria;
 
-   @Inject private MessageFactory mf;
+   @Inject
+   private MessageFactory mf;
 
    private boolean nextPageAvailable = false;
 
@@ -79,10 +82,11 @@ public class HotelSearchBean implements HotelSearch
       queryHotels(criteria);
    }
 
-   public
-   @Produces
+   public @Produces
    @Named
-   //@RequestScoped // if enabled, variable doesn't get updated after the action is executed w/o a redirect
+   @Dependent
+   // @RequestScoped // if enabled, variable doesn't get updated after the
+   // action is executed w/o a redirect
    List<Hotel> getHotels()
    {
       return hotels;
@@ -98,24 +102,15 @@ public class HotelSearchBean implements HotelSearch
       return criteria.getPage() > 0;
    }
 
-   private void queryHotels(SearchCriteria criteria)
+   private void queryHotels(final SearchCriteria criteria)
    {
       CriteriaBuilder builder = em.getCriteriaBuilder();
       CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
       Root<Hotel> hotel = cquery.from(Hotel.class);
       // QUESTION can like create the pattern for us?
-      cquery.select(hotel)
-            .where(builder.or(
-               builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()),
-               builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()),
-               builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()),
-               builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())
-               ));
+      cquery.select(hotel).where(builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
 
-      List<Hotel> results = em.createQuery(cquery)
-            .setMaxResults(criteria.getFetchSize())
-            .setFirstResult(criteria.getFetchOffset())
-            .getResultList();
+      List<Hotel> results = em.createQuery(cquery).setMaxResults(criteria.getFetchSize()).setFirstResult(criteria.getFetchOffset()).getResultList();
 
       nextPageAvailable = results.size() > criteria.getPageSize();
       if (nextPageAvailable)
@@ -127,7 +122,6 @@ public class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
-      log.info(mf.info("Found {0} hotel(s) matching search term ''{1}'' (limit {2})")
-            .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
+      log.info(mf.info("Found {0} hotel(s) matching search term ''{1}'' (limit {2})").textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
    }
 }
