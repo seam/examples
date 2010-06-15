@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.examples.booking.security.MockCredentials;
 import org.slf4j.Logger;
 
 /**
@@ -23,13 +24,20 @@ public class AccountProducerBean implements AccountProducer
    @PersistenceContext
    private EntityManager em;
 
+   @Inject
+   MockCredentials credentials;
+
    @Produces
    @Registered
    @Named("currentUser")
    @SessionScoped
    public User getCurrentAccount()
    {
-      log.info("Producing canned User");
-      return em.find(User.class, "dan");
+      User result = em.find(User.class, credentials.getUsername());
+      if (result == null)
+      {
+         result = new User();
+      }
+      return result;
    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Alternative;
 import javax.faces.event.PostConstructApplicationEvent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ import org.jboss.seam.international.status.Messages;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @Stateless
+@Alternative
 public class ApplicationSetupBean implements SetupBean
 {
    @PersistenceContext

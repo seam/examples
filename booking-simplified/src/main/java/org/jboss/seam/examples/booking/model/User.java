@@ -25,23 +25,26 @@ package org.jboss.seam.examples.booking.model;
 
 import java.io.Serializable;
 
+import javax.enterprise.inject.Typed;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * <p><strong>User</strong> is the model/entity class that represents a customer
- * who may book a hotel.</p>
- *
+ * <p>
+ * <strong>User</strong> is the model/entity class that represents a customer
+ * who may book a hotel.
+ * </p>
+ * 
  * @author Gavin King
  * @author Dan Allen
  */
 @Entity
 @Table(name = "customer")
+@Typed()
 public class User implements Serializable
 {
    private String username;
@@ -52,13 +55,13 @@ public class User implements Serializable
    {
    }
 
-   public User(String name, String username)
+   public User(final String name, final String username)
    {
       this.name = name;
       this.username = username;
    }
 
-   public User(String name, String username, String password)
+   public User(final String name, final String username, final String password)
    {
       this(name, username);
       this.password = password;
@@ -71,7 +74,7 @@ public class User implements Serializable
       return name;
    }
 
-   public void setName(String name)
+   public void setName(final String name)
    {
       this.name = name;
    }
@@ -83,7 +86,7 @@ public class User implements Serializable
       return password;
    }
 
-   public void setPassword(String password)
+   public void setPassword(final String password)
    {
       this.password = password;
    }
@@ -97,7 +100,7 @@ public class User implements Serializable
       return username;
    }
 
-   public void setUsername(String username)
+   public void setUsername(final String username)
    {
       this.username = username;
    }

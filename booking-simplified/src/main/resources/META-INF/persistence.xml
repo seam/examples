@@ -5,9 +5,9 @@
    version="1.0">
    <persistence-unit name="booking">
 <!--      <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>-->
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>jdbc/__default</jta-data-source>
       <!--
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <jta-data-source>jdbc/__arquillian</jta-data-source>
       -->

@@ -25,9 +25,6 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.impl.base.asset.ByteArrayAsset;
-import org.jboss.weld.Container;
-import org.jboss.weld.context.ContextLifecycle;
-import org.jboss.weld.context.ConversationContext;
 import org.jboss.weld.context.api.ContextualInstance;
 import org.jboss.weld.context.api.helpers.AbstractMapBackedBeanStore;
 import org.junit.Assert;
@@ -38,31 +35,26 @@ import org.junit.runner.RunWith;
 public class BookingAgentTest
 {
    @Deployment
-   public static Archive<?> createTestArchive() {
-      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class)
-         .addPackage(Hotel.class.getPackage())
-         .addClasses(BookingAgent.class, BookingAgentBean.class, Confirmed.class,
-               Registered.class, BookingEvent.class, BookingFormControls.class, NoOpLogger.class)
-         .addLibraries(
-               MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
-               MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
-               MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1")
-         )
-         .addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
-         .addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
+   public static Archive<?> createTestArchive()
+   {
+      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class).addPackage(Hotel.class.getPackage()).addClasses(BookingAgent.class, BookingAgentBean.class, Confirmed.class, Registered.class, BookingEvent.class, BookingFormControls.class, NoOpLogger.class).addLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"), MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"), MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1")).addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml").addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
       return war;
    }
 
-   @Inject UserTransaction utx;
-   @PersistenceContext EntityManager em;
-   @Inject BookingAgent bookingAgent;
-   @Inject Instance<Booking> bookingInstance;
+   @Inject
+   UserTransaction utx;
+   @PersistenceContext
+   EntityManager em;
+   @Inject
+   BookingAgent bookingAgent;
+   @Inject
+   Instance<Booking> bookingInstance;
 
    public void prepareSeedData() throws Exception
    {
       utx.begin();
       em.joinTransaction();
-       em.createQuery("delete from Booking").executeUpdate();
+      em.createQuery("delete from Booking").executeUpdate();
       em.createQuery("delete from Hotel").executeUpdate();
       em.persist(new Hotel("Doubletree Atlanta-Buckhead", "3342 Peachtree Road NE", "Atlanta", "GA", "30326", "USA"));
       em.createQuery("delete from User").executeUpdate();
@@ -74,9 +66,10 @@ public class BookingAgentTest
    public void testBookHotel() throws Exception
    {
       prepareSeedData();
-      ConversationContext cc = Container.instance().services().get(ContextLifecycle.class).getConversationContext();
-      cc.setBeanStore(new HashMapBeanStore());
-      cc.setActive(true);
+      // ConversationContext cc =
+      // Container.instance().services().get(ContextLifecycle.class).getConversationContext();
+      // cc.setBeanStore(new HashMapBeanStore());
+      // cc.setActive(true);
 
       bookingAgent.selectHotel(em.find(Hotel.class, 1l));
       bookingAgent.bookHotel();
@@ -92,7 +85,9 @@ public class BookingAgentTest
       Assert.assertEquals(1, em.createQuery("select b from Booking b").getResultList().size());
    }
 
-   @Produces @Registered User getRegisteredUser()
+   @Produces
+   @Registered
+   User getRegisteredUser()
    {
       return em.find(User.class, "ike");
    }
@@ -100,13 +95,15 @@ public class BookingAgentTest
    public static class HashMapBeanStore extends AbstractMapBackedBeanStore implements Serializable
    {
       protected Map<String, ContextualInstance<? extends Object>> delegate;
+
       public HashMapBeanStore()
       {
          delegate = new HashMap<String, ContextualInstance<? extends Object>>();
       }
 
       @Override
-      protected Map<String, ContextualInstance<? extends Object>> delegate() {
+      protected Map<String, ContextualInstance<? extends Object>> delegate()
+      {
          return delegate;
       }
    }

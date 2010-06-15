@@ -29,6 +29,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
+
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
@@ -42,6 +45,12 @@ public class MockIdentity implements Serializable
    @Inject
    FacesContext context;
 
+   @Inject
+   Messages messages;
+
+   @Inject
+   MockCredentials credentials;
+
    public boolean isLoggedIn()
    {
       return loggedIn;
@@ -54,12 +63,20 @@ public class MockIdentity implements Serializable
 
    public void login()
    {
-      loggedIn = true;
+      if ((credentials.getUsername() != null) && !"".equals(credentials.getUsername().trim()))
+      {
+         loggedIn = true;
+         messages.info(new BundleKey("messages.properties", "identity.loggedIn"));
+      }
+      else
+      {
+         messages.info(new BundleKey("messages.properties", "identity.loginFailed"));
+      }
    }
 
    public void logout()
    {
-      loggedIn = true;
+      loggedIn = false;
       HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
       session.invalidate();
    }

@@ -39,10 +39,6 @@ function controlSpinner(behavior)
                   <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
                </h:inputText>
                #{' '}
-               <h:commandButton id="findHotels" value="Find Hotels" action="#{hotelSearch.find}">
-                  <f:ajax execute="query" render=":searchResults" onevent="controlSpinner"/>
-               </h:commandButton>
-               #{' '}
                <span id="activity" style="display: none;"><h:graphicImage id="spinner" value="/img/spinner.gif"/></span>
                <br/>
                <h:outputLabel id="lblPageSize" for="pageSize" value="Maximum results:"/>
