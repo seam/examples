@@ -30,7 +30,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
@@ -39,8 +38,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * <p><strong>Hotel</strong> is the model/entity class that represents a hotel.</p>
- *
+ * <p>
+ * <strong>Hotel</strong> is the model/entity class that represents a hotel.
+ * </p>
+ * 
  * @author Gavin King
  * @author Dan Allen
  */
@@ -58,10 +59,24 @@ public class Hotel implements Serializable
    private Integer stars;
    private BigDecimal price;
 
-   public Hotel() {}
-
-   public Hotel(String name, String address, String city, String state, String zip, String country)
+   public Hotel()
    {
+   }
+
+   public Hotel(final String name, final String address, final String city, final String state, final String zip, final String country)
+   {
+      this.name = name;
+      this.address = address;
+      this.city = city;
+      this.state = state;
+      this.zip = zip;
+      this.country = country;
+   }
+
+   public Hotel(final int price, final int stars, final String name, final String address, final String city, final String state, final String zip, final String country)
+   {
+      this.price = new BigDecimal(price);
+      this.stars = stars;
       this.name = name;
       this.address = address;
       this.city = city;
@@ -77,7 +92,7 @@ public class Hotel implements Serializable
       return id;
    }
 
-   public void setId(Long id)
+   public void setId(final Long id)
    {
       this.id = id;
    }
@@ -89,7 +104,7 @@ public class Hotel implements Serializable
       return name;
    }
 
-   public void setName(String name)
+   public void setName(final String name)
    {
       this.name = name;
    }
@@ -101,7 +116,7 @@ public class Hotel implements Serializable
       return address;
    }
 
-   public void setAddress(String address)
+   public void setAddress(final String address)
    {
       this.address = address;
    }
@@ -113,7 +128,7 @@ public class Hotel implements Serializable
       return city;
    }
 
-   public void setCity(String city)
+   public void setCity(final String city)
    {
       this.city = city;
    }
@@ -125,7 +140,7 @@ public class Hotel implements Serializable
       return zip;
    }
 
-   public void setZip(String zip)
+   public void setZip(final String zip)
    {
       this.zip = zip;
    }
@@ -137,7 +152,7 @@ public class Hotel implements Serializable
       return state;
    }
 
-   public void setState(String state)
+   public void setState(final String state)
    {
       this.state = state;
    }
@@ -149,7 +164,7 @@ public class Hotel implements Serializable
       return country;
    }
 
-   public void setCountry(String country)
+   public void setCountry(final String country)
    {
       this.country = country;
    }
@@ -161,7 +176,7 @@ public class Hotel implements Serializable
       return stars;
    }
 
-   public void setStars(Integer stars)
+   public void setStars(final Integer stars)
    {
       this.stars = stars;
    }
@@ -172,7 +187,7 @@ public class Hotel implements Serializable
       return price;
    }
 
-   public void setPrice(BigDecimal price)
+   public void setPrice(final BigDecimal price)
    {
       this.price = price;
    }

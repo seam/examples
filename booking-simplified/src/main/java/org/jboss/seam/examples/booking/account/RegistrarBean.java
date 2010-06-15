@@ -31,9 +31,7 @@ public class RegistrarBean implements Registrar
    @Inject
    private RegistrationFormControls formControls;
 
-   @Inject
-   @Registered
-   User newUser;
+   private final User newUser = new User();
 
    private String confirmPassword;
 
@@ -46,6 +44,7 @@ public class RegistrarBean implements Registrar
       if (verifyPasswordsMatch() && verifyUsernameIsAvailable())
       {
          registered = true;
+         em.persist(newUser);
          messages.info(new BundleKey("messages.properties", "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
       }
       else
@@ -69,9 +68,9 @@ public class RegistrarBean implements Registrar
       }
    }
 
-   @Produces
-   @Named
+   @Named("newUser")
    @RequestScoped
+   @Produces
    public User getNewUser()
    {
       return newUser;

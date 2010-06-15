@@ -18,7 +18,7 @@
             <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
             <h:form id="menuForm">
                <div id="status">
-                  <h:outputText value="(#{user.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
+                  <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
                   #{' '}
                   <h:link id="about" outcome="/home.xhtml" value="About"/>
                   #{' | '}

@@ -12,6 +12,7 @@
       <jta-data-source>java:/DefaultDS</jta-data-source>
       <jta-data-source>jdbc/__arquillian</jta-data-source>
       -->
+      <exclude-unlisted-classes>false</exclude-unlisted-classes>
       <properties>
          <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
          <property name="hibernate.show_sql" value="true"/>
