@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:pretty="http://ocpsoft.com/prettyfaces"
    xmlns:f="http://java.sun.com/jsf/core"><f:view>
    <ui:insert name="metadata"/>
    <h:head>
@@ -20,18 +21,18 @@
                <div id="status">
                   <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
                   #{' '}
-                  <h:link id="home" outcome="/home.xhtml" value="Home"/>
+                  <pretty:link mappingId="home">Home</pretty:link>
                   #{' | '}
                   <h:link id="search" outcome="/search.xhtml" value="Find a Hotel"/>
                   <h:panelGroup rendered="#{not identity.loggedIn}">
                      #{' | '}
-                     <h:link id="login" outcome="home" value="Login"/>
+	                  <pretty:link mappingId="home">Login</pretty:link>
                   </h:panelGroup>
                   <h:panelGroup rendered="#{identity.loggedIn}">
                      #{' | '}
-                     <h:link id="settings" outcome="/password.xhtml" value="Account"/>
+                     <pretty:link mappingId="account">Account</pretty:link>
                      #{' | '}
-                     <h:commandLink id="logout" action="#{identity.logout}" value="Logout"/>
+                     <pretty:link mappingId="logout">Logout</pretty:link>
                   </h:panelGroup>
                </div>
             </h:form>

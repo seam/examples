@@ -57,7 +57,7 @@ public class PasswordConfirmValidator implements Validator
 
    public void validate(final FacesContext context, final UIComponent comp, final Object components) throws ValidatorException
    {
-      if ((currentUser.getPassword() != null) && currentUser.getPassword().equals(oldPassword))
+      if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(oldPassword))
       {
          throw new ValidatorException(new FacesMessage("Your original password was incorrect."));
       }

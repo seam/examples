@@ -4,11 +4,17 @@
                xsi:schemaLocation="http://ocpsoft.com/prettyfaces/2.0.4
                                    		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-2.0.4.xsd">
 
-	<url-mapping>
+	<url-mapping id="home">
 		<pattern value="/"></pattern>
 		<view-id>/home.seam</view-id>
 	</url-mapping>
 
+	<url-mapping id="logout">
+		<pattern value="/logout"></pattern>
+		<view-id>/home.seam</view-id>
+		<action>#{identity.logout}</action>
+	</url-mapping>
+	
 	<url-mapping>
 		<pattern value="/search"></pattern>
 		<view-id>/search.seam</view-id>
@@ -29,13 +35,13 @@
 		<view-id>/confirm.seam</view-id>
 	</url-mapping>
 
-	<url-mapping>
+	<url-mapping id="register">
 		<pattern value="/register"></pattern>
 		<view-id>/register.seam</view-id>
 	</url-mapping>
 
-	<url-mapping>
-		<pattern value="/settings"></pattern>
+	<url-mapping id="account">
+		<pattern value="/account"></pattern>
 		<view-id>/password.seam</view-id>
 	</url-mapping>
 
