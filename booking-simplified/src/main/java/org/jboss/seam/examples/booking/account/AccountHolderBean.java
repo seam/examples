@@ -4,7 +4,6 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.Typed;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,9 +17,6 @@ import org.slf4j.Logger;
 @SessionScoped
 public class AccountHolderBean implements AccountHolder
 {
-   @Inject
-   private Logger log;
-
    private User currentUser;
 
    @Produces

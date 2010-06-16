@@ -29,6 +29,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.event.TransactionPhase;
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,11 +39,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import org.jboss.seam.examples.booking.account.AccountHolder;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Booking_;
+import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.model.User_;
 import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.status.Messages;
@@ -69,8 +70,8 @@ public class BookingHistoryBean implements BookingHistory
    @Inject
    private Identity identity;
 
-   @Inject
-   private AccountHolder accountProducer;
+   @Inject @Authenticated
+   private Instance<User> currentUserInstance;
 
    private List<Booking> bookingsForUser = null;
 
@@ -81,7 +82,7 @@ public class BookingHistoryBean implements BookingHistory
    {
       if (identity.isLoggedIn() && bookingsForUser == null)
       {
-         String username = accountProducer.getCurrentAccount().getUsername();
+         String username = currentUserInstance.get().getUsername();
          CriteriaBuilder builder = em.getCriteriaBuilder();
          CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
          Root<Booking> booking = cquery.from(Booking.class);
@@ -105,7 +106,7 @@ public class BookingHistoryBean implements BookingHistory
 
    public void cancelBooking(final Booking selectedBooking)
    {
-      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), accountProducer.getCurrentAccount().getName());
+      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
       Booking booking = em.find(Booking.class, selectedBooking.getId());
       if (booking != null)
       {
