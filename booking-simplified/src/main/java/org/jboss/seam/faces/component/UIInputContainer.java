@@ -276,7 +276,26 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
    protected String generateLabel(final InputContainerElements elements, final FacesContext context)
    {
       String name = getId().startsWith(UIViewRoot.UNIQUE_ID_PREFIX) ? elements.getPropertyName(context) : getId();
-      return name.substring(0, 1).toUpperCase() + name.substring(1);
+      StringBuilder builder = new StringBuilder(name.length());
+      boolean first = true;
+      for (char c : name.toCharArray())
+      {
+         if (first)
+         {
+            builder.append(Character.toUpperCase(c));
+            first = false;
+         }
+         else if (Character.isUpperCase(c))
+         {
+            builder.append(" ");
+            builder.append(Character.toLowerCase(c));
+         }
+         else
+         {
+            builder.append(c);
+         }
+      }
+      return builder.toString();
    }
 
    /**
