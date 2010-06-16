@@ -49,6 +49,8 @@ import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
+import com.ocpsoft.pretty.time.PrettyTime;
+
 @Named("bookingAgent")
 @Stateful
 @ConversationScoped
@@ -86,7 +88,8 @@ public class BookingAgentBean implements BookingAgent
    @Begin
    public void selectHotel(final Long id)
    {
-      // NOTE get a fresh reference that's managed by the extended persistence context
+      // NOTE get a fresh reference that's managed by the extended persistence
+      // context
       hotelSelection = em.find(Hotel.class, id);
       if (hotelSelection != null)
       {
@@ -133,7 +136,7 @@ public class BookingAgentBean implements BookingAgent
       // FIXME can't inject event object into bean with passivating scope
       manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
       log.info(msg.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new BundleKey("messages", "booking.confirmed")).textDefault("Booking confirmed.");
+      messages.info(new BundleKey("messages", "booking.confirmed")).textDefault("Booking confirmed.").textParams(new PrettyTime().format(booking.getCheckinDate()));
    }
 
    @End
