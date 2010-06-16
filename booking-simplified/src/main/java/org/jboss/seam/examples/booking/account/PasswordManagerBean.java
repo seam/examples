@@ -39,19 +39,11 @@ public class PasswordManagerBean implements PasswordManager
 
    public void changePassword()
    {
-      if (user.getPassword().equals(confirmPassword))
-      {
-         em.merge(user);
-         messages.info(new BundleKey("messages.properties", "account.passwordChanged")).textDefault("Password successfully updated.");
-         changed = true;
-      }
-      else
-      {
-         // FIXME reverting isn't going to work here
-         // revertUser();
-         confirmPassword = null;
-         messages.error(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
-      }
+      em.merge(user);
+      messages.info(new BundleKey("messages.properties", "account.passwordChanged")).textDefault("Password successfully updated.");
+      changed = true;
+      // messages.error(new BundleKey("messages.properties",
+      // "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
    }
 
    public boolean isChanged()
