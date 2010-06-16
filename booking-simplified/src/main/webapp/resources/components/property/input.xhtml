@@ -23,7 +23,7 @@
             <cc:insertChildren/>
          </span>
          <h:panelGroup rendered="#{cc.attrs.invalid}">
-            <c:forEach var="i" begin="1" end="#{cc.attrs.numInputs}">
+            <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
                <h:message id="message" for="" errorClass="invalid message"/>
             </c:forEach>
          </h:panelGroup>
