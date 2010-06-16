@@ -12,7 +12,7 @@
       <cc:attribute name="required" required="false"/>
       <cc:attribute name="inputs" required="false" default="1"/>
    </cc:interface>
-
+   
    <cc:implementation>
 
       <div class="entry" id="#{cc.clientId}">
@@ -24,7 +24,7 @@
          </span>
          <h:panelGroup rendered="#{cc.attrs.invalid}">
             <c:forEach var="i" begin="1" end="#{cc.attrs.inputs}">
-               <h:message id="message" for="" errorClass="invalid message"/>
+               <h:message id="message#{i}" for="" styleClass="error errors"/>
             </c:forEach>
          </h:panelGroup>
       </div>
