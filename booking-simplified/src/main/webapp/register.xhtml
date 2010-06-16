@@ -29,31 +29,31 @@
 
             <fieldset>
          
-               <p:edit id="username" label="Username">
+               <p:input id="username">
                   <h:inputText id="input" value="#{newUser.username}"
                      binding="#{registrationFormControls.username}">
                      <f:ajax event="blur" render="username"/>
                   </h:inputText>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="name" label="Real name">
+               <p:input id="name">
                   <h:inputText id="input" value="#{newUser.name}">
                      <f:ajax event="blur" render="name"/>
                   </h:inputText>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="password" label="Password">
+               <p:input id="password">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true">
                      <f:ajax event="blur" render="password"/>
                   </h:inputSecret>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="confirmPassword" label="Confirm Password">
+               <p:input id="confirmPassword">
                   <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true"
                      binding="#{registrationFormControls.confirmPassword}">
                      <f:ajax event="blur" render="confirmPassword"/>
                   </h:inputSecret>
-               </p:edit>
+               </p:input>
                
                <div class="buttonBox">
                   <h:commandButton id="register" value="Register" action="#{registrar.register}"/>

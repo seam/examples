@@ -23,7 +23,7 @@
 
          <div class="buttonBox">
             <h:form id="actions">
-               <h:commandButton id="bookHotel" action="#{bookingAgent.bookHotel}" value="Book Hotel"/>
+               <h:commandButton id="bookHotel" action="#{bookingAgent.bookHotel}" value="Book Hotel" rendered="#{identity.loggedIn}"/>
                #{' '}
                <h:commandButton id="cancel" action="#{bookingAgent.cancel}" value="Return to Search" immediate="true"/>
             </h:form>

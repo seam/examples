@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.setup;
+package org.jboss.seam.examples.booking.bootstrap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 import javax.faces.event.PostConstructApplicationEvent;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
@@ -15,20 +14,16 @@ import javax.validation.ConstraintViolationException;
 
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.status.Messages;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @Stateless
 @Alternative
-public class ApplicationSetupBean implements SetupBean
+public class ApplicationSetupBean implements ApplicationSetup
 {
    @PersistenceContext
    private EntityManager em;
-
-   @Inject
-   private Messages messages;
 
    private final List<User> users = new ArrayList<User>();
    private final List<Hotel> hotels = new ArrayList<Hotel>();

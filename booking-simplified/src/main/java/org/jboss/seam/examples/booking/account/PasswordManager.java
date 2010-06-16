@@ -20,6 +20,4 @@ public interface PasswordManager
    @NotNull
    @Size(min = 5, max = 15)
    String getConfirmPassword();
-
-   void destroy();
 }

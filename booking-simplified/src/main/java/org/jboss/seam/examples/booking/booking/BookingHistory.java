@@ -7,13 +7,12 @@ import org.jboss.seam.examples.booking.model.Booking;
 /**
  * @author Dan Allen
  */
+@Local
 public interface BookingHistory
 {
    List<Booking> getBookingsForCurrentUser();
 
    void cancelBooking(Booking booking);
-
-   void destroy();
 
    void afterBookingConfirmed(BookingEvent bookingEvent);
 }

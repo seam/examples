@@ -112,10 +112,10 @@ function controlSpinner(behavior)
          <h1>Current Hotel Bookings</h1>
       </div>
       <div class="section">
-         <h:panelGroup rendered="#{false}">
+         <h:panelGroup rendered="#{not identity.loggedIn}">
             You must be logged in to see the list of your hotel bookings.
          </h:panelGroup>
-         <h:form id="bookings" rendered="#{true}">
+         <h:form id="bookings" rendered="#{identity.loggedIn}">
             <h:outputText value="No bookings found." rendered="#{bookings.size() == 0}"/>
             <h:dataTable id="bookings" value="#{bookings}" var="_booking" rendered="#{bookings.size() gt 0}">
                <h:column id="nameCol">

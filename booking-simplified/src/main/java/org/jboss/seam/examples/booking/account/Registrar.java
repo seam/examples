@@ -26,6 +26,4 @@ public interface Registrar
    String getConfirmPassword();
 
    void setConfirmPassword(String password);
-
-   void destroy();
 }

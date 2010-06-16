@@ -108,9 +108,17 @@ public class HotelSearchBean implements HotelSearch
       CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
       Root<Hotel> hotel = cquery.from(Hotel.class);
       // QUESTION can like create the pattern for us?
-      cquery.select(hotel).where(builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
+      cquery.select(hotel)
+            .where(builder.or(
+                  builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()),
+                  builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()),
+                  builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()),
+                  builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
 
-      List<Hotel> results = em.createQuery(cquery).setMaxResults(criteria.getFetchSize()).setFirstResult(criteria.getFetchOffset()).getResultList();
+      List<Hotel> results = em.createQuery(cquery)
+            .setMaxResults(criteria.getFetchSize())
+            .setFirstResult(criteria.getFetchOffset())
+            .getResultList();
 
       nextPageAvailable = results.size() > criteria.getPageSize();
       if (nextPageAvailable)
@@ -122,6 +130,7 @@ public class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
-      log.info(mf.info("Found {0} hotel(s) matching search term ''{1}'' (limit {2})").textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
+      log.info(mf.info("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
+            .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
    }
 }

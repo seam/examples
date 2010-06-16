@@ -151,7 +151,8 @@ public class Booking implements Serializable
    {
       this.smoking = smoking;
    }
-   
+
+   //@Size(min = 1, max = 3)
    public int getBeds()
    {
       return beds;

@@ -28,11 +28,10 @@ import javax.inject.Named;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
 @Named("credentials")
 @SessionScoped
-public class MockCredentials implements Serializable
+public class MockCredentials implements Credentials, Serializable
 {
    private String username;
    private String password;

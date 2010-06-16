@@ -1,6 +1,5 @@
 package org.jboss.seam.examples.booking.account;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -116,10 +115,5 @@ public class RegistrarBean implements Registrar
       }
 
       return true;
-   }
-
-   @PreDestroy
-   public void destroy()
-   {
    }
 }

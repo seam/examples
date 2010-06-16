@@ -11,7 +11,9 @@ import org.jboss.seam.examples.booking.model.User;
  * @author Dan Allen
  */
 @Local
-public interface AccountProducer
+public interface AccountHolder
 {
    User getCurrentAccount();
+
+   void onLogin(User user);
 }

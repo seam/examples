@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.examples.booking.setup;
+package org.jboss.seam.examples.booking.bootstrap;
 
 import javax.ejb.Local;
 import javax.faces.event.PostConstructApplicationEvent;
@@ -29,7 +29,7 @@ import javax.faces.event.PostConstructApplicationEvent;
  * 
  */
 @Local
-public interface SetupBean
+public interface ApplicationSetup
 {
    public void init(final PostConstructApplicationEvent event);
 }

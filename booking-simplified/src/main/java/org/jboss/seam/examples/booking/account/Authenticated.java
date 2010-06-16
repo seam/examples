@@ -26,6 +26,6 @@ import org.jboss.seam.examples.booking.model.User;
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface Registered
+public @interface Authenticated
 {
 }

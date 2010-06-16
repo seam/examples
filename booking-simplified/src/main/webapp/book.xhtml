@@ -25,54 +25,54 @@
          <h:form id="bookingForm">
             <fieldset>
                   
-               <p:edit id="checkinDate" label="Check-in date">
+               <p:input id="checkinDate" label="Check-in date">
                   <h:inputText id="input" value="#{booking.checkinDate}" binding="#{bookingFormControls.checkinDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="checkoutDate" label="Check-out date">
+               <p:input id="checkoutDate" label="Check-out date">
                   <h:inputText id="input" value="#{booking.checkoutDate}" binding="#{bookingFormControls.checkoutDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
-               </p:edit>
+               </p:input>
                
-               <p:edit id="beds" label="Room preference">
+               <p:input id="roomPreference">
                   <h:selectOneMenu id="input" value="#{booking.beds}">
                      <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
                      <f:selectItem itemLabel="Two double beds" itemValue="2"/>
                      <f:selectItem itemLabel="Three beds" itemValue="3"/>
                   </h:selectOneMenu>
-               </p:edit>
+               </p:input>
                
-               <p:edit id="smoking" label="Smoking preference">
+               <p:input id="smokingPreference">
                   <h:selectOneRadio id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
                      <f:selectItem itemLabel="Smoking" itemValue="true"/>
                      <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
                   </h:selectOneRadio>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="creditCardName" label="Credit card name">
+               <p:input id="creditCardName">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="creditCardNumber" label="Credit card #">
+               <p:input id="creditCardNumber" inputs="2">
                   <h:inputText id="input" value="#{booking.creditCardNumber}"/>
                   #{' '}
                   <h:selectOneMenu id="input2" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
                   </h:selectOneMenu>
-               </p:edit>
+               </p:input>
 
-               <p:edit id="creditCardExpiry" label="Credit card expiry">
+               <p:input id="creditCardExpiry" inputs="2">
                   <h:selectOneMenu id="input" value="#{booking.creditCardExpiryMonth}">
                      <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}" itemLabel="#{_month.shortName}"/>
                   </h:selectOneMenu>
                   <h:selectOneMenu id="input2" value="#{booking.creditCardExpiryYear}">
                      <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
                   </h:selectOneMenu>
-               </p:edit>
+               </p:input>
 
                <div class="buttonBox">
                   <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validateBooking}"/>

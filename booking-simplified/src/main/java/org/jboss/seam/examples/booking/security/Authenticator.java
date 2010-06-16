@@ -12,4 +12,5 @@ import javax.ejb.Local;
 @Local
 public interface Authenticator // extends org.jboss.seam.security.Authenticator
 {
+   public boolean authenticate();
 }

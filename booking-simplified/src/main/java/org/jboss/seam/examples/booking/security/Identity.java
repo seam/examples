@@ -29,55 +29,47 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.international.status.builder.BundleKey;
-
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
 @Named("identity")
 @SessionScoped
-public class MockIdentity implements Serializable
+public class Identity implements Serializable
 {
    private boolean loggedIn;
 
    @Inject
-   FacesContext context;
+   private FacesContext facesContext;
 
    @Inject
-   Messages messages;
+   private Authenticator authenticator;
 
    @Inject
-   MockCredentials credentials;
+   private Credentials credentials;
+
+   public String getUsername()
+   {
+      return credentials.getUsername();
+   }
 
    public boolean isLoggedIn()
    {
       return loggedIn;
    }
 
-   public void setLoggedIn(final boolean loggedIn)
-   {
-      this.loggedIn = loggedIn;
-   }
-
    public void login()
    {
-      if ((credentials.getUsername() != null) && !"".equals(credentials.getUsername().trim()))
+      if (authenticator.authenticate())
       {
          loggedIn = true;
-         messages.info(new BundleKey("messages.properties", "identity.loggedIn"));
-      }
-      else
-      {
-         messages.info(new BundleKey("messages.properties", "identity.loginFailed"));
+         credentials.setPassword(null);
       }
    }
 
    public void logout()
    {
       loggedIn = false;
-      HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+      HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
       session.invalidate();
    }
 

@@ -37,7 +37,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.examples.booking.account.Registered;
+import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
@@ -60,9 +60,6 @@ public class BookingAgentBean implements BookingAgent
    @PersistenceContext(type = EXTENDED)
    private EntityManager em;
 
-   // @Inject
-   // private Conversation conversation;
-
    @Inject
    private MessageFactory mf;
 
@@ -73,7 +70,7 @@ public class BookingAgentBean implements BookingAgent
    private BookingFormControls formControls;
 
    @Inject
-   @Registered
+   @Authenticated
    private User user;
 
    // @Inject @Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
@@ -91,12 +88,11 @@ public class BookingAgentBean implements BookingAgent
    {
       // NOTE get a fresh reference that's managed by the conversational
       // persistence context
-      if (id != null)
+      hotelSelection = em.find(Hotel.class, id);
+      if (hotelSelection != null)
       {
-         hotelSelection = em.find(Hotel.class, id);
          log.info(mf.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
       }
-      // conversation.begin();
    }
 
    public void bookHotel()
@@ -139,7 +135,6 @@ public class BookingAgentBean implements BookingAgent
       manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
       log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages.properties", "booking.confirmed")).textDefault("Booking confirmed.");
-      // conversation.end();
    }
 
    @End
@@ -147,7 +142,6 @@ public class BookingAgentBean implements BookingAgent
    {
       booking = null;
       hotelSelection = null;
-      // conversation.end();
    }
 
    @Produces
@@ -163,12 +157,7 @@ public class BookingAgentBean implements BookingAgent
    @RequestScoped
    public Hotel getHotelSelection()
    {
-      Hotel hotel = booking != null ? booking.getHotel() : hotelSelection;
-      if (hotel == null)
-      {
-         hotel = new Hotel();
-      }
-      return hotel;
+      return booking != null ? booking.getHotel() : hotelSelection;
    }
 
    public boolean isBookingValid()

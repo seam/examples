@@ -23,22 +23,28 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+import org.jboss.seam.examples.booking.account.AccountHolder;
 
-import org.jboss.seam.examples.booking.account.Registered;
+import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.Booking;
-import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.examples.booking.model.Booking_;
+import org.jboss.seam.examples.booking.model.User_;
+import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
@@ -51,7 +57,6 @@ import org.slf4j.Logger;
 @SessionScoped
 public class BookingHistoryBean implements BookingHistory
 {
-
    @Inject
    private Logger log;
 
@@ -62,31 +67,45 @@ public class BookingHistoryBean implements BookingHistory
    private Messages messages;
 
    @Inject
-   @Registered
-   private User user;
+   private Identity identity;
 
-   private final List<Booking> bookingsForUser = new ArrayList<Booking>();
+   @Inject
+   private AccountHolder accountProducer;
+
+   private List<Booking> bookingsForUser = null;
 
    @Produces
-   @Registered
+   @Authenticated
    @Named("bookings")
-   @SessionScoped
    public List<Booking> getBookingsForCurrentUser()
    {
-      bookingsForUser.clear();
-      bookingsForUser.addAll(em.createQuery("select b from Booking b join fetch b.hotel where b.user.username = :username order by b.checkinDate").setParameter("username", user.getUsername()).getResultList());
+      if (identity.isLoggedIn() && bookingsForUser == null)
+      {
+         String username = accountProducer.getCurrentAccount().getUsername();
+         CriteriaBuilder builder = em.getCriteriaBuilder();
+         CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
+         Root<Booking> booking = cquery.from(Booking.class);
+         booking.fetch(Booking_.hotel, JoinType.INNER);
+         cquery.select(booking)
+               .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
+               .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
+
+         bookingsForUser = em.createQuery(cquery).getResultList();
+      }
       return bookingsForUser;
    }
 
-   // TODO should probably observe @AfterTransactionSuccess (but it is broken)
-   public void afterBookingConfirmed(@Observes @Confirmed final BookingEvent bookingEvent)
+   public void afterBookingConfirmed(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final BookingEvent bookingEvent)
    {
-      getBookingsForCurrentUser();
+      if (bookingsForUser != null)
+      {
+         bookingsForUser.add(bookingEvent.getBooking());
+      }
    }
 
    public void cancelBooking(final Booking selectedBooking)
    {
-      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), user.getName());
+      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), accountProducer.getCurrentAccount().getName());
       Booking booking = em.find(Booking.class, selectedBooking.getId());
       if (booking != null)
       {
@@ -99,11 +118,6 @@ public class BookingHistoryBean implements BookingHistory
       }
 
       bookingsForUser.remove(selectedBooking);
-   }
-
-   @PreDestroy
-   public void destroy()
-   {
    }
 
 }

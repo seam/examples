@@ -1,6 +1,5 @@
 package org.jboss.seam.examples.booking.account;
 
-import javax.annotation.PreDestroy;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -31,7 +30,7 @@ public class PasswordManagerBean implements PasswordManager
    private RegistrationFormControls formControls;
 
    @Inject
-   @Registered
+   @Authenticated
    private User user;
 
    private String confirmPassword;
@@ -42,15 +41,13 @@ public class PasswordManagerBean implements PasswordManager
    {
       if (user.getPassword().equals(confirmPassword))
       {
-         // FIXME: dirty hack, can't merge a managed bean
-         em.merge(new User(user.getName(), user.getUsername(), user.getPassword()));
-         user.setPassword(null);
+         em.merge(user);
          messages.info(new BundleKey("messages.properties", "account.passwordChanged")).textDefault("Password successfully updated.");
          changed = true;
       }
       else
       {
-         // FIME reverting isn't going to work here
+         // FIXME reverting isn't going to work here
          // revertUser();
          confirmPassword = null;
          messages.error(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
@@ -70,10 +67,5 @@ public class PasswordManagerBean implements PasswordManager
    public String getConfirmPassword()
    {
       return this.confirmPassword;
-   }
-
-   @PreDestroy
-   public void destroy()
-   {
    }
 }
