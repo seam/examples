@@ -80,24 +80,17 @@ public class BookingHistoryBean implements BookingHistory
    @Named("bookings")
    public List<Booking> getBookingsForCurrentUser()
    {
-      if (identity.isLoggedIn() && bookingsForUser == null)
+      if (bookingsForUser == null && identity.isLoggedIn())
       {
-         String username = currentUserInstance.get().getUsername();
-         CriteriaBuilder builder = em.getCriteriaBuilder();
-         CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
-         Root<Booking> booking = cquery.from(Booking.class);
-         booking.fetch(Booking_.hotel, JoinType.INNER);
-         cquery.select(booking)
-               .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
-               .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
-
-         bookingsForUser = em.createQuery(cquery).getResultList();
+         fetchBookingsForCurrentUser();
       }
       return bookingsForUser;
    }
 
-   public void afterBookingConfirmed(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final BookingEvent bookingEvent)
+   public void afterBookingConfirmed(@Observes(during = TransactionPhase.AFTER_SUCCESS)
+         @Confirmed final BookingEvent bookingEvent)
    {
+      // optimization, save the db call
       if (bookingsForUser != null)
       {
          bookingsForUser.add(bookingEvent.getBooking());
@@ -119,6 +112,20 @@ public class BookingHistoryBean implements BookingHistory
       }
 
       bookingsForUser.remove(selectedBooking);
+   }
+
+   private void fetchBookingsForCurrentUser()
+   {
+      String username = currentUserInstance.get().getUsername();
+      CriteriaBuilder builder = em.getCriteriaBuilder();
+      CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
+      Root<Booking> booking = cquery.from(Booking.class);
+      booking.fetch(Booking_.hotel, JoinType.INNER);
+      cquery.select(booking)
+            .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
+            .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
+
+      bookingsForUser = em.createQuery(cquery).getResultList();
    }
 
 }
