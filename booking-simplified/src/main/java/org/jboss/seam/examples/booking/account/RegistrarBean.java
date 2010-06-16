@@ -44,7 +44,7 @@ public class RegistrarBean implements Registrar
       {
          registered = true;
          em.persist(newUser);
-         messages.info(new BundleKey("messages.properties", "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
+         messages.info(new BundleKey("messages", "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
       }
       else
       {
@@ -63,7 +63,7 @@ public class RegistrarBean implements Registrar
    {
       if (validationFailed || registrationInvalid)
       {
-         messages.warn(new BundleKey("messages.properties", "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+         messages.warn(new BundleKey("messages", "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
       }
    }
 
@@ -97,7 +97,7 @@ public class RegistrarBean implements Registrar
    {
       if (!newUser.getPassword().equals(confirmPassword))
       {
-         messages.warn(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type your password.").targets(formControls.getConfirmPasswordControlId());
+         messages.warn(new BundleKey("messages", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type your password.").targets(formControls.getConfirmPasswordControlId());
          confirmPassword = null;
          return false;
       }
@@ -110,7 +110,7 @@ public class RegistrarBean implements Registrar
       User existing = em.find(User.class, newUser.getUsername());
       if (existing != null)
       {
-         messages.warn(new BundleKey("messages.properties", "account.usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(formControls.getUsernameControlId()).textParams(newUser.getUsername());
+         messages.warn(new BundleKey("messages", "account.usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(formControls.getUsernameControlId()).textParams(newUser.getUsername());
          return false;
       }
 

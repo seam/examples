@@ -41,7 +41,7 @@ public class AuthenticatorBean implements Authenticator
       log.info("Logging in " + credentials.getUsername());
       if (credentials.getUsername() == null || credentials.getPassword() == null)
       {
-         messages.info(new BundleKey("messages.properties", "identity.loginFailed"));
+         messages.info(new BundleKey("messages", "identity.loginFailed"));
          return false;
       }
 
@@ -49,12 +49,12 @@ public class AuthenticatorBean implements Authenticator
       if (user != null && user.getPassword().equals(credentials.getPassword()))
       {
          loginEventSrc.fire(user);
-         messages.info(new BundleKey("messages.properties", "identity.loggedIn"));
+         messages.info(new BundleKey("messages", "identity.loggedIn"));
          return true;
       }
       else
       {
-         messages.info(new BundleKey("messages.properties", "identity.loginFailed"));
+         messages.info(new BundleKey("messages", "identity.loginFailed"));
          return false;
       }
    }

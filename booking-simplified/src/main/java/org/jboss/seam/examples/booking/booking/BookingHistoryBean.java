@@ -104,11 +104,11 @@ public class BookingHistoryBean implements BookingHistory
       if (booking != null)
       {
          em.remove(booking);
-         messages.info(new BundleKey("messages.properties", "booking.canceled")).textDefault("The booking at the {0} on {1,date} has been canceled.").textParams(selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
+         messages.info(new BundleKey("messages", "booking.canceled")).textDefault("The booking at the {0} on {1,date} has been canceled.").textParams(selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
       }
       else
       {
-         messages.info(new BundleKey("messages.properties", "booking.doesNotExist")).textDefault("Our records indicate that the booking you selected has already been canceled.");
+         messages.info(new BundleKey("messages", "booking.doesNotExist")).textDefault("Our records indicate that the booking you selected has already been canceled.");
       }
 
       bookingsForUser.remove(selectedBooking);

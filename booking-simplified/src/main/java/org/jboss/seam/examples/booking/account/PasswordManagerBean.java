@@ -40,9 +40,9 @@ public class PasswordManagerBean implements PasswordManager
    public void changePassword()
    {
       em.merge(user);
-      messages.info(new BundleKey("messages.properties", "account.passwordChanged")).textDefault("Password successfully updated.");
+      messages.info(new BundleKey("messages", "account.passwordChanged")).textDefault("Password successfully updated.");
       changed = true;
-      // messages.error(new BundleKey("messages.properties",
+      // messages.error(new BundleKey("messages",
       // "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
    }
 

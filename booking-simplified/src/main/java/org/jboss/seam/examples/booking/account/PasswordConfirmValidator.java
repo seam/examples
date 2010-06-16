@@ -68,12 +68,12 @@ public class PasswordConfirmValidator implements Validator
           * This is an ugly way to put i18n in FacesMessages:
           * https://jira.jboss.org/browse/SEAMFACES-24
           */
-         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages.properties", "account.passwordNotConfirmed")).build().getText()));
+         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages", "account.passwordNotConfirmed")).build().getText()));
       }
 
       if ((newPassword != null) && !newPassword.equals(confirmNewPassword))
       {
-         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).build().getText()));
+         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages", "account.passwordsDoNotMatch")).build().getText()));
       }
    }
 
