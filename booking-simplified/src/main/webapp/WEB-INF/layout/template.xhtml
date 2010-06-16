@@ -20,12 +20,16 @@
                <div id="status">
                   <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
                   #{' '}
-                  <h:link id="about" outcome="/home.xhtml" value="About"/>
+                  <h:link id="home" outcome="/home.xhtml" value="Home"/>
                   #{' | '}
-                  <h:link id="search" outcome="/search.xhtml" value="Search"/>
+                  <h:link id="search" outcome="/search.xhtml" value="Find a Hotel"/>
+                  <h:panelGroup rendered="#{not identity.loggedIn}">
+                     #{' | '}
+                     <h:link id="login" outcome="home" value="Login"/>
+                  </h:panelGroup>
                   <h:panelGroup rendered="#{identity.loggedIn}">
                      #{' | '}
-                     <h:link id="settings" outcome="/password.xhtml" value="Settings"/>
+                     <h:link id="settings" outcome="/password.xhtml" value="Account"/>
                      #{' | '}
                      <h:commandLink id="logout" action="#{identity.logout}" value="Logout"/>
                   </h:panelGroup>

@@ -22,6 +22,9 @@
          <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
 
          <div class="buttonBox">
+            <h:panelGroup rendered="#{not identity.loggedIn}">
+               <p style="text-align: center;">You must login to book a hotel.</p>
+            </h:panelGroup>
             <h:form id="actions">
                <h:commandButton id="bookHotel" action="#{bookingAgent.bookHotel}" value="Book Hotel" rendered="#{identity.loggedIn}"/>
                #{' '}
