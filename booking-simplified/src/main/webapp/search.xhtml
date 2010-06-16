@@ -11,13 +11,13 @@
       <script type="text/javascript">
 function controlSpinner(behavior)
 {
-   if (behavior.name == 'begin')
+   if (behavior.status == 'begin')
    {
-      document.getElementById('activity').style.display = 'inline'; 
+      document.getElementById('spinner').style.display = 'inline';
    }
-   else if (behavior.name == 'complete')
+   else if (behavior.status == 'complete')
    {
-      document.getElementById('activity').style.display = 'none'; 
+      document.getElementById('spinner').style.display = 'none';
    }
 }
       </script>
@@ -39,16 +39,16 @@ function controlSpinner(behavior)
                   <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
                </h:inputText>
                #{' '}
-               <span id="activity" style="display: none;"><h:graphicImage id="spinner" value="/img/spinner.gif"/></span>
-               <br/>
-               <h:outputLabel id="lblPageSize" for="pageSize" value="Maximum results:"/>
+               <h:outputLabel id="lblPageSize" for="pageSize" value="View:"/>
                #{' '}
                <h:selectOneMenu id="pageSize" value="#{searchCriteria.pageSize}">
                   <f:ajax listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
-                  <f:selectItem itemLabel="5" itemValue="5"/>
-                  <f:selectItem itemLabel="10" itemValue="10"/>
-                  <f:selectItem itemLabel="20" itemValue="20"/>
+                  <f:selectItem itemLabel="5 hotels per page" itemValue="5"/>
+                  <f:selectItem itemLabel="10 hotels per page" itemValue="10"/>
+                  <f:selectItem itemLabel="20 hotels per page" itemValue="20"/>
                </h:selectOneMenu>
+               #{' '}
+               <span id="activity"><h:graphicImage id="spinner" value="/img/spinner.gif" style="display: none;"/></span>
             </fieldset>
          </h:form>
       </div>

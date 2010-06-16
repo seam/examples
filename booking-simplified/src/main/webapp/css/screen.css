@@ -248,6 +248,10 @@ td.action {
    border-left: 0px;
    border-bottom: 0px;
 }
+#activity {
+   float: right;
+   margin: 10px 5px 0 0;
+}
 /* Header
 ----------------------------------------------- */
 #title {
