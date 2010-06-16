@@ -41,7 +41,7 @@ public class PasswordConfirmValidator implements Validator
 {
    @Inject
    @Authenticated
-   User currentUser;
+   private User currentUser;
 
    @Inject
    @InputField
@@ -59,12 +59,12 @@ public class PasswordConfirmValidator implements Validator
    {
       if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(oldPassword))
       {
-         throw new ValidatorException(new FacesMessage("Your original password was incorrect."));
+         throw new ValidatorException(new FacesMessage("Your original password is incorrect."));
       }
 
       if ((newPassword != null) && !newPassword.equals(confirmNewPassword))
       {
-         throw new ValidatorException(new FacesMessage("New passwords did not match."));
+         throw new ValidatorException(new FacesMessage("New passwords do not match."));
       }
    }
 
