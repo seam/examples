@@ -59,11 +59,16 @@
                   <li>gavin/mexico</li>
                   <li>pete/edinburgh</li>
                   <li>shane/brisbane</li>
+                  <li>lincoln/charlotte</li>
                   <li>dan/laurel</li>
                </ul>
             </div>
          </fieldset>
       </h:form>
+      
+      <h:panelGroup rendered="#{identity.loggedIn}">
+      		You are logged in.
+      </h:panelGroup>
    </ui:define>
 
 </ui:composition>

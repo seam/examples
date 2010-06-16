@@ -31,6 +31,8 @@ import javax.inject.Inject;
 
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.validation.InputField;
+import org.jboss.seam.international.status.MessageFactory;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -42,6 +44,9 @@ public class PasswordConfirmValidator implements Validator
    @Inject
    @Authenticated
    private User currentUser;
+
+   @Inject
+   private MessageFactory msg;
 
    @Inject
    @InputField
@@ -59,12 +64,16 @@ public class PasswordConfirmValidator implements Validator
    {
       if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(oldPassword))
       {
-         throw new ValidatorException(new FacesMessage("Your original password is incorrect."));
+         /*
+          * This is an ugly way to put i18n in FacesMessages:
+          * https://jira.jboss.org/browse/SEAMFACES-24
+          */
+         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages.properties", "account.passwordNotConfirmed")).build().getText()));
       }
 
       if ((newPassword != null) && !newPassword.equals(confirmNewPassword))
       {
-         throw new ValidatorException(new FacesMessage("New passwords do not match."));
+         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey("messages.properties", "account.passwordsDoNotMatch")).build().getText()));
       }
    }
 
