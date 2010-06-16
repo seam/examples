@@ -7,7 +7,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
@@ -27,9 +26,6 @@ public class PasswordManagerBean implements PasswordManager
    private Messages messages;
 
    @Inject
-   private RegistrationFormControls formControls;
-
-   @Inject
    @Authenticated
    private User user;
 
@@ -42,8 +38,6 @@ public class PasswordManagerBean implements PasswordManager
       em.merge(user);
       messages.info(new BundleKey("messages", "account.passwordChanged")).textDefault("Password successfully updated.");
       changed = true;
-      // messages.error(new BundleKey("messages",
-      // "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type the new password.");
    }
 
    public boolean isChanged()

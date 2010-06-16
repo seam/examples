@@ -61,7 +61,7 @@ public class BookingAgentBean implements BookingAgent
    private EntityManager em;
 
    @Inject
-   private MessageFactory mf;
+   private MessageFactory msg;
 
    @Inject
    private Messages messages;
@@ -90,7 +90,7 @@ public class BookingAgentBean implements BookingAgent
       hotelSelection = em.find(Hotel.class, id);
       if (hotelSelection != null)
       {
-         log.info(mf.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
+         log.info(msg.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
       }
    }
 
@@ -132,7 +132,7 @@ public class BookingAgentBean implements BookingAgent
       em.persist(booking);
       // FIXME can't inject event object into bean with passivating scope
       manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
-      log.info(mf.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
+      log.info(msg.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
       messages.info(new BundleKey("messages", "booking.confirmed")).textDefault("Booking confirmed.");
    }
 

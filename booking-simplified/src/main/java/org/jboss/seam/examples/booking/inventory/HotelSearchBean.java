@@ -58,7 +58,7 @@ public class HotelSearchBean implements HotelSearch
    private SearchCriteria criteria;
 
    @Inject
-   private MessageFactory mf;
+   private MessageFactory msg;
 
    private boolean nextPageAvailable = false;
 
@@ -130,7 +130,7 @@ public class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
-      log.info(mf.info("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
+      log.info(msg.info("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
             .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
    }
 }
