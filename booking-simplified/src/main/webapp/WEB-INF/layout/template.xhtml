@@ -8,7 +8,7 @@
    <ui:insert name="metadata"/>
    <h:head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-      <title>JBoss Suites: Seam Framework</title>
+      <title>JBoss Suites: Seam Framework Demo</title>
       <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
       <link href="#{request.contextPath}/css/screen.css" rel="stylesheet" type="text/css"/>
       <ui:insert name="head"/>
@@ -16,7 +16,7 @@
    <h:body styleClass="#{empty pageClass ? 'page' : 'home'}">
       <div id="document">
          <div id="header">
-            <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites: seam framework demo"/></div>
+            <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites banner"/></div>
             <h:form id="menuForm">
                <div id="status">
                   <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
@@ -46,7 +46,7 @@
             </div>
          </div>
          <div id="footer">
-            Created with Seam 3.0, Web Beans, EJB 3.0 and JSF 2.0<br/>
+            Created with Seam 3.0, CDI 1.0, EJB 3.1 and JSF 2.0<br/>
             Current conversation: #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
          </div>
       </div>
