@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 import javax.faces.event.PostConstructApplicationEvent;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
@@ -14,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
+import org.slf4j.Logger;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -24,6 +26,8 @@ public class ApplicationSetupBean implements ApplicationSetup
 {
    @PersistenceContext
    private EntityManager em;
+
+   @Inject Logger log;
 
    private final List<User> users = new ArrayList<User>();
    private final List<Hotel> hotels = new ArrayList<Hotel>();
@@ -65,25 +69,35 @@ public class ApplicationSetupBean implements ApplicationSetup
    public void init(@Observes final PostConstructApplicationEvent event)
    {
       try {
+         persist(users);
+         persist(hotels);
+      }
+      catch (Exception e)
+      {
+         log.error("Encountered error seeding the database", e);
+      }
+   }
 
-         for (User u : users)
-         {
-            if (em.find(User.class, u.getUsername()) == null)
-            {
-               em.persist(u);
-            }
-         }
+   private void persist(List entities)
+   {
+      for (Object e : entities)
+      {
+         persist(e);
+      }
+   }
 
-         for (Hotel h : hotels)
-         {
-            em.persist(h);
-         }
+   private void persist(Object entity)
+   {
+      try
+      {
+         em.persist(entity);
       }
       catch (ConstraintViolationException e)
       {
          for (ConstraintViolation v : e.getConstraintViolations())
          {
-            System.out.println(v.getPropertyPath() + ": " + v.getMessage());
+            log.error("Cannot persist entity because it has validation errors " +
+                  v.getRootBean() + ": " + v.getPropertyPath() + " " + v.getMessage());
          }
       }
    }
