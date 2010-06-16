@@ -66,11 +66,12 @@ public class Identity implements Serializable
       }
    }
 
-   public void logout()
+   public String logout()
    {
       loggedIn = false;
       HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
       session.invalidate();
+      return "pretty:home";
    }
 
 }
