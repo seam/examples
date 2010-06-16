@@ -42,6 +42,11 @@
 
 	<url-mapping id="account">
 		<pattern value="/account"></pattern>
+		<view-id>/account.seam</view-id>
+	</url-mapping>
+
+	<url-mapping>
+		<pattern value="/password"></pattern>
 		<view-id>/password.seam</view-id>
 	</url-mapping>
 
