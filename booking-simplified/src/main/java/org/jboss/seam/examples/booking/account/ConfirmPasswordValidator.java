@@ -29,8 +29,8 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import org.jboss.seam.examples.booking.Bundles;
 
+import org.jboss.seam.examples.booking.Bundles;
 import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
@@ -54,11 +54,11 @@ public class ConfirmPasswordValidator implements Validator
 
    public void validate(final FacesContext ctx, final UIComponent c, final Object value) throws ValidatorException
    {
-      if (newPassword != null && !newPassword.equals(confirmPassword))
+      if ((newPassword != null) && !newPassword.equals(confirmPassword))
       {
          throw new ValidatorException(
-               new FacesMessage(messageBuilder.get().text(
-                     new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch"))
+                  new FacesMessage(messageBuilder.get().text(
+                           new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch"))
                            .build().getText()));
       }
    }

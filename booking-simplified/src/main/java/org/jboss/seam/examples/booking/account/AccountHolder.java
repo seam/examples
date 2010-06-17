@@ -21,20 +21,33 @@
  */
 package org.jboss.seam.examples.booking.account;
 
-import javax.ejb.Local;
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
+import javax.inject.Named;
+
 import org.jboss.seam.examples.booking.model.User;
 
 /**
- * The <strong>AccountProducer</strong> produces the object that
- * represents the current user's account information. The account
- * information is represented by the {@link User} entity.
- *
  * @author Dan Allen
  */
-@Local
-public interface AccountHolder
+@Stateful
+@SessionScoped
+public class AccountHolder
 {
-   User getCurrentAccount();
+   private User currentUser;
 
-   void onLogin(User user);
+   @Produces
+   @Authenticated
+   @Named("currentUser")
+   public User getCurrentAccount()
+   {
+      return currentUser;
+   }
+
+   public void onLogin(@Observes @Authenticated User user)
+   {
+      currentUser = user;
+   }
 }

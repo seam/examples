@@ -21,35 +21,133 @@
  */
 package org.jboss.seam.examples.booking.account;
 
-import javax.ejb.Local;
+import javax.ejb.Stateful;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.jboss.seam.examples.booking.Bundles;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author Dan Allen
  */
-@Local
-public interface Registrar
+@Named
+@Stateful
+@RequestScoped
+public class Registrar
 {
-   void register();
+   @PersistenceContext
+   private EntityManager em;
 
-   boolean isRegistrationInvalid();
+   @Inject
+   private Messages messages;
 
-   void notifyIfRegistrationIsInvalid();
+   @Inject
+   private FacesContext facesContext;
 
-   User getNewUser();
+   private UIInput usernameInput;
 
-   boolean isRegistered();
+   private final User newUser = new User();
 
    @NotNull
    @Size(min = 5, max = 15)
-   String getConfirmPassword();
+   private String confirmPassword;
 
-   void setConfirmPassword(String password);
+   private boolean registered;
 
-   UIInput getUsernameInput();
+   private boolean registrationInvalid;
 
-   void setUsernameInput(UIInput input);
+   public void register()
+   {
+      if (verifyUsernameIsAvailable())
+      {
+         registered = true;
+         em.persist(newUser);
+
+         messages.info(new BundleKey(Bundles.MESSAGES, "registration.registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
+      }
+      else
+      {
+         registrationInvalid = true;
+      }
+   }
+
+   public boolean isRegistrationInvalid()
+   {
+      return registrationInvalid;
+   }
+
+   /**
+    * This method just shows another approach to adding a status message.
+    * <p>
+    * Invoked by:
+    * </p>
+    * 
+    * <pre>
+    * &lt;f:event type="preRenderView" listener="#{registrar.notifyIfRegistrationIsInvalid}"/>
+    * </pre>
+    */
+   public void notifyIfRegistrationIsInvalid()
+   {
+      if (facesContext.isValidationFailed() || registrationInvalid)
+      {
+         messages.warn(new BundleKey(Bundles.MESSAGES, "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+      }
+   }
+
+   @Produces
+   @RequestScoped
+   @Named
+   public User getNewUser()
+   {
+      return newUser;
+   }
+
+   public boolean isRegistered()
+   {
+      return registered;
+   }
+
+   public String getConfirmPassword()
+   {
+      return confirmPassword;
+   }
+
+   public void setConfirmPassword(final String password)
+   {
+      this.confirmPassword = password;
+   }
+
+   public UIInput getUsernameInput()
+   {
+      return usernameInput;
+   }
+
+   public void setUsernameInput(final UIInput usernameInput)
+   {
+      this.usernameInput = usernameInput;
+   }
+
+   private boolean verifyUsernameIsAvailable()
+   {
+      User existing = em.find(User.class, newUser.getUsername());
+      if (existing != null)
+      {
+         messages.warn(new BundleKey("messages", "account.usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(usernameInput.getClientId()).textParams(newUser.getUsername());
+         return false;
+      }
+
+      return true;
+   }
+
 }

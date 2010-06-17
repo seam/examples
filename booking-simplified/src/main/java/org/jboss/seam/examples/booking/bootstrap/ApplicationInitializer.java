@@ -43,17 +43,18 @@ import org.slf4j.Logger;
  */
 @Stateless
 @Alternative
-public class ApplicationSetupBean implements ApplicationSetup
+public class ApplicationInitializer
 {
    @PersistenceContext
    private EntityManager em;
 
-   @Inject Logger log;
+   @Inject
+   Logger log;
 
    private final List<User> users = new ArrayList<User>();
    private final List<Hotel> hotels = new ArrayList<Hotel>();
 
-   public ApplicationSetupBean()
+   public ApplicationInitializer()
    {
       users.add(new User("Dan Allen", "dan", "dan@example.com", "laurel"));
       users.add(new User("Pete Muir", "pete", "pete@example.com", "edinburgh"));
@@ -89,7 +90,8 @@ public class ApplicationSetupBean implements ApplicationSetup
 
    public void init(@Observes final PostConstructApplicationEvent event)
    {
-      try {
+      try
+      {
          persist(users);
          persist(hotels);
       }
@@ -99,7 +101,7 @@ public class ApplicationSetupBean implements ApplicationSetup
       }
    }
 
-   private void persist(List entities)
+   private void persist(final List entities)
    {
       for (Object e : entities)
       {
@@ -107,7 +109,7 @@ public class ApplicationSetupBean implements ApplicationSetup
       }
    }
 
-   private void persist(Object entity)
+   private void persist(final Object entity)
    {
       try
       {
@@ -117,8 +119,7 @@ public class ApplicationSetupBean implements ApplicationSetup
       {
          for (ConstraintViolation v : e.getConstraintViolations())
          {
-            log.error("Cannot persist entity because it has validation errors " +
-                  v.getRootBean() + ": " + v.getPropertyPath() + " " + v.getMessage());
+            log.error("Cannot persist entity because it has validation errors " + v.getRootBean() + ": " + v.getPropertyPath() + " " + v.getMessage());
          }
       }
    }

@@ -21,23 +21,63 @@
  */
 package org.jboss.seam.examples.booking.account;
 
-import javax.ejb.Local;
+import javax.ejb.Stateful;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author Dan Allen
  */
-@Local
-public interface PasswordManager
+@Named
+@Stateful
+@RequestScoped
+public class PasswordManager
 {
-   void changePassword();
+   @PersistenceContext
+   private EntityManager em;
 
-   boolean isChanged();
+   @Inject
+   private Messages messages;
 
-   void setConfirmPassword(String password);
+   @Inject
+   @Authenticated
+   private User user;
 
    @NotNull
    @Size(min = 5, max = 15)
-   String getConfirmPassword();
+   private String confirmPassword;
+
+   private boolean changed;
+
+   public void changePassword()
+   {
+      em.merge(user);
+      messages.info(new BundleKey(Bundles.MESSAGES, "account.passwordChanged")).textDefault("Password successfully updated.");
+      changed = true;
+   }
+
+   public boolean isChanged()
+   {
+      return changed;
+   }
+
+   public void setConfirmPassword(final String password)
+   {
+      this.confirmPassword = password;
+   }
+
+   public String getConfirmPassword()
+   {
+      return this.confirmPassword;
+   }
 }

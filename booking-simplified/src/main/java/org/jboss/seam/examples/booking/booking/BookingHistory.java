@@ -1,6 +1,6 @@
 /* 
  * JBoss, Home of Professional Open Source
- * Copyright 2010, Red Hat, Inc., and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -21,19 +21,122 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.ejb.Local;
+
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
+import javax.enterprise.event.TransactionPhase;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+import org.jboss.seam.examples.booking.Bundles;
+
+import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.Booking;
+import org.jboss.seam.examples.booking.model.Booking_;
+import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.examples.booking.model.User_;
+import org.jboss.seam.examples.booking.security.Identity;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
+import org.slf4j.Logger;
 
 /**
  * @author Dan Allen
  */
-@Local
-public interface BookingHistory
+@Named
+@Stateful
+@SessionScoped
+public class BookingHistory
 {
-   List<Booking> getBookingsForCurrentUser();
+   @Inject
+   private Logger log;
 
-   void cancelBooking(Booking booking);
+   @PersistenceContext
+   private EntityManager em;
 
-   void onBookingComplete(Booking booking);
+   @Inject
+   private Messages messages;
+
+   @Inject
+   private Identity identity;
+
+   @Inject @Authenticated
+   private Instance<User> currentUserInstance;
+
+   private List<Booking> bookingsForUser = null;
+
+   @Produces
+   @Authenticated
+   @Named("bookings")
+   public List<Booking> getBookingsForCurrentUser()
+   {
+      if (bookingsForUser == null && identity.isLoggedIn())
+      {
+         fetchBookingsForCurrentUser();
+      }
+      return bookingsForUser;
+   }
+
+   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS)
+         @Confirmed final Booking booking)
+   {
+      // optimization, save the db call
+      if (bookingsForUser != null)
+      {
+         log.info("Adding new booking to user's cached booking history");
+         bookingsForUser.add(booking);
+      }
+      else
+      {
+         log.info("User's booking history not loaded. Skipping cache update.");
+      }
+   }
+
+   public void cancelBooking(final Booking selectedBooking)
+   {
+      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
+      Booking booking = em.find(Booking.class, selectedBooking.getId());
+      if (booking != null)
+      {
+         em.remove(booking);
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.canceled"))
+               .textDefault("The booking at the {0} on {1} has been canceled.")
+               .textParams(selectedBooking.getHotel().getName(),
+                     DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
+      }
+      else
+      {
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.doesNotExist"))
+               .textDefault("Our records indicate that the booking you selected has already been canceled.");
+      }
+
+      bookingsForUser.remove(selectedBooking);
+   }
+
+   private void fetchBookingsForCurrentUser()
+   {
+      String username = currentUserInstance.get().getUsername();
+      CriteriaBuilder builder = em.getCriteriaBuilder();
+      CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
+      Root<Booking> booking = cquery.from(Booking.class);
+      booking.fetch(Booking_.hotel, JoinType.INNER);
+      cquery.select(booking)
+            .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
+            .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
+
+      bookingsForUser = em.createQuery(cquery).getResultList();
+   }
+
 }

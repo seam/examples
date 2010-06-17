@@ -21,32 +21,133 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import javax.ejb.Local;
+import static javax.persistence.PersistenceContextType.EXTENDED;
 
+import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
+import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.faces.context.conversation.Begin;
+import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
+import org.jboss.seam.international.status.builder.TemplateMessage;
+import org.slf4j.Logger;
 
-/**
- * @author Dan Allen
- */
-@Local
-public interface BookingAgent
+import com.ocpsoft.pretty.time.PrettyTime;
+
+@Stateful
+@ConversationScoped
+@Named
+public class BookingAgent
 {
-   void selectHotel(Long hotelId);
+   @Inject
+   private Logger log;
 
-   void bookHotel();
+   @PersistenceContext(type = EXTENDED)
+   private EntityManager em;
 
-   void validate();
+   @Inject
+   private Instance<TemplateMessage> messageBuilder;
 
-   void cancel();
+   @Inject
+   private Messages messages;
 
-   void confirm();
+   @Inject
+   @Authenticated
+   private User user;
 
-   void onBookingComplete(Booking booking);
+   @Inject
+   @Confirmed
+   private Event<Booking> bookingConfirmedEventSrc;
 
-   Hotel getSelectedHotel();
+   private Hotel hotelSelection;
 
-   Booking getBooking();
+   private Booking booking;
 
-   boolean isBookingValid();
+   private boolean bookingValid;
+
+   @Begin
+   public void selectHotel(final Long id)
+   {
+      // NOTE get a fresh reference that's managed by the extended persistence
+      // context
+      hotelSelection = em.find(Hotel.class, id);
+      if (hotelSelection != null)
+      {
+         log.info(messageBuilder.get().text("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
+      }
+   }
+
+   public void bookHotel()
+   {
+      booking = new Booking(hotelSelection, user, 7, 2);
+      hotelSelection = null;
+
+      // for demo convenience
+      booking.setCreditCardNumber("1111222233334444");
+
+      messages.info(new BundleKey(Bundles.MESSAGES, "booking.initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
+   }
+
+   public void validate()
+   {
+      // if we got here, all validations passed
+      bookingValid = true;
+   }
+
+   @End
+   public void confirm()
+   {
+      em.persist(booking);
+      bookingConfirmedEventSrc.fire(booking);
+   }
+
+   @End
+   public void cancel()
+   {
+      booking = null;
+      hotelSelection = null;
+   }
+
+   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
+   {
+      log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
+      messages.info(new BundleKey(Bundles.MESSAGES, "booking.confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime().format(booking.getCheckinDate()));
+   }
+
+   @Produces
+   @Named
+   @ConversationScoped
+   public Booking getBooking()
+   {
+      return booking;
+   }
+
+   @Produces
+   @Named("hotel")
+   @RequestScoped
+   public Hotel getSelectedHotel()
+   {
+      return booking != null ? booking.getHotel() : hotelSelection;
+   }
+
+   public boolean isBookingValid()
+   {
+      return bookingValid;
+   }
 }
