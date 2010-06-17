@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://java.sun.com/xml/ns/javaee"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:i18n="urn:java:org.jboss.seam.international.locale"
    xsi:schemaLocation="
       http://java.sun.com/xml/ns/javaee
       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
@@ -10,4 +11,5 @@
    <alternatives>
       <class>org.jboss.seam.examples.booking.bootstrap.ApplicationInitializer</class>
    </alternatives>
+   <i18n:DefaultLocaleProducer defaultLocaleKey="de"/>
 </beans>
