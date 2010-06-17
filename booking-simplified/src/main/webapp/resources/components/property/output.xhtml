@@ -10,7 +10,7 @@
    <cc:interface>
       <cc:attribute name="label" required="true"/>
       <cc:attribute name="value" required="false"/>
-      <cc:attribute name="override" required="false" default="false"/>
+      <cc:attribute name="verbatim" required="false" default="false"/>
    </cc:interface>
 
    <cc:implementation>
@@ -18,8 +18,8 @@
          <span class="label">#{cc.attrs.label}:</span>
          <span class="output">
             <c:choose>
-               <c:when test="#{cc.attrs.override}"><cc:insertChildren/></c:when>
-               <c:otherwise><h:outputText id="output" value="#{cc.attrs.value}"><cc:insertChildren/></h:outputText></c:otherwise>
+               <c:when test="#{cc.attrs.verbatim}"><cc:insertChildren/></c:when>
+               <c:otherwise><h:outputText value="#{cc.attrs.value}"><cc:insertChildren/></h:outputText></c:otherwise>
             </c:choose>
          </span>
       </div>

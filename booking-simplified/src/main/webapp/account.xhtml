@@ -4,6 +4,7 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:m="http://http://java.sun.com/jsf/composite/components/model"
    template="/WEB-INF/layout/template.xhtml">
 
    <ui:define name="content">
@@ -18,7 +19,7 @@
             <h:messages id="messages" globalOnly="true"/>
          </div>
 
-         <ui:include src="/WEB-INF/fragments/account.xhtml"/>
+         <m:displayAccount value="#{currentUser}" showEmail="true"/>
 
          <div class="buttonBox">
             <h:button id="changePassword" value="Change password" outcome="/password.xhtml"/>

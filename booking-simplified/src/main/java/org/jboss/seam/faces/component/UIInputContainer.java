@@ -42,6 +42,7 @@ import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.behavior.AjaxBehavior;
 import javax.faces.component.behavior.ClientBehavior;
+import javax.faces.component.behavior.ClientBehaviorHolder;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.BeanValidator;
@@ -268,10 +269,13 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       // temporary workaround for state saving bug; remove any ClientBehaviors added dynamically
       for (EditableValueHolder i : elements.getInputs())
       {
-         Map<String, List<ClientBehavior>> b = ((UIInput) i).getClientBehaviors();
-         for (String k : b.keySet())
+         if (i instanceof ClientBehaviorHolder)
          {
-            b.get(k).clear();
+            Map<String, List<ClientBehavior>> b = ((ClientBehaviorHolder) i).getClientBehaviors();
+            for (String k : b.keySet())
+            {
+               b.get(k).clear();
+            }
          }
       }
    }
@@ -503,20 +507,23 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       public void registerInput(final EditableValueHolder input, final Validator validator, final FacesContext context)
       {
          inputs.add(input);
-         UIInput inputc = (UIInput) input;
-         String ajaxEvent = (String) attributes.get(getAjaxAttributeName());
-         if (ajaxEvent != null && (ajaxEvent.equalsIgnoreCase("default")))
+         if (input instanceof ClientBehaviorHolder)
          {
-            ajaxEvent = inputc.getDefaultEventName();
-         }
-         if (ajaxEvent != null)
-         {
-            Map<String, List<ClientBehavior>> behaviors = inputc.getClientBehaviors();
-            if (!behaviors.containsKey(ajaxEvent))
+            ClientBehaviorHolder bh = (ClientBehaviorHolder) input;
+            String ajaxEvent = (String) attributes.get(getAjaxAttributeName());
+            if (ajaxEvent != null && (ajaxEvent.equalsIgnoreCase("default")))
             {
-               AjaxBehavior ajax = new AjaxBehavior();
-               ajax.setRender(Arrays.asList(containerId));
-               inputc.addClientBehavior(ajaxEvent.toLowerCase(), ajax);
+               ajaxEvent = bh.getDefaultEventName();
+            }
+            if (ajaxEvent != null)
+            {
+               Map<String, List<ClientBehavior>> behaviors = bh.getClientBehaviors();
+               if (!behaviors.containsKey(ajaxEvent))
+               {
+                  AjaxBehavior ajax = new AjaxBehavior();
+                  ajax.setRender(Arrays.asList(containerId));
+                  bh.addClientBehavior(ajaxEvent.toLowerCase(), ajax);
+               }
             }
          }
          if (input.isRequired() || isRequiredByConstraint(input, validator, context))
@@ -569,13 +576,21 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             return false;
          }
 
-         // NOTE believe it or not, getValueReference on ValueExpression is
-         // broken, so we have to do it ourselves
-         ValueReference vref = new ValueExpressionAnalyzer(((UIComponent) input).getValueExpression("value")).getValueReference(context.getELContext());
-         PropertyDescriptor d = validator.getConstraintsForClass(vref.getBase().getClass()).getConstraintsForProperty((String) vref.getProperty());
+         ValueReference vref = buildValueReference(input, context);
+         String property = (String) vref.getProperty();
+         // optimization, though not sitting right
+         if (propertyName != null)
+         {
+            propertyName = property;
+         }
+         PropertyDescriptor d = validator.getConstraintsForClass(vref.getBase().getClass()).getConstraintsForProperty(property);
          return (d != null) && d.hasConstraints();
       }
 
+      /**
+       * Gets the name of the property bound to the first input, or null if there
+       * are no inputs present.
+       */
       public String getPropertyName(final FacesContext context)
       {
          if (propertyName != null)
@@ -588,8 +603,15 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             return null;
          }
 
-         propertyName = (String) new ValueExpressionAnalyzer(((UIComponent) inputs.get(0)).getValueExpression("value")).getValueReference(context.getELContext()).getProperty();
+         propertyName = buildValueReference(inputs.get(0), context).getProperty().toString();
          return propertyName;
+      }
+
+      private ValueReference buildValueReference(final EditableValueHolder input, final FacesContext context)
+      {
+         // NOTE believe it or not, getValueReference on ValueExpression is broken, so we have to do it ourselves
+         return new ValueExpressionAnalyzer(((UIComponent) input).getValueExpression("value"))
+            .getValueReference(context.getELContext());
       }
 
       public void wire(final FacesContext context)

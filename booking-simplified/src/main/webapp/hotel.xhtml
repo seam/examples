@@ -5,6 +5,7 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:s="http://jboss.org/seam/faces"
+   xmlns:m="http://java.sun.com/jsf/composite/components/model"
    template="/WEB-INF/layout/template.xhtml">
 
    <f:metadata>
@@ -19,7 +20,7 @@
       </div>
 
       <div class="section">
-         <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
+         <m:displayHotel value="#{hotel}"/>
 
          <div class="buttonBox">
             <h:panelGroup rendered="#{not identity.loggedIn}">

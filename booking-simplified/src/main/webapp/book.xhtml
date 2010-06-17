@@ -5,6 +5,7 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:s="http://jboss.org/seam/faces"
+   xmlns:m="http://http://java.sun.com/jsf/composite/components/model"
    xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
    template="/WEB-INF/layout/template.xhtml">
 
@@ -18,7 +19,7 @@
             <h:messages id="messages" globalOnly="true"/>
          </div>
       
-         <ui:include src="/WEB-INF/fragments/hotel.xhtml"/>
+         <m:displayHotel value="#{hotel}"/>
          
          <div style="clear: both;"/>
       

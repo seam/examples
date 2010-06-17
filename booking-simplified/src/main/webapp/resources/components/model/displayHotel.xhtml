@@ -1,0 +1,29 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
+   xmlns:cc="http://java.sun.com/jsf/composite">
+
+   <cc:interface>
+      <cc:attribute name="value" required="true"/>
+   </cc:interface>
+
+   <cc:implementation>
+      <p:output label="Name" value="#{cc.attrs.value.name}"/>
+      <p:output label="Address" value="#{cc.attrs.value.address}"/>
+      <p:output label="City" value="#{cc.attrs.value.city}"/>
+      <p:output label="State" value="#{cc.attrs.value.state}"/>
+      <p:output label="Zip" value="#{cc.attrs.value.zip}"/>
+      <p:output label="Country" value="#{cc.attrs.value.country}"/>
+      <p:output label="Class" override="true">
+         <h:graphicImage value="/img/#{cc.attrs.value.stars}-star.gif" style="padding-top: 4px;"/>
+      </p:output>
+      <p:output label="Nightly rate" value="#{cc.attrs.value.price}">
+         <f:convertNumber for="output" type="currency" currencySymbol="$"/>
+      </p:output>
+   </cc:implementation>
+
+</ui:composition>
