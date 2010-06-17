@@ -71,7 +71,7 @@ public class Identity implements Serializable
       loggedIn = false;
       HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
       session.invalidate();
-      return "pretty:home";
+      return "home?faces-redirect=true";
    }
 
 }

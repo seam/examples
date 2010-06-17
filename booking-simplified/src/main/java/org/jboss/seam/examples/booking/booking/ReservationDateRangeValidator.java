@@ -24,6 +24,7 @@ package org.jboss.seam.examples.booking.booking;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+
 import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -33,15 +34,16 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+
 import org.jboss.seam.examples.booking.Bundles;
 import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
- * A cross-field validator that validates the begin date
- * is in the future and before the end date.
- *
+ * A cross-field validator that validates the begin date is in the future and
+ * before the end date.
+ * 
  * @author Dan Allen
  */
 @FacesValidator("reservationDateRangeValidator")
@@ -58,8 +60,7 @@ public class ReservationDateRangeValidator implements Validator
    @Inject
    private Instance<BundleTemplateMessage> messageBuilder;
 
-   @Override
-   public void validate(FacesContext ctx, UIComponent form, Object value) throws ValidatorException
+   public void validate(final FacesContext ctx, final UIComponent form, final Object value) throws ValidatorException
    {
       Map<String, UIInput> fieldMap = (Map<String, UIInput>) value;
       Calendar calendar = Calendar.getInstance();
@@ -67,17 +68,15 @@ public class ReservationDateRangeValidator implements Validator
       if (beginDate.before(calendar.getTime()))
       {
          String message = messageBuilder.get().text(new BundleKey(Bundles.MESSAGES, "booking.checkInNotFutureDate"))
-               // FIXME the component should come through via injection
-               .targets(fieldMap.get("beginDate").getClientId())
-               .build().getText();
+         // FIXME the component should come through via injection
+               .targets(fieldMap.get("beginDate").getClientId()).build().getText();
          throw new ValidatorException(new FacesMessage(message));
       }
       else if (!beginDate.before(endDate))
       {
          String message = messageBuilder.get().text(new BundleKey(Bundles.MESSAGES, "booking.checkOutBeforeCheckIn"))
-               // FIXME the component should come through via injection
-               .targets(fieldMap.get("endDate").getClientId())
-               .build().getText();
+         // FIXME the component should come through via injection
+               .targets(fieldMap.get("endDate").getClientId()).build().getText();
          throw new ValidatorException(new FacesMessage(message));
       }
    }
