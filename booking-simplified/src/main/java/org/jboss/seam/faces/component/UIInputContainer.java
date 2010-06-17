@@ -24,6 +24,7 @@ package org.jboss.seam.faces.component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UIInput;
+import javax.faces.component.UIForm;
 import javax.faces.component.UIMessage;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
@@ -116,6 +117,10 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
     * The standard component type for this component.
     */
    public static final String COMPONENT_TYPE = "org.jboss.seam.faces.InputContainer";
+
+   public static final String DYNAMIC_AJAX_BEHAVIOR = "org.jboss.seam.faces.DYNAMIC_AJAX_BEHAVIOR";
+
+   public static final String FORM_TOKEN = "@form";
 
    protected static final String HTML_ID_ATTR_NAME = "id";
    protected static final String HTML_CLASS_ATTR_NAME = "class";
@@ -267,9 +272,11 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       }
 
       // temporary workaround for state saving bug; remove any ClientBehaviors added dynamically
+      // this needs to be less aggressive...need to track exactly what we added
       for (EditableValueHolder i : elements.getInputs())
       {
-         if (i instanceof ClientBehaviorHolder)
+         if (i instanceof ClientBehaviorHolder &&
+            ((UIComponent) i).getAttributes().remove(DYNAMIC_AJAX_BEHAVIOR) != null)
          {
             Map<String, List<ClientBehavior>> b = ((ClientBehaviorHolder) i).getClientBehaviors();
             for (String k : b.keySet())
@@ -336,7 +343,18 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
    {
       if (elements == null)
       {
-         elements = new InputContainerElements(getId(), getAttributes());
+         UIComponent node = getParent();
+         UIForm form = null;
+         while (node != null)
+         {
+            if (node instanceof UIForm)
+            {
+               form = (UIForm) node;
+               break;
+            }
+            node = node.getParent();
+         }
+         elements = new InputContainerElements(getId(), form != null ? ":" + form.getClientId() : null, getAttributes());
       }
 
       // NOTE we need to walk the tree ignoring rendered attribute because it's
@@ -475,6 +493,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
    public class InputContainerElements
    {
       private String containerId;
+      private String formId;
       private Map<String, Object> attributes;
       private String propertyName;
       private HtmlOutputLabel label;
@@ -483,10 +502,11 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       private boolean validationError = false;
       private boolean requiredInput = false;
 
-      public InputContainerElements(final String containerId, final Map<String, Object> attributes)
+      public InputContainerElements(final String containerId, final String formId, final Map<String, Object> attributes)
       {
          this.containerId = containerId;
          this.attributes = attributes;
+         this.formId = formId;
       }
 
       public HtmlOutputLabel getLabel()
@@ -518,12 +538,19 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
             if (ajaxEvent != null)
             {
                Map<String, List<ClientBehavior>> behaviors = bh.getClientBehaviors();
-               if (!behaviors.containsKey(ajaxEvent))
+               // QUESTION should we clear or honor what is present?
+               if (behaviors.containsKey(ajaxEvent))
                {
-                  AjaxBehavior ajax = new AjaxBehavior();
-                  ajax.setRender(Arrays.asList(containerId));
-                  bh.addClientBehavior(ajaxEvent.toLowerCase(), ajax);
+                  behaviors.get(ajaxEvent).clear();
                }
+               ((UIComponent) input).getAttributes().put(DYNAMIC_AJAX_BEHAVIOR, ajaxEvent);
+               AjaxBehavior ajax = new AjaxBehavior();
+               ajax.setRender(Arrays.asList(containerId));
+               bh.addClientBehavior(ajaxEvent.toLowerCase(), ajax);
+            }
+            else
+            {
+               interpolateAjaxTargets(bh);
             }
          }
          if (input.isRequired() || isRequiredByConstraint(input, validator, context))
@@ -544,6 +571,35 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
                {
                   validationError = true;
                   break;
+               }
+            }
+         }
+      }
+
+      private void interpolateAjaxTargets(ClientBehaviorHolder bh)
+      {
+         Map<String, List<ClientBehavior>> behaviors = bh.getClientBehaviors();
+         for (List<ClientBehavior> behaviorsForEvent : behaviors.values())
+         {
+            for (ClientBehavior b : behaviorsForEvent)
+            {
+               if (b instanceof AjaxBehavior)
+               {
+                  AjaxBehavior a = (AjaxBehavior) b;
+                  Collection<String> original = a.getExecute();
+                  Collection<String> translated = new ArrayList<String>();
+                  for (String o : original)
+                  {
+                     translated.add(o.replace(FORM_TOKEN, formId));
+                  }
+                  a.setExecute(translated);
+                  original = a.getRender();
+                  translated = new ArrayList<String>();
+                  for (String o : original)
+                  {
+                     translated.add(o.replace(FORM_TOKEN, formId));
+                  }
+                  a.setRender(translated);
                }
             }
          }

@@ -30,7 +30,8 @@
 
          <h:form id="registrationForm" prependId="false">
             <fieldset>
-
+               <h:outputScript name="jsf.js" library="javax.faces" target="head"/>
+               
                <!-- manually append Ajax behavior -->
                <p:input id="username">
                   <h:inputText id="input" value="#{newUser.username}"
@@ -40,21 +41,32 @@
                </p:input>
 
                <!-- automatically append Ajax behavior -->
-               <p:input id="name" ajax="default">
+               <p:input id="name" ajax="blur">
                   <h:inputText id="input" value="#{newUser.name}"/>
                </p:input>
 
-               <p:input id="email" ajax="default">
+               <p:input id="email" ajax="blur">
                   <h:inputText id="input" value="#{newUser.email}"/>
                </p:input>
 
-               <p:input id="password" ajax="default">
+               <p:input id="password" ajax="blur">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
                </p:input>
 
-               <p:input id="confirmPassword" ajax="default">
-                  <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true"/>
+               <p:input id="confirmPassword">
+                  <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">
+                     <f:ajax event="blur"
+                             execute="@this @form:password:input @form:passwordCheck"
+                             render="confirmPassword @form:password :messages"/>
+                  </h:inputSecret>
                </p:input>
+
+               <ui:remove><!--
+               <p:input id="confirmPassword">
+                  <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">
+                     <f:ajax event="blur" execute="@form" render="@form :messages"/>
+                  </h:inputSecret>
+               </p:input>--></ui:remove>
                
                <div class="buttonBox">
                   <h:commandButton id="register" value="Register" action="#{registrar.register}"/>
@@ -64,7 +76,7 @@
 
             </fieldset>
 
-            <s:validateForm validatorId="confirmPasswordValidator"
+            <s:validateForm id="passwordCheck" validatorId="confirmPasswordValidator"
             	fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
 
          </h:form>
