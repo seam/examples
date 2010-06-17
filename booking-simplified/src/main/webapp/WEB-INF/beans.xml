@@ -11,5 +11,6 @@
    <alternatives>
       <class>org.jboss.seam.examples.booking.bootstrap.ApplicationInitializer</class>
    </alternatives>
-   <i18n:DefaultLocaleProducer defaultLocaleKey="de"/>
+   <!-- not being set -->
+   <i18n:DefaultLocaleProducer defaultLocaleKey="en"/>
 </beans>
