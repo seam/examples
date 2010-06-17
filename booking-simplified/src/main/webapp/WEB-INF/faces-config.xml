@@ -79,7 +79,7 @@
       <from-view-id>/book.xhtml</from-view-id>
 
       <navigation-case>
-         <from-action>#{bookingAgent.validateBooking}</from-action>
+         <from-action>#{bookingAgent.validate}</from-action>
          <if>#{bookingAgent.bookingValid}</if>
          <to-view-id>/confirm.xhtml</to-view-id>
          <redirect/>

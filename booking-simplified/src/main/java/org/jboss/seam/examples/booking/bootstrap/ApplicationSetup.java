@@ -1,4 +1,4 @@
-/*
+/* 
  * JBoss, Home of Professional Open Source
  * Copyright 2010, Red Hat, Inc., and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -26,7 +26,6 @@ import javax.faces.event.PostConstructApplicationEvent;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
 @Local
 public interface ApplicationSetup

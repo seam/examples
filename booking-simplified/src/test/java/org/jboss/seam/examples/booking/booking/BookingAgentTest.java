@@ -14,7 +14,6 @@ import javax.transaction.UserTransaction;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.examples.booking.account.Authenticated;
-import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.CreditCardType;
 import org.jboss.seam.examples.booking.model.Hotel;
@@ -37,7 +36,16 @@ public class BookingAgentTest
    @Deployment
    public static Archive<?> createTestArchive()
    {
-      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class).addPackage(Hotel.class.getPackage()).addClasses(BookingAgent.class, BookingAgentBean.class, Confirmed.class, Authenticated.class, BookingEvent.class, BookingFormControls.class, NoOpLogger.class).addLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"), MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"), MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1")).addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml").addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
+      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class)
+            .addPackage(Hotel.class.getPackage())
+            .addClasses(BookingAgent.class, BookingAgentBean.class, Confirmed.class,
+                  Authenticated.class, BookingEvent.class, NoOpLogger.class)
+            .addLibraries(
+                  MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
+                  MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
+                  MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1"))
+            .addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
+            .addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
       return war;
    }
 

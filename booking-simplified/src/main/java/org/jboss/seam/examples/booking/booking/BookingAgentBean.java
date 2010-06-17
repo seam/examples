@@ -1,6 +1,6 @@
-/*
+/* 
  * JBoss, Home of Professional Open Source
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -18,8 +18,6 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
- * $Id$
  */
 package org.jboss.seam.examples.booking.booking;
 
@@ -38,7 +36,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
-import org.jboss.seam.examples.booking.controls.BookingFormControls;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -50,6 +47,7 @@ import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
 import com.ocpsoft.pretty.time.PrettyTime;
+import org.jboss.seam.examples.booking.Bundles;
 
 @Named("bookingAgent")
 @Stateful
@@ -69,9 +67,6 @@ public class BookingAgentBean implements BookingAgent
    private Messages messages;
 
    @Inject
-   private BookingFormControls formControls;
-
-   @Inject
    @Authenticated
    private User user;
 
@@ -88,8 +83,7 @@ public class BookingAgentBean implements BookingAgent
    @Begin
    public void selectHotel(final Long id)
    {
-      // NOTE get a fresh reference that's managed by the extended persistence
-      // context
+      // NOTE get a fresh reference that's managed by the extended persistence context
       hotelSelection = em.find(Hotel.class, id);
       if (hotelSelection != null)
       {
@@ -102,31 +96,18 @@ public class BookingAgentBean implements BookingAgent
       booking = new Booking(hotelSelection, user);
       // QUESTION push logic into Booking?
       Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckinDate(calendar.getTime());
       calendar.add(Calendar.DAY_OF_MONTH, 1);
       booking.setCheckoutDate(calendar.getTime());
       hotelSelection = null;
-      messages.info(new BundleKey("messages", "booking.initiated")).textDefault("You've initiated a booking at {0}.").textParams(booking.getHotel().getName());
+      messages.info(new BundleKey(Bundles.MESSAGES, "booking.initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
    }
 
-   public void validateBooking()
+   public void validate()
    {
-      Calendar calendar = Calendar.getInstance();
-      calendar.add(Calendar.DAY_OF_MONTH, -1);
-      if (booking.getCheckinDate().before(calendar.getTime()))
-      {
-         messages.info(new BundleKey("messages", "booking.checkInNotFutureDate")).textDefault("Check in date must be a future date").targets(formControls.getCheckinDateControlId());
-         bookingValid = false;
-      }
-      else if (!booking.getCheckinDate().before(booking.getCheckoutDate()))
-      {
-         messages.info(new BundleKey("messages", "booking.checkOutBeforeCheckIn")).textDefault("Check out date must be after check in date").targets(formControls.getCheckoutDateControlId());
-         bookingValid = false;
-      }
-      else
-      {
-         bookingValid = true;
-      }
+      // if we got here, all validations passed
+      bookingValid = true;
    }
 
    @End
@@ -135,8 +116,11 @@ public class BookingAgentBean implements BookingAgent
       em.persist(booking);
       // FIXME can't inject event object into bean with passivating scope
       manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
-      log.info(msg.info("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new BundleKey("messages", "booking.confirmed")).textDefault("Booking confirmed.").textParams(new PrettyTime().format(booking.getCheckinDate()));
+      log.info(msg.info("New booking at the {0} confirmed for {1}")
+            .textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
+      messages.info(new BundleKey(Bundles.MESSAGES, "booking.confirmed"))
+            .textDefault("You're booked to stay at the {0} {1}.")
+            .textParams(booking.getHotel().getName(), new PrettyTime().format(booking.getCheckinDate()));
    }
 
    @End

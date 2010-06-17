@@ -14,15 +14,17 @@
          <h1>About this example application</h1>
 
          <p>
-            This sample application demonstrates how easy it is to develop stateful web applications using JBoss Seam.
-            Just register, login, and book a room to see Seam in action. Throughout the application you'll see popup
-            links like the ones at the bottom of this page. Click them to see how the application works under the hood.
+            This sample application demonstrates how easy it is to develop stateful web applications using Java EE 6
+            with portable Seam modules. Just register, login, and book a room to see the future of Java EE in action.
+            Throughout the application you'll see popup links like the ones at the bottom of this page. Click them to
+            see how the application works under the hood.
          </p>
 
          <p>
             Note: Please do NOT enter personal information or your credit card number in this sample application.
          </p>
 
+         <!--
          <p>
             <a href="#" onclick="window.open('exp/introExp.html','exp','width=752,height=500,scrollbars=yes');">
                What is Seam?
@@ -34,6 +36,7 @@
                What happens when I login?
             </a>
          </p>
+         -->
 
       </div>
    </ui:define>
@@ -42,7 +45,7 @@
       <h:form id="login" rendered="#{not identity.loggedIn}">
          <fieldset>
             <div>
-               <h:outputLabel for="username" value="Login name"/>
+               <h:outputLabel for="username" value="Username"/>
                <h:inputText id="username" value="#{credentials.username}" style="width: 175px;"/>
                <div class="errors"><h:message for="username"/></div>
             </div>
@@ -51,7 +54,7 @@
                <h:inputSecret id="password" value="#{credentials.password}" style="width: 175px;"/>
             </div>
             <div class="errors"><h:messages id="messages" globalOnly="true"/></div>
-            <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"/></div>
+            <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Login"/></div>
             <div class="notes"><h:link id="register" outcome="/register.xhtml" value="Register New User"/></div>
             <div class="subnotes">
                Or use a demo account:

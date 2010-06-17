@@ -19,22 +19,12 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.examples.booking.account;
-
-import javax.ejb.Local;
-import org.jboss.seam.examples.booking.model.User;
+package org.jboss.seam.examples.booking;
 
 /**
- * The <strong>AccountProducer</strong> produces the object that
- * represents the current user's account information. The account
- * information is represented by the {@link User} entity.
- *
  * @author Dan Allen
  */
-@Local
-public interface AccountHolder
+public interface Bundles
 {
-   User getCurrentAccount();
-
-   void onLogin(User user);
+   static final String MESSAGES = "messages";
 }

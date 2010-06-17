@@ -19,8 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.examples.booking.account;
+package org.jboss.seam.examples.booking.booking;
 
+import java.util.Calendar;
+import java.util.Date;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,54 +31,51 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.jboss.seam.examples.booking.Bundles;
-
-import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.MessageFactory;
 import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
- * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * A cross-field validator that validates the begin date
+ * is in the future and before the end date.
+ *
+ * @author Dan Allen
  */
-@FacesValidator(value = "passwordConfirmValidator")
-public class PasswordConfirmValidator implements Validator
-{
+@FacesValidator("reservationDateRangeValidator")
+public class ReservationDateRangeValidator implements Validator {
    @Inject
-   @Authenticated
-   private User currentUser;
+   @InputField
+   private Date beginDate;
+
+   @Inject
+   @InputField
+   private Date endDate;
 
    @Inject
    private MessageFactory msg;
 
-   @Inject
-   @InputField
-   private String oldPassword;
-
-   @Inject
-   @InputField
-   private String newPassword;
-
-   @Inject
-   @InputField
-   private String confirmNewPassword;
-
-   public void validate(final FacesContext context, final UIComponent comp, final Object components) throws ValidatorException
+   @Override
+   public void validate(FacesContext ctx, UIComponent c, Object value) throws ValidatorException
    {
-      if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(oldPassword))
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+      if (beginDate.before(calendar.getTime()))
       {
-         /*
-          * This is an ugly way to put i18n in FacesMessages:
-          * https://jira.jboss.org/browse/SEAMFACES-24
-          */
-         throw new ValidatorException(
-               new FacesMessage(msg.info(
-                     new BundleKey(Bundles.MESSAGES, "account.passwordNotConfirmed"))
-                     .build().getText()));
+         String message = msg.info(new BundleKey(Bundles.MESSAGES, "booking.checkInNotFutureDate"))
+               .textDefault("Check-in date must be in the future")
+               // FIXME this information should come through via injection
+               .targets("checkInDate:input")
+               .build().getText();
+         throw new ValidatorException(new FacesMessage(message));
       }
-
-      if ((newPassword != null) && !newPassword.equals(confirmNewPassword))
+      else if (!beginDate.before(endDate))
       {
-         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch")).build().getText()));
+         String message = msg.info(new BundleKey(Bundles.MESSAGES, "booking.checkOutBeforeCheckIn"))
+               .textDefault("Check-out date must be after check-in date")
+               // FIXME this information should come through via injection
+               .targets("checkOutDate:input")
+               .build().getText();
+         throw new ValidatorException(new FacesMessage(message));
       }
    }
 

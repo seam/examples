@@ -1,6 +1,6 @@
-/*
+/* 
  * JBoss, Home of Professional Open Source
- * Copyright 2009, Red Hat Middleware LLC, and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
@@ -18,8 +18,6 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- *
- * $Id$
  */
 package org.jboss.seam.examples.booking.booking;
 
@@ -39,6 +37,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
+import org.jboss.seam.examples.booking.Bundles;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.Booking;
@@ -104,11 +103,11 @@ public class BookingHistoryBean implements BookingHistory
       if (booking != null)
       {
          em.remove(booking);
-         messages.info(new BundleKey("messages", "booking.canceled")).textDefault("The booking at the {0} on {1,date} has been canceled.").textParams(selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.canceled")).textDefault("The booking at the {0} on {1,date} has been canceled.").textParams(selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
       }
       else
       {
-         messages.info(new BundleKey("messages", "booking.doesNotExist")).textDefault("Our records indicate that the booking you selected has already been canceled.");
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.doesNotExist")).textDefault("Our records indicate that the booking you selected has already been canceled.");
       }
 
       bookingsForUser.remove(selectedBooking);

@@ -135,6 +135,13 @@
          <scope>test</scope>
       </dependency>
 
+      <dependency>
+         <groupId>org.codehaus.groovy.maven.runtime</groupId>
+         <artifactId>gmaven-runtime-1.6</artifactId>
+         <version>1.0</version>
+         <scope>test</scope>
+      </dependency>
+
    </dependencies>
 
    <build>
@@ -151,6 +158,19 @@
                <!-- don't waste time on generation -->
                <compilerArgument>-proc:none</compilerArgument>
             </configuration>
+         </plugin>
+
+         <plugin>
+            <groupId>org.codehaus.groovy.maven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <version>1.0</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>testCompile</goal>
+                  </goals>
+               </execution>
+            </executions>
          </plugin>
 
          <plugin>

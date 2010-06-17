@@ -25,14 +25,14 @@
          <h:form id="bookingForm">
             <fieldset>
                   
-               <p:input id="checkinDate" label="Check-in date">
-                  <h:inputText id="input" value="#{booking.checkinDate}" binding="#{bookingFormControls.checkinDate}">
+               <p:input id="checkInDate">
+                  <h:inputText id="input" value="#{booking.checkinDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:input>
 
-               <p:input id="checkoutDate" label="Check-out date">
-                  <h:inputText id="input" value="#{booking.checkoutDate}" binding="#{bookingFormControls.checkoutDate}">
+               <p:input id="checkOutDate">
+                  <h:inputText id="input" value="#{booking.checkoutDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:input>
@@ -57,30 +57,33 @@
                </p:input>
 
                <p:input id="creditCardNumber" inputs="2">
-                  <h:inputText id="input" value="#{booking.creditCardNumber}"/>
+                  <h:inputText id="number" value="#{booking.creditCardNumber}"/>
                   #{' '}
-                  <h:selectOneMenu id="input2" value="#{booking.creditCardType}">
+                  <h:selectOneMenu id="type" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
                   </h:selectOneMenu>
                </p:input>
 
                <p:input id="creditCardExpiry" inputs="2">
-                  <h:selectOneMenu id="input" value="#{booking.creditCardExpiryMonth}">
+                  <h:selectOneMenu id="month" value="#{booking.creditCardExpiryMonth}">
                      <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}" itemLabel="#{_month.shortName}"/>
                   </h:selectOneMenu>
-                  <h:selectOneMenu id="input2" value="#{booking.creditCardExpiryYear}">
+                  <h:selectOneMenu id="year" value="#{booking.creditCardExpiryYear}">
                      <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
                   </h:selectOneMenu>
                </p:input>
 
                <div class="buttonBox">
-                  <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validateBooking}"/>
+                  <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validate}"/>
                   #{' '}
                   <h:commandButton id="cancel" value="Cancel" action="#{bookingAgent.cancel}" immediate="true"/>
                </div>
                
             </fieldset>
+            
+            <s:validateForm validatorId="reservationDateRangeValidator" 
+            	fields="beginDate=checkInDate:input endDate=checkOutDate:input"/>
          </h:form>
       </div>
 
@@ -88,6 +91,7 @@
 
    <ui:define name="sidebar">
 
+      <!--
       <h1>Workspace management</h1>
       <p>
          As you can see, Seam makes it easy to work in multiple windows or multiple browser tabs. But you can even
@@ -98,8 +102,8 @@
          <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
             How does the workspace list work?
          </a>
-
       </p>
+      -->
 
    </ui:define>
 

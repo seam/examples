@@ -34,12 +34,10 @@ function controlSpinner(behavior)
          <h1>Search Hotels</h1>
 
          <h:form id="searchForm" prependId="false">
-            <fieldset> 
-               <h:inputText id="query" value="#{searchCriteria.query}" style="width: 165px;">
+            <fieldset>
+               <h:inputText id="query" value="#{searchCriteria.query}" style="width: 165px;" autocomplete="off">
                   <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
                </h:inputText>
-               #{' '}
-               <h:outputLabel id="lblPageSize" for="pageSize" value="View:"/>
                #{' '}
                <h:selectOneMenu id="pageSize" value="#{searchCriteria.pageSize}">
                   <f:ajax listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
@@ -154,6 +152,7 @@ function controlSpinner(behavior)
 
    <ui:define name="sidebar">
 
+      <!--
       <h1>State management in Seam</h1>
       <p>
          State in Seam is <em>contextual</em>. When you click "Find Hotels", the application
@@ -171,6 +170,7 @@ function controlSpinner(behavior)
             How does the search page work?
          </a>
       </p>
+      -->
 
    </ui:define>
 

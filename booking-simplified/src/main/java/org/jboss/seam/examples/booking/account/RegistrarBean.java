@@ -1,3 +1,24 @@
+/* 
+ * JBoss, Home of Professional Open Source
+ * Copyright 2010, Red Hat, Inc., and individual contributors
+ * by the @authors tag. See the copyright.txt in the distribution for a
+ * full listing of individual contributors.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
 package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Stateful;
@@ -7,6 +28,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.jboss.seam.examples.booking.Bundles;
 
 import org.jboss.seam.examples.booking.controls.RegistrationFormControls;
 import org.jboss.seam.examples.booking.model.User;
@@ -44,7 +66,7 @@ public class RegistrarBean implements Registrar
       {
          registered = true;
          em.persist(newUser);
-         messages.info(new BundleKey("messages", "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
+         messages.info(new BundleKey(Bundles.MESSAGES, "registration.registered")).textDefault("You have been successfully registered as the user {0}!").textParams(newUser.getUsername());
       }
       else
       {
@@ -63,7 +85,7 @@ public class RegistrarBean implements Registrar
    {
       if (validationFailed || registrationInvalid)
       {
-         messages.warn(new BundleKey("messages", "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+         messages.warn(new BundleKey(Bundles.MESSAGES, "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
       }
    }
 
@@ -97,7 +119,7 @@ public class RegistrarBean implements Registrar
    {
       if (!newUser.getPassword().equals(confirmPassword))
       {
-         messages.warn(new BundleKey("messages", "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type your password.").targets(formControls.getConfirmPasswordControlId());
+         messages.warn(new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch")).textDefault("Passwords do not match. Please re-type your password.").targets(formControls.getConfirmPasswordControlId());
          confirmPassword = null;
          return false;
       }
