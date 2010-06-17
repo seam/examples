@@ -51,14 +51,17 @@ public class ConfirmPasswordValidator implements Validator
    @InputField
    private String confirmPassword;
 
-   public void validate(final FacesContext ctx, final UIComponent c, final Object value) throws ValidatorException
+   public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException
    {
+      //Map<String, UIInput> fieldMap = (Map<String, UIInput>) components;
       if ((newPassword != null) && !newPassword.equals(confirmPassword))
       {
          throw new ValidatorException(
-                  new FacesMessage(messageBuilder.get().text(
-                           new DefaultBundleKey("account.passwordsDoNotMatch"))
-                           .build().getText()));
+            new FacesMessage(messageBuilder.get().text(
+               new DefaultBundleKey("account.passwordsDoNotMatch"))
+                  // targets not honored yet
+                  //.targets(fieldMap.get("confirmPassword").getClientId())
+                  .build().getText()));
       }
    }
 
