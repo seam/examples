@@ -23,8 +23,10 @@ package org.jboss.seam.faces.component;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.el.ValueReference;
 import javax.faces.FacesException;
@@ -34,9 +36,12 @@ import javax.faces.component.FacesComponent;
 import javax.faces.component.NamingContainer;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIMessage;
 import javax.faces.component.UINamingContainer;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.behavior.AjaxBehavior;
+import javax.faces.component.behavior.ClientBehavior;
 import javax.faces.component.html.HtmlOutputLabel;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.BeanValidator;
@@ -197,6 +202,8 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       return "message";
    }
 
+   private InputContainerElements elements;
+
    @Override
    public void encodeBegin(final FacesContext context) throws IOException
    {
@@ -207,19 +214,15 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
 
       super.encodeBegin(context);
 
-      InputContainerElements elements = scan(getFacet(UIComponent.COMPOSITE_FACET_NAME), null, context);
+      elements = scan(getFacet(UIComponent.COMPOSITE_FACET_NAME), context);
       // assignIds(elements, context);
       wire(elements, context);
 
       getAttributes().put(getElementsAttributeName(), elements);
 
-      if (elements.hasValidationError())
-      {
-         getAttributes().put(getInvalidAttributeName(), true);
-      }
+      getAttributes().put(getInvalidAttributeName(), elements.hasValidationError());
 
-      // set the required attribute, but only if the user didn't already assign
-      // it
+      // set the required attribute, but only if the user didn't already assign it
       if (!getAttributes().containsKey(getRequiredAttributeName()) && elements.hasRequiredInput())
       {
          getAttributes().put(getRequiredAttributeName(), true);
@@ -249,6 +252,16 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       if (Boolean.TRUE.equals(getAttributes().get(getEncloseAttributeName())))
       {
          endContainerElement(context);
+      }
+
+      // temporary workaround for state saving bug; remove any ClientBehaviors added dynamically
+      for (EditableValueHolder i : elements.getInputs())
+      {
+         Map<String, List<ClientBehavior>> b = ((UIInput) i).getClientBehaviors();
+         for (String k : b.keySet())
+         {
+            b.get(k).clear();
+         }
       }
    }
 
@@ -304,11 +317,11 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
     * 
     * @return a composite object of the input container elements
     */
-   protected InputContainerElements scan(final UIComponent component, InputContainerElements elements, final FacesContext context)
+   protected InputContainerElements scan(final UIComponent component, final FacesContext context)
    {
       if (elements == null)
       {
-         elements = new InputContainerElements();
+         elements = new InputContainerElements(getId(), getAttributes());
       }
 
       // NOTE we need to walk the tree ignoring rendered attribute because it's
@@ -329,9 +342,8 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       // may need to walk smarter to ensure "element of least suprise"
       for (UIComponent child : component.getChildren())
       {
-         scan(child, elements, context);
+         scan(child, context);
       }
-
       return elements;
    }
 
@@ -447,12 +459,20 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
 
    public static class InputContainerElements
    {
+      private String containerId;
+      private Map<String, Object> attributes;
       private String propertyName;
       private HtmlOutputLabel label;
       private final List<EditableValueHolder> inputs = new ArrayList<EditableValueHolder>();
       private final List<UIMessage> messages = new ArrayList<UIMessage>();
       private boolean validationError = false;
       private boolean requiredInput = false;
+
+      public InputContainerElements(final String containerId, final Map<String, Object> attributes)
+      {
+         this.containerId = containerId;
+         this.attributes = attributes;
+      }
 
       public HtmlOutputLabel getLabel()
       {
@@ -472,6 +492,17 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       public void registerInput(final EditableValueHolder input, final Validator validator, final FacesContext context)
       {
          inputs.add(input);
+         if (Boolean.TRUE.equals(attributes.get("ajax")))
+         {
+            UIInput inputc = (UIInput) input;
+            Map<String, List<ClientBehavior>> behaviors = inputc.getClientBehaviors();
+            if (!behaviors.containsKey("blur"))
+            {
+               AjaxBehavior ajax = new AjaxBehavior();
+               ajax.setRender(Arrays.asList(containerId));
+               inputc.addClientBehavior("blur", ajax);
+            }
+         }
          if (input.isRequired() || isRequiredByConstraint(input, validator, context))
          {
             requiredInput = true;

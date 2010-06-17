@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,12 +38,12 @@ import javax.persistence.criteria.Root;
 
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.Hotel_;
-import org.jboss.seam.international.status.MessageFactory;
+import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
 
-@Named("hotelSearch")
 @Stateful
 @SessionScoped
+@Named("hotelSearch")
 public class HotelSearchBean implements HotelSearch
 {
    @Inject
@@ -56,7 +56,7 @@ public class HotelSearchBean implements HotelSearch
    private SearchCriteria criteria;
 
    @Inject
-   private MessageFactory msg;
+   private Instance<TemplateMessage> messageBuilder;
 
    private boolean nextPageAvailable = false;
 
@@ -80,12 +80,9 @@ public class HotelSearchBean implements HotelSearch
       queryHotels(criteria);
    }
 
-   public @Produces
+   @Produces
    @Named
-   @Dependent
-   // @RequestScoped // if enabled, variable doesn't get updated after the
-   // action is executed w/o a redirect
-   List<Hotel> getHotels()
+   public List<Hotel> getHotels()
    {
       return hotels;
    }
@@ -128,7 +125,7 @@ public class HotelSearchBean implements HotelSearch
       {
          hotels = results;
       }
-      log.info(msg.info("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
+      log.info(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
             .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
    }
 }

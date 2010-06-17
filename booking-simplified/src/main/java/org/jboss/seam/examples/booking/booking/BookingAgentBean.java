@@ -23,13 +23,11 @@ package org.jboss.seam.examples.booking.booking;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
-import java.util.Calendar;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -41,17 +39,21 @@ import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
-import org.jboss.seam.international.status.MessageFactory;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
 import com.ocpsoft.pretty.time.PrettyTime;
+import javax.enterprise.event.Event;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
+import javax.enterprise.inject.Instance;
 import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.international.status.builder.TemplateMessage;
 
-@Named("bookingAgent")
 @Stateful
 @ConversationScoped
+@Named("bookingAgent")
 public class BookingAgentBean implements BookingAgent
 {
    @Inject
@@ -61,7 +63,7 @@ public class BookingAgentBean implements BookingAgent
    private EntityManager em;
 
    @Inject
-   private MessageFactory msg;
+   private Instance<TemplateMessage> messageBuilder;
 
    @Inject
    private Messages messages;
@@ -70,9 +72,8 @@ public class BookingAgentBean implements BookingAgent
    @Authenticated
    private User user;
 
-   // @Inject @Fires @Confirmed Event<BookingEvent> bookingConfirmedEvent;
-   @Inject
-   private BeanManager manager;
+   @Inject @Confirmed
+   private Event<Booking> bookingConfirmedEventSrc;
 
    private Hotel hotelSelection;
 
@@ -87,21 +88,22 @@ public class BookingAgentBean implements BookingAgent
       hotelSelection = em.find(Hotel.class, id);
       if (hotelSelection != null)
       {
-         log.info(msg.info("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
+         log.info(messageBuilder.get().text("Selected the {0} in {1}")
+               .textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
       }
    }
 
    public void bookHotel()
    {
-      booking = new Booking(hotelSelection, user);
-      // QUESTION push logic into Booking?
-      Calendar calendar = Calendar.getInstance();
-      calendar.add(Calendar.DAY_OF_MONTH, 1);
-      booking.setCheckinDate(calendar.getTime());
-      calendar.add(Calendar.DAY_OF_MONTH, 1);
-      booking.setCheckoutDate(calendar.getTime());
+      booking = new Booking(hotelSelection, user, 7, 2);
       hotelSelection = null;
-      messages.info(new BundleKey(Bundles.MESSAGES, "booking.initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
+
+      // for demo convenience
+      booking.setCreditCardNumber("1111222233334444");
+
+      messages.info(new BundleKey(Bundles.MESSAGES, "booking.initiated"))
+            .textDefault("You've initiated a booking at the {0}.")
+            .textParams(booking.getHotel().getName());
    }
 
    public void validate()
@@ -114,13 +116,7 @@ public class BookingAgentBean implements BookingAgent
    public void confirm()
    {
       em.persist(booking);
-      // FIXME can't inject event object into bean with passivating scope
-      manager.fireEvent(new BookingEvent(booking), ConfirmedLiteral.INSTANCE);
-      log.info(msg.info("New booking at the {0} confirmed for {1}")
-            .textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new BundleKey(Bundles.MESSAGES, "booking.confirmed"))
-            .textDefault("You're booked to stay at the {0} {1}.")
-            .textParams(booking.getHotel().getName(), new PrettyTime().format(booking.getCheckinDate()));
+      bookingConfirmedEventSrc.fire(booking);
    }
 
    @End
@@ -128,6 +124,16 @@ public class BookingAgentBean implements BookingAgent
    {
       booking = null;
       hotelSelection = null;
+   }
+
+   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS)
+         @Confirmed final Booking booking)
+   {
+       log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}")
+            .textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
+       messages.info(new BundleKey(Bundles.MESSAGES, "booking.confirmed"))
+            .textDefault("You're booked to stay at the {0} {1}.")
+            .textParams(booking.getHotel().getName(), new PrettyTime().format(booking.getCheckinDate()));
    }
 
    @Produces
@@ -141,7 +147,7 @@ public class BookingAgentBean implements BookingAgent
    @Produces
    @Named("hotel")
    @RequestScoped
-   public Hotel getHotelSelection()
+   public Hotel getSelectedHotel()
    {
       return booking != null ? booking.getHotel() : hotelSelection;
    }

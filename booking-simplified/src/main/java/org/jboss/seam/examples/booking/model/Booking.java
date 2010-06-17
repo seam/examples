@@ -26,6 +26,7 @@ import static javax.persistence.TemporalType.DATE;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.enterprise.inject.Typed;
 
@@ -71,13 +72,15 @@ public class Booking implements Serializable
    {
    }
 
-   public Booking(Hotel hotel, User user)
+   public Booking(Hotel hotel, User user, int daysFromNow, int nights)
    {
       this.hotel = hotel;
       this.user = user;
       this.creditCardName = user.getName();
       this.smoking = false;
       this.beds = 1;
+      setReservationDates(daysFromNow, nights);
+      creditCardExpiryMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
    }
 
    @Id
@@ -198,6 +201,12 @@ public class Booking implements Serializable
       this.creditCardName = creditCardName;
    }
 
+   /**
+    * The credit card expiration month, represented using a 1-based
+    * numeric value (i.e., Jan = 1, Feb = 2, ...).
+    *
+    * @return 1-based numeric month value
+    */
    public int getCreditCardExpiryMonth()
    {
       return creditCardExpiryMonth;
@@ -208,6 +217,11 @@ public class Booking implements Serializable
       this.creditCardExpiryMonth = creditCardExpiryMonth;
    }
 
+   /**
+    * The credit card expiration year.
+    *
+    * @return numberic year value
+    */
    public int getCreditCardExpiryYear()
    {
       return creditCardExpiryYear;
@@ -237,6 +251,24 @@ public class Booking implements Serializable
    public int getNights()
    {
       return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
+   }
+
+   /**
+    * Initialize the check-in and check-out dates.
+    *
+    * @param daysFromNow Number of days the stay will begin from now
+    * @param nights Length of the stay in number of nights
+    */
+   public void setReservationDates(int daysFromNow, int nights)
+   {
+      Calendar refDate = Calendar.getInstance();
+      refDate.set(
+            refDate.get(Calendar.YEAR),
+            refDate.get(Calendar.MONTH),
+            refDate.get(Calendar.DAY_OF_MONTH) + daysFromNow, 0, 0, 0);
+      setCheckinDate(refDate.getTime());
+      refDate.add(Calendar.DAY_OF_MONTH, nights);
+      setCheckoutDate(refDate.getTime());
    }
 
    @Override

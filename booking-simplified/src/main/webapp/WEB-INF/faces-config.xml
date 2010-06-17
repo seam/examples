@@ -105,7 +105,7 @@
       <navigation-case>
          <from-action>#{registrar.register}</from-action>
          <if>#{registrar.registered}</if>
-         <to-view-id>/account.xhtml</to-view-id>
+         <to-view-id>/home.xhtml</to-view-id>
          <redirect/>
       </navigation-case>
 

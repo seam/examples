@@ -42,7 +42,9 @@ public interface BookingAgent
 
    void confirm();
 
-   Hotel getHotelSelection();
+   void onBookingComplete(Booking booking);
+
+   Hotel getSelectedHotel();
 
    Booking getBooking();
 

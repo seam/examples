@@ -22,6 +22,7 @@
 package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Local;
+import javax.faces.component.UIInput;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.jboss.seam.examples.booking.model.User;
@@ -36,7 +37,7 @@ public interface Registrar
 
    boolean isRegistrationInvalid();
 
-   void notifyIfRegistrationIsInvalid(boolean validationFailed);
+   void notifyIfRegistrationIsInvalid();
 
    User getNewUser();
 
@@ -47,4 +48,8 @@ public interface Registrar
    String getConfirmPassword();
 
    void setConfirmPassword(String password);
+
+   UIInput getUsernameInput();
+
+   void setUsernameInput(UIInput input);
 }

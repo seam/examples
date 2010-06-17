@@ -21,6 +21,7 @@
  */
 package org.jboss.seam.examples.booking.account;
 
+import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -30,27 +31,18 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import org.jboss.seam.examples.booking.Bundles;
 
-import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.validation.InputField;
-import org.jboss.seam.international.status.MessageFactory;
 import org.jboss.seam.international.status.builder.BundleKey;
+import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator(value = "passwordConfirmValidator")
-public class PasswordConfirmValidator implements Validator
+@FacesValidator(value = "confirmPasswordValidator")
+public class ConfirmPasswordValidator implements Validator
 {
    @Inject
-   @Authenticated
-   private User currentUser;
-
-   @Inject
-   private MessageFactory msg;
-
-   @Inject
-   @InputField
-   private String oldPassword;
+   private Instance<BundleTemplateMessage> messageBuilder;
 
    @Inject
    @InputField
@@ -58,25 +50,16 @@ public class PasswordConfirmValidator implements Validator
 
    @Inject
    @InputField
-   private String confirmNewPassword;
+   private String confirmPassword;
 
-   public void validate(final FacesContext context, final UIComponent comp, final Object components) throws ValidatorException
+   public void validate(final FacesContext ctx, final UIComponent c, final Object value) throws ValidatorException
    {
-      if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(oldPassword))
+      if (newPassword != null && !newPassword.equals(confirmPassword))
       {
-         /*
-          * This is an ugly way to put i18n in FacesMessages:
-          * https://jira.jboss.org/browse/SEAMFACES-24
-          */
          throw new ValidatorException(
-               new FacesMessage(msg.info(
-                     new BundleKey(Bundles.MESSAGES, "account.passwordNotConfirmed"))
-                     .build().getText()));
-      }
-
-      if ((newPassword != null) && !newPassword.equals(confirmNewPassword))
-      {
-         throw new ValidatorException(new FacesMessage(msg.info(new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch")).build().getText()));
+               new FacesMessage(messageBuilder.get().text(
+                     new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch"))
+                           .build().getText()));
       }
    }
 

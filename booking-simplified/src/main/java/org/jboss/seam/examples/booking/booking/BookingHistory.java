@@ -35,5 +35,5 @@ public interface BookingHistory
 
    void cancelBooking(Booking booking);
 
-   void afterBookingConfirmed(BookingEvent bookingEvent);
+   void onBookingComplete(Booking booking);
 }

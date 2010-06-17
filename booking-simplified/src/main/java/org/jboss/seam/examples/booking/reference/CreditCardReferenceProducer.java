@@ -56,9 +56,9 @@ public class CreditCardReferenceProducer
    {
       List<Integer> years = new ArrayList<Integer>(8);
       int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-      for (int y = currentYear; y <= (currentYear + 8); y++)
+      for (int i = 0; i < 8; i++)
       {
-         years.add(y);
+         years.add(currentYear + i);
       }
 
       return years;

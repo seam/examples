@@ -55,11 +55,11 @@ public class ApplicationSetupBean implements ApplicationSetup
 
    public ApplicationSetupBean()
    {
-      users.add(new User("Dan Allen", "dan", "laurel"));
-      users.add(new User("Pete Muir", "pete", "edinburgh"));
-      users.add(new User("Lincoln Baxter III", "lincoln", "charlotte"));
-      users.add(new User("Shane", "shane", "brisbane"));
-      users.add(new User("Gavin King", "gavin", "mexico"));
+      users.add(new User("Dan Allen", "dan", "dan@example.com", "laurel"));
+      users.add(new User("Pete Muir", "pete", "pete@example.com", "edinburgh"));
+      users.add(new User("Lincoln Baxter III", "lincoln", "lincoln@example.com", "charlotte"));
+      users.add(new User("Shane Bryzak", "shane", "shane@example.com", "brisbane"));
+      users.add(new User("Gavin King", "gavin", "gavin@example.com", "mexico"));
 
       hotels.add(new Hotel(129, 3, "Marriott Courtyard", "Tower Place, Buckhead", "Atlanta", "GA", "30305", "USA"));
       hotels.add(new Hotel(84, 4, "Doubletree Atlanta-Buckhead", "3342 Peachtree Road NE", "Atlanta", "GA", "30326", "USA"));

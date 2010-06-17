@@ -21,11 +21,14 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
 import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
@@ -86,13 +89,18 @@ public class BookingHistoryBean implements BookingHistory
       return bookingsForUser;
    }
 
-   public void afterBookingConfirmed(@Observes(during = TransactionPhase.AFTER_SUCCESS)
-         @Confirmed final BookingEvent bookingEvent)
+   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS)
+         @Confirmed final Booking booking)
    {
       // optimization, save the db call
       if (bookingsForUser != null)
       {
-         bookingsForUser.add(bookingEvent.getBooking());
+         log.info("Adding new booking to user's cached booking history");
+         bookingsForUser.add(booking);
+      }
+      else
+      {
+         log.info("User's booking history not loaded. Skipping cache update.");
       }
    }
 
@@ -103,11 +111,15 @@ public class BookingHistoryBean implements BookingHistory
       if (booking != null)
       {
          em.remove(booking);
-         messages.info(new BundleKey(Bundles.MESSAGES, "booking.canceled")).textDefault("The booking at the {0} on {1,date} has been canceled.").textParams(selectedBooking.getHotel().getName(), selectedBooking.getCheckinDate());
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.canceled"))
+               .textDefault("The booking at the {0} on {1} has been canceled.")
+               .textParams(selectedBooking.getHotel().getName(),
+                     DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
       }
       else
       {
-         messages.info(new BundleKey(Bundles.MESSAGES, "booking.doesNotExist")).textDefault("Our records indicate that the booking you selected has already been canceled.");
+         messages.info(new BundleKey(Bundles.MESSAGES, "booking.doesNotExist"))
+               .textDefault("Our records indicate that the booking you selected has already been canceled.");
       }
 
       bookingsForUser.remove(selectedBooking);

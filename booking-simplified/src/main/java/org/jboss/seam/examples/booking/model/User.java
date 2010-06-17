@@ -27,9 +27,11 @@ import javax.enterprise.inject.Typed;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
 
 /**
  * <p>
@@ -48,25 +50,27 @@ public class User implements Serializable
    private String username;
    private String password;
    private String name;
+   private String email;
 
    public User()
    {
    }
 
-   public User(final String name, final String username)
+   public User(final String name, final String username, final String email)
    {
       this.name = name;
       this.username = username;
+      this.email = email;
    }
 
-   public User(final String name, final String username, final String password)
+   public User(final String name, final String username, final String email, final String password)
    {
-      this(name, username);
+      this(name, username, email);
       this.password = password;
    }
 
    @NotNull
-   @Size(max = 100)
+   @Size(min = 1, max = 100)
    public String getName()
    {
       return name;
@@ -101,6 +105,24 @@ public class User implements Serializable
    public void setUsername(final String username)
    {
       this.username = username;
+   }
+
+   @NotNull
+   @Email
+   public String getEmail()
+   {
+      return email;
+   }
+
+   public void setEmail(final String email)
+   {
+      this.email = email;
+   }
+
+   @Transient
+   public String getEmailWithName()
+   {
+      return name + " <" + email + ">";
    }
 
    @Override

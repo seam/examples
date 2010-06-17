@@ -108,6 +108,15 @@
          </exclusions>
       </dependency>
 
+      <!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
+      <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-validator</artifactId>
+         <version>4.0.0.GA</version>
+         <scope>provided</scope>
+      </dependency>
+
       <dependency>
          <groupId>javax.enterprise</groupId>
          <artifactId>cdi-api</artifactId>
@@ -135,12 +144,14 @@
          <scope>test</scope>
       </dependency>
 
+      <!--
       <dependency>
          <groupId>org.codehaus.groovy.maven.runtime</groupId>
          <artifactId>gmaven-runtime-1.6</artifactId>
          <version>1.0</version>
          <scope>test</scope>
       </dependency>
+      -->
 
    </dependencies>
 
@@ -153,13 +164,14 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-               <!-- don't waste time on generation -->
+               <source>1.5</source>
+               <target>1.5</target>
+               <!-- activate only when you need to generate the metamodel -->
                <compilerArgument>-proc:none</compilerArgument>
             </configuration>
          </plugin>
 
+         <!--
          <plugin>
             <groupId>org.codehaus.groovy.maven</groupId>
             <artifactId>gmaven-plugin</artifactId>
@@ -172,6 +184,7 @@
                </execution>
             </executions>
          </plugin>
+         -->
 
          <plugin>
             <artifactId>maven-eclipse-plugin</artifactId>

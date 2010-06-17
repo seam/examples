@@ -39,7 +39,7 @@ public class BookingAgentTest
       WebArchive war = ShrinkWrap.create("test.war", WebArchive.class)
             .addPackage(Hotel.class.getPackage())
             .addClasses(BookingAgent.class, BookingAgentBean.class, Confirmed.class,
-                  Authenticated.class, BookingEvent.class, NoOpLogger.class)
+                  Authenticated.class, NoOpLogger.class)
             .addLibraries(
                   MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
                   MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),

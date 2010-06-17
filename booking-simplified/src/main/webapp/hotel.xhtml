@@ -7,10 +7,10 @@
    xmlns:s="http://jboss.org/seam/faces"
    template="/WEB-INF/layout/template.xhtml">
 
-	<f:metadata>
-		<f:viewParam name="id" value="#{_hotel}" />
-		<s:viewAction action="#{bookingAgent.selectHotel(_hotel)}" />
-	</f:metadata>
+   <f:metadata>
+      <f:viewParam name="id" value="#{_hotelId}"/>
+      <s:viewAction action="#{bookingAgent.selectHotel(_hotelId)}"/>
+   </f:metadata>
 
    <ui:define name="content">
 
