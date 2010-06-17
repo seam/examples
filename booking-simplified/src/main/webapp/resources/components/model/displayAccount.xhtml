@@ -13,7 +13,7 @@
    <cc:implementation>
       <p:output label="Full name" value="#{cc.attrs.value.name}"/>
       <p:output label="Username" value="#{cc.attrs.value.username}"/>
-      <p:output label="Email address" value="#{cc.attrs.value.email}" rendered="#{not cc.attrs.showEmail}"/>
+      <p:output label="Email address" value="#{cc.attrs.value.email}" rendered="#{cc.attrs.showEmail}"/>
    </cc:implementation>
 
 </ui:composition>
