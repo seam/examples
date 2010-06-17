@@ -93,15 +93,6 @@ function controlSpinner(behavior)
                <h:commandButton id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
                   <f:ajax render=":searchResults" onevent="controlSpinner"/>
                </h:commandButton>
-               <ui:remove><!--
-               <h:commandLink id="previousResults" value="Previous page" action="#{hotelSearch.previousPage}" rendered="#{hotelSearch.previousPageAvailable}">
-                  <f:ajax render=":searchResults" onevent="controlSpinner"/>
-               </h:commandLink>
-               #{' '}
-               <h:commandLink id="moreResults" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}">
-                  <f:ajax render=":searchResults" onevent="controlSpinner"/>
-               </h:commandLink>
-               --></ui:remove>
             </h:form>
          </div>
       </h:panelGroup>
