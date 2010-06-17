@@ -34,6 +34,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.jboss.weld.extensions.core.Veto;
 
 /**
  * <p>
@@ -45,6 +46,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "hotel")
+@Veto
 public class Hotel implements Serializable
 {
    private Long id;

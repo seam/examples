@@ -43,6 +43,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.jboss.weld.extensions.core.Veto;
 
 /**
  * <p><strong>Booking</strong> is the model/entity class that represents a hotel
@@ -52,7 +53,7 @@ import javax.validation.constraints.Size;
  * @author Dan Allen
  */
 @Entity
-@Typed()
+@Veto
 public class Booking implements Serializable
 {
    private Long id;

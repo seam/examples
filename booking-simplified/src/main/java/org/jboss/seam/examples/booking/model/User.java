@@ -32,6 +32,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
+import org.jboss.weld.extensions.core.Veto;
 
 /**
  * <p>
@@ -44,7 +45,7 @@ import org.hibernate.validator.constraints.Email;
  */
 @Entity
 @Table(name = "traveler")
-@Typed()
+@Veto
 public class User implements Serializable
 {
    private String username;
