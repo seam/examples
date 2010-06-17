@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
@@ -42,11 +43,11 @@ public class CalendarReferenceProducer {
    @Produces
    @Named
    @ConversationScoped
-   public List<Month> getMonths()
+   public List<Month> getMonths(Locale locale)
    {
       List<Month> months = new ArrayList<Month>(12);
-      DateFormat longNameFormat = new SimpleDateFormat("MMMM");
-      DateFormat shortNameFormat = new SimpleDateFormat("MMM");
+      DateFormat longNameFormat = new SimpleDateFormat("MMMM", locale);
+      DateFormat shortNameFormat = new SimpleDateFormat("MMM", locale);
       Calendar cal = Calendar.getInstance();
       for (int m = 0; m < 12; m++)
       {
