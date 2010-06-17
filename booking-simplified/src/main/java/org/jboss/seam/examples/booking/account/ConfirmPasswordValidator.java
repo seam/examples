@@ -30,15 +30,14 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
-import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.faces.validation.InputField;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator(value = "confirmPasswordValidator")
+@FacesValidator("confirmPasswordValidator")
 public class ConfirmPasswordValidator implements Validator
 {
    @Inject
@@ -58,7 +57,7 @@ public class ConfirmPasswordValidator implements Validator
       {
          throw new ValidatorException(
                   new FacesMessage(messageBuilder.get().text(
-                           new BundleKey(Bundles.MESSAGES, "account.passwordsDoNotMatch"))
+                           new DefaultBundleKey("account.passwordsDoNotMatch"))
                            .build().getText()));
       }
    }

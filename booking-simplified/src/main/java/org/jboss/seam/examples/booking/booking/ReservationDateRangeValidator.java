@@ -35,9 +35,8 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
-import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.faces.validation.InputField;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
@@ -67,14 +66,14 @@ public class ReservationDateRangeValidator implements Validator
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if (beginDate.before(calendar.getTime()))
       {
-         String message = messageBuilder.get().text(new BundleKey(Bundles.MESSAGES, "booking.checkInNotFutureDate"))
+         String message = messageBuilder.get().text(new DefaultBundleKey("booking.checkInNotFutureDate"))
          // FIXME the component should come through via injection
                .targets(fieldMap.get("beginDate").getClientId()).build().getText();
          throw new ValidatorException(new FacesMessage(message));
       }
       else if (!beginDate.before(endDate))
       {
-         String message = messageBuilder.get().text(new BundleKey(Bundles.MESSAGES, "booking.checkOutBeforeCheckIn"))
+         String message = messageBuilder.get().text(new DefaultBundleKey("booking.checkOutBeforeCheckIn"))
          // FIXME the component should come through via injection
                .targets(fieldMap.get("endDate").getClientId()).build().getText();
          throw new ValidatorException(new FacesMessage(message));

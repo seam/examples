@@ -32,7 +32,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@Named("identity")
+@Named
 @SessionScoped
 public class Identity implements Serializable
 {

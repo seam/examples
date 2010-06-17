@@ -182,6 +182,17 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       return "enclose";
    }
 
+   /**
+    * The name of the composite component attribute that indicates whether
+    * the AjaxBehavior should be added to inputs in this container and
+    * which event to fire on. If the value is default, then the default
+    * event for the input component will be used.
+    */
+   public String getAjaxAttributeName()
+   {
+      return "ajax";
+   }
+
    public String getContainerElementName()
    {
       return "div";
@@ -457,7 +468,7 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       }
    }
 
-   public static class InputContainerElements
+   public class InputContainerElements
    {
       private String containerId;
       private Map<String, Object> attributes;
@@ -492,15 +503,20 @@ public class UIInputContainer extends UIComponentBase implements NamingContainer
       public void registerInput(final EditableValueHolder input, final Validator validator, final FacesContext context)
       {
          inputs.add(input);
-         if (Boolean.TRUE.equals(attributes.get("ajax")))
+         UIInput inputc = (UIInput) input;
+         String ajaxEvent = (String) attributes.get(getAjaxAttributeName());
+         if (ajaxEvent != null && (ajaxEvent.equalsIgnoreCase("default")))
          {
-            UIInput inputc = (UIInput) input;
+            ajaxEvent = inputc.getDefaultEventName();
+         }
+         if (ajaxEvent != null)
+         {
             Map<String, List<ClientBehavior>> behaviors = inputc.getClientBehaviors();
-            if (!behaviors.containsKey("blur"))
+            if (!behaviors.containsKey(ajaxEvent))
             {
                AjaxBehavior ajax = new AjaxBehavior();
                ajax.setRender(Arrays.asList(containerId));
-               inputc.addClientBehavior("blur", ajax);
+               inputc.addClientBehavior(ajaxEvent.toLowerCase(), ajax);
             }
          }
          if (input.isRequired() || isRequiredByConstraint(input, validator, context))

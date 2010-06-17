@@ -40,16 +40,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
-import org.jboss.seam.examples.booking.Bundles;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Booking_;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.model.User_;
 import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
 /**
@@ -111,14 +110,14 @@ public class BookingHistory
       if (booking != null)
       {
          em.remove(booking);
-         messages.info(new BundleKey(Bundles.MESSAGES, "booking.canceled"))
+         messages.info(new DefaultBundleKey("booking.canceled"))
                .textDefault("The booking at the {0} on {1} has been canceled.")
                .textParams(selectedBooking.getHotel().getName(),
                      DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
       }
       else
       {
-         messages.info(new BundleKey(Bundles.MESSAGES, "booking.doesNotExist"))
+         messages.info(new DefaultBundleKey("booking.doesNotExist"))
                .textDefault("Our records indicate that the booking you selected has already been canceled.");
       }
 

@@ -9,15 +9,14 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
-import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * @author Dan Allen
  */
-@FacesValidator(value = "currentPasswordValidator")
+@FacesValidator("currentPasswordValidator")
 public class CurrentPasswordValidator implements Validator
 {
    @Inject
@@ -37,7 +36,7 @@ public class CurrentPasswordValidator implements Validator
           * This is an ugly way to put i18n in FacesMessages: https://jira.jboss.org/browse/SEAMFACES-24
           */
          throw new ValidatorException(new FacesMessage(msg.get().text(
-                  new BundleKey(Bundles.MESSAGES, "account.passwordNotConfirmed")).build()
+                  new DefaultBundleKey("account.passwordNotConfirmed")).build()
                   .getText()));
       }
    }

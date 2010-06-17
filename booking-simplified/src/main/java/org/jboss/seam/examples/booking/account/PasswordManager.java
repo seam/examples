@@ -22,25 +22,22 @@
 package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * @author Dan Allen
  */
-@Named
 @Stateful
-@RequestScoped
+@Model
 public class PasswordManager
 {
    @PersistenceContext
@@ -62,7 +59,7 @@ public class PasswordManager
    public void changePassword()
    {
       em.merge(user);
-      messages.info(new BundleKey(Bundles.MESSAGES, "account.passwordChanged")).textDefault("Password successfully updated.");
+      messages.info(new DefaultBundleKey("account.passwordChanged")).textDefault("Password successfully updated.");
       changed = true;
    }
 

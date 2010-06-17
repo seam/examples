@@ -27,11 +27,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.examples.booking.Bundles;
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.international.status.builder.BundleKey;
 import org.slf4j.Logger;
 
 /**
@@ -64,7 +63,7 @@ public class Authenticator
       log.info("Logging in " + credentials.getUsername());
       if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
       {
-         messages.info(new BundleKey(Bundles.MESSAGES, "identity.loginFailed"));
+         messages.info(new DefaultBundleKey("identity.loginFailed"));
          return false;
       }
 
@@ -72,12 +71,12 @@ public class Authenticator
       if ((user != null) && user.getPassword().equals(credentials.getPassword()))
       {
          loginEventSrc.fire(user);
-         messages.info(new BundleKey(Bundles.MESSAGES, "identity.loggedIn"), user.getName());
+         messages.info(new DefaultBundleKey("identity.loggedIn"), user.getName());
          return true;
       }
       else
       {
-         messages.info(new BundleKey(Bundles.MESSAGES, "identity.loginFailed"));
+         messages.info(new DefaultBundleKey("identity.loginFailed"));
          return false;
       }
    }

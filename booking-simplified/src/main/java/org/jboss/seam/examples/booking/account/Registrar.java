@@ -23,6 +23,7 @@ package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
@@ -33,7 +34,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.jboss.seam.examples.booking.Bundles;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
@@ -41,9 +42,8 @@ import org.jboss.seam.international.status.builder.BundleKey;
 /**
  * @author Dan Allen
  */
-@Named
 @Stateful
-@RequestScoped
+@Model
 public class Registrar
 {
    @PersistenceContext
@@ -74,7 +74,7 @@ public class Registrar
          registered = true;
          em.persist(newUser);
 
-         messages.info(new BundleKey(Bundles.MESSAGES, "registration.registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
+         messages.info(new DefaultBundleKey("registration.registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
       }
       else
       {
@@ -101,7 +101,7 @@ public class Registrar
    {
       if (facesContext.isValidationFailed() || registrationInvalid)
       {
-         messages.warn(new BundleKey(Bundles.MESSAGES, "registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+         messages.warn(new DefaultBundleKey("registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
       }
    }
 

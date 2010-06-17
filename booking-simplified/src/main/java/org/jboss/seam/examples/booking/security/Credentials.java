@@ -21,9 +21,38 @@
  */
 package org.jboss.seam.examples.booking.security;
 
-public interface Credentials {
-   String getUsername();
-   void setUsername(String username);
-   String getPassword();
-   void setPassword(String password);
+import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+
+/**
+ * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ */
+@Named
+@SessionScoped
+public class Credentials implements Serializable
+{
+   private String username;
+   private String password;
+
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public void setUsername(final String username)
+   {
+      this.username = username;
+   }
+
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(final String password)
+   {
+      this.password = password;
+   }
 }
