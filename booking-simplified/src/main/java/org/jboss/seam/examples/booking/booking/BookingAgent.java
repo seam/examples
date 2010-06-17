@@ -109,6 +109,7 @@ public class BookingAgent
    public void validate()
    {
       // if we got here, all validations passed
+      log.info("Does the persistence context still contain the hotel instance? " + em.contains(booking.getHotel()));
       bookingValid = true;
    }
 
