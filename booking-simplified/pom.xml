@@ -170,7 +170,7 @@
 
    <build>
       <defaultGoal>package</defaultGoal>
-      <finalName>${project.artifactId}</finalName>
+      <finalName>booking</finalName>
       <plugins>
 
          <plugin>
