@@ -45,7 +45,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
  * 
  * @author Dan Allen
  */
-@FacesValidator("reservationDateRangeValidator")
+@FacesValidator("reservationDateRange")
 public class ReservationDateRangeValidator implements Validator
 {
    @Inject

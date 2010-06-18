@@ -47,7 +47,9 @@ import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
 
 import com.ocpsoft.pretty.time.PrettyTime;
+import java.util.Locale;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
+import org.jboss.seam.international.locale.UserLocale;
 
 /**
  * @author Dan Allen
@@ -72,6 +74,9 @@ public class BookingAgent
    @Inject
    @Authenticated
    private User user;
+
+   @Inject
+   private Locale locale;
 
    @Inject
    @Confirmed
@@ -130,7 +135,7 @@ public class BookingAgent
    public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
    {
       log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new DefaultBundleKey("booking.confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime().format(booking.getCheckinDate()));
+      messages.info(new DefaultBundleKey("booking.confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
    }
 
    @Produces

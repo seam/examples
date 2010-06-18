@@ -54,8 +54,8 @@
                <p:input id="confirmPassword">
                   <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">
                      <f:ajax event="blur"
-                             execute="@this @form:password:input @form:passwordCheck"
-                             render="confirmPassword @form:password :messages"/>
+                        execute="@this @form:password:input @form:passwordCheck"
+                        render="confirmPassword @form:password :messages"/>
                   </h:inputSecret>
                </p:input>
 
@@ -76,7 +76,7 @@
 
             </fieldset>
 
-            <s:validateForm id="passwordCheck" validatorId="confirmPasswordValidator"
+            <s:validateForm id="passwordCheck" validatorId="confirmPassword"
             	fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
 
          </h:form>

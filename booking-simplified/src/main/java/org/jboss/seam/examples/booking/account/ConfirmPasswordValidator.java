@@ -37,7 +37,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator("confirmPasswordValidator")
+@FacesValidator("confirmPassword")
 public class ConfirmPasswordValidator implements Validator
 {
    @Inject

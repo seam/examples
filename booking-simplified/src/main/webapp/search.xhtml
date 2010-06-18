@@ -104,8 +104,8 @@ function controlSpinner(behavior)
             You must be logged in to see the list of your hotel bookings.
          </h:panelGroup>
          <h:form id="bookings" rendered="#{identity.loggedIn}">
-            <h:outputText value="No bookings found." rendered="#{bookings.size() == 0}"/>
-            <h:dataTable id="bookings" value="#{bookings}" var="_booking" rendered="#{bookings.size() gt 0}">
+            <h:outputText value="No bookings found." rendered="#{empty bookings}"/>
+            <h:dataTable id="bookings" value="#{bookings}" var="_booking" rendered="#{not empty bookings}">
                <h:column id="nameCol">
                   <f:facet id="nameFct" name="header">Hotel name</f:facet>
                   #{_booking.hotel.name}

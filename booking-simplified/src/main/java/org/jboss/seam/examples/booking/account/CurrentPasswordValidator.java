@@ -37,7 +37,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 /**
  * @author Dan Allen
  */
-@FacesValidator("currentPasswordValidator")
+@FacesValidator("currentPassword")
 public class CurrentPasswordValidator implements Validator
 {
    @Inject
