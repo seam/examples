@@ -10,5 +10,4 @@
    <alternatives>
       <class>org.jboss.seam.examples.booking.bootstrap.ApplicationInitializer</class>
    </alternatives>
-   
 </beans>
