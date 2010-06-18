@@ -11,18 +11,11 @@
    <ui:define name="content">
       <div class="section">
 
-         <h1>About this example application</h1>
+         <h1>#{bundles.messages.home_header}</h1>
 
-         <p>
-            This sample application demonstrates how easy it is to develop stateful web applications using Java EE 6
-            augmented with portable Seam modules. Just register, login, and book a room to see the future of Java EE in
-            action. Throughout the application you'll see notes in the sidebar that explain how this platform helps you
-            meet enterprise application requirements.
-         </p>
+         <p>#{bundles.messages.home_body}</p>
 
-         <p>
-            Note: Please do NOT enter personal information or your credit card number in this sample application.
-         </p>
+         <p>#{bundles.messages.home_note}</p>
 
          <!--
          <p>
@@ -45,19 +38,19 @@
       <h:form id="login" rendered="#{not identity.loggedIn}">
          <fieldset>
             <div>
-               <h:outputLabel for="username" value="Username"/>
+               <h:outputLabel for="username" value="#{bundles.messages.home_usernameLabel}"/>
                <h:inputText id="username" value="#{credentials.username}" style="width: 175px;"/>
                <div class="errors"><h:message for="username"/></div>
             </div>
             <div>
-               <h:outputLabel for="password" value="Password"/>
+               <h:outputLabel for="password" value="#{bundles.messages.home_passwordLabel}"/>
                <h:inputSecret id="password" value="#{credentials.password}" style="width: 175px;"/>
             </div>
             <div class="errors"><h:messages id="messages" globalOnly="true"/></div>
-            <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Login"/></div>
-            <div class="notes"><h:link id="register" outcome="/register.xhtml" value="Register New User"/></div>
+            <div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="#{bundles.messages.home_loginAction}"/></div>
+            <div class="notes"><h:link id="register" outcome="/register.xhtml" value="#{bundles.messages.home_registerAction}"/></div>
             <div class="subnotes">
-               Or use a demo account:
+               #{bundles.messages.home_useDemoAccount}
                <ul>
                   <li>gavin/mexico</li>
                   <li>pete/edinburgh</li>

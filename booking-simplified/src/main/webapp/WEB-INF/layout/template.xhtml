@@ -21,18 +21,18 @@
                <div id="status">
                   <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
                   #{' '}
-                  <pretty:link mappingId="home">Home</pretty:link>
+                  <pretty:link mappingId="home">#{bundles.messages.template_linkHome}</pretty:link>
                   #{' | '}
-                  <h:link id="search" outcome="/search.xhtml" value="Find a Hotel"/>
+                  <h:link id="search" outcome="/search.xhtml" value="#{bundles.messages.template_linkHotels}"/>
                   <h:panelGroup rendered="#{not identity.loggedIn}">
                      #{' | '}
-	                  <pretty:link mappingId="home">Login</pretty:link>
+	                  <pretty:link mappingId="home">#{bundles.messages.template_linkLogin}</pretty:link>
                   </h:panelGroup>
                   <h:panelGroup rendered="#{identity.loggedIn}">
                      #{' | '}
-                     <pretty:link mappingId="account">Account</pretty:link>
+                     <pretty:link mappingId="account">#{bundles.messages.template_linkAccount}</pretty:link>
                      #{' | '}
-                     <pretty:link mappingId="logout">Logout</pretty:link>
+                     <pretty:link mappingId="logout">#{bundles.messages.template_linkLogout}</pretty:link>
                   </h:panelGroup>
                </div>
             </h:form>
@@ -46,8 +46,8 @@
             </div>
          </div>
          <div id="footer">
-            Created with Seam 3.0, CDI 1.0, EJB 3.1 and JSF 2.0<br/>
-            Current conversation: #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
+            #{bundles.messages.template_createdWith}<br/>
+            #{bundles.messages.template_currentConversation}: #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
          </div>
       </div>
    </h:body>
