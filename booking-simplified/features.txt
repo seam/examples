@@ -4,34 +4,32 @@ This document is a list of features that the Seam booking example demonstrates, 
 
 Java EE 6
 
-
-* No-interface session beans (EJBs) (BookingAgent.java, etc.) 
-* Conversations (hotel.xhtml =» book.xhtml =» confirm.xhtml) 
-* Extended Persistence Context (BookingAgent.java) 
-* JPA Criteria Query (HotelSearch.java, BookingHistory.java) 
-* Bean Validation on entity classes (User.java, Hotel.java, Booking.java) 
-* Bean Validation on managed beans (Registrar.java, PasswordManager.java) 
-* Bean Validation-powered JSF validations 
-* Parameterized EL (search.xhtml, hotel.xhtml)
-
-* Reference data producers (CreditCardReferenceProducer.java, CalendarReferenceProducer.java) 
-* List of entities producer (BookingHistory.java) 
-* Named producer (AccountHolder.java) 
-* Instance«T» (BookingHistory.java) 
-* Events (BookingAgent.java) 
-* After transaction success event observer (BookingHistory.java) 
-* Bean alternative (ApplicationInitializer.java) 
-* Enum entity field (persist an enum value) 
-* Standardized Facelets 
-* View metadata and declarative preRenderView JSF event (register.xhtml) 
-* Conditional navigation (faces-config.xml) 
-* Declarative Ajax behavior (register.xhtml, search.xhtml) 
-* Ajax JavaScript callback (spinner) (search.xhtml) 
-* Bookmarkable URL tags («h:link», «h:button») (account.xhtml, search.xhtml, etc.) 
-* View parameters (hotel.xhtml) 
-* Implicit navigation 
-* Dynamic UISelect items from collection 
-* Composite components (input.xhtml, output.xhtml, displayAccount.xhtml, displayHotel.xhtml) 
+   * No-interface session beans (EJBs) (BookingAgent.java, etc.) 
+   * Conversations (hotel.xhtml => book.xhtml => confirm.xhtml) 
+   * Extended Persistence Context (BookingAgent.java) 
+   * JPA Criteria Query (HotelSearch.java, BookingHistory.java) 
+   * Bean Validation on entity classes (User.java, Hotel.java, Booking.java) 
+   * Bean Validation on managed beans (Registrar.java, PasswordManager.java) 
+   * Bean Validation-powered JSF validations 
+   * Parameterized EL (search.xhtml, hotel.xhtml)
+   * Reference data producers (CreditCardReferenceProducer.java, CalendarReferenceProducer.java) 
+   * List of entities producer (BookingHistory.java) 
+   * Named producer (AccountHolder.java) 
+   * Instance<T> (BookingHistory.java) 
+   * Events (BookingAgent.java) 
+   * After transaction success event observer (BookingHistory.java) 
+   * Bean alternative (ApplicationInitializer.java) 
+   * Enum entity field (persist an enum value) 
+   * Standardized Facelets 
+   * View metadata and declarative preRenderView JSF event (register.xhtml) 
+   * Conditional navigation (faces-config.xml) 
+   * Declarative Ajax behavior (register.xhtml, search.xhtml) 
+   * Ajax JavaScript callback (spinner) (search.xhtml) 
+   * Bookmarkable URL tags (<h:link>, <h:button>) (account.xhtml, search.xhtml, etc.) 
+   * View parameters (hotel.xhtml) 
+   * Implicit navigation 
+   * Dynamic UISelect items from collection 
+   * Composite components (input.xhtml, output.xhtml, displayAccount.xhtml, displayHotel.xhtml) 
 
 Weld Extensions 
 
@@ -42,7 +40,6 @@ Seam 3
    * Inter-component validator (cross-field validation) (register.xhtml, password.xhtml, book.xhtml) 
    * Cross-field validation with Ajax (register.xhtml) 
    * Validator/Converter @Inject and @*Scoped support - namely CurrentPasswordValidator
-
    * View technology-agnostic status messages with i18n support (BookingAgent.java, etc.) 
    * MessagesAdaptor saving over redirects in the flash scope automatically 
    * @Begin and @End conversation-controls on the booking flow - @Begin on BookingAgent.selectHotel(), and @End on cancel() or confirm() 
@@ -56,3 +53,10 @@ Seam 3
    * URL-rewriting on all pages with PrettyFaces - automatically replaces outbound link URLs and redirects with correct "pretty/parameterized" URL. 
    * Relative timestamps with PrettyTime - when a booking is confirmed, displays time until check-in. 
    * JSF system event to CDI event bridge (ApplicationInitializer.java)
+   * XML configuration (seam-beans.xml)
+
+Best practices (draft)
+
+   * Be careful using a @Named @RequestScoped producer, variable doesn't get updated after the action is executed w/o a redirect
+   * Prefer EL variable producing methods to be @Dependent scope, expose state
+   * If form uses <f:ajax/> for blur validation, submit button should use ajax (or somehow cancel the current events)
