@@ -1,4 +1,16 @@
-You will need to start JavaDB to make the application run
+JBoss AS
+--------
+You need the latest nightly build of JBoss AS 6.0.x to run this application on a JBoss AS instance:
+
+http://hudson.jboss.org/hudson/view/JBoss%20AS/job/JBoss-AS-6.0.x/lastSuccessfulBuild/artifact/JBossAS_6_0/build/target/jboss-6.0.x.zip
+
+You then need to copy the booking-ds.xml file to JBoss AS
+
+cp src/main/resources-jbossas/booking-ds.xml $JBOSS_HOME/server/default/deploy/
+
+GlassFish
+---------
+You will need to start JavaDB to make the application run on GlassFish
 
 $GLASSFISH_HOME/bin/asadmin start-database
 
