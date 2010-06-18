@@ -297,28 +297,6 @@
       </profile>
 
       <profile>
-         <id>glassfish</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-simple</artifactId>
-               <version>1.5.10</version>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.spec</groupId>
-               <artifactId>jboss-javaee-6.0</artifactId>
-               <version>${jboss-javaee6-spec.version}</version>
-               <type>pom</type>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
-      </profile>
-
-      <profile>
          <id>jbossas-remote-60</id>
          <dependencies>
             <dependency>
