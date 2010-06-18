@@ -23,6 +23,7 @@ package org.jboss.seam.examples.booking.security;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,7 +44,7 @@ import org.slf4j.Logger;
 public class Authenticator
 {
    @Inject
-   private Logger log;
+   private Instance<Logger> log;
 
    @PersistenceContext
    private EntityManager em;
@@ -60,7 +61,7 @@ public class Authenticator
 
    public boolean authenticate()
    {
-      log.info("Logging in " + credentials.getUsername());
+      log.get().info("Logging in " + credentials.getUsername());
       if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
       {
          messages.info(new DefaultBundleKey("identity.loginFailed"));
