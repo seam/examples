@@ -108,7 +108,7 @@ public class BookingAgent
       // for demo convenience
       booking.setCreditCardNumber("1111222233334444");
 
-      messages.info(new DefaultBundleKey("booking.initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
+      messages.info(new DefaultBundleKey("booking_initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
    }
 
    public void validate()
@@ -135,7 +135,7 @@ public class BookingAgent
    public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
    {
       log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new DefaultBundleKey("booking.confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
+      messages.info(new DefaultBundleKey("booking_confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
    }
 
    @Produces

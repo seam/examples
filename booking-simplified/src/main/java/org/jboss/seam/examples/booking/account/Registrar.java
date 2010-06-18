@@ -74,7 +74,7 @@ public class Registrar
          registered = true;
          em.persist(newUser);
 
-         messages.info(new DefaultBundleKey("registration.registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
+         messages.info(new DefaultBundleKey("registration_registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
       }
       else
       {
@@ -101,7 +101,7 @@ public class Registrar
    {
       if (facesContext.isValidationFailed() || registrationInvalid)
       {
-         messages.warn(new DefaultBundleKey("registration.invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+         messages.warn(new DefaultBundleKey("registration_invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
       }
    }
 
@@ -143,7 +143,7 @@ public class Registrar
       User existing = em.find(User.class, newUser.getUsername());
       if (existing != null)
       {
-         messages.warn(new BundleKey("messages", "account.usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(usernameInput.getClientId()).textParams(newUser.getUsername());
+         messages.warn(new BundleKey("messages", "account_usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(usernameInput.getClientId()).textParams(newUser.getUsername());
          return false;
       }
 

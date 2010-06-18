@@ -64,7 +64,7 @@ public class Authenticator
       log.get().info("Logging in " + credentials.getUsername());
       if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
       {
-         messages.info(new DefaultBundleKey("identity.loginFailed"));
+         messages.info(new DefaultBundleKey("identity_loginFailed"));
          return false;
       }
 
@@ -72,12 +72,12 @@ public class Authenticator
       if ((user != null) && user.getPassword().equals(credentials.getPassword()))
       {
          loginEventSrc.fire(user);
-         messages.info(new DefaultBundleKey("identity.loggedIn"), user.getName());
+         messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
          return true;
       }
       else
       {
-         messages.info(new DefaultBundleKey("identity.loginFailed"));
+         messages.info(new DefaultBundleKey("identity_loginFailed"));
          return false;
       }
    }

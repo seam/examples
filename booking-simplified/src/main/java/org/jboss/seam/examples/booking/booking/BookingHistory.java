@@ -110,14 +110,14 @@ public class BookingHistory
       if (booking != null)
       {
          em.remove(booking);
-         messages.info(new DefaultBundleKey("booking.canceled"))
+         messages.info(new DefaultBundleKey("booking_canceled"))
                .textDefault("The booking at the {0} on {1} has been canceled.")
                .textParams(selectedBooking.getHotel().getName(),
                      DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
       }
       else
       {
-         messages.info(new DefaultBundleKey("booking.doesNotExist"))
+         messages.info(new DefaultBundleKey("booking_doesNotExist"))
                .textDefault("Our records indicate that the booking you selected has already been canceled.");
       }
 

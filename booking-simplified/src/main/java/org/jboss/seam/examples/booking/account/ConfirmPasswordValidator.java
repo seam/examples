@@ -58,7 +58,7 @@ public class ConfirmPasswordValidator implements Validator
       {
          throw new ValidatorException(
             new FacesMessage(messageBuilder.get().text(
-               new DefaultBundleKey("account.passwordsDoNotMatch"))
+               new DefaultBundleKey("account_passwordsDoNotMatch"))
                   // targets not honored yet
                   //.targets(fieldMap.get("confirmPassword").getClientId())
                   .build().getText()));
