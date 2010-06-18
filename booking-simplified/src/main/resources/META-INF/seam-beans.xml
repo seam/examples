@@ -27,7 +27,8 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       http://java.sun.com/xml/ns/javaee 
       http://docs.jboss.org/cdi/beans_1_0.xsd">
 
-   <i18n:DefaultLocaleProducer defaultLocaleKey="de_DE">
+   <!-- Try out i18n support by changing defaultLocaleKey to de -->
+   <i18n:DefaultLocaleProducer defaultLocaleKey="en_US">
       <s:specializes />
    </i18n:DefaultLocaleProducer>
 </beans>
