@@ -4,9 +4,13 @@ You need the latest nightly build of JBoss AS 6.0.x to run this application on a
 
 http://hudson.jboss.org/hudson/view/JBoss%20AS/job/JBoss-AS-6.0.x/lastSuccessfulBuild/artifact/JBossAS_6_0/build/target/jboss-6.0.x.zip
 
-You then need to copy the booking-ds.xml file to JBoss AS
+Extract the server, set the JBOSS_HOME environment variable and start it. Then, deploy the application:
 
-cp src/main/resources-jbossas/booking-ds.xml $JBOSS_HOME/server/default/deploy/
+ mvn package jboss:hard-deploy
+
+That command will deploy two files, booking-ds.xml and booking.war. You can undeploy using:
+
+ mvn jboss:hard-undeploy
 
 GlassFish
 ---------

@@ -47,10 +47,12 @@
          <name>JBoss Repository</name>
          <url>https://repository.jboss.org/nexus/content/groups/public</url>
          <releases>
+            <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
          </releases>
          <snapshots>
             <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
          </snapshots>
       </repository>
    </repositories>
@@ -61,10 +63,12 @@
          <name>JBoss Repository</name>
          <url>https://repository.jboss.org/nexus/content/groups/public</url>
          <releases>
+            <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
          </releases>
          <snapshots>
-            <enabled>false</enabled>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
@@ -243,20 +247,6 @@
             </configuration>
          </plugin>
 
-         <!-- Configure the JBoss AS Maven deploy plugin -->
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jboss-maven-plugin</artifactId>
-            <version>1.4</version>
-            <configuration>
-               <jbossHome>${jboss.home}</jbossHome>
-               <serverName>${jboss.domain}</serverName>
-               <fileNames>
-                  <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
-               </fileNames>
-            </configuration>
-         </plugin>
-
       </plugins>
    </build>
 
@@ -291,11 +281,14 @@
                <plugin>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>jboss-maven-plugin</artifactId>
+                  <!-- only version 1.4.1 supports hard deploying multiple files -->
+                  <version>1.4.1-SNAPSHOT</version>
                   <configuration>
                      <jbossHome>${jboss.home}</jbossHome>
                      <serverName>${jboss.domain}</serverName>
                      <fileNames>
-                        <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
+                        <param>src/main/resources-jbossas/booking-ds.xml</param>
+                        <param>${project.build.directory}/${project.build.finalName}.war</param>
                      </fileNames>
                   </configuration>
                </plugin>
