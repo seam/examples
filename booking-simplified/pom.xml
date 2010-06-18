@@ -33,7 +33,7 @@
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
       <arquillian.version>1.0.0-SNAPSHOT</arquillian.version>
-      <glassfish.version>3.0.1-b02</glassfish.version>
+      <glassfish.version>3.0.1-b19</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
       <jboss-as-client.version>6.0.0.20100216-M2</jboss-as-client.version>
       <jboss-javaee6-spec.version>1.0.0.Beta4</jboss-javaee6-spec.version>
@@ -257,20 +257,6 @@
             </configuration>
          </plugin>
 
-         <!-- Configure the Embedded GlassFish Maven plugin -->
-         <plugin>
-            <groupId>org.glassfish</groupId>
-            <artifactId>maven-embedded-glassfish-plugin</artifactId>
-            <version>3.0</version>
-            <configuration>
-               <app>${project.build.directory}/${project.build.finalName}.war</app>
-               <port>7070</port>
-               <containerType>web</containerType>
-               <instanceRoot>${project.build.directory}/gfembed${maven.build.timestamp}</instanceRoot>
-               <autoDelete>true</autoDelete>
-            </configuration>
-         </plugin>
-
       </plugins>
    </build>
 
@@ -334,43 +320,6 @@
                <artifactId>jboss-javaee-6.0</artifactId>
                <version>${jboss-javaee6-spec.version}</version>
                <type>pom</type>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
-      </profile>
-
-      <profile>
-         <id>glassfish-embedded</id>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.glassfish</groupId>
-                  <artifactId>maven-embedded-glassfish-plugin</artifactId>
-                  <version>3.0</version>
-                  <configuration>
-                     <app>${project.build.directory}/${project.build.finalName}.war</app>
-                     <port>7070</port>
-                     <containerType>web</containerType>
-                     <instanceRoot>${project.build.directory}/gfembed${maven.build.timestamp}</instanceRoot>
-                     <autoDelete>true</autoDelete>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-         <dependencies>
-            <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-            </dependency>
-            <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-simple</artifactId>
-               <version>1.5.10</version>
-            </dependency>
-            <dependency>
-               <groupId>org.glassfish.extras</groupId>
-               <artifactId>glassfish-embedded-all</artifactId>
-               <version>${glassfish.version}</version>
                <scope>provided</scope>
             </dependency>
          </dependencies>
