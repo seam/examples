@@ -28,7 +28,9 @@ Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
       http://docs.jboss.org/cdi/beans_1_0.xsd">
 
     <lc:DefaultLocaleProducer>
-    	<s:extends />
-        <lc:defaultLocaleKey>DE</lc:defaultLocaleKey>
+    	<s:specializes />
+        <lc:defaultLocaleKey>
+        	<s:value>de_DE</s:value>
+        </lc:defaultLocaleKey>
     </lc:DefaultLocaleProducer>
 </beans>
