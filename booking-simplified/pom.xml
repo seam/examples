@@ -40,11 +40,10 @@
          <url>https://repository.jboss.org/nexus/content/groups/public</url>
          <releases>
             <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
          </releases>
          <snapshots>
             <enabled>true</enabled>
-            <updatePolicy>daily</updatePolicy>
+            <updatePolicy>never</updatePolicy>
          </snapshots>
       </repository>
    </repositories>
@@ -60,7 +59,7 @@
          </releases>
          <snapshots>
             <enabled>true</enabled>
-            <updatePolicy>daily</updatePolicy>
+            <updatePolicy>never</updatePolicy>
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
