@@ -30,6 +30,8 @@ import javax.inject.Named;
 import org.jboss.seam.examples.booking.model.User;
 
 /**
+ * Exposes the currently logged in user
+ * 
  * @author Dan Allen
  */
 @Stateful

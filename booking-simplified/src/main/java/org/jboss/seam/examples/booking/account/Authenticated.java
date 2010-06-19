@@ -33,14 +33,11 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-import org.jboss.seam.examples.booking.model.User;
-
 /**
- * A binding type representing something that is registererd.
- * In this simple application the only thing that can be
- * registered is a {@link User}.
+ * A qualifier, which indicates that the user has been sucessfully authenticated
+ * 
+ * @author pmuir
  *
- * @author Dan Allen
  */
 @Target({TYPE, METHOD, PARAMETER, FIELD})
 @Retention(RUNTIME)
