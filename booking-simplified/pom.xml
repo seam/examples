@@ -165,7 +165,7 @@
 
    <build>
       <defaultGoal>package</defaultGoal>
-      <finalName>booking</finalName>
+      <finalName>seam-booking</finalName>
       <plugins>
 
          <plugin>
