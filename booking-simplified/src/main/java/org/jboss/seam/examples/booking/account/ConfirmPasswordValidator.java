@@ -21,7 +21,6 @@
  */
 package org.jboss.seam.examples.booking.account;
 
-import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -35,13 +34,16 @@ import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
+ * Validate that both the password fields contain the same value. Implements the
+ * classic pasword change validation.
+ * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @FacesValidator("confirmPassword")
 public class ConfirmPasswordValidator implements Validator
 {
    @Inject
-   private Instance<BundleTemplateMessage> messageBuilder;
+   private BundleTemplateMessage messageBuilder;
 
    @Inject
    @InputField
@@ -53,15 +55,9 @@ public class ConfirmPasswordValidator implements Validator
 
    public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException
    {
-      //Map<String, UIInput> fieldMap = (Map<String, UIInput>) components;
       if ((newPassword != null) && !newPassword.equals(confirmPassword))
       {
-         throw new ValidatorException(
-            new FacesMessage(messageBuilder.get().text(
-               new DefaultBundleKey("account_passwordsDoNotMatch"))
-                  // targets not honored yet
-                  //.targets(fieldMap.get("confirmPassword").getClientId())
-                  .build().getText()));
+         throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordsDoNotMatch")).build().getText()));
       }
    }
 
