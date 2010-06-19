@@ -34,10 +34,11 @@ import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
 
 /**
+ * The view controller for changing the user password
+ * 
  * @author Dan Allen
  */
-@Stateful
-@Model
+@Stateful @Model
 public class PasswordManager
 {
    @PersistenceContext
@@ -46,12 +47,10 @@ public class PasswordManager
    @Inject
    private Messages messages;
 
-   @Inject
-   @Authenticated
+   @Inject @Authenticated
    private User user;
 
-   @NotNull
-   @Size(min = 5, max = 15)
+   @NotNull @Size(min = 5, max = 15)
    private String confirmPassword;
 
    private boolean changed;

@@ -34,6 +34,9 @@ import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
+ * A JSF Validator, used to check that the password the user submits matches
+ * that on record.
+ * 
  * @author Dan Allen
  */
 @FacesValidator("currentPassword")
@@ -42,22 +45,19 @@ public class CurrentPasswordValidator implements Validator
    @Inject
    private BundleTemplateMessage messageBuilder;
 
-   @Inject
-   @Authenticated
+   @Inject @Authenticated
    private User currentUser;
 
-   @SuppressWarnings("unchecked")
    public void validate(final FacesContext ctx, final UIComponent comp, final Object value) throws ValidatorException
    {
       String currentPassword = (String) value;
       if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(currentPassword))
       {
          /*
-          * This is an ugly way to put i18n in FacesMessages: https://jira.jboss.org/browse/SEAMFACES-24
+          * This is an ugly way to put i18n in FacesMessages:
+          * https://jira.jboss.org/browse/SEAMFACES-24
           */
-         throw new ValidatorException(new FacesMessage(messageBuilder.text(
-                  new DefaultBundleKey("account_passwordNotConfirmed")).build()
-                  .getText()));
+         throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordNotConfirmed")).build().getText()));
       }
    }
 

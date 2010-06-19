@@ -40,6 +40,8 @@ import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
+ * The view controller for registering a new user
+ * 
  * @author Dan Allen
  */
 @Stateful
@@ -59,8 +61,7 @@ public class Registrar
 
    private final User newUser = new User();
 
-   @NotNull
-   @Size(min = 5, max = 15)
+   @NotNull @Size(min = 5, max = 15)
    private String confirmPassword;
 
    private boolean registered;

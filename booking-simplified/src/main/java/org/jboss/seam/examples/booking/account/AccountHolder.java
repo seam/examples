@@ -34,15 +34,12 @@ import org.jboss.seam.examples.booking.model.User;
  * 
  * @author Dan Allen
  */
-@Stateful
-@SessionScoped
+@Stateful @SessionScoped
 public class AccountHolder
 {
    private User currentUser;
 
-   @Produces
-   @Authenticated
-   @Named("currentUser")
+   @Produces @Authenticated @Named("currentUser")
    public User getCurrentAccount()
    {
       return currentUser;

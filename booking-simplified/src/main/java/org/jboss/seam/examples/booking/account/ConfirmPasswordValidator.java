@@ -45,12 +45,10 @@ public class ConfirmPasswordValidator implements Validator
    @Inject
    private BundleTemplateMessage messageBuilder;
 
-   @Inject
-   @InputField
+   @Inject @InputField
    private String newPassword;
 
-   @Inject
-   @InputField
+   @Inject @InputField
    private String confirmPassword;
 
    public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException
