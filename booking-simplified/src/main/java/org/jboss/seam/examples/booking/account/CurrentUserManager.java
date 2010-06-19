@@ -35,7 +35,7 @@ import org.jboss.seam.examples.booking.model.User;
  * @author Dan Allen
  */
 @Stateful @SessionScoped
-public class AccountHolder
+public class CurrentUserManager
 {
    private User currentUser;
 
