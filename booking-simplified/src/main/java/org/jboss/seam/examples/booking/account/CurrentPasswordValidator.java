@@ -21,7 +21,6 @@
  */
 package org.jboss.seam.examples.booking.account;
 
-import javax.enterprise.inject.Instance;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -41,7 +40,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 public class CurrentPasswordValidator implements Validator
 {
    @Inject
-   private Instance<BundleTemplateMessage> msg;
+   private BundleTemplateMessage messageBuilder;
 
    @Inject
    @Authenticated
@@ -56,7 +55,7 @@ public class CurrentPasswordValidator implements Validator
          /*
           * This is an ugly way to put i18n in FacesMessages: https://jira.jboss.org/browse/SEAMFACES-24
           */
-         throw new ValidatorException(new FacesMessage(msg.get().text(
+         throw new ValidatorException(new FacesMessage(messageBuilder.text(
                   new DefaultBundleKey("account_passwordNotConfirmed")).build()
                   .getText()));
       }
