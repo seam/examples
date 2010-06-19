@@ -19,16 +19,8 @@
    <name>Seam Booking Example (Simplified packaging)</name>
    <description>The Seam booking example packaged using the simplified Java EE packaging</description>
    <url>http://seamframework.org/Seam3</url>
-   <licenses>
-      <license>
-         <name>Apache License, Version 2.0</name>
-         <distribution>repo</distribution>
-         <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      </license>
-   </licenses>
 
    <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <webapp.directory>src/main/webapp</webapp.directory>
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
