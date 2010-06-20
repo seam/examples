@@ -24,15 +24,14 @@ package org.jboss.seam.examples.booking.bootstrap;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.Stateless;
-import javax.enterprise.event.Observes;
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.enterprise.inject.Alternative;
-import javax.faces.event.PostConstructApplicationEvent;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
+import javax.transaction.UserTransaction;
 
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -41,12 +40,15 @@ import org.slf4j.Logger;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@Stateless
+@Singleton @Startup
 @Alternative
 public class ApplicationInitializer
 {
    @PersistenceContext
-   private EntityManager em;
+   private EntityManager entityManager;
+   
+   @Inject
+   private UserTransaction utx;
 
    @Inject
    Logger log;
@@ -88,7 +90,8 @@ public class ApplicationInitializer
       hotels.add(new Hotel(100, 2, "Hotel Cammerpoorte", "Nationalestraat 38-40", "Antwerp", null, "2000", "BE"));
    }
 
-   public void init(@Observes final PostConstructApplicationEvent event)
+   @PostConstruct
+   public void init()
    {
       try
       {
@@ -101,7 +104,7 @@ public class ApplicationInitializer
       }
    }
 
-   private void persist(final List entities)
+   private void persist(List<?> entities)
    {
       for (Object e : entities)
       {
@@ -109,17 +112,24 @@ public class ApplicationInitializer
       }
    }
 
-   private void persist(final Object entity)
+   private void persist(Object entity)
    {
       try
       {
-         em.persist(entity);
+         utx.begin();
+         entityManager.persist(entity);
+         utx.commit();
       }
-      catch (ConstraintViolationException e)
+      catch (Exception e) 
       {
-         for (ConstraintViolation v : e.getConstraintViolations())
+         log.error("Error importing data: " + entity, e);
+         try
          {
-            log.error("Cannot persist entity because it has validation errors " + v.getRootBean() + ": " + v.getPropertyPath() + " " + v.getMessage());
+            utx.rollback();
+         }
+         catch (Exception e1)
+         {
+            log.error("Error rolling back transaction", e1);
          }
       }
    }
