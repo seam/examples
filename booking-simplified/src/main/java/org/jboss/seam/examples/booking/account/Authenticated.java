@@ -43,6 +43,4 @@ import javax.inject.Qualifier;
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface Authenticated
-{
-}
+public @interface Authenticated {}
