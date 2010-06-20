@@ -23,6 +23,8 @@ package org.jboss.seam.examples.booking.booking;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
 
+import java.util.Locale;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -37,6 +39,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -47,16 +50,14 @@ import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
 
 import com.ocpsoft.pretty.time.PrettyTime;
-import java.util.Locale;
-import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
-import org.jboss.seam.international.locale.UserLocale;
 
 /**
+ * The BookingAgent manages the main booking flow
+ * 
  * @author Dan Allen
  */
-@Named
-@Stateful
-@ConversationScoped
+
+@Stateful @ConversationScoped @Named
 public class BookingAgent
 {
    @Inject
@@ -71,15 +72,13 @@ public class BookingAgent
    @Inject
    private Messages messages;
 
-   @Inject
-   @Authenticated
+   @Inject @Authenticated
    private User user;
 
    @Inject
    private Locale locale;
 
-   @Inject
-   @Confirmed
+   @Inject @Confirmed
    private Event<Booking> bookingConfirmedEventSrc;
 
    private Hotel hotelSelection;
@@ -138,17 +137,13 @@ public class BookingAgent
       messages.info(new DefaultBundleKey("booking_confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
    }
 
-   @Produces
-   @Named
-   @ConversationScoped
+   @Produces @ConversationScoped @Named
    public Booking getBooking()
    {
       return booking;
    }
 
-   @Produces
-   @Named("hotel")
-   @RequestScoped
+   @Produces @RequestScoped @Named("hotel")
    public Hotel getSelectedHotel()
    {
       return booking != null ? booking.getHotel() : hotelSelection;

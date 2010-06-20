@@ -52,18 +52,18 @@ import org.jboss.seam.international.status.Messages;
 import org.slf4j.Logger;
 
 /**
+ * The booking history exposes the current users existing bookings
+ * 
  * @author Dan Allen
  */
-@Named
-@Stateful
-@SessionScoped
+@Stateful @SessionScoped @Named
 public class BookingHistory
 {
    @Inject
    private Logger log;
 
    @PersistenceContext
-   private EntityManager em;
+   private EntityManager entityManager;
 
    @Inject
    private Messages messages;
@@ -76,9 +76,7 @@ public class BookingHistory
 
    private List<Booking> bookingsForUser = null;
 
-   @Produces
-   @Authenticated
-   @Named("bookings")
+   @Produces @Authenticated @Named("bookings")
    public List<Booking> getBookingsForCurrentUser()
    {
       if (bookingsForUser == null && identity.isLoggedIn())
@@ -88,8 +86,7 @@ public class BookingHistory
       return bookingsForUser;
    }
 
-   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS)
-         @Confirmed final Booking booking)
+   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS) @Confirmed Booking booking)
    {
       // optimization, save the db call
       if (bookingsForUser != null)
@@ -106,10 +103,10 @@ public class BookingHistory
    public void cancelBooking(final Booking selectedBooking)
    {
       log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
-      Booking booking = em.find(Booking.class, selectedBooking.getId());
+      Booking booking = entityManager.find(Booking.class, selectedBooking.getId());
       if (booking != null)
       {
-         em.remove(booking);
+         entityManager.remove(booking);
          messages.info(new DefaultBundleKey("booking_canceled"))
                .textDefault("The booking at the {0} on {1} has been canceled.")
                .textParams(selectedBooking.getHotel().getName(),
@@ -127,7 +124,7 @@ public class BookingHistory
    private void fetchBookingsForCurrentUser()
    {
       String username = currentUserInstance.get().getUsername();
-      CriteriaBuilder builder = em.getCriteriaBuilder();
+      CriteriaBuilder builder = entityManager.getCriteriaBuilder();
       CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
       Root<Booking> booking = cquery.from(Booking.class);
       booking.fetch(Booking_.hotel, JoinType.INNER);
@@ -135,7 +132,7 @@ public class BookingHistory
             .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
             .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
 
-      bookingsForUser = em.createQuery(cquery).getResultList();
+      bookingsForUser = entityManager.createQuery(cquery).getResultList();
    }
 
 }

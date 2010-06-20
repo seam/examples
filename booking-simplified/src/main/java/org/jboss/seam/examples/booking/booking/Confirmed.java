@@ -34,12 +34,12 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
+ * A qualifier, used to differentiate confirmed and unconfirmed bookings
+ * 
  * @author Dan Allen
  */
 @Target( { TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface Confirmed
-{
-}
+public @interface Confirmed {}
