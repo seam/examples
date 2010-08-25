@@ -13,7 +13,7 @@
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
-   <artifactId>seam-booking-simplified</artifactId>
+   <artifactId>seam-javaee-booking</artifactId>
    <version>3.0.0-SNAPSHOT</version>
    <packaging>war</packaging>
    <name>Seam Booking Example (Simplified packaging)</name>
@@ -380,9 +380,9 @@
    </profiles>
 
    <scm>
-      <connection>scm:svn:http://anonsvn.jboss.org/repos/seam/examples/trunk/booking-simplified</connection>
-      <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/examples/trunk/booking-simplified</developerConnection>
-      <url>http://fisheye.jboss.org/browse/seam/examples/trunk/booking-simplified</url>
+      <connection>scm:svn:http://anonsvn.jboss.org/repos/seam/examples/trunk/javaee-booking</connection>
+      <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/examples/trunk/javaee-booking</developerConnection>
+      <url>http://fisheye.jboss.org/browse/seam/examples/trunk/javaee-booking</url>
    </scm>
 
 </project>

@@ -10,7 +10,7 @@
       <version>3.0.0-SNAPSHOT</version>
    </parent>
 
-   <artifactId>seam-servlet-permalink</artifactId>
+   <artifactId>seam-jsf-servlet-permalink</artifactId>
    <packaging>war</packaging>
    <name>Seam Permalink Example (Servlet)</name>
    <description>The Seam permalink example for deployment to a servlet environment</description>
