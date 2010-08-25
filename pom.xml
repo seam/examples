@@ -89,7 +89,7 @@
    </dependencyManagement>
 
    <modules>
-      <module>booking-simplified</module>
+      <module>javaee-booking</module>
    </modules>
 
    <build>
