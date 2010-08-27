@@ -6,8 +6,8 @@
    <persistence-unit name="booking">
       <!--
       <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-      -->
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      -->
       <jta-data-source>jdbc/__default</jta-data-source>
       <class>org.jboss.seam.examples.booking.model.User</class>
       <class>org.jboss.seam.examples.booking.model.Hotel</class>
