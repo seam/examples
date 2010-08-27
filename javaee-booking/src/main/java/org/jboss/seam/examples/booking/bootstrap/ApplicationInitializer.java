@@ -31,6 +31,7 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TransactionRequiredException;
 import javax.transaction.UserTransaction;
 
 import org.jboss.seam.examples.booking.model.Hotel;
@@ -116,9 +117,17 @@ public class ApplicationInitializer
    {
       try
       {
-         utx.begin();
-         entityManager.persist(entity);
-         utx.commit();
+         // work around bug in GlassFish that it cannot locate a UserTransaction
+         try
+         {
+            entityManager.persist(entity);
+         }
+         catch (TransactionRequiredException e)
+         {
+            utx.begin();
+            entityManager.persist(entity);
+            utx.commit();
+         }
       }
       catch (Exception e) 
       {
