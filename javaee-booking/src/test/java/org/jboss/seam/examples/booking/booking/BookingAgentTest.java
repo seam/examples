@@ -51,10 +51,13 @@ public class BookingAgentTest
 
    @Inject
    UserTransaction utx;
+
    @PersistenceContext
    EntityManager em;
+
    @Inject
    BookingAgent bookingAgent;
+
    @Inject
    Instance<Booking> bookingInstance;
 
