@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <arquillian xmlns="http://jboss.com/arquillian"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:gfembedded="urn:arq:org.jboss.arquillian.glassfish.embedded30"
-   xmlns:gfremote="urn:arq:org.jboss.arquillian.container.glassfish.remote30">
+   xmlns:jbossas-remote="urn:arq:org.jboss.arquillian.container.jbossas.remote_6"
+   xmlns:glassfish-remote="urn:arq:org.jboss.arquillian.container.glassfish.remote_3"
+   xmlns:glassfish-embedded="urn:arq:org.jboss.arquillian.container.glassfish.embedded_3">
 
    <engine>
       <deploymentExportPath>/tmp/</deploymentExportPath>
    </engine>
-   
-   <gfremote:container>
-      <gfremote:remoteServerHttpPort>7070</gfremote:remoteServerHttpPort>
-   </gfremote:container>
 
-   <gfembedded:container>
-      <gfembedded:sunResourcesXml>src/test/resources-glassfish/sun-resources.xml</gfembedded:sunResourcesXml>
-   </gfembedded:container>  
+   <jbossas-remote:container>
+      <jbossas-remote:remoteServerHttpPort>8080</jbossas-remote:remoteServerHttpPort>
+   </jbossas-remote:container>
+   
+   <glassfish-remote:container>
+      <glassfish-remote:remoteServerHttpPort>7070</glassfish-remote:remoteServerHttpPort>
+   </glassfish-remote:container>
+
+   <glassfish-embedded:container>
+      <glassfish-embedded:bindHttpPort>7070</glassfish-embedded:bindHttpPort>
+      <glassfish-embedded:sunResourcesXml>src/test/resources-glassfish-embedded/sun-resources.xml</glassfish-embedded:sunResourcesXml>
+   </glassfish-embedded:container>  
 
 </arquillian>

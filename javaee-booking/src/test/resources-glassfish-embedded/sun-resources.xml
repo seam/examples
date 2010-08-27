@@ -3,7 +3,7 @@
    "http://www.sun.com/software/appserver/dtds/sun-resources_1_4.dtd">
 <resources>
    <jdbc-resource pool-name="ArquillianEmbeddedDerbyPool"
-      jndi-name="jdbc/__arquillian"/>
+      jndi-name="jdbc/arquillian"/>
    <jdbc-connection-pool name="ArquillianEmbeddedDerbyPool"
       res-type="javax.sql.DataSource"
       datasource-classname="org.apache.derby.jdbc.EmbeddedDataSource"
@@ -13,7 +13,7 @@
    </jdbc-connection-pool>
    <!--
    <jdbc-resource pool-name="ArquillianEmbeddedH2Pool"
-      jndi-name="jdbc/__arquillian"/>
+      jndi-name="jdbc/arquillian"/>
    <jdbc-connection-pool name="ArquillianEmbeddedH2Pool"
       res-type="javax.sql.DataSource"
       datasource-classname="org.h2.jdbcx.JdbcDataSource">

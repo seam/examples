@@ -15,7 +15,7 @@ import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,15 +26,15 @@ public class HotelSearchTest
 {
    @Deployment
    public static Archive<?> createTestArchive() {
-      // JavaArchive doesn't work on GlassFish (would work on JBoss AS, but it breaks because of the EJBs)
-//      JavaArchive jar = ShrinkWrap.create("test.jar", JavaArchive.class)
+      // JavaArchive doesn't work on GlassFish
+//      JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "test.jar")
 //            .addPackage(HotelSearch.class.getPackage())
 //            .addPackage(Hotel.class.getPackage())
 //            .addManifestResource("META-INF/persistence.xml", "persistence.xml")
 //            .addManifestResource(new ByteArrayAsset(new byte[0]), "beans.xml");
 //      return jar;
-      // WebArchive does work in all cases (except JBoss AS still breaks with EJBs)
-      WebArchive war = ShrinkWrap.create(WebArchive.class, "test")
+      // WebArchive works in all cases
+      WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
          .addPackage(HotelSearch.class.getPackage())
          .addPackage(Hotel.class.getPackage())
          .addClasses(NoOpLogger.class)
@@ -43,8 +43,8 @@ public class HotelSearchTest
                MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
                MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1")
          )
-         .addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
-         .addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
+         .addWebResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+         .addWebResource(new StringAsset(""), "beans.xml");
       return war;
    }
 

@@ -90,8 +90,7 @@ public class BookingAgent
    @Begin
    public void selectHotel(final Long id)
    {
-      // NOTE get a fresh reference that's managed by the extended persistence
-      // context
+      // NOTE get a fresh reference that's managed by the extended persistence context
       hotelSelection = em.find(Hotel.class, id);
       if (hotelSelection != null)
       {

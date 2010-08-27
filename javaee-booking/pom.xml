@@ -25,10 +25,10 @@
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
       <arquillian.version>1.0.0.Alpha3</arquillian.version>
-      <glassfish.version>3.0.1-b19</glassfish.version>
+      <glassfish.version>3.0.1-b20</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
-      <jboss-as-client.version>6.0.0.20100216-M2</jboss-as-client.version>
-      <jboss-javaee6-spec.version>1.0.0.Beta4</jboss-javaee6-spec.version>
+      <jboss-as-client.version>6.0.0.20100721-M4</jboss-as-client.version>
+      <jboss-javaee6-spec.version>1.0.0.Beta7</jboss-javaee6-spec.version>
       <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
       <seam-faces.version>3.0.0.Alpha3</seam-faces.version>
    </properties>
@@ -273,11 +273,11 @@
       </profile>
 
       <profile>
-         <id>jbossas-remote-60</id>
+         <id>jbossas-remote-6</id>
          <dependencies>
             <dependency>
                <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-remote-60</artifactId>
+               <artifactId>arquillian-jbossas-remote-6</artifactId>
                <version>${arquillian.version}</version>
                <scope>test</scope>
             </dependency>
@@ -310,11 +310,11 @@
       </profile>
 
       <profile>
-         <id>glassfish-embedded-30</id>
+         <id>glassfish-embedded-3</id>
          <dependencies>
             <dependency>
                <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-glassfish-embedded-30</artifactId>
+               <artifactId>arquillian-glassfish-embedded-3</artifactId>
                <version>${arquillian.version}</version>
                <scope>test</scope>
             </dependency>
@@ -331,18 +331,36 @@
                   <directory>src/test/resources</directory>
                </testResource>
                <testResource>
-                  <directory>src/test/resources-glassfish</directory>
+                  <directory>src/test/resources-glassfish-embedded</directory>
                </testResource>
             </testResources>
+            <plugins>
+               <plugin>
+                  <artifactId>maven-surefire-plugin</artifactId>
+                  <!-- don't use version 2.5 as it creates seperate test suites per class -->
+                  <version>2.4.3</version>
+                  <configuration>
+                     <systemProperties>
+                        <!-- This optional property fixes an annoyance with Glassfish that puts derby.log in the project root -->
+                        <property>
+                           <name>derby.stream.error.file</name>
+                           <!-- If you save the log in target it is less likely to get committed in your project -->
+                           <value>target/derby.log</value>
+                        </property>
+                     </systemProperties>
+                  </configuration>
+               </plugin>
+            </plugins>
          </build>
       </profile>
 
+      <!--
       <profile>
-         <id>glassfish-remote-30</id>
+         <id>glassfish-remote-3</id>
          <dependencies>
             <dependency>
                <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-glassfish-remote-30</artifactId>
+               <artifactId>arquillian-glassfish-remote-3</artifactId>
                <version>${arquillian.version}</version>
                <scope>test</scope>
             </dependency>
@@ -359,11 +377,12 @@
                   <directory>src/test/resources</directory>
                </testResource>
                <testResource>
-                  <directory>src/test/resources-glassfish</directory>
+                  <directory>src/test/resources-glassfish-remote</directory>
                </testResource>
             </testResources>
          </build>
       </profile>
+      -->
    </profiles>
 
    <scm>

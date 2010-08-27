@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,10 +23,12 @@ import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.weld.context.ConversationContext;
 import org.jboss.weld.context.api.ContextualInstance;
 import org.jboss.weld.context.api.helpers.AbstractMapBackedBeanStore;
+import org.jboss.weld.manager.BeanManagerImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +39,7 @@ public class BookingAgentTest
    @Deployment
    public static Archive<?> createTestArchive()
    {
-      WebArchive war = ShrinkWrap.create(WebArchive.class, "test")
+      WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war")
             .addPackage(Hotel.class.getPackage())
             .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class,
                   Authenticated.class, NoOpLogger.class)
@@ -44,11 +47,14 @@ public class BookingAgentTest
                   MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
                   MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
                   MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1"))
-            .addWebResource("META-INF/persistence.xml", "classes/META-INF/persistence.xml")
-            .addWebResource(new ByteArrayAsset(new byte[0]), "beans.xml");
+            .addWebResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+            .addWebResource(new StringAsset(""), "beans.xml");
       return war;
    }
 
+   @Inject
+   BeanManager beanManager;
+   
    @Inject
    UserTransaction utx;
 
@@ -69,7 +75,7 @@ public class BookingAgentTest
       em.createQuery("delete from Hotel").executeUpdate();
       em.persist(new Hotel("Doubletree Atlanta-Buckhead", "3342 Peachtree Road NE", "Atlanta", "GA", "30326", "USA"));
       em.createQuery("delete from User").executeUpdate();
-      em.persist(new User("Ike", "ike", "incontainer"));
+      em.persist(new User("Ike", "ike", "ike@mailinator.com", "secret"));
       utx.commit();
    }
 
@@ -77,10 +83,12 @@ public class BookingAgentTest
    public void testBookHotel() throws Exception
    {
       prepareSeedData();
-      // ConversationContext cc =
-      // Container.instance().services().get(ContextLifecycle.class).getConversationContext();
-      // cc.setBeanStore(new HashMapBeanStore());
-      // cc.setActive(true);
+      
+      // we have to depend on the Weld API to setup the conversation scope
+      ConversationContext cc = new ConversationContext();
+      cc.setBeanStore(new HashMapBeanStore());
+      cc.setActive(true);
+      ((BeanManagerImpl) beanManager).addContext(cc);
 
       bookingAgent.selectHotel(1l);
       bookingAgent.bookHotel();
