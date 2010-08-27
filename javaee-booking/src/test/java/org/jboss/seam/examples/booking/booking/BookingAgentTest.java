@@ -22,8 +22,8 @@ import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.impl.base.asset.ByteArrayAsset;
 import org.jboss.weld.context.api.ContextualInstance;
 import org.jboss.weld.context.api.helpers.AbstractMapBackedBeanStore;
 import org.junit.Assert;
@@ -36,7 +36,7 @@ public class BookingAgentTest
    @Deployment
    public static Archive<?> createTestArchive()
    {
-      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class)
+      WebArchive war = ShrinkWrap.create(WebArchive.class, "test")
             .addPackage(Hotel.class.getPackage())
             .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class,
                   Authenticated.class, NoOpLogger.class)

@@ -1,21 +1,22 @@
 package org.jboss.seam.examples.booking.inventory;
 
 import java.util.List;
+
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
+
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.model.Hotel;
+import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.asset.ByteArrayAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.impl.base.asset.ByteArrayAsset;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,7 @@ public class HotelSearchTest
 //            .addManifestResource(new ByteArrayAsset(new byte[0]), "beans.xml");
 //      return jar;
       // WebArchive does work in all cases (except JBoss AS still breaks with EJBs)
-      WebArchive war = ShrinkWrap.create("test.war", WebArchive.class)
+      WebArchive war = ShrinkWrap.create(WebArchive.class, "test")
          .addPackage(HotelSearch.class.getPackage())
          .addPackage(Hotel.class.getPackage())
          .addClasses(NoOpLogger.class)
