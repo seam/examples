@@ -24,7 +24,7 @@
       <webapp.directory>src/main/webapp</webapp.directory>
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
-      <arquillian.version>1.0.0-SNAPSHOT</arquillian.version>
+      <arquillian.version>1.0.0.Alpha3</arquillian.version>
       <glassfish.version>3.0.1-b19</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
       <jboss-as-client.version>6.0.0.20100216-M2</jboss-as-client.version>
@@ -83,19 +83,6 @@
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces-api</artifactId>
          <version>${seam-faces.version}</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.jms</groupId>
-         <artifactId>seam-jms-api</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.jms</groupId>
-         <artifactId>seam-jms</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-         <scope>runtime</scope>
       </dependency>
 
       <dependency>
