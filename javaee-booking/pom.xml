@@ -16,8 +16,8 @@
    <artifactId>seam-javaee-booking</artifactId>
    <version>3.0.0-SNAPSHOT</version>
    <packaging>war</packaging>
-   <name>Seam Booking Example (Simplified packaging)</name>
-   <description>The Seam booking example packaged using the simplified Java EE packaging</description>
+   <name>Seam Java EE Booking Example</name>
+   <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
    <url>http://seamframework.org/Seam3</url>
 
    <properties>
@@ -258,7 +258,7 @@
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>jboss-maven-plugin</artifactId>
                   <!-- only version 1.4.1 supports hard deploying multiple files -->
-                  <version>1.4.1-SNAPSHOT</version>
+                  <version>1.4.1</version>
                   <configuration>
                      <jbossHome>${jboss.home}</jbossHome>
                      <serverName>${jboss.domain}</serverName>
