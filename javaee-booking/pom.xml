@@ -386,9 +386,9 @@
    </profiles>
 
    <scm>
-      <connection>scm:svn:http://anonsvn.jboss.org/repos/seam/examples/trunk/javaee-booking</connection>
-      <developerConnection>scm:svn:https://svn.jboss.org/repos/seam/examples/trunk/javaee-booking</developerConnection>
-      <url>http://fisheye.jboss.org/browse/seam/examples/trunk/javaee-booking</url>
+      <connection>scm:git:git://github.com/seam/examples.git</connection>
+      <developerConnection>scm:git:git@github.com:seam/examples.git</developerConnection>
+      <url>http://github.com/seam</url>
    </scm>
 
 </project>
