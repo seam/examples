@@ -1,4 +1,4 @@
-#Seam 3 examples
+#Seam 3 integrated examples
 
 Integrated, use-case oriented examples for the Seam 3 project that demonstrate
 functionality provided by multiple modules.
