@@ -46,77 +46,81 @@ import org.slf4j.Logger;
 @SessionScoped
 public class HotelSearch
 {
-   @Inject
-   private Logger log;
 
-   @PersistenceContext
-   private EntityManager em;
+	@Inject
+	private Logger log;
 
-   @Inject
-   private SearchCriteria criteria;
+	@PersistenceContext
+	private EntityManager em;
 
-   @Inject
-   private Instance<TemplateMessage> messageBuilder;
+	@Inject
+	private SearchCriteria criteria;
 
-   private boolean nextPageAvailable = false;
+	@Inject
+	private Instance<TemplateMessage> messageBuilder;
 
-   private List<Hotel> hotels = new ArrayList<Hotel>();
+	private boolean nextPageAvailable = false;
 
-   public void find()
-   {
-      criteria.firstPage();
-      queryHotels(criteria);
-   }
+	private List<Hotel> hotels = new ArrayList<Hotel>();
 
-   public void nextPage()
-   {
-      criteria.nextPage();
-      queryHotels(criteria);
-   }
+	public void find()
+	{
+		criteria.firstPage();
+		queryHotels(criteria);
+	}
 
-   public void previousPage()
-   {
-      criteria.previousPage();
-      queryHotels(criteria);
-   }
+	public void nextPage()
+	{
+		criteria.nextPage();
+		queryHotels(criteria);
+	}
 
-   @Produces
-   @Named
-   public List<Hotel> getHotels()
-   {
-      return hotels;
-   }
+	public void previousPage()
+	{
+		criteria.previousPage();
+		queryHotels(criteria);
+	}
 
-   public boolean isNextPageAvailable()
-   {
-      return nextPageAvailable;
-   }
+	@Produces
+	@Named
+	public List<Hotel> getHotels()
+	{
+		return hotels;
+	}
 
-   public boolean isPreviousPageAvailable()
-   {
-      return criteria.getPage() > 0;
-   }
+	public boolean isNextPageAvailable()
+	{
+		return nextPageAvailable;
+	}
 
-   private void queryHotels(final SearchCriteria criteria)
-   {
-      CriteriaBuilder builder = em.getCriteriaBuilder();
-      CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
-      Root<Hotel> hotel = cquery.from(Hotel.class);
-      // QUESTION can like create the pattern for us?
-      cquery.select(hotel).where(builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
+	public boolean isPreviousPageAvailable()
+	{
+		return criteria.getPage() > 0;
+	}
 
-      List<Hotel> results = em.createQuery(cquery).setMaxResults(criteria.getFetchSize()).setFirstResult(criteria.getFetchOffset()).getResultList();
+	private void queryHotels(final SearchCriteria criteria)
+	{
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
+		Root<Hotel> hotel = cquery.from(Hotel.class);
+		// QUESTION can like create the pattern for us?
+		cquery.select(hotel).where(builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()), builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
 
-      nextPageAvailable = results.size() > criteria.getPageSize();
-      if (nextPageAvailable)
-      {
-         // NOTE create new ArrayList since subList creates unserializable list
-         hotels = new ArrayList<Hotel>(results.subList(0, criteria.getPageSize()));
-      }
-      else
-      {
-         hotels = results;
-      }
-      log.info(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})").textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
-   }
+		List<Hotel> results = em.createQuery(cquery).setMaxResults(criteria.getFetchSize()).setFirstResult(criteria.getFetchOffset()).getResultList();
+
+		nextPageAvailable = results.size() > criteria.getPageSize();
+		if (nextPageAvailable)
+		{
+			// NOTE create new ArrayList since subList creates unserializable list
+			hotels = new ArrayList<Hotel>(results.subList(0, criteria.getPageSize()));
+		}
+		else
+		{
+			hotels = results;
+		}
+		log.info(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
+				.textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
+		/*System.out.println(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
+				.textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());*/
+	}
 }

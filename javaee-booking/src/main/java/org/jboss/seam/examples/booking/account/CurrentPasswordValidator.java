@@ -42,23 +42,25 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 @FacesValidator("currentPassword")
 public class CurrentPasswordValidator implements Validator
 {
-   @Inject
-   private BundleTemplateMessage messageBuilder;
+	@Inject
+	private BundleTemplateMessage messageBuilder;
 
-   @Inject @Authenticated
-   private User currentUser;
+	@Inject @Authenticated
+	private User currentUser;
 
-   public void validate(final FacesContext ctx, final UIComponent comp, final Object value) throws ValidatorException
-   {
-      String currentPassword = (String) value;
-      if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(currentPassword))
-      {
-         /*
-          * This is an ugly way to put i18n in FacesMessages:
-          * https://jira.jboss.org/browse/SEAMFACES-24
-          */
-         throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordNotConfirmed")).build().getText()));
-      }
-   }
+	public void validate(final FacesContext ctx, final UIComponent comp, final Object value) throws ValidatorException
+	{
+		String currentPassword = (String) value;
+		if ((currentUser.getPassword() != null) && !currentUser.getPassword().equals(currentPassword))
+		{
+			/*
+			 * FIXME:
+			 *  This is an ugly way to put i18n in FacesMessages: 
+			 *  https://jira.jboss.org/browse/SEAMFACES-24
+			 */
+
+			throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordNotConfirmed")).build().getText()));
+		}
+	}
 
 }

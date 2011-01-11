@@ -29,9 +29,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.international.status.Messages;
 
 /**
  * The view controller for changing the user password
@@ -41,39 +39,39 @@ import org.jboss.seam.international.status.Messages;
 @Stateful @Model
 public class PasswordManager
 {
-   @PersistenceContext
-   private EntityManager em;
+	@PersistenceContext
+	private EntityManager em;
 
-   @Inject
-   private Messages messages;
+	/* @Inject
+   private Messages messages;*/
 
-   @Inject @Authenticated
-   private User user;
+	@Inject @Authenticated
+	private User user;
 
-   @NotNull @Size(min = 5, max = 15)
-   private String confirmPassword;
+	@NotNull @Size(min = 5, max = 15)
+	private String confirmPassword;
 
-   private boolean changed;
+	private boolean changed;
 
-   public void changePassword()
-   {
-      em.merge(user);
-      messages.info(new DefaultBundleKey("account_passwordChanged")).textDefault("Password successfully updated.");
-      changed = true;
-   }
+	public void changePassword()
+	{
+		em.merge(user);
+		// messages.info(new DefaultBundleKey("account_passwordChanged")).textDefault("Password successfully updated.");
+		changed = true;
+	}
 
-   public boolean isChanged()
-   {
-      return changed;
-   }
+	public boolean isChanged()
+	{
+		return changed;
+	}
 
-   public void setConfirmPassword(final String password)
-   {
-      this.confirmPassword = password;
-   }
+	public void setConfirmPassword(final String password)
+	{
+		confirmPassword = password;
+	}
 
-   public String getConfirmPassword()
-   {
-      return this.confirmPassword;
-   }
+	public String getConfirmPassword()
+	{
+		return confirmPassword;
+	}
 }

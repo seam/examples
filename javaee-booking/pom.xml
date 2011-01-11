@@ -2,16 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
    <modelVersion>4.0.0</modelVersion>
-
    <parent>
       <groupId>org.jboss.seam.examples</groupId>
       <artifactId>seam-examples-parent</artifactId>
       <version>3.0.0-SNAPSHOT</version>
       <relativePath>../pom.xml</relativePath>
    </parent>
-
    <groupId>org.jboss.seam.examples</groupId>
    <artifactId>seam-javaee-booking</artifactId>
    <version>3.0.0-SNAPSHOT</version>
@@ -19,7 +16,7 @@
    <name>Seam Java EE Booking Example</name>
    <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
    <url>http://seamframework.org/Seam3</url>
-
+   
    <properties>
       <webapp.directory>src/main/webapp</webapp.directory>
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
@@ -27,28 +24,74 @@
       <arquillian.version>1.0.0.Alpha3</arquillian.version>
       <glassfish.version>3.0.1-b20</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
-      <jboss-as-client.version>6.0.0.20100721-M4</jboss-as-client.version>
-      <jboss-javaee6-spec.version>1.0.0.Beta7</jboss-javaee6-spec.version>
+      <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
+      <jboss-javaee6-spec.version>1.0.0.FINAL</jboss-javaee6-spec.version>
       <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
-      <seam-faces.version>3.0.0.Alpha3</seam-faces.version>
    </properties>
-
    <repositories>
-      <repository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public</url>
+   		<repository>
+	      <id>Maven</id>
+	      <name>Maven official repository</name>
+	      <url>http://repo1.maven.org/maven2</url>
+	      <releases>
+               <enabled>true</enabled>
+           </releases>
+           <snapshots>
+               <enabled>true</enabled>
+           </snapshots>
+	    </repository>
+	    
+	   	<repository>
+	      <id>JBoss</id>
+	      <name>JBoss repository</name>
+	      <url>https://repository.jboss.org/nexus/content/groups/public</url>
+	      <releases>
+               <enabled>true</enabled>
+           </releases>
+           <snapshots>
+               <enabled>true</enabled>
+           </snapshots>
+	    </repository>  
+       <repository>
+           <id>jboss</id>
+           <url>http://repository.jboss.com/maven2</url>
+           <releases>
+               <enabled>true</enabled>
+           </releases>
+           <snapshots>
+               <enabled>false</enabled>
+           </snapshots>
+       </repository>
+       <repository>
+           <id>jboss-snapshot</id>
+           <url>http://snapshots.jboss.org/maven2</url>
+           <releases>
+               <enabled>true</enabled>
+           </releases>
+           <snapshots>
+               <enabled>true</enabled>
+           </snapshots>
+       </repository>
+	  <repository>  
+		  <id>prime-repo</id>  
+   		  <name>Prime Technology Maven Repository</name>  
+   		  <url>http://repository.prime.com.tr</url>  
+   		  <layout>default</layout>  
+	   </repository>  
+   </repositories>
+   
+   <pluginRepositories>
+	 <pluginRepository>
+         <id>Maven</id>
+         <name>Maven official repository</name>
+         <url>http://repo1.maven.org/maven2</url>
          <releases>
             <enabled>true</enabled>
          </releases>
          <snapshots>
             <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
          </snapshots>
-      </repository>
-   </repositories>
-
-   <pluginRepositories>
+      </pluginRepository>
       <pluginRepository>
          <id>jboss-public-repository</id>
          <name>JBoss Repository</name>
@@ -64,7 +107,12 @@
    </pluginRepositories>
 
    <dependencies>
-
+	  <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-logger</artifactId>
+            <version>1.0.0-CR2</version>
+        </dependency>
+	  
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-jpamodelgen</artifactId>
@@ -75,25 +123,47 @@
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
-         <version>${seam-faces.version}</version>
          <scope>runtime</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces-api</artifactId>
-         <version>${seam-faces.version}</version>
       </dependency>
+      
+      <dependency>
+	   <groupId>org.jboss.seam.international</groupId>
+	   <artifactId>seam-international-api</artifactId>
+	 </dependency>
 
+	<dependency>
+	   <groupId>org.jboss.seam.international</groupId>
+	   <artifactId>seam-international-impl</artifactId>
+	   <scope>runtime</scope>
+	</dependency>
+	<dependency>
+            <groupId>org.jboss.seam.solder</groupId>
+            <artifactId>seam-solder</artifactId>
+      </dependency>
+      
       <dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>prettyfaces-jsf2</artifactId>
          <version>3.0.1</version>
+         <scope>runtime</scope>
       </dependency>
-
+      
       <dependency>
+    	<groupId>commons-digester</groupId>
+    	<artifactId>commons-digester</artifactId>
+    	<version>2.1</version>
+	   </dependency>
+      
+
+      <!--<dependency>
          <groupId>org.jboss.seam.xml</groupId>
          <artifactId>seam-xml-config</artifactId>
+         <version>3.0.0.Beta1</version>
          <exclusions>
             <exclusion>
                <groupId>javax.enterprise</groupId>
@@ -101,8 +171,8 @@
             </exclusion>
          </exclusions>
       </dependency>
-
-      <!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
+      
+      --><!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
       <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
       <!-- TODO Move Hibernate Validator to app server specific sections -->
       <dependency>
@@ -132,12 +202,6 @@
          <scope>test</scope>
       </dependency>
 
-      <dependency>
-         <groupId>org.jboss.weld</groupId>
-         <artifactId>weld-core</artifactId>
-         <version>1.0.1-Final</version>
-         <scope>test</scope>
-      </dependency>
 
       <!--
       <dependency>
@@ -181,6 +245,7 @@
 
          <plugin>
             <artifactId>maven-eclipse-plugin</artifactId>
+            <version>2.9</version>
             <configuration>
                <additionalBuildcommands>
                   <!--

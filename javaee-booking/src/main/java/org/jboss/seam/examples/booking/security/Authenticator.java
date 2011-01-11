@@ -21,15 +21,16 @@
  */
 package org.jboss.seam.examples.booking.security;
 
+import java.util.Iterator;
+
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
-import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
 import org.slf4j.Logger;
@@ -43,43 +44,50 @@ import org.slf4j.Logger;
 @Stateless
 public class Authenticator
 {
-   @Inject
-   private Instance<Logger> log;
 
-   @PersistenceContext
-   private EntityManager em;
 
-   @Inject
-   private Messages messages;
+	@Inject
+	Logger log;
 
-   @Inject
-   private Credentials credentials;
+	@PersistenceContext
+	private EntityManager em;
 
-   @Inject
-   @Authenticated
-   private Event<User> loginEventSrc;
+	@Inject
+	BeanManager bm;
 
-   public boolean authenticate()
-   {
-      log.get().info("Logging in " + credentials.getUsername());
-      if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
-      {
-         messages.info(new DefaultBundleKey("identity_loginFailed"));
-         return false;
-      }
+	@Inject
+	private Credentials credentials;
 
-      User user = em.find(User.class, credentials.getUsername());
-      if ((user != null) && user.getPassword().equals(credentials.getPassword()))
-      {
-         loginEventSrc.fire(user);
-         messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
-         return true;
-      }
-      else
-      {
-         messages.info(new DefaultBundleKey("identity_loginFailed"));
-         return false;
-      }
-   }
+	@Inject
+	@Authenticated
+	private Event<User> loginEventSrc;
+
+	public boolean authenticate()
+	{
+		log.info("+ Logging in " + credentials.getUsername());
+		if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
+		{
+			//messages.info(new DefaultBundleKey("identity_loginFailed"));
+			return false;
+		}
+
+		User user = em.find(User.class, credentials.getUsername());
+		if ((user != null) && user.getPassword().equals(credentials.getPassword()))
+		{
+			loginEventSrc.fire(user);
+			//messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
+			System.out.println("size of getBeans" + bm.getBeans(Messages.class).size());
+			for (Iterator iterator = bm.getBeans(Messages.class).iterator(); iterator.hasNext();) {
+				Object type = iterator.next();
+				System.out.println(type.toString());
+			}
+			return true;
+		}
+		else
+		{
+			//messages.info(new DefaultBundleKey("identity_loginFailed"));
+			return false;
+		}
+	}
 
 }

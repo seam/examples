@@ -39,17 +39,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
-import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
-import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
-
-import com.ocpsoft.pretty.time.PrettyTime;
 
 /**
  * The BookingAgent manages the main booking flow
@@ -60,96 +56,101 @@ import com.ocpsoft.pretty.time.PrettyTime;
 @Stateful @ConversationScoped @Named
 public class BookingAgent
 {
-   @Inject
-   private Logger log;
+	@Inject
+	private Logger log;
 
-   @PersistenceContext(type = EXTENDED)
-   private EntityManager em;
+	@PersistenceContext(type = EXTENDED)
+	private EntityManager em;
 
-   @Inject
-   private Instance<TemplateMessage> messageBuilder;
+	@Inject
+	private Instance<TemplateMessage> messageBuilder;
 
-   @Inject
-   private Messages messages;
+	/*@Inject
+	private Messages messages;*/
 
-   @Inject @Authenticated
-   private User user;
+	@Inject @Authenticated
+	private User user;
 
-   @Inject
-   private Locale locale;
+	@Inject
+	private Locale locale;
 
-   @Inject @Confirmed
-   private Event<Booking> bookingConfirmedEventSrc;
+	@Inject @Confirmed
+	private Event<Booking> bookingConfirmedEventSrc;
 
-   private Hotel hotelSelection;
+	private Hotel hotelSelection;
 
-   private Booking booking;
+	private Booking booking;
 
-   private boolean bookingValid;
+	private boolean bookingValid;
 
-   @Begin
-   public void selectHotel(final Long id)
-   {
-      // NOTE get a fresh reference that's managed by the extended persistence context
-      hotelSelection = em.find(Hotel.class, id);
-      if (hotelSelection != null)
-      {
-         log.info(messageBuilder.get().text("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build().getText());
-      }
-   }
+	@Begin
+	public void selectHotel(final Long id)
+	{
+		// NOTE get a fresh reference that's managed by the extended persistence context
+		hotelSelection = em.find(Hotel.class, id);
+		if (hotelSelection != null)
+		{
+			log.info(messageBuilder.get().text("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build()
+					.getText());
+		}
+	}
 
-   public void bookHotel()
-   {
-      booking = new Booking(hotelSelection, user, 7, 2);
-      hotelSelection = null;
+	public void bookHotel()
+	{
+		booking = new Booking(hotelSelection, user, 7, 2);
+		hotelSelection = null;
 
-      // for demo convenience
-      booking.setCreditCardNumber("1111222233334444");
+		// for demo convenience
+		booking.setCreditCardNumber("1111222233334444");
 
-      messages.info(new DefaultBundleKey("booking_initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
-   }
+		// messages.info(new
+		// DefaultBundleKey("booking_initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
+	}
 
-   public void validate()
-   {
-      // if we got here, all validations passed
-      log.info("Does the persistence context still contain the hotel instance? " + em.contains(booking.getHotel()));
-      bookingValid = true;
-   }
+	public void validate()
+	{
+		// if we got here, all validations passed
+		log.info("Does the persistence context still contain the hotel instance? " + em.contains(booking.getHotel()));
+		bookingValid = true;
+	}
 
-   @End
-   public void confirm()
-   {
-      em.persist(booking);
-      bookingConfirmedEventSrc.fire(booking);
-   }
+	@End
+	public void confirm()
+	{
+		em.persist(booking);
+		bookingConfirmedEventSrc.fire(booking);
+	}
 
-   @End
-   public void cancel()
-   {
-      booking = null;
-      hotelSelection = null;
-   }
+	@End
+	public void cancel()
+	{
+		booking = null;
+		hotelSelection = null;
+	}
 
-   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
-   {
-      log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}").textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-      messages.info(new DefaultBundleKey("booking_confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
-   }
+	public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
+	{
+		log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}")
+				.textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
+		// messages.info(new
+		// DefaultBundleKey("booking_confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(),
+		// new PrettyTime(locale).format(booking.getCheckinDate()));
+	}
 
-   @Produces @ConversationScoped @Named
-   public Booking getBooking()
-   {
-      return booking;
-   }
+	@Produces @ConversationScoped @Named
+	public Booking getBooking()
+	{
+		return booking;
+	}
 
-   @Produces @RequestScoped @Named("hotel")
-   public Hotel getSelectedHotel()
-   {
-      return booking != null ? booking.getHotel() : hotelSelection;
-   }
+	@Produces @RequestScoped @Named("hotel")
+	public Hotel getSelectedHotel()
+	{
+		return booking != null ? booking.getHotel() : hotelSelection;
+	}
 
-   public boolean isBookingValid()
-   {
-      return bookingValid;
-   }
+	public boolean isBookingValid()
+	{
+		return bookingValid;
+	}
 }

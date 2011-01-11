@@ -31,7 +31,7 @@ Java EE 6
    * Dynamic UISelect items from collection 
    * Composite components (input.xhtml, output.xhtml, displayAccount.xhtml, displayHotel.xhtml) 
 
-Weld Extensions 
+Solder 
 
    * @Veto to exclude entity classes as beans (User.java, Hotel.java, Booking.java) 
 

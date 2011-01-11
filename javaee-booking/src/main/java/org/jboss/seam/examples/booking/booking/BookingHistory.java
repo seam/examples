@@ -21,8 +21,6 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.ejb.Stateful;
@@ -42,7 +40,6 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
-import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Booking_;
 import org.jboss.seam.examples.booking.model.User;
@@ -59,80 +56,81 @@ import org.slf4j.Logger;
 @Stateful @SessionScoped @Named
 public class BookingHistory
 {
-   @Inject
-   private Logger log;
+	@Inject
+	private Logger log;
 
-   @PersistenceContext
-   private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-   @Inject
-   private Messages messages;
+	/*@Inject
+	private Messages messages;*/
 
-   @Inject
-   private Identity identity;
+	@Inject
+	private Identity identity;
 
-   @Inject @Authenticated
-   private Instance<User> currentUserInstance;
+	@Inject @Authenticated
+	private Instance<User> currentUserInstance;
 
-   private List<Booking> bookingsForUser = null;
+	private List<Booking> bookingsForUser = null;
 
-   @Produces @Authenticated @Named("bookings")
-   public List<Booking> getBookingsForCurrentUser()
-   {
-      if (bookingsForUser == null && identity.isLoggedIn())
-      {
-         fetchBookingsForCurrentUser();
-      }
-      return bookingsForUser;
-   }
+	@Produces @Authenticated @Named("bookings")
+	public List<Booking> getBookingsForCurrentUser()
+	{
+		if (bookingsForUser == null && identity.isLoggedIn())
+		{
+			fetchBookingsForCurrentUser();
+		}
+		return bookingsForUser;
+	}
 
-   public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS) @Confirmed Booking booking)
-   {
-      // optimization, save the db call
-      if (bookingsForUser != null)
-      {
-         log.info("Adding new booking to user's cached booking history");
-         bookingsForUser.add(booking);
-      }
-      else
-      {
-         log.info("User's booking history not loaded. Skipping cache update.");
-      }
-   }
+	public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS, notifyObserver = Reception.IF_EXISTS) @Confirmed Booking booking)
+	{
+		// optimization, save the db call
+		if (bookingsForUser != null)
+		{
+			log.info("Adding new booking to user's cached booking history");
+			bookingsForUser.add(booking);
+		}
+		else
+		{
+			log.info("User's booking history not loaded. Skipping cache update.");
 
-   public void cancelBooking(final Booking selectedBooking)
-   {
-      log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
-      Booking booking = entityManager.find(Booking.class, selectedBooking.getId());
-      if (booking != null)
-      {
-         entityManager.remove(booking);
-         messages.info(new DefaultBundleKey("booking_canceled"))
-               .textDefault("The booking at the {0} on {1} has been canceled.")
-               .textParams(selectedBooking.getHotel().getName(),
-                     DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
-      }
-      else
-      {
-         messages.info(new DefaultBundleKey("booking_doesNotExist"))
-               .textDefault("Our records indicate that the booking you selected has already been canceled.");
-      }
+		}
+	}
 
-      bookingsForUser.remove(selectedBooking);
-   }
+	public void cancelBooking(final Booking selectedBooking)
+	{
+		log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
+		Booking booking = entityManager.find(Booking.class, selectedBooking.getId());
+		if (booking != null)
+		{
+			entityManager.remove(booking);
+			/*messages.info(new DefaultBundleKey("booking_canceled"))
+			.textDefault("The booking at the {0} on {1} has been canceled.")
+			.textParams(selectedBooking.getHotel().getName(),
+					DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));*/
+		}
+		else
+		{
+			/*messages.info(new DefaultBundleKey("booking_doesNotExist"))
+			.textDefault("Our records indicate that the booking you selected has already been canceled.");*/
+		}
 
-   private void fetchBookingsForCurrentUser()
-   {
-      String username = currentUserInstance.get().getUsername();
-      CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-      CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
-      Root<Booking> booking = cquery.from(Booking.class);
-      booking.fetch(Booking_.hotel, JoinType.INNER);
-      cquery.select(booking)
-            .where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
-            .orderBy(builder.asc(booking.get(Booking_.checkinDate)));
+		bookingsForUser.remove(selectedBooking);
+	}
 
-      bookingsForUser = entityManager.createQuery(cquery).getResultList();
-   }
+	private void fetchBookingsForCurrentUser()
+	{
+		String username = currentUserInstance.get().getUsername();
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Booking> cquery = builder.createQuery(Booking.class);
+		Root<Booking> booking = cquery.from(Booking.class);
+		booking.fetch(Booking_.hotel, JoinType.INNER);
+		cquery.select(booking)
+		.where(builder.equal(booking.get(Booking_.user).get(User_.username), username))
+		.orderBy(builder.asc(booking.get(Booking_.checkinDate)));
+
+		bookingsForUser = entityManager.createQuery(cquery).getResultList();
+	}
 
 }
