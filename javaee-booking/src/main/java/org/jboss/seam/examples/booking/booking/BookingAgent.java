@@ -44,6 +44,7 @@ import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
+import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
 
@@ -65,8 +66,8 @@ public class BookingAgent
 	@Inject
 	private Instance<TemplateMessage> messageBuilder;
 
-	/*@Inject
-	private Messages messages;*/
+	@Inject
+	private Messages messages;
 
 	@Inject @Authenticated
 	private User user;
@@ -102,6 +103,7 @@ public class BookingAgent
 
 		// for demo convenience
 		booking.setCreditCardNumber("1111222233334444");
+		log.info(messageBuilder.get().text("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName()).build().getText());
 
 		// messages.info(new
 		// DefaultBundleKey("booking_initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());

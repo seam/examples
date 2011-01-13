@@ -45,7 +45,6 @@ import org.slf4j.Logger;
 public class Authenticator
 {
 
-
 	@Inject
 	Logger log;
 
@@ -67,7 +66,7 @@ public class Authenticator
 		log.info("+ Logging in " + credentials.getUsername());
 		if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
 		{
-			//messages.info(new DefaultBundleKey("identity_loginFailed"));
+			// messages.info(new DefaultBundleKey("identity_loginFailed"));
 			return false;
 		}
 
@@ -75,7 +74,7 @@ public class Authenticator
 		if ((user != null) && user.getPassword().equals(credentials.getPassword()))
 		{
 			loginEventSrc.fire(user);
-			//messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
+			// messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
 			System.out.println("size of getBeans" + bm.getBeans(Messages.class).size());
 			for (Iterator iterator = bm.getBeans(Messages.class).iterator(); iterator.hasNext();) {
 				Object type = iterator.next();
@@ -85,7 +84,7 @@ public class Authenticator
 		}
 		else
 		{
-			//messages.info(new DefaultBundleKey("identity_loginFailed"));
+			// messages.info(new DefaultBundleKey("identity_loginFailed"));
 			return false;
 		}
 	}

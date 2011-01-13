@@ -5,8 +5,8 @@
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:s="http://jboss.org/seam/faces"
-   xmlns:m="http://http://java.sun.com/jsf/composite/components/model"
-   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
+   xmlns:m="http://java.sun.com/jsf/composite/components/model"
+   xmlns:p="http://java.sun.com/jsf/composite/components/property"
    template="/WEB-INF/layout/template.xhtml">
 
    <ui:define name="content">
@@ -20,25 +20,23 @@
          </div>
       
          <m:displayHotel value="#{hotel}"/>
-         
          <div style="clear: both;"/>
       
          <h:form id="bookingForm">
             <fieldset>
-                  
-               <p:input id="checkInDate">
+               <p:input id="checkInDate" label="CheckInDate">
                   <h:inputText id="input" value="#{booking.checkinDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:input>
-
-               <p:input id="checkOutDate">
+              
+                <p:input id="checkOutDate" label="CheckOutDate">
                   <h:inputText id="input" value="#{booking.checkoutDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
-               </p:input>
-               
-               <p:input id="roomPreference">
+                </p:input>
+             
+                <p:input id="roomPreference" label="Room Preference">
                   <h:selectOneMenu id="input" value="#{booking.beds}">
                      <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
                      <f:selectItem itemLabel="Two double beds" itemValue="2"/>
@@ -46,35 +44,31 @@
                   </h:selectOneMenu>
                </p:input>
                
-               <p:input id="smokingPreference">
+               <p:input id="smokingPreference" label="Smoking Preference" >
                   <h:selectOneRadio id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
                      <f:selectItem itemLabel="Smoking" itemValue="true"/>
                      <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
                   </h:selectOneRadio>
-               </p:input>
-
-               <p:input id="creditCardName">
+			   </p:input>
+               <p:input id="creditCardName" label="CrediCard Name">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
-               </p:input>
-
-               <p:input id="creditCardNumber" inputs="2">
-                  <h:inputText id="number" value="#{booking.creditCardNumber}"/>
+				</p:input>
+        	    <p:input id="creditCardNumber" inputs="2" label="CreditCard Number">
+                  <h:inputText id="input" value="#{booking.creditCardNumber}"/>
                   #{' '}
                   <h:selectOneMenu id="type" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
                   </h:selectOneMenu>
-               </p:input>
-
-               <p:input id="creditCardExpiration" inputs="2">
+				</p:input>
+                <p:input id="creditCardExpiration" inputs="2" label="Expiration Date">
                   <h:selectOneMenu id="month" value="#{booking.creditCardExpiryMonth}">
                      <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}" itemLabel="#{_month.shortName}"/>
                   </h:selectOneMenu>
                   <h:selectOneMenu id="year" value="#{booking.creditCardExpiryYear}">
                      <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
                   </h:selectOneMenu>
-               </p:input>
-
+				</p:input>
                <div class="buttonBox">
                   <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validate}"/>
                   #{' '}
@@ -83,8 +77,10 @@
                
             </fieldset>
             
-            <s:validateForm validatorId="reservationDateRange" 
-            	fields="startDate=checkInDate:input endDate=checkOutDate:input"/>
+            <!-- 
+            	TODO validator system.
+            	<s:validateForm validatorId="reservationDateRange" fields="startDate=checkInDate:input endDate=checkOutDate:input" />
+             -->
          </h:form>
       </div>
 

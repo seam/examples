@@ -21,14 +21,11 @@
  */
 package org.jboss.seam.examples.booking.model;
 
-import static javax.persistence.TemporalType.DATE;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javax.enterprise.inject.Typed;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,13 +33,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import org.jboss.weld.extensions.core.Veto;
 
 /**
@@ -56,225 +51,221 @@ import org.jboss.weld.extensions.core.Veto;
 @Veto
 public class Booking implements Serializable
 {
-   private Long id;
-   private User user;
-   private Hotel hotel;
-   private Date checkinDate;
-   private Date checkoutDate;
-   private String creditCardNumber;
-   private CreditCardType creditCardType;
-   private String creditCardName;
-   private int creditCardExpiryMonth;
-   private int creditCardExpiryYear;
-   private boolean smoking;
-   private int beds;
+	private Long id;
+	private User user;
+	private Hotel hotel;
+	private Date checkinDate;
+	private Date checkoutDate;
+	private String creditCardNumber;
+	private CreditCardType creditCardType;
+	private String creditCardName;
+	private int creditCardExpiryMonth;
+	private int creditCardExpiryYear;
+	private boolean smoking;
+	private int beds;
 
-   public Booking()
-   {
-   }
+	public Booking()
+	{
+	}
 
-   public Booking(Hotel hotel, User user, int daysFromNow, int nights)
-   {
-      this.hotel = hotel;
-      this.user = user;
-      this.creditCardName = user.getName();
-      this.smoking = false;
-      this.beds = 1;
-      setReservationDates(daysFromNow, nights);
-      creditCardExpiryMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-   }
+	public Booking(Hotel hotel, User user, int daysFromNow, int nights)
+	{
+		this.hotel = hotel;
+		this.user = user;
+		creditCardName = user.getName();
+		smoking = false;
+		beds = 1;
+		setReservationDates(daysFromNow, nights);
+		creditCardExpiryMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+	}
 
-   @Id
-   @GeneratedValue
-   public Long getId()
-   {
-      return id;
-   }
+	@Id
+	@GeneratedValue
+	public Long getId()
+	{
+		return id;
+	}
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 
-   @NotNull
-   @Temporal(DATE)
-   public Date getCheckinDate()
-   {
-      return checkinDate;
-   }
+	public Date getCheckinDate()
+	{
+		return checkinDate;
+	}
 
-   public void setCheckinDate(Date datetime)
-   {
-      this.checkinDate = datetime;
-   }
+	public void setCheckinDate(Date datetime)
+	{
+		checkinDate = datetime;
+	}
 
-   @NotNull
-   @ManyToOne
-   public Hotel getHotel()
-   {
-      return hotel;
-   }
+	@NotNull
+	@ManyToOne
+	public Hotel getHotel()
+	{
+		return hotel;
+	}
 
-   public void setHotel(Hotel hotel)
-   {
-      this.hotel = hotel;
-   }
+	public void setHotel(Hotel hotel)
+	{
+		this.hotel = hotel;
+	}
 
-   @NotNull
-   @ManyToOne
-   public User getUser()
-   {
-      return user;
-   }
+	@NotNull
+	@ManyToOne
+	public User getUser()
+	{
+		return user;
+	}
 
-   public void setUser(User user)
-   {
-      this.user = user;
-   }
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
 
-   @NotNull
-   @Temporal(TemporalType.DATE)
-   public Date getCheckoutDate()
-   {
-      return checkoutDate;
-   }
+	public Date getCheckoutDate()
+	{
+		return checkoutDate;
+	}
 
-   public void setCheckoutDate(Date checkoutDate)
-   {
-      this.checkoutDate = checkoutDate;
-   }
-   
-   public boolean isSmoking()
-   {
-      return smoking;
-   }
-   
-   public void setSmoking(boolean smoking)
-   {
-      this.smoking = smoking;
-   }
+	public void setCheckoutDate(Date checkoutDate)
+	{
+		this.checkoutDate = checkoutDate;
+	}
 
-   //@Size(min = 1, max = 3)
-   public int getBeds()
-   {
-      return beds;
-   }
-   
-   public void setBeds(int beds)
-   {
-      this.beds = beds;
-   }
+	public boolean isSmoking()
+	{
+		return smoking;
+	}
 
-   @NotNull(message = "Credit card number is required")
-   @Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
-   @Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
-   public String getCreditCardNumber()
-   {
-      return creditCardNumber;
-   }
+	public void setSmoking(boolean smoking)
+	{
+		this.smoking = smoking;
+	}
 
-   public void setCreditCardNumber(String creditCardNumber)
-   {
-      this.creditCardNumber = creditCardNumber;
-   }
+	//@Size(min = 1, max = 3)
+	public int getBeds()
+	{
+		return beds;
+	}
 
-   @NotNull(message = "Credit card type is required")
-   @Enumerated(EnumType.STRING)
-   public CreditCardType getCreditCardType()
-   {
-      return creditCardType;
-   }
-   
-   public void setCreditCardType(CreditCardType creditCardType)
-   {
-      this.creditCardType = creditCardType;
-   }
+	public void setBeds(int beds)
+	{
+		this.beds = beds;
+	}
 
-   @NotNull(message = "Credit card name is required")
-   @Size(min = 3, max = 70, message = "Credit card name is required")
-   public String getCreditCardName()
-   {
-      return creditCardName;
-   }
+	@NotNull(message = "Credit card number is required")
+	@Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
+	@Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
+	public String getCreditCardNumber()
+	{
+		return creditCardNumber;
+	}
 
-   public void setCreditCardName(String creditCardName)
-   {
-      this.creditCardName = creditCardName;
-   }
+	public void setCreditCardNumber(String creditCardNumber)
+	{
+		this.creditCardNumber = creditCardNumber;
+	}
 
-   /**
-    * The credit card expiration month, represented using a 1-based
-    * numeric value (i.e., Jan = 1, Feb = 2, ...).
-    *
-    * @return 1-based numeric month value
-    */
-   public int getCreditCardExpiryMonth()
-   {
-      return creditCardExpiryMonth;
-   }
+	@NotNull(message = "Credit card type is required")
+	@Enumerated(EnumType.STRING)
+	public CreditCardType getCreditCardType()
+	{
+		return creditCardType;
+	}
 
-   public void setCreditCardExpiryMonth(int creditCardExpiryMonth)
-   {
-      this.creditCardExpiryMonth = creditCardExpiryMonth;
-   }
+	public void setCreditCardType(CreditCardType creditCardType)
+	{
+		this.creditCardType = creditCardType;
+	}
 
-   /**
-    * The credit card expiration year.
-    *
-    * @return numberic year value
-    */
-   public int getCreditCardExpiryYear()
-   {
-      return creditCardExpiryYear;
-   }
+	@NotNull(message = "Credit card name is required")
+	@Size(min = 3, max = 70, message = "Credit card name is required")
+	public String getCreditCardName()
+	{
+		return creditCardName;
+	}
 
-   public void setCreditCardExpiryYear(int creditCardExpiryYear)
-   {
-      this.creditCardExpiryYear = creditCardExpiryYear;
-   }
+	public void setCreditCardName(String creditCardName)
+	{
+		this.creditCardName = creditCardName;
+	}
 
-   @Transient
-   public String getDescription()
-   {
-      DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-      return hotel == null ? null : hotel.getName() +
-         ", " + df.format(getCheckinDate()) +
-         " to " + df.format(getCheckoutDate());
-   }
+	/**
+	 * The credit card expiration month, represented using a 1-based
+	 * numeric value (i.e., Jan = 1, Feb = 2, ...).
+	 *
+	 * @return 1-based numeric month value
+	 */
+	public int getCreditCardExpiryMonth()
+	{
+		return creditCardExpiryMonth;
+	}
 
-   @Transient
-   public BigDecimal getTotal()
-   {
-      return hotel.getPrice().multiply(new BigDecimal(getNights()));
-   }
+	public void setCreditCardExpiryMonth(int creditCardExpiryMonth)
+	{
+		this.creditCardExpiryMonth = creditCardExpiryMonth;
+	}
 
-   @Transient
-   public int getNights()
-   {
-      return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
-   }
+	/**
+	 * The credit card expiration year.
+	 *
+	 * @return numberic year value
+	 */
+	public int getCreditCardExpiryYear()
+	{
+		return creditCardExpiryYear;
+	}
 
-   /**
-    * Initialize the check-in and check-out dates.
-    *
-    * @param daysFromNow Number of days the stay will begin from now
-    * @param nights Length of the stay in number of nights
-    */
-   public void setReservationDates(int daysFromNow, int nights)
-   {
-      Calendar refDate = Calendar.getInstance();
-      refDate.set(
-            refDate.get(Calendar.YEAR),
-            refDate.get(Calendar.MONTH),
-            refDate.get(Calendar.DAY_OF_MONTH) + daysFromNow, 0, 0, 0);
-      setCheckinDate(refDate.getTime());
-      refDate.add(Calendar.DAY_OF_MONTH, nights);
-      setCheckoutDate(refDate.getTime());
-   }
+	public void setCreditCardExpiryYear(int creditCardExpiryYear)
+	{
+		this.creditCardExpiryYear = creditCardExpiryYear;
+	}
 
-   @Override
-   public String toString()
-   {
-      return "Booking(" + user + ", " + hotel + ")";
-   }
+	@Transient
+	public String getDescription()
+	{
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+		return hotel == null ? null : hotel.getName() +
+				", " + df.format(getCheckinDate()) +
+				" to " + df.format(getCheckoutDate());
+	}
+
+	@Transient
+	public BigDecimal getTotal()
+	{
+		return hotel.getPrice().multiply(new BigDecimal(getNights()));
+	}
+
+	@Transient
+	public int getNights()
+	{
+		return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
+	}
+
+	/**
+	 * Initialize the check-in and check-out dates.
+	 *
+	 * @param daysFromNow Number of days the stay will begin from now
+	 * @param nights Length of the stay in number of nights
+	 */
+	public void setReservationDates(int daysFromNow, int nights)
+	{
+		Calendar refDate = Calendar.getInstance();
+		refDate.set(
+				refDate.get(Calendar.YEAR),
+				refDate.get(Calendar.MONTH),
+				refDate.get(Calendar.DAY_OF_MONTH) + daysFromNow, 0, 0, 0);
+		setCheckinDate(refDate.getTime());
+		refDate.add(Calendar.DAY_OF_MONTH, nights);
+		setCheckoutDate(refDate.getTime());
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Booking(" + user + ", " + hotel + ")";
+	}
 }

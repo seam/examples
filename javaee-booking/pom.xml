@@ -28,6 +28,7 @@
       <jboss-javaee6-spec.version>1.0.0.FINAL</jboss-javaee6-spec.version>
       <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
    </properties>
+   
    <repositories>
    		<repository>
 	      <id>Maven</id>
@@ -72,15 +73,21 @@
                <enabled>true</enabled>
            </snapshots>
        </repository>
-	  <repository>  
-		  <id>prime-repo</id>  
-   		  <name>Prime Technology Maven Repository</name>  
-   		  <url>http://repository.prime.com.tr</url>  
-   		  <layout>default</layout>  
-	   </repository>  
    </repositories>
    
    <pluginRepositories>
+   <pluginRepository>
+			<id>zt</id>
+			<name>Zeroturnaround Maven Repository</name>
+			<url>http://repos.zeroturnaround.com//maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+		</pluginRepository>
 	 <pluginRepository>
          <id>Maven</id>
          <name>Maven official repository</name>
@@ -111,7 +118,7 @@
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-logger</artifactId>
             <version>1.0.0-CR2</version>
-        </dependency>
+      </dependency>
 	  
       <dependency>
          <groupId>org.hibernate</groupId>
@@ -123,34 +130,21 @@
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
-         <scope>runtime</scope>
       </dependency>
 
       <dependency>
-         <groupId>org.jboss.seam.faces</groupId>
-         <artifactId>seam-faces-api</artifactId>
-      </dependency>
-      
-      <dependency>
 	   <groupId>org.jboss.seam.international</groupId>
-	   <artifactId>seam-international-api</artifactId>
+	   <artifactId>seam-international</artifactId>
 	 </dependency>
-
 	<dependency>
-	   <groupId>org.jboss.seam.international</groupId>
-	   <artifactId>seam-international-impl</artifactId>
-	   <scope>runtime</scope>
-	</dependency>
-	<dependency>
-            <groupId>org.jboss.seam.solder</groupId>
-            <artifactId>seam-solder</artifactId>
-      </dependency>
+        <groupId>org.jboss.seam.solder</groupId>
+        <artifactId>seam-solder</artifactId>
+    </dependency>
       
       <dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>prettyfaces-jsf2</artifactId>
          <version>3.0.1</version>
-         <scope>runtime</scope>
       </dependency>
       
       <dependency>
@@ -159,20 +153,7 @@
     	<version>2.1</version>
 	   </dependency>
       
-
-      <!--<dependency>
-         <groupId>org.jboss.seam.xml</groupId>
-         <artifactId>seam-xml-config</artifactId>
-         <version>3.0.0.Beta1</version>
-         <exclusions>
-            <exclusion>
-               <groupId>javax.enterprise</groupId>
-               <artifactId>cdi-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-      
-      --><!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
+      <!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
       <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
       <!-- TODO Move Hibernate Validator to app server specific sections -->
       <dependency>
@@ -287,7 +268,23 @@
                -->
             </configuration>
          </plugin>
-
+		<plugin>
+		  <groupId>org.zeroturnaround</groupId>
+		  <artifactId>javarebel-maven-plugin</artifactId>
+		  <version>1.0.5</version>
+		  <configuration>
+		  <webappDirectory></webappDirectory>
+		  </configuration>
+		  <executions>
+		    <execution>
+		      <id>generate-rebel-xml</id>
+		      <phase>process-resources</phase>
+		      <goals>
+		        <goal>generate</goal>
+		      </goals>
+		    </execution>
+		  </executions>
+		</plugin>
       </plugins>
    </build>
 
