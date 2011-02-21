@@ -50,6 +50,8 @@ import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
 
+import com.ocpsoft.pretty.time.PrettyTime;
+
 @Stateful @ConversationScoped @Named
 public class BookingAgent
 {
@@ -135,9 +137,9 @@ public class BookingAgent
 				get().text("New booking at the {0} confirmed for {1}")
 				.textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
 
-		messages.info(new DefaultBundleKey("booking_confirmed")).
-		defaults("You're booked to stay at the {0} {1}.").
-		params(booking.getHotel().getName(), /* new PrettyTime(locale).format( */booking.getCheckinDate()/* ) */);
+		messages.info(new DefaultBundleKey("booking_confirmed"))
+			.defaults("You're booked to stay at the {0} {1}.")
+			.params(booking.getHotel().getName(), new PrettyTime(locale).format(booking.getCheckinDate()));
 	}
 
 	@Produces @ConversationScoped @Named

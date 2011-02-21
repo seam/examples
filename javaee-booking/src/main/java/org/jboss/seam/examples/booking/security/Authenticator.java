@@ -64,7 +64,7 @@ public class Authenticator
 		log.info("+ Logging in " + credentials.getUsername());
 		if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
 		{
-			messages.info(new DefaultBundleKey("identity_loginFailed"));
+			messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
 			return false;
 		}
 
@@ -72,15 +72,13 @@ public class Authenticator
 		if ((user != null) && user.getPassword().equals(credentials.getPassword()))
 		{
 			loginEventSrc.fire(user);
-			messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
+			messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}").params(user.getName());
 			// messages.info("logged");
 			return true;
 		}
 		else
 		{
-			// messages.error(new DefaultBundleKey("identity_loginFailed"));
-			System.out.println("teste");
-			messages.error("erro ao logar");
+			messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
 			return false;
 		}
 	}

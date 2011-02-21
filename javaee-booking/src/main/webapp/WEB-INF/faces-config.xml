@@ -141,4 +141,11 @@
 
    </navigation-rule>
 
+
+	<application> 
+	  <resource-bundle> 
+	    <base-name>messages</base-name> 
+	    <var>messages</var> 
+	  </resource-bundle>
+	</application>
 </faces-config>

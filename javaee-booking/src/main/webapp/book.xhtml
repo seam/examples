@@ -36,6 +36,7 @@
                   </h:inputText>
                 </p:input>
              
+              
                 <p:input id="roomPreference" label="Room Preference">
                   <h:selectOneMenu id="input" value="#{booking.beds}">
                      <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
@@ -43,24 +44,27 @@
                      <f:selectItem itemLabel="Three beds" itemValue="3"/>
                   </h:selectOneMenu>
                </p:input>
-               
+               <br />
                <p:input id="smokingPreference" label="Smoking Preference" >
-                  <h:selectOneRadio id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
+                  <h:selectOneRadio  id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
                      <f:selectItem itemLabel="Smoking" itemValue="true"/>
                      <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
                   </h:selectOneRadio>
 			   </p:input>
+               
                <p:input id="creditCardName" label="CrediCard Name">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
 				</p:input>
-        	    <p:input id="creditCardNumber" inputs="2" label="CreditCard Number">
+        	    <p:input id="creditCardNumber" label="CreditCard Number">
                   <h:inputText id="input" value="#{booking.creditCardNumber}"/>
-                  #{' '}
-                  <h:selectOneMenu id="type" value="#{booking.creditCardType}">
+				</p:input>
+				<p:input id="creditCardType" label="CreditCard Type">
+				 <h:selectOneMenu id="type" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
                   </h:selectOneMenu>
-				</p:input>
+                 </p:input>
+                <br />
                 <p:input id="creditCardExpiration" inputs="2" label="Expiration Date">
                   <h:selectOneMenu id="month" value="#{booking.creditCardExpiryMonth}">
                      <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}" itemLabel="#{_month.shortName}"/>

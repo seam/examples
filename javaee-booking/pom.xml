@@ -30,17 +30,6 @@
    </properties>
    
    <repositories>
-   		<repository>
-	      <id>Maven</id>
-	      <name>Maven official repository</name>
-	      <url>http://repo1.maven.org/maven2</url>
-	      <releases>
-               <enabled>true</enabled>
-           </releases>
-           <snapshots>
-               <enabled>true</enabled>
-           </snapshots>
-	    </repository>
 	    
 	   	<repository>
 	      <id>JBoss</id>
@@ -63,16 +52,6 @@
                <enabled>false</enabled>
            </snapshots>
        </repository>
-       <repository>
-           <id>jboss-snapshot</id>
-           <url>http://snapshots.jboss.org/maven2</url>
-           <releases>
-               <enabled>true</enabled>
-           </releases>
-           <snapshots>
-               <enabled>true</enabled>
-           </snapshots>
-       </repository>
    </repositories>
    <pluginRepositories>
    <pluginRepository>
@@ -87,17 +66,6 @@
 				<updatePolicy>never</updatePolicy>
 			</releases>
 		</pluginRepository>
-	 <pluginRepository>
-         <id>Maven</id>
-         <name>Maven official repository</name>
-         <url>http://repo1.maven.org/maven2</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </pluginRepository>
       <pluginRepository>
          <id>jboss-public-repository</id>
          <name>JBoss Repository</name>
@@ -150,6 +118,7 @@
 	   <scope>runtime</scope>
 	</dependency>
 	
+
 	<!--<dependency>
 	   <groupId>org.jboss.seam.mail</groupId>
 	   <artifactId>seam-mail-api</artifactId>
@@ -162,7 +131,11 @@
 	   <version>${seam.mail.version}</version>
 	   <scope>runtime</scope>
 	</dependency> -->
-	
+	<dependency>
+		<groupId>com.ocpsoft</groupId>
+		<artifactId>ocpsoft-pretty-time</artifactId>
+		<version>1.0.6</version>
+	</dependency>
 	<dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>prettyfaces-jsf2</artifactId>

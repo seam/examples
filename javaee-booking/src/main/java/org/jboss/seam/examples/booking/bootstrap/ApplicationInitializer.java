@@ -59,6 +59,7 @@ public class ApplicationInitializer
 
 	public ApplicationInitializer()
 	{
+		users.add(new User("Jose Freitas", "jose", "jose.freitas@example.com", "brazil"));
 		users.add(new User("Dan Allen", "dan", "dan@example.com", "laurel"));
 		users.add(new User("Pete Muir", "pete", "pete@example.com", "edinburgh"));
 		users.add(new User("Lincoln Baxter III", "lincoln", "lincoln@example.com", "charlotte"));

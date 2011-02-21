@@ -31,6 +31,7 @@ import javax.inject.Inject;
 
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
@@ -47,6 +48,9 @@ public class CurrentPasswordValidator implements Validator
 
 	@Inject @Authenticated
 	private User currentUser;
+	
+	@Inject
+	Messages messages;
 
 	public void validate(final FacesContext ctx, final UIComponent comp, final Object value) throws ValidatorException
 	{

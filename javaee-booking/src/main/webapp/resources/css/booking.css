@@ -20,6 +20,17 @@ a {
    font-size: x-small;
    text-align: right;
 }
+.label {
+   font-weight: bold;
+}
+label {
+    text-align: left;
+	width: 152px;
+	display: block;
+	float:left;
+	line-height: 34px;
+    margin-right: 10px;
+}
 input, select {
    border: 1px solid #C3BBB6;
    margin: 5px 0;
@@ -94,7 +105,45 @@ div.overlay-widget {
 #sidebar {
    float: left;
    width: 199px;
-   padding: 20px 10px 0 10px;
+   padding: 10px 20px 0 10px;
+ 
+}
+
+#sidebar .content {
+	-moz-background-clip: border;
+    -moz-background-origin: padding;
+    -moz-background-size: auto auto;
+    -webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	
+    background-attachment: scroll;
+    background-color: transparent;
+	
+    background-image: url("../img/div.bg.png");
+    border: solid 1px white;
+    padding: 10px;
+	width: 95%;
+    color: white;
+	
+	 -moz-box-shadow: 7px 7px 5px #000;
+	-webkit-box-shadow: 7px 7px 5px #000;
+	box-shadow: 7px 7px 5px #000;
+}
+
+#sidebar h1 {
+	color: white;
+	line-height:22px;
+	text-shadow: #c89f40 2px 2px 2px;
 }
 
 #content {
@@ -118,12 +167,18 @@ div.overlay-widget {
     background-color: transparent;
     background-image: url("../img/div.bg.png");
     border: solid 1px white;
+	margin-left:10px;
     padding: 10px;
    float:left;
-   width: 500px;
+   width: 495px;
    margin-top: 35px;
    margin-left:5px;
    padding-top: 5px;
+   
+   -moz-box-shadow: 7px 7px 5px #000;
+	-webkit-box-shadow: 7px 7px 5px #000;
+	box-shadow: 7px 7px 5px #000;
+   
 }
 div.section {
 }
@@ -160,10 +215,15 @@ div.section {
 	
     background-attachment: scroll;
     background-color: transparent;
-    background-image: url("../img/div-background.png");
+	
+    background-image: url("../img/div.bg.png");
     border: solid 1px white;
     padding: 10px;
     color: white;
+	
+	 -moz-box-shadow: 7px 7px 5px #000;
+	-webkit-box-shadow: 7px 7px 5px #000;
+	box-shadow: 7px 7px 5px #000;
 }
 
 .buttonBox {
@@ -192,6 +252,7 @@ div.section {
    line-height: normal;
    font-weight: normal;
    font-size: large;
+   text-shadow: #c89f40 1px 1px 1px;
 }
 #content .section p {
    line-height: 150%;
@@ -246,5 +307,19 @@ td.action {
 #activity {
    float: right;
    margin: 10px 5px 0 0;
+}
+
+
+#messages{
+	color: #c89f40;
+}
+
+
+.messages{
+	color: #c89f40;
+}
+
+.error{
+	color: #FF3d20;
 }
 
