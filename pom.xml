@@ -2,11 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-
    <parent>
       <groupId>org.jboss.seam</groupId>
       <artifactId>seam-parent</artifactId>
-      <version>3</version>
+      <version>8</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
@@ -22,7 +21,7 @@
    <url>http://www.seamframework.org</url>
 
    <properties>
-      <seam.version>3.0.0.b01</seam.version>
+      <seam.version>3.0.0.b09</seam.version>
    </properties>
 
    <developers>
@@ -78,14 +77,14 @@
 
    <dependencyManagement>
       <dependencies>
-         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>seam</artifactId>
-            <version>${seam.version}</version>
-            <scope>import</scope>
-            <type>pom</type>
-         </dependency>
-      </dependencies>
+	    <dependency>
+			<groupId>org.jboss.seam</groupId>
+		    <artifactId>seam-bom</artifactId>
+		    <version>${seam.version}</version>
+		    <scope>import</scope>
+	        <type>pom</type>
+		</dependency>
+       </dependencies>
    </dependencyManagement>
 
    <modules>
@@ -96,7 +95,6 @@
       <defaultGoal>package</defaultGoal>
       <pluginManagement>
          <plugins>
-
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-eclipse-plugin</artifactId>
@@ -106,7 +104,6 @@
                   </classpathContainers>
                </configuration>
             </plugin>
-
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-ejb-plugin</artifactId>
@@ -119,7 +116,6 @@
 
       </pluginManagement>
       <plugins>
-
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -133,27 +129,24 @@
                </execution>
             </executions>
          </plugin>
-
       </plugins>
 
    </build>
 
    <profiles>
-
       <profile>
          <id>jdk5</id>
          <activation>
-            <jdk>1.5</jdk>
+            <jdk>1.6</jdk>
          </activation>
-         <dependencies>
+         <dependencies><!--
             <dependency>
                <groupId>javax.annotation</groupId>
                <artifactId>jsr250-api</artifactId>
                <scope>provided</scope>
             </dependency>
-         </dependencies>
+         --></dependencies>
       </profile>
-
    </profiles>
 
    <ciManagement>
