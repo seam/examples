@@ -39,24 +39,34 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
  * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator("confirmPassword")
+@FacesValidator("confirmPasswordValidator")
 public class ConfirmPasswordValidator implements Validator
 {
-   @Inject
-   private BundleTemplateMessage messageBuilder;
+	@Inject
+	private BundleTemplateMessage messageBuilder;
 
-   @Inject @InputField
-   private String newPassword;
+	@Inject @InputField
+	private String newPassword;
 
-   @Inject @InputField
-   private String confirmPassword;
+	@Inject @InputField
+	private String confirmPassword;
 
-   public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException
-   {
-      if ((newPassword != null) && !newPassword.equals(confirmPassword))
-      {
-         throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordsDoNotMatch")).build().getText()));
-      }
-   }
+
+
+	public void validate(final FacesContext ctx, final UIComponent form, final Object components) 
+	throws ValidatorException{
+
+		if (newPassword == null || confirmPassword == null) {
+			throw new ValidatorException(new FacesMessage("none of the fields can be null"));
+		}
+		if ((newPassword != null) && !newPassword.equals(confirmPassword))
+		{
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordsDoNotMatch")).build()
+					.getText()));
+		}
+	}
+
+
+
 
 }

@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.seam.examples.booking.account;
+package org.jboss.seam.examples.booking.bootstrap;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -34,13 +34,14 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * A qualifier, which indicates that the user has been sucessfully authenticated
+ * A qualifier used to be an alternative on the Messages injection
  * 
  * @author pmuir
- *
+ * 
  */
-@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Target({TYPE, METHOD, PARAMETER, FIELD})
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface Authenticated {}
+public @interface MessagesAlternative {
+}

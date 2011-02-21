@@ -4,7 +4,7 @@
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
-   template="/WEB-INF/layout/template.xhtml">
+   template="/WEB-INF/layout/templatenew.xhtml">
 
    <ui:param name="pageClass" value="home"/>
 
@@ -37,7 +37,7 @@
    <ui:define name="sidebar">
       <h:messages />
       <h:form id="login" rendered="#{not identity.loggedIn}">
-         <fieldset>
+           <div class="login">
             <div>
                <h:outputLabel for="username" value="#{bundles.messages.home_usernameLabel}"/>
                <h:inputText id="username" value="#{credentials.username}" style="width: 175px;"/>
@@ -60,7 +60,7 @@
                   <li>dan/laurel</li>
                </ul>
             </div>
-         </fieldset>
+         </div>
       </h:form>
       
    </ui:define>

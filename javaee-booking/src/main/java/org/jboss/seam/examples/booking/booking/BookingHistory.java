@@ -21,6 +21,8 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.ejb.Stateful;
@@ -40,6 +42,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Booking_;
 import org.jboss.seam.examples.booking.model.User;
@@ -62,8 +65,8 @@ public class BookingHistory
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	/*@Inject
-	private Messages messages;*/
+	@Inject
+	private Messages messages;
 
 	@Inject
 	private Identity identity;
@@ -105,19 +108,20 @@ public class BookingHistory
 		if (booking != null)
 		{
 			entityManager.remove(booking);
-			/*messages.info(new DefaultBundleKey("booking_canceled"))
-			.textDefault("The booking at the {0} on {1} has been canceled.")
-			.textParams(selectedBooking.getHotel().getName(),
-					DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));*/
+			messages.info(new DefaultBundleKey("booking_canceled"))
+			.defaults("The booking at the {0} on {1} has been canceled.")
+			.params(selectedBooking.getHotel().getName(),
+					DateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(selectedBooking.getCheckinDate()));
 		}
 		else
 		{
-			/*messages.info(new DefaultBundleKey("booking_doesNotExist"))
-			.textDefault("Our records indicate that the booking you selected has already been canceled.");*/
+			messages.info(new DefaultBundleKey("booking_doesNotExist")).defaults(
+			"Our records indicate that the booking you selected has already been canceled.");
 		}
 
 		bookingsForUser.remove(selectedBooking);
 	}
+
 
 	private void fetchBookingsForCurrentUser()
 	{

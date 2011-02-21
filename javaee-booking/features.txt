@@ -54,6 +54,7 @@ Seam 3
    * Relative timestamps with PrettyTime - when a booking is confirmed, displays time until check-in. 
    * JSF system event to CDI event bridge (ApplicationInitializer.java)
    * XML configuration (seam-beans.xml)
+   * (new) Handling exceptions through Catch (AccountExceptionHandler.java)
 
 Best practices (draft)
 

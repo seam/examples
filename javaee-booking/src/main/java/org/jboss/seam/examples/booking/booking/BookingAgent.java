@@ -26,6 +26,7 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 import java.util.Locale;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
@@ -39,6 +40,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
@@ -47,12 +49,6 @@ import org.jboss.seam.faces.context.conversation.End;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.slf4j.Logger;
-
-/**
- * The BookingAgent manages the main booking flow
- * 
- * @author Dan Allen
- */
 
 @Stateful @ConversationScoped @Named
 public class BookingAgent
@@ -84,6 +80,8 @@ public class BookingAgent
 
 	private boolean bookingValid;
 
+	@Inject Conversation conversation;
+
 	@Begin
 	public void selectHotel(final Long id)
 	{
@@ -94,6 +92,7 @@ public class BookingAgent
 			log.info(messageBuilder.get().text("Selected the {0} in {1}").textParams(hotelSelection.getName(), hotelSelection.getCity()).build()
 					.getText());
 		}
+
 	}
 
 	public void bookHotel()
@@ -105,8 +104,8 @@ public class BookingAgent
 		booking.setCreditCardNumber("1111222233334444");
 		log.info(messageBuilder.get().text("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName()).build().getText());
 
-		// messages.info(new
-		// DefaultBundleKey("booking_initiated")).textDefault("You've initiated a booking at the {0}.").textParams(booking.getHotel().getName());
+		messages.info(new DefaultBundleKey("booking_initiated")).defaults("You've initiated a booking at the {0}.")
+		.params(booking.getHotel().getName());
 	}
 
 	public void validate()
@@ -132,11 +131,13 @@ public class BookingAgent
 
 	public void onBookingComplete(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Confirmed final Booking booking)
 	{
-		log.info(messageBuilder.get().text("New booking at the {0} confirmed for {1}")
+		log.info(messageBuilder.
+				get().text("New booking at the {0} confirmed for {1}")
 				.textParams(booking.getHotel().getName(), booking.getUser().getName()).build().getText());
-		// messages.info(new
-		// DefaultBundleKey("booking_confirmed")).textDefault("You're booked to stay at the {0} {1}.").textParams(booking.getHotel().getName(),
-		// new PrettyTime(locale).format(booking.getCheckinDate()));
+
+		messages.info(new DefaultBundleKey("booking_confirmed")).
+		defaults("You're booked to stay at the {0} {1}.").
+		params(booking.getHotel().getName(), /* new PrettyTime(locale).format( */booking.getCheckinDate()/* ) */);
 	}
 
 	@Produces @ConversationScoped @Named

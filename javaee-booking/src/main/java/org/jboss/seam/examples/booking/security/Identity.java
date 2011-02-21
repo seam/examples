@@ -36,42 +36,44 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class Identity implements Serializable
 {
-   private boolean loggedIn;
+	private static final long serialVersionUID = 4488275906698680752L;
 
-   @Inject
-   private FacesContext facesContext;
+	private boolean loggedIn;
 
-   @Inject
-   private Authenticator authenticator;
+	@Inject
+	private FacesContext facesContext;
 
-   @Inject
-   private Credentials credentials;
+	@Inject
+	private Authenticator authenticator;
 
-   public String getUsername()
-   {
-      return credentials.getUsername();
-   }
+	@Inject
+	private Credentials credentials;
 
-   public boolean isLoggedIn()
-   {
-      return loggedIn;
-   }
+	public String getUsername()
+	{
+		return credentials.getUsername();
+	}
 
-   public void login()
-   {
-      if (authenticator.authenticate())
-      {
-         loggedIn = true;
-         credentials.setPassword(null);
-      }
-   }
+	public boolean isLoggedIn()
+	{
+		return loggedIn;
+	}
 
-   public String logout()
-   {
-      loggedIn = false;
-      HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
-      session.invalidate();
-      return "home?faces-redirect=true";
-   }
+	public void login()
+	{
+		if (authenticator.authenticate())
+		{
+			loggedIn = true;
+			credentials.setPassword(null);
+		}
+	}
+
+	public String logout()
+	{
+		loggedIn = false;
+		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+		session.invalidate();
+		return "home?faces-redirect=true";
+	}
 
 }

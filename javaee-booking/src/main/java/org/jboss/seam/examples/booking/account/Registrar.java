@@ -22,7 +22,6 @@
 package org.jboss.seam.examples.booking.account;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.component.UIInput;
@@ -34,7 +33,10 @@ import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * The view controller for registering a new user
@@ -48,14 +50,15 @@ public class Registrar
 	@PersistenceContext
 	private EntityManager em;
 
-	/*
-	 * @Inject private Messages messages;
-	 */
+	@Inject
+	private Messages messages;
 
 	@Inject
 	private FacesContext facesContext;
 
 	private UIInput usernameInput;
+
+	private UIInput confirmPasswordInput;
 
 	private final User newUser = new User();
 
@@ -73,8 +76,8 @@ public class Registrar
 			registered = true;
 			em.persist(newUser);
 
-			// messages.info(new
-			// DefaultBundleKey("registration_registered")).textDefault("You have been successfully registered as the user {0}! You can now login.").textParams(newUser.getUsername());
+			messages.info(new DefaultBundleKey("registration_registered"))
+			.defaults("You have been successfully registered as the user {0}! You can now login.").params(newUser.getUsername());
 		}
 		else
 		{
@@ -101,13 +104,12 @@ public class Registrar
 	{
 		if (facesContext.isValidationFailed() || registrationInvalid)
 		{
-			// messages.warn(new
-			// DefaultBundleKey("registration_invalid")).textDefault("Invalid registration. Please correct the errors and try again.");
+			messages.warn(new DefaultBundleKey("registration_invalid")).defaults(
+			"Invalid registration. Please correct the errors and try again.");
 		}
 	}
 
 	@Produces
-	@RequestScoped
 	@Named
 	public User getNewUser()
 	{
@@ -139,17 +141,27 @@ public class Registrar
 		this.usernameInput = usernameInput;
 	}
 
+	public UIInput getConfirmPasswordInput() {
+		return confirmPasswordInput;
+	}
+
+	public void setConfirmPasswordInput(final UIInput confirmPasswordInput) {
+		this.confirmPasswordInput = confirmPasswordInput;
+	}
+
 	private boolean verifyUsernameIsAvailable()
 	{
 		User existing = em.find(User.class, newUser.getUsername());
 		if (existing != null)
 		{
-			// messages.warn(new BundleKey("messages",
-			// "account_usernameTaken")).textDefault("The username '{0}' is already taken. Please choose another username.").targets(usernameInput.getClientId()).textParams(newUser.getUsername());
+			messages.warn(new BundleKey("messages", "account_usernameTaken"))
+			.defaults("The username '{0}' is already taken. Please choose another username.").targets(usernameInput.getClientId())
+			.params(newUser.getUsername());
 			return false;
 		}
 
 		return true;
 	}
+
 
 }

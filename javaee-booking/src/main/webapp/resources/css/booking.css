@@ -1,0 +1,250 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	background-color: #1A1A1C;
+    background-image: url("../img/bg03.png");
+    font-family:  Arial, Helvetica, Verdana,  sans-serif;
+    font-size: small;
+    line-height: 1.25em;
+    color: #D3D4D5;
+    position: relative;
+    width: 760px;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+a {
+	color: #3BA7BC;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   font-size: x-small;
+   text-align: right;
+}
+input, select {
+   border: 1px solid #C3BBB6;
+   margin: 5px 0;
+   background: #FFFFFF url(../img/input.bg.gif) 0 0 repeat-x;
+}
+
+input {
+   padding: 4px;
+}
+select {
+   padding: 1px;
+}
+
+input[type=submit], input[type=button] {
+   font-weight: bold;
+   color: #FFFFFF;
+   border: 1px solid #5D1414;
+   height: 26px;
+   background: #FFFFFF url(../img/btn.bg.gold.png) 0 0 repeat-x;
+   border-style: none;
+	cursor: pointer;
+}
+
+#document{
+	
+	background-color: gray;
+	width:758px;
+	margin-left:auto;
+	margin-right:auto;
+	border: solid 1px white;
+	float: left;
+}
+
+#title {
+   float: left;
+   padding: 1px 0 6px 15px;
+}
+
+#header {
+   float: left;
+   width: 758px;
+   height: 46px;
+   background: url("../img/hdr.bg.png") 0 0 repeat-x;
+}
+
+#status {
+   color: #C7B299;
+   float: right;
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   font-size: x-small;
+   text-align: right;
+   padding-top: 14px;
+   padding-right: 15px;
+}
+
+#status a {
+    color: #C7C3C7;
+    text-decoration: none;
+}
+
+div.overlay-widget {
+    display: block;
+}
+
+#container {
+   float: left;
+   width: 758px;
+   background: url(../img/hotel01.jpg) 0 0 repeat-x;
+}
+
+#sidebar {
+   float: left;
+   width: 199px;
+   padding: 20px 10px 0 10px;
+}
+
+#content {
+	-moz-background-clip: border;
+    -moz-background-origin: padding;
+    -moz-background-size: auto auto;
+    -webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	
+    background-attachment: scroll;
+    background-color: transparent;
+    background-image: url("../img/div.bg.png");
+    border: solid 1px white;
+    padding: 10px;
+   float:left;
+   width: 500px;
+   margin-top: 35px;
+   margin-left:5px;
+   padding-top: 5px;
+}
+div.section {
+}
+
+#footer {
+   clear: both;
+   margin-top: 10px;
+   float: left;
+   padding: 20px;
+   border-top: 1px solid #C3BBB6;
+   width: 718px;
+   text-align: right;
+   color:white;
+   font-size: small;
+   font-family: helvetica, Arial;
+}
+
+#login fieldset {
+    -moz-background-clip: border;
+    -moz-background-origin: padding;
+    -moz-background-size: auto auto;
+    -webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	
+    background-attachment: scroll;
+    background-color: transparent;
+    background-image: url("../img/div-background.png");
+    border: solid 1px white;
+    padding: 10px;
+    color: white;
+}
+
+.buttonBox {
+    text-align: center;
+}
+
+.notes {
+   text-align: center;
+   font-size: small;
+}
+.subnotes {
+    margin-top: 1em;
+   font-size: small;
+}
+.pageSize{
+	margin-left:30px
+}
+
+#content .section {
+   float: left;
+   width: 90%;
+   padding: 15px 15px 0 15px;
+}
+#content .section h1 {
+   font-family: "Trebuchet MS", Arial, sans-serif;
+   line-height: normal;
+   font-weight: normal;
+   font-size: large;
+}
+#content .section p {
+   line-height: 150%;
+   font-size: small;
+}
+#content table {
+   width: 100%;
+   border: 1px solid #D2C9C4;
+   border-collapse: collapse;
+}
+#content table caption {
+   padding-bottom: 6px;
+   text-align: left;
+   font-weight: bold;
+}
+#content table thead th {
+   border-left: 1px solid #D2C9C4;
+   background: #FFFFFF url(../img/th.bg.gif) 0 100% repeat-x;   
+   border-bottom: 1px solid #D2C9C4;
+   padding: 6px;
+   text-align: left;
+   font-size: small;
+   color:black;
+}
+#content table tbody td {
+   border-left: 1px solid #E4DBD5;
+   padding: 4px;
+   border-bottom: 1px solid #D2C9C4;
+   font-size: small;
+}
+td.action {
+   text-align: center;
+}
+#content dt {
+   font-weight: bold;
+   float: left;
+   width: 33%;
+}
+#content dd {
+   padding-left: 10px;
+   float: left;
+   width: 66%;
+}
+#content table.radio {
+   border: 0px;
+}
+#content table.radio tbody tr td {
+   border: 0px;
+   border-left: 0px;
+   border-bottom: 0px;
+}
+#activity {
+   float: right;
+   margin: 10px 5px 0 0;
+}
+

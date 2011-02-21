@@ -69,14 +69,14 @@ public class ReservationDateRangeValidator implements Validator
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		if (startDate.before(calendar.getTime()))
 		{
-			String message = messageBuilder.get().text(new DefaultBundleKey("booking_checkInNotFutureDate"))
+			String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkInNotFutureDate"))
 			// FIXME the component should come through via injection
 			.targets(fieldMap.get("beginDate").getClientId()).build().getText();
 			throw new ValidatorException(new FacesMessage(message));
 		}
 		else if (!startDate.before(endDate))
 		{
-			String message = messageBuilder.get().text(new DefaultBundleKey("booking_checkOutBeforeCheckIn"))
+			String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkOutBeforeCheckIn"))
 			// FIXME the component should come through via injection
 			.targets(fieldMap.get("endDate").getClientId()).build().getText();
 			throw new ValidatorException(new FacesMessage(message));

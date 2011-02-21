@@ -1,11 +1,11 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
    xmlns:ui="http://java.sun.com/jsf/facelets"
    xmlns:f="http://java.sun.com/jsf/core"
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:s="http://jboss.org/seam/faces"
-   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
+   xmlns:p="http://java.sun.com/jsf/composite/components/property"
    template="/WEB-INF/layout/template.xhtml">
 
    <ui:param name="pageClass" value="home"/>
@@ -50,15 +50,17 @@
                <p:input id="password" label="password" ajax="blur">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
                </p:input>
-
+				
                <p:input id="confirmPassword" label="confirm password">
-                  <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">
-                     <!-- <f:ajax event="blur"
-                        execute="@this @form:password:input @form:passwordCheck"
-                        render="confirmPassword @form:password:messages"/>  -->
+                  <h:inputSecret id="input" binding="#{registrar.confirmPasswordInput}" value="#{registrar.confirmPassword}" redisplay="true">
+                   <f:ajax event="blur"
+                        execute="@this :registrationForm:password:input :registrationForm:passwordCheck"
+                        render="confirmPassword :registrationForm:password"/>
                   </h:inputSecret>
                </p:input>
-
+               
+               
+			   
                <ui:remove><!--
                <p:input id="confirmPassword">
                   <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">

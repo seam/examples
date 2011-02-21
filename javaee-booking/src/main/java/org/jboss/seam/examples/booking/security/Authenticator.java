@@ -21,16 +21,14 @@
  */
 package org.jboss.seam.examples.booking.security;
 
-import java.util.Iterator;
-
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
 import org.slf4j.Logger;
@@ -52,10 +50,10 @@ public class Authenticator
 	private EntityManager em;
 
 	@Inject
-	BeanManager bm;
+	private Credentials credentials;
 
 	@Inject
-	private Credentials credentials;
+	private Messages messages;
 
 	@Inject
 	@Authenticated
@@ -66,7 +64,7 @@ public class Authenticator
 		log.info("+ Logging in " + credentials.getUsername());
 		if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
 		{
-			// messages.info(new DefaultBundleKey("identity_loginFailed"));
+			messages.info(new DefaultBundleKey("identity_loginFailed"));
 			return false;
 		}
 
@@ -74,17 +72,15 @@ public class Authenticator
 		if ((user != null) && user.getPassword().equals(credentials.getPassword()))
 		{
 			loginEventSrc.fire(user);
-			// messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
-			System.out.println("size of getBeans" + bm.getBeans(Messages.class).size());
-			for (Iterator iterator = bm.getBeans(Messages.class).iterator(); iterator.hasNext();) {
-				Object type = iterator.next();
-				System.out.println(type.toString());
-			}
+			messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName());
+			// messages.info("logged");
 			return true;
 		}
 		else
 		{
-			// messages.info(new DefaultBundleKey("identity_loginFailed"));
+			// messages.error(new DefaultBundleKey("identity_loginFailed"));
+			System.out.println("teste");
+			messages.error("erro ao logar");
 			return false;
 		}
 	}

@@ -29,7 +29,9 @@ import javax.persistence.PersistenceContext;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
+import org.jboss.seam.international.status.Messages;
 
 /**
  * The view controller for changing the user password
@@ -42,8 +44,8 @@ public class PasswordManager
 	@PersistenceContext
 	private EntityManager em;
 
-	/* @Inject
-   private Messages messages;*/
+	@Inject
+	private Messages messages;
 
 	@Inject @Authenticated
 	private User user;
@@ -56,7 +58,7 @@ public class PasswordManager
 	public void changePassword()
 	{
 		em.merge(user);
-		// messages.info(new DefaultBundleKey("account_passwordChanged")).textDefault("Password successfully updated.");
+		messages.info(new DefaultBundleKey("account_passwordChanged")).defaults("Password successfully updated.");
 		changed = true;
 	}
 

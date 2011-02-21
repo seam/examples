@@ -34,7 +34,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import org.jboss.weld.extensions.core.Veto;
+
+import org.jboss.seam.solder.core.Veto;
 
 /**
  * <p>
@@ -49,157 +50,157 @@ import org.jboss.weld.extensions.core.Veto;
 @Veto
 public class Hotel implements Serializable
 {
-   private Long id;
-   private String name;
-   private String address;
-   private String city;
-   private String state;
-   private String zip;
-   private String country;
-   private Integer stars;
-   private BigDecimal price;
+	private Long id;
+	private String name;
+	private String address;
+	private String city;
+	private String state;
+	private String zip;
+	private String country;
+	private Integer stars;
+	private BigDecimal price;
 
-   public Hotel()
-   {
-   }
+	public Hotel()
+	{
+	}
 
-   public Hotel(final String name, final String address, final String city, final String state, final String zip, final String country)
-   {
-      this.name = name;
-      this.address = address;
-      this.city = city;
-      this.state = state;
-      this.zip = zip;
-      this.country = country;
-   }
+	public Hotel(final String name, final String address, final String city, final String state, final String zip, final String country)
+	{
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+	}
 
-   public Hotel(final int price, final int stars, final String name, final String address, final String city, final String state, final String zip, final String country)
-   {
-      this.price = new BigDecimal(price);
-      this.stars = stars;
-      this.name = name;
-      this.address = address;
-      this.city = city;
-      this.state = state;
-      this.zip = zip;
-      this.country = country;
-   }
+	public Hotel(final int price, final int stars, final String name, final String address, final String city, final String state, final String zip, final String country)
+	{
+		this.price = new BigDecimal(price);
+		this.stars = stars;
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+	}
 
-   @Id
-   @GeneratedValue
-   public Long getId()
-   {
-      return id;
-   }
+	@Id
+	@GeneratedValue
+	public Long getId()
+	{
+		return id;
+	}
 
-   public void setId(final Long id)
-   {
-      this.id = id;
-   }
+	public void setId(final Long id)
+	{
+		this.id = id;
+	}
 
-   @Size(max = 50)
-   @NotNull
-   public String getName()
-   {
-      return name;
-   }
+	@Size(max = 50)
+	@NotNull
+	public String getName()
+	{
+		return name;
+	}
 
-   public void setName(final String name)
-   {
-      this.name = name;
-   }
+	public void setName(final String name)
+	{
+		this.name = name;
+	}
 
-   @Size(max = 100)
-   @NotNull
-   public String getAddress()
-   {
-      return address;
-   }
+	@Size(max = 100)
+	@NotNull
+	public String getAddress()
+	{
+		return address;
+	}
 
-   public void setAddress(final String address)
-   {
-      this.address = address;
-   }
+	public void setAddress(final String address)
+	{
+		this.address = address;
+	}
 
-   @Size(max = 40)
-   @NotNull
-   public String getCity()
-   {
-      return city;
-   }
+	@Size(max = 40)
+	@NotNull
+	public String getCity()
+	{
+		return city;
+	}
 
-   public void setCity(final String city)
-   {
-      this.city = city;
-   }
+	public void setCity(final String city)
+	{
+		this.city = city;
+	}
 
-   @Size(min = 3, max = 6)
-   @NotNull
-   public String getZip()
-   {
-      return zip;
-   }
+	@Size(min = 3, max = 6)
+	@NotNull
+	public String getZip()
+	{
+		return zip;
+	}
 
-   public void setZip(final String zip)
-   {
-      this.zip = zip;
-   }
+	public void setZip(final String zip)
+	{
+		this.zip = zip;
+	}
 
-   @Size(min = 2, max = 10)
-   public String getState()
-   {
-      return state;
-   }
+	@Size(min = 2, max = 10)
+	public String getState()
+	{
+		return state;
+	}
 
-   public void setState(final String state)
-   {
-      this.state = state;
-   }
+	public void setState(final String state)
+	{
+		this.state = state;
+	}
 
-   @Size(min = 2, max = 40)
-   @NotNull
-   public String getCountry()
-   {
-      return country;
-   }
+	@Size(min = 2, max = 40)
+	@NotNull
+	public String getCountry()
+	{
+		return country;
+	}
 
-   public void setCountry(final String country)
-   {
-      this.country = country;
-   }
+	public void setCountry(final String country)
+	{
+		this.country = country;
+	}
 
-   @Min(1)
-   @Max(5)
-   public Integer getStars()
-   {
-      return stars;
-   }
+	@Min(1)
+	@Max(5)
+	public Integer getStars()
+	{
+		return stars;
+	}
 
-   public void setStars(final Integer stars)
-   {
-      this.stars = stars;
-   }
+	public void setStars(final Integer stars)
+	{
+		this.stars = stars;
+	}
 
-   @Column(precision = 6, scale = 2)
-   public BigDecimal getPrice()
-   {
-      return price;
-   }
+	@Column(precision = 6, scale = 2)
+	public BigDecimal getPrice()
+	{
+		return price;
+	}
 
-   public void setPrice(final BigDecimal price)
-   {
-      this.price = price;
-   }
+	public void setPrice(final BigDecimal price)
+	{
+		this.price = price;
+	}
 
-   @Transient
-   public String getLocation()
-   {
-      return city + ", " + state + ", " + country;
-   }
+	@Transient
+	public String getLocation()
+	{
+		return city + ", " + state + ", " + country;
+	}
 
-   @Override
-   public String toString()
-   {
-      return "Hotel(" + name + "," + address + "," + city + "," + zip + ")";
-   }
+	@Override
+	public String toString()
+	{
+		return "Hotel(" + name + "," + address + "," + city + "," + zip + ")";
+	}
 }

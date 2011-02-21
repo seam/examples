@@ -59,7 +59,8 @@ public class CurrentPasswordValidator implements Validator
 			 *  https://jira.jboss.org/browse/SEAMFACES-24
 			 */
 
-			throw new ValidatorException(new FacesMessage(messageBuilder.text(new DefaultBundleKey("account_passwordNotConfirmed")).build().getText()));
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordNotConfirmed")).build()
+					.getText()));
 		}
 	}
 

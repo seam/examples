@@ -38,7 +38,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.jboss.weld.extensions.core.Veto;
+import org.jboss.seam.solder.core.Veto;
 
 /**
  * <p><strong>Booking</strong> is the model/entity class that represents a hotel
