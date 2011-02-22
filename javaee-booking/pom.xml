@@ -25,7 +25,7 @@
       <glassfish.version>3.0.1-b20</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
       <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
-      <jboss-javaee6-spec.version>1.0.0.FINAL</jboss-javaee6-spec.version>
+      <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
       <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
    </properties>
    
@@ -96,7 +96,8 @@
          <version>${jpamodelgen.version}</version>
          <scope>provided</scope>
       </dependency>
-     <dependency>
+	
+	<dependency>
 	   <groupId>org.jboss.seam.faces</groupId>
 	   <artifactId>seam-faces-api</artifactId>
 	</dependency>
