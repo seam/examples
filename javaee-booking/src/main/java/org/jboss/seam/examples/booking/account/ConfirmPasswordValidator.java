@@ -57,7 +57,8 @@ public class ConfirmPasswordValidator implements Validator
 	throws ValidatorException{
 
 		if (newPassword == null || confirmPassword == null) {
-			throw new ValidatorException(new FacesMessage("none of the fields can be null"));
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("null_fields")).build()
+					.getText()));
 		}
 		if ((newPassword != null) && !newPassword.equals(confirmPassword))
 		{

@@ -42,7 +42,6 @@ import org.slf4j.Logger;
 @Stateless
 public class Authenticator
 {
-
 	@Inject
 	Logger log;
 
@@ -73,7 +72,6 @@ public class Authenticator
 		{
 			loginEventSrc.fire(user);
 			messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}").params(user.getName());
-			// messages.info("logged");
 			return true;
 		}
 		else

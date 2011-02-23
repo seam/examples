@@ -52,11 +52,15 @@ public class PasswordManager
 
 	@NotNull @Size(min = 5, max = 15)
 	private String confirmPassword;
+	
+	@NotNull @Size(min = 5, max = 15)
+	private String newPassword;
 
 	private boolean changed;
 
 	public void changePassword()
 	{
+		user.setPassword(newPassword);
 		em.merge(user);
 		messages.info(new DefaultBundleKey("account_passwordChanged")).defaults("Password successfully updated.");
 		changed = true;
@@ -76,4 +80,14 @@ public class PasswordManager
 	{
 		return confirmPassword;
 	}
+	
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
 }

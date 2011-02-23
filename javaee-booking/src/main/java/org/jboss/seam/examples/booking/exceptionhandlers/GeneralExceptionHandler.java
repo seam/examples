@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.exception_handlers;
+package org.jboss.seam.examples.booking.exceptionhandlers;
 
 import javax.inject.Inject;
 
@@ -16,7 +16,6 @@ import org.slf4j.Logger;
  */
 @HandlesExceptions
 public class GeneralExceptionHandler {
-	
 	@Inject
 	Logger log;
 	
