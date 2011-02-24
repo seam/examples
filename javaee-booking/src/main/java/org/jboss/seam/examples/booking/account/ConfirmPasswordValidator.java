@@ -57,13 +57,15 @@ public class ConfirmPasswordValidator implements Validator
 	throws ValidatorException{
 
 		if (newPassword == null || confirmPassword == null) {
-			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("null_fields")).build()
-					.getText()));
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("null_fields"))
+					.defaults("null fields is forbidden")
+					.build().getText()));
 		}
 		if ((newPassword != null) && !newPassword.equals(confirmPassword))
 		{
-			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordsDoNotMatch")).build()
-					.getText()));
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordsDoNotMatch"))
+					.defaults("Passwords do not match")
+					.build().getText()));
 		}
 	}
 

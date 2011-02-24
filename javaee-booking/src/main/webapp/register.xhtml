@@ -29,13 +29,14 @@
          </div>
 
          <h:form id="registrationForm" prependId="false">
+        
             <fieldset>
                <!-- manually append Ajax behavior -->
                <p:input id="username" label="username">
                   <h:inputText id="input" value="#{newUser.username}"
                      binding="#{registrar.usernameInput}">
                      <f:ajax event="blur" render="username"/>
-                  </h:inputText>
+                  </h:inputText> 
                </p:input>
 
                <!-- automatically append Ajax behavior -->
@@ -46,11 +47,12 @@
                <p:input id="email" label="email" ajax="blur">
                   <h:inputText id="input" value="#{newUser.email}"/>
                </p:input>
-
-               <p:input id="password" label="password" ajax="blur">
+			
+			   <!-- 
+			   	<p:input id="password" label="password" ajax="blur">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
                </p:input>
-				
+
                <p:input id="confirmPassword" label="confirm password">
                   <h:inputSecret id="input" binding="#{registrar.confirmPasswordInput}" value="#{registrar.confirmPassword}" redisplay="true">
                    <f:ajax event="blur"
@@ -58,7 +60,18 @@
                         render="confirmPassword :registrationForm:password"/>
                   </h:inputSecret>
                </p:input>
-               
+			    -->
+               <h:outputLabel for="newPassword" value="new password" />
+               <h:inputSecret id="newPassword" value="#{newUser.password}" redisplay="true"/>
+               <h:message errorClass="error" id="newPasswordMessage" for="newPassord"/>
+		   
+               <h:outputLabel for="confirmPassword" value="confirm Password" />
+               <h:inputSecret id="confirmPassword" binding="#{registrar.confirmPasswordInput}" value="#{registrar.confirmPassword}" redisplay="true">
+                   <f:ajax event="blur"
+                        execute="@this :registrationForm:newPassword :registrationForm:passwordCheck"
+                        render=":messages :registrationForm:newPassword :registrationForm:newPasswordMessage :registrationForm:confirmPassword :registrationForm:confirmPasswordMessage"/>
+               </h:inputSecret>
+               <h:message errorClass="error" id="confirmPasswordMessage" for="confirmPassword"/>
                
 			   
                <ui:remove><!--
@@ -78,9 +91,9 @@
 
             </fieldset>
 
-            <s:validateForm id="passwordCheck" validatorId="confirmPassword"
-            	fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
-
+            <s:validateForm id="passwordCheck" validatorId="confirmPassword"/>
+			<!-- fields="newPassword=password:input confirmPassword=confirmPassword:input"/> -->
+			
          </h:form>
              
       </div>
@@ -88,7 +101,7 @@
    </ui:define>
    
    <ui:define name="sidebar">          
-
+	<div class="content">
       <h1>Integrated multi-layer validation</h1>
       <p>
          Robust applications need data validation in several different places. Seam integrates Hibernate Validator, a
@@ -103,7 +116,7 @@
             What happens when I register?
          </a>
       </p>
-      
+     </div> 
    </ui:define>
 
 </ui:composition>

@@ -6,12 +6,12 @@
    <parent>
       <groupId>org.jboss.seam.examples</groupId>
       <artifactId>seam-examples-parent</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.0-CR1</version>
       <relativePath>../pom.xml</relativePath>
    </parent>
    <groupId>org.jboss.seam.examples</groupId>
    <artifactId>seam-javaee-booking</artifactId>
-   <version>3.0.0-SNAPSHOT</version>
+   <version>3.0.0-CR1</version>
    <packaging>war</packaging>
    <name>Seam Java EE Booking Example</name>
    <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
@@ -54,18 +54,6 @@
        </repository>
    </repositories>
    <pluginRepositories>
-   <pluginRepository>
-			<id>zt</id>
-			<name>Zeroturnaround Maven Repository</name>
-			<url>http://repos.zeroturnaround.com//maven2</url>
-			<layout>default</layout>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-		</pluginRepository>
       <pluginRepository>
          <id>jboss-public-repository</id>
          <name>JBoss Repository</name>
@@ -143,6 +131,7 @@
 	   <version>3.0.0-SNAPSHOT</version>
 	   <scope>runtime</scope>
 	</dependency>-->
+	
 	<dependency>
 		<groupId>com.ocpsoft</groupId>
 		<artifactId>ocpsoft-pretty-time</artifactId>
@@ -275,22 +264,7 @@
                -->
             </configuration>
          </plugin>
-		<plugin>
-		  <groupId>org.zeroturnaround</groupId>
-		  <artifactId>jrebel-maven-plugin</artifactId>
-		  <configuration>
-		  	<webappDirectory></webappDirectory>
-		  </configuration>
-		  <executions>
-		    <execution>
-		      <id>generate-rebel-xml</id>
-		      <phase>process-resources</phase>
-		      <goals>
-		        <goal>generate</goal>
-		      </goals>
-		    </execution>
-		  </executions>
-		</plugin>
+		
       </plugins>
    </build>
    <profiles>

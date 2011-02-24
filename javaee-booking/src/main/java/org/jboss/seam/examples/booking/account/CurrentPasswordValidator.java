@@ -62,9 +62,10 @@ public class CurrentPasswordValidator implements Validator
 			 *  This is an ugly way to put i18n in FacesMessages: 
 			 *  https://jira.jboss.org/browse/SEAMFACES-24
 			 */
-
-			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordNotConfirmed")).build()
-					.getText()));
+			
+			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordsDoNotMatch"))
+					.defaults("Passwords do not match")
+					.build().getText()));
 		}
 	}
 

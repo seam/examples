@@ -14,7 +14,7 @@
 
    <validator>
       <validator-id>currentPassword</validator-id>
-      <validator-class>org.jboss.seam.examples.booking.account.ConfirmPasswordValidator</validator-class>
+      <validator-class>org.jboss.seam.examples.booking.account.CurrentPasswordValidator</validator-class>
    </validator>
 
    <validator>
