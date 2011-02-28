@@ -6,12 +6,11 @@
    <parent>
       <groupId>org.jboss.seam.examples</groupId>
       <artifactId>seam-examples-parent</artifactId>
-      <version>3.0.0-CR1</version>
+      <version>3.0.0-SNAPSHOT</version>
       <relativePath>../pom.xml</relativePath>
    </parent>
    <groupId>org.jboss.seam.examples</groupId>
    <artifactId>seam-javaee-booking</artifactId>
-   <version>3.0.0-CR1</version>
    <packaging>war</packaging>
    <name>Seam Java EE Booking Example</name>
    <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
@@ -28,45 +27,6 @@
       <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
       <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
    </properties>
-   
-   <repositories>
-	    
-	   	<repository>
-	      <id>JBoss</id>
-	      <name>JBoss repository</name>
-	      <url>https://repository.jboss.org/nexus/content/groups/public</url>
-	      <releases>
-               <enabled>true</enabled>
-           </releases>
-           <snapshots>
-               <enabled>true</enabled>
-           </snapshots>
-	    </repository>  
-       <repository>
-           <id>jboss</id>
-           <url>http://repository.jboss.com/maven2</url>
-           <releases>
-               <enabled>true</enabled>
-           </releases>
-           <snapshots>
-               <enabled>false</enabled>
-           </snapshots>
-       </repository>
-   </repositories>
-   <pluginRepositories>
-      <pluginRepository>
-         <id>jboss-public-repository</id>
-         <name>JBoss Repository</name>
-         <url>https://repository.jboss.org/nexus/content/groups/public</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
 
    <dependencies>
 	   <dependency>
