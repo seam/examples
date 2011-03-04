@@ -1,10 +1,20 @@
 JBoss AS
 --------
-You'll need the latest nightly build of JBoss AS 6.0.x to run this application.
+You'll need JBoss AS 6.0.0 or better to run this application.
 
-http://hudson.jboss.org/hudson/view/JBoss%20AS/job/JBoss-AS-6.0.x/lastSuccessfulBuild/artifact/JBossAS_6_0/build/target/jboss-6.0.x.zip
+  http://jboss.org/jbossas
 
-Extract the zip, set the JBOSS_HOME environment variable and execute the startup script.
+Extract the zip and set the JBOSS_HOME environment variable.
+
+Before starting JBoss AS, you'll need to add a temporary flag to workaround an
+outstanding problem in Seam Solder (SOLDER-49). Open up the file
+$JBOSS_HOME/bin/run.conf and add the following line to the bottom of the file:
+
+  JAVA_OPTS="$JAVA_OPTS -Djboss.i18n.generate-proxies=true"
+
+Now you can start JBoss AS:
+
+  ./bin/run.sh
 
 You can then deploy the application:
 
