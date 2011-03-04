@@ -10,9 +10,9 @@
       <relativePath>../pom.xml</relativePath>
    </parent>
    <groupId>org.jboss.seam.examples</groupId>
-   <artifactId>seam-javaee-booking</artifactId>
+   <artifactId>seam-booking</artifactId>
    <packaging>war</packaging>
-   <name>Seam Java EE Booking Example</name>
+   <name>Seam Booking Example</name>
    <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
    <url>http://seamframework.org/Seam3</url>
 
@@ -50,58 +50,22 @@
    
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
-         <artifactId>seam-faces-api</artifactId>
-         <exclusions>
-            <exclusion>
-               <groupId>org.jboss.seam.solder</groupId>
-               <artifactId>seam-solder-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-   
-      <dependency>
-         <groupId>org.jboss.seam.faces</groupId>
-         <artifactId>seam-faces-impl</artifactId>
-         <scope>runtime</scope>
-         <exclusions>
-            <exclusion>
-               <groupId>org.jboss.seam.international</groupId>
-               <artifactId>seam-international</artifactId>
-            </exclusion>
-         </exclusions>
+         <artifactId>seam-faces</artifactId>
       </dependency>
       
       <dependency>
          <groupId>org.jboss.seam.international</groupId>
-         <artifactId>seam-international-api</artifactId>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.international</groupId>
-         <artifactId>seam-international-impl</artifactId>
-         <scope>runtime</scope>
-      </dependency>
-
-      <dependency>
-         <groupId>org.jboss.seam.servlet</groupId>
-         <artifactId>seam-servlet-api</artifactId>
+         <artifactId>seam-international</artifactId>
       </dependency>
       
       <dependency>
          <groupId>org.jboss.seam.servlet</groupId>
-         <artifactId>seam-servlet-impl</artifactId>
-         <scope>runtime</scope>
-      </dependency>
-       
-      <dependency>
-         <groupId>org.jboss.seam.catch</groupId>
-         <artifactId>seam-catch-api</artifactId>
+         <artifactId>seam-servlet</artifactId>
       </dependency>
       
       <dependency>
          <groupId>org.jboss.seam.catch</groupId>
-         <artifactId>seam-catch-impl</artifactId>
-         <scope>runtime</scope>
+         <artifactId>seam-catch</artifactId>
       </dependency>
       
       <!--<dependency>
