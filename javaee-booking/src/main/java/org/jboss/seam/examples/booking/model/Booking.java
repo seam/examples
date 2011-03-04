@@ -36,10 +36,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.jboss.seam.solder.core.Veto;
 
 /**
@@ -162,7 +163,8 @@ public class Booking implements Serializable
 
 	@NotNull(message = "Credit card number is required")
 	@Size(min = 16, max = 16, message = "Credit card number must 16 digits long")
-	@Pattern(regexp = "^\\d*$", message = "Credit card number must be numeric")
+	@Digits(fraction = 0, integer = 16)
+	@CreditCardNumber
 	public String getCreditCardNumber()
 	{
 		return creditCardNumber;

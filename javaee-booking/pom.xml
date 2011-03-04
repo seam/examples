@@ -139,9 +139,9 @@
       <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
       <!-- TODO Move Hibernate Validator to app server specific sections -->
       <dependency>
-         <groupId>org.hibernate</groupId>
+         <groupId>org.hibernate.</groupId>
          <artifactId>hibernate-validator</artifactId>
-         <version>4.0.0.GA</version>
+         <version>4.1.0.Final</version>
          <scope>provided</scope>
       </dependency>
 

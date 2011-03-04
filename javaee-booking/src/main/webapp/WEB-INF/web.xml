@@ -6,6 +6,10 @@
 
    <display-name>Seam Booking Example (Java EE Environment)</display-name>
 
+   <!--
+     Set project stage to Production for production deployments!!
+     Production mode also allows all exceptions to propagate to Seam Catch
+   -->
    <context-param>
       <param-name>javax.faces.PROJECT_STAGE</param-name>
       <param-value>Development</param-value>
@@ -13,13 +17,13 @@
 
    <session-config>
       <session-timeout>10</session-timeout> 
-   </session-config>   
-   
+   </session-config>
+
    <servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
-  </servlet>
+   </servlet>
   
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>

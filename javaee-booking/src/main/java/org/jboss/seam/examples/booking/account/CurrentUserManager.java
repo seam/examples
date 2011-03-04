@@ -26,6 +26,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.examples.booking.model.User;
 
@@ -45,8 +46,11 @@ public class CurrentUserManager
       return currentUser;
    }
 
-   public void onLogin(@Observes @Authenticated User user)
+   public void onLogin(@Observes @Authenticated User user, HttpSession session)
    {
       currentUser = user;
+      // reward authenticated users with a longer session
+      // default is kept short to prevent search engines from driving up # of sessions
+      session.setMaxInactiveInterval(3600);
    }
 }

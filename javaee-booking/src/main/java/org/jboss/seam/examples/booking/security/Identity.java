@@ -24,7 +24,7 @@ package org.jboss.seam.examples.booking.security;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
@@ -41,7 +41,7 @@ public class Identity implements Serializable
 	private boolean loggedIn;
 
 	@Inject
-	private FacesContext facesContext;
+	private ExternalContext externalContext;
 
 	@Inject
 	private Authenticator authenticator;
@@ -71,7 +71,7 @@ public class Identity implements Serializable
 	public String logout()
 	{
 		loggedIn = false;
-		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
+		HttpSession session = (HttpSession) externalContext.getSession(true);
 		session.invalidate();
 		return "home?faces-redirect=true";
 	}

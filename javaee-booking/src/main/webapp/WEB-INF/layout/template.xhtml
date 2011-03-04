@@ -35,6 +35,10 @@
                      #{' | '}
                      <pretty:link mappingId="logout">#{bundles.messages.template_linkLogout}</pretty:link>
                   </h:panelGroup>
+                  <h:panelGroup rendered="#{initParam['javax.faces.PROJECT_STAGE'] == 'Development'}">
+                     #{' | '}
+                     <h:commandLink action="pretty:home" actionListener="#{facesContext.externalContext.invalidateSession}" value="#{bundles.messages.template_linkReset}"/>
+                  </h:panelGroup>
                </div>
             </h:form>
          </div>
@@ -48,6 +52,8 @@
          </div>
          <div id="footer">
             #{bundles.messages.template_createdWith}<br/>
+            #{bundles.messages.template_projectStage}: #{initParam['javax.faces.PROJECT_STAGE']}
+            #{' | '}
             #{bundles.messages.template_currentConversation}: #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
          </div>
       </div>
