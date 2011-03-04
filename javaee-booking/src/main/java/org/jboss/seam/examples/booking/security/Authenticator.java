@@ -27,11 +27,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
-import org.slf4j.Logger;
 
 /**
  * This implementation of <strong>Authenticator</strong> cross references the
@@ -43,7 +43,7 @@ import org.slf4j.Logger;
 public class Authenticator
 {
 	@Inject
-	Logger log;
+	private Logger log;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -60,7 +60,7 @@ public class Authenticator
 
 	public boolean authenticate()
 	{
-		log.info("+ Logging in " + credentials.getUsername());
+		log.info("Logging in " + credentials.getUsername());
 		if ((credentials.getUsername() == null) || (credentials.getPassword() == null))
 		{
 			messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");

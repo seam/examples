@@ -24,13 +24,13 @@
       
          <h:form id="bookingForm">
             <fieldset>
-               <p:input id="checkInDate" label="CheckInDate">
+               <p:input id="checkInDate" label="Check-in Date">
                   <h:inputText id="input" value="#{booking.checkinDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
                </p:input>
               
-                <p:input id="checkOutDate" label="CheckOutDate">
+                <p:input id="checkOutDate" label="Check-out Date">
                   <h:inputText id="input" value="#{booking.checkoutDate}">
                      <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
                   </h:inputText>
@@ -52,7 +52,7 @@
                   </h:selectOneRadio>
 			   </p:input>
                
-               <p:input id="creditCardName" label="CrediCard Name">
+               <p:input id="creditCardName" label="CreditCard Name">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
 				</p:input>
         	    <p:input id="creditCardNumber" label="CreditCard Number">

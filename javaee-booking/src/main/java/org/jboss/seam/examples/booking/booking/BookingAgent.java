@@ -39,6 +39,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
@@ -48,7 +49,6 @@ import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
-import org.slf4j.Logger;
 
 import com.ocpsoft.pretty.time.PrettyTime;
 

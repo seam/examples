@@ -36,10 +36,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.Hotel_;
 import org.jboss.seam.international.status.builder.TemplateMessage;
-import org.slf4j.Logger;
 
 @Named
 @Stateful

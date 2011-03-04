@@ -24,9 +24,7 @@ package org.jboss.seam.examples.booking.bootstrap;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -34,14 +32,17 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TransactionRequiredException;
 import javax.transaction.UserTransaction;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
-import org.slf4j.Logger;
+import org.jboss.seam.servlet.WebApplication;
+import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
-@Singleton @Startup
+//@Stateless // can't use EJB since they are not yet available for lookup when initialized event is fired
 @Alternative
 public class ApplicationInitializer
 {
@@ -52,19 +53,17 @@ public class ApplicationInitializer
 	private UserTransaction utx;
 
 	@Inject
-	Logger log;
+	private Logger log;
 
 	private final List<User> users = new ArrayList<User>();
 	private final List<Hotel> hotels = new ArrayList<Hotel>();
 
 	public ApplicationInitializer()
 	{
-		users.add(new User("Jose Freitas", "jose", "jose.freitas@example.com", "brazil"));
-		users.add(new User("Dan Allen", "dan", "dan@example.com", "laurel"));
-		users.add(new User("Pete Muir", "pete", "pete@example.com", "edinburgh"));
-		users.add(new User("Lincoln Baxter III", "lincoln", "lincoln@example.com", "charlotte"));
 		users.add(new User("Shane Bryzak", "shane", "shane@example.com", "brisbane"));
-		users.add(new User("Gavin King", "gavin", "gavin@example.com", "mexico"));
+		users.add(new User("Dan Allen", "dan", "dan@example.com", "laurel"));
+		users.add(new User("Lincoln Baxter III", "lincoln", "lincoln@example.com", "charlotte"));
+		users.add(new User("Jose Freitas", "jose", "jose.freitas@example.com", "brazil"));
 
 		hotels.add(new Hotel(129, 3, "Marriott Courtyard", "Tower Place, Buckhead", "Atlanta", "GA", "30305", "USA"));
 		hotels.add(new Hotel(84, 4, "Doubletree Atlanta-Buckhead", "3342 Peachtree Road NE", "Atlanta", "GA", "30326", "USA"));
@@ -92,9 +91,9 @@ public class ApplicationInitializer
 		hotels.add(new Hotel(100, 2, "Hotel Cammerpoorte", "Nationalestraat 38-40", "Antwerp", null, "2000", "BE"));
 	}
 
-	@PostConstruct
-	public void init()
+	public void importData(@Observes @Initialized WebApplication webapp)
 	{
+	    log.info("Importing seed data for application " + webapp.getName());
 		try
 		{
 			persist(users);
@@ -118,7 +117,8 @@ public class ApplicationInitializer
 	{
 		try
 		{
-			// work around bug in GlassFish that it cannot locate a UserTransaction
+			// workaround to handle all possible scenarios until we can workout the
+		    // best portable and non-buggy approach
 			try
 			{
 				entityManager.persist(entity);

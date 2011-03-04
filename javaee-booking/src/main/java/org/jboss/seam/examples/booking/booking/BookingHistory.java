@@ -41,6 +41,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.Booking;
@@ -49,7 +50,6 @@ import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.model.User_;
 import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.status.Messages;
-import org.slf4j.Logger;
 
 /**
  * The booking history exposes the current users existing bookings
@@ -103,7 +103,7 @@ public class BookingHistory
 
 	public void cancelBooking(final Booking selectedBooking)
 	{
-		log.info("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
+		log.infov("Canceling booking {0} for {1}", selectedBooking.getId(), currentUserInstance.get().getName());
 		Booking booking = entityManager.find(Booking.class, selectedBooking.getId());
 		if (booking != null)
 		{

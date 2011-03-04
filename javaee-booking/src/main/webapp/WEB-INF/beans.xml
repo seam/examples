@@ -7,9 +7,7 @@
    <interceptors>
       <class>org.jboss.seam.faces.context.conversation.ConversationBoundaryInterceptor</class>
    </interceptors>
-   <!-- TODO descomentar alternatives -->
-   <!-- <alternatives>
+   <alternatives>
       <class>org.jboss.seam.examples.booking.bootstrap.ApplicationInitializer</class>
-   </alternatives> -->
-   
+   </alternatives>
 </beans>

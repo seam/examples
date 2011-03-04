@@ -33,6 +33,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -91,6 +93,7 @@ public class Booking implements Serializable
 		this.id = id;
 	}
 
+	@Temporal(TemporalType.DATE)
 	public Date getCheckinDate()
 	{
 		return checkinDate;
@@ -125,6 +128,7 @@ public class Booking implements Serializable
 		this.user = user;
 	}
 
+	@Temporal(TemporalType.DATE)
 	public Date getCheckoutDate()
 	{
 		return checkoutDate;
