@@ -21,7 +21,7 @@
       <jboss.home>${env.JBOSS_HOME}</jboss.home>
       <jboss.domain>default</jboss.domain>
       <arquillian.version>1.0.0.Alpha3</arquillian.version>
-      <glassfish.version>3.0.1-b20</glassfish.version>
+      <glassfish.version>3.1.0</glassfish.version>
       <jpamodelgen.version>1.0.0.Final</jpamodelgen.version>
       <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
       <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
@@ -33,11 +33,7 @@
 	        <groupId>org.jboss.seam.solder</groupId>
 	        <artifactId>seam-solder</artifactId>
 	    </dependency>
-	  <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-logger</artifactId>
-            <version>1.0.0-CR2</version>
-      </dependency>
+	
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-jpamodelgen</artifactId>
@@ -118,7 +114,12 @@
          <version>4.0.0.GA</version>
          <scope>provided</scope>
       </dependency>
-
+	  
+	  <dependency>
+         <groupId>joda-time</groupId>
+         <artifactId>joda-time</artifactId>
+      </dependency>
+	  
       <dependency>
          <groupId>javax.enterprise</groupId>
          <artifactId>cdi-api</artifactId>
