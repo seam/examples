@@ -48,7 +48,7 @@
                   <h:inputText id="input" value="#{newUser.email}"/>
                </p:input>
 			
-			   <!-- 
+			   
 			   	<p:input id="password" label="password" ajax="blur">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
                </p:input>
@@ -60,7 +60,7 @@
                         render="confirmPassword :registrationForm:password"/>
                   </h:inputSecret>
                </p:input>
-			    -->
+			   <!-- 
                <h:outputLabel for="newPassword" value="new password" />
                <h:inputSecret id="newPassword" value="#{newUser.password}" redisplay="true"/>
                <h:message errorClass="error" id="newPasswordMessage" for="newPassord"/>
@@ -72,7 +72,7 @@
                         render=":messages :registrationForm:newPassword :registrationForm:newPasswordMessage :registrationForm:confirmPassword :registrationForm:confirmPasswordMessage"/>
                </h:inputSecret>
                <h:message errorClass="error" id="confirmPasswordMessage" for="confirmPassword"/>
-               
+               -->
 			   
                <ui:remove><!--
                <p:input id="confirmPassword">
@@ -91,8 +91,8 @@
 
             </fieldset>
 
-            <s:validateForm id="passwordCheck" validatorId="confirmPassword"/>
-			<!-- fields="newPassword=password:input confirmPassword=confirmPassword:input"/> -->
+            <s:validateForm id="passwordCheck" validatorId="confirmPassword"	
+            	fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
 			
          </h:form>
              
