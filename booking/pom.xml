@@ -133,6 +133,14 @@
          <version>${arquillian.version}</version>
          <scope>test</scope>
       </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.spec</groupId>
+         <artifactId>jboss-javaee-6.0</artifactId>
+         <version>${jboss-javaee6-spec.version}</version>
+         <type>pom</type>
+         <scope>provided</scope>
+      </dependency>     
 
       <!--
       <dependency>
@@ -224,20 +232,29 @@
       </plugins>
    </build>
    <profiles>
+
+      <profile>
+         <id>distribution</id>
+         <activation>
+            <property>
+               <name>release</name>
+            </property>
+         </activation>
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-assembly-plugin</artifactId>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>   
+   
       <profile>
          <id>default</id>
          <activation>
             <activeByDefault>true</activeByDefault>
          </activation>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.spec</groupId>
-               <artifactId>jboss-javaee-6.0</artifactId>
-               <version>${jboss-javaee6-spec.version}</version>
-               <type>pom</type>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
          <build>
             <plugins>
                <plugin>
