@@ -119,6 +119,17 @@
          <artifactId>cdi-api</artifactId>
          <scope>provided</scope>
       </dependency>
+      
+      <!-- Test dependencies -->
+      <dependency>
+         <groupId>org.seleniumhq.selenium.client-drivers</groupId>
+         <artifactId>selenium-java-client-driver</artifactId>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.test</groupId>
+         <artifactId>richfaces-selenium</artifactId>
+      </dependency>
 
       <dependency>
          <groupId>junit</groupId>
@@ -232,6 +243,10 @@
       </plugins>
    </build>
    <profiles>
+
+      <profile>
+         <id>ftest</id>
+      </profile>
 
       <profile>
          <id>distribution</id>
