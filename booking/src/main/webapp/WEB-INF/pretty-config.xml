@@ -6,48 +6,48 @@
 
 	<url-mapping id="home">
 		<pattern value="/"></pattern>
-		<view-id>/home.seam</view-id>
+		<view-id>/home.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping id="logout">
 		<pattern value="/logout"></pattern>
-		<view-id>/home.seam</view-id>
+		<view-id>/home.xhtml</view-id>
 		<action>#{identity.logout}</action>
 	</url-mapping>
 
 	<url-mapping>
 		<pattern value="/search"></pattern>
-		<view-id>/search.seam</view-id>
+		<view-id>/search.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping>
 		<pattern value="/hotel/#{/\d+/ id}"></pattern>
-		<view-id>/hotel.seam</view-id>
+		<view-id>/hotel.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping>
 		<pattern value="/book"></pattern>
-		<view-id>/book.seam</view-id>
+		<view-id>/book.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping>
 		<pattern value="/confirm"></pattern>
-		<view-id>/confirm.seam</view-id>
+		<view-id>/confirm.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping id="register">
 		<pattern value="/register"></pattern>
-		<view-id>/register.seam</view-id>
+		<view-id>/register.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping id="account">
 		<pattern value="/account"></pattern>
-		<view-id>/account.seam</view-id>
+		<view-id>/account.xhtml</view-id>
 	</url-mapping>
 
 	<url-mapping>
 		<pattern value="/password"></pattern>
-		<view-id>/password.seam</view-id>
+		<view-id>/password.xhtml</view-id>
 	</url-mapping>
 
 </pretty-config>

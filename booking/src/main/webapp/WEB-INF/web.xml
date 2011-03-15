@@ -25,35 +25,26 @@
     <load-on-startup>1</load-on-startup>
    </servlet>
   
-  <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.xhtml</url-pattern>
-    <url-pattern>*.seam</url-pattern>
-  </servlet-mapping>
+   <servlet-mapping>
+     <servlet-name>Faces Servlet</servlet-name>
+     <url-pattern>*.xhtml</url-pattern>
+   </servlet-mapping>
 
-   <!-- <security-constraint>
-      <display-name>Restrict access to XHTML documents</display-name>
-      <web-resource-collection>
-         <web-resource-name>XHTML</web-resource-name>
-         <url-pattern>*.xhtml</url-pattern>
-      </web-resource-collection>
-      <auth-constraint/>
-   </security-constraint>  -->
-
+   <!-- Use Seam Catch for these -->
    <!--
    <error-page>
       <exception-type>org.jboss.seam.security.NotLoggedInException</exception-type>
-      <location>/home.seam</location>
+      <location>/home.xhtml</location>
    </error-page>
    
    <error-page>
       <exception-type>org.jboss.seam.security.AuthorizationException</exception-type>
-      <location>/denied.seam</location>
+      <location>/denied.xhtml</location>
    </error-page>
 
    <error-page>
       <error-code>500</error-code>
-      <location>/error.seam</location>
+      <location>/error.xhtml</location>
    </error-page>
    -->
    

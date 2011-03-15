@@ -8,10 +8,12 @@
    xmlns:m="http://java.sun.com/jsf/composite/components/model"
    template="/WEB-INF/layout/template.xhtml">
 
-   <f:metadata>
-      <f:viewParam name="id" value="#{_hotelId}"/>
-      <s:viewAction action="#{bookingAgent.selectHotel(_hotelId)}"/>
-   </f:metadata>
+   <ui:define name="metadata">
+      <f:metadata>
+         <f:viewParam name="id" value="#{_hotelId}"/>
+         <s:viewAction action="#{bookingAgent.selectHotel(_hotelId)}"/>
+      </f:metadata>
+   </ui:define>
 
    <ui:define name="content">
 
