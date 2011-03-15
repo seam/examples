@@ -1,8 +1,8 @@
 # Seam Booking
 
-This is the classic Seam Booking example ported to Java EE 6 with Seam 3
-extensions. It's also been given a fresh new look. See features.txt for a
-list of features that are demonstrated by this example.
+This is the classic Seam Booking example ported to Java EE 6 infused with Seam
+3 portable extensions.  It's also been given a fresh new look. See features.txt
+for a list of features that are demonstrated by this example.
 
 ## Running on JBoss AS
 
