@@ -35,7 +35,7 @@
                      #{' | '}
                      <pretty:link mappingId="logout">#{bundles.messages.template_linkLogout}</pretty:link>
                   </h:panelGroup>
-                  <h:panelGroup rendered="#{initParam['javax.faces.PROJECT_STAGE'] == 'Development'}">
+                  <h:panelGroup rendered="#{facesContext.application.projectStage == 'Development'}">
                      #{' | '}
                      <h:commandLink action="pretty:home" actionListener="#{facesContext.externalContext.invalidateSession}" value="#{bundles.messages.template_linkReset}"/>
                   </h:panelGroup>

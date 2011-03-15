@@ -22,9 +22,12 @@
          <property name="hibernate.format_sql" value="false"/>
          <property name="hibernate.show_sql" value="false" />
 
-         <!-- Properties for EclipseLink (default provider for GlassFish)
+         <!-- Properties for EclipseLink (default provider for GlassFish) -->
+         <!-- Uncomment only when using EclipseLink! These properties cause Hibernate EntityManager to break -->
+         <!--
          <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-         <property name="eclipselink.logging.level" value="FINE"/>-->
+         <property name="eclipselink.logging.level" value="FINE"/>
+         -->
       </properties>
    </persistence-unit>
 </persistence>
