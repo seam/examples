@@ -43,14 +43,14 @@ The simplest way to run the application on GlassFish is to:
 
 If you are not using NetBeans, you can start GlassFish and JavaDB using these commands:
 
-   $GLASSFISH_HOME/bin/asadmin start-database
-   $GLASSFISH_HOME/bin/asadmin start-domain domain1
+    $GLASSFISH_HOME/bin/asadmin start-database
+    $GLASSFISH_HOME/bin/asadmin start-domain domain1
 
 Then you can package the project (mvn package) and deploy the WAR using the admin console.
 Alternatively, you can deploy the application using asadmin:
 
-   mvn package
-   $GLASSFISH_HOME/bin/asadmin deploy target/seam-booking.war
+    mvn package
+    $GLASSFISH_HOME/bin/asadmin deploy target/seam-booking.war
 
 ### A note about JavaDB
 
@@ -74,9 +74,9 @@ Services (View) > Services (Node) > GlassFish (Entry) > Properties (Context menu
 
 Create a database connection to the following database
 
-URL: jdbc:derby://localhost:1527/sun-appserv-samples
-Username: APP
-Password: APP
+* URL: jdbc:derby://localhost:1527/sun-appserv-samples
+* Username: APP
+* Password: APP
 
 ## Installing Hibernate 3.5 (JPA 2) on GlassFish 3
 
