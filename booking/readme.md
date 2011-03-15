@@ -34,6 +34,14 @@ You can undeploy using this command:
 
 You'll need GlassFish 3.1 or better to run this application on GlassFish.
 
+Before running the application, you need to make a change to the persistence
+unit configuration. Uncomment the eclipselink.* properties in the following
+file:
+
+    src/main/resources/META-INF/persistence.xml
+
+Now you are ready to run.
+
 The simplest way to run the application on GlassFish is to:
 
 1. Start NetBeans 6.8 or later
