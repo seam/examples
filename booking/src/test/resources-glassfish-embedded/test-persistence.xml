@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" 
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
-   version="2.0">
-   <persistence-unit name="booking">
-      <!-- DataSource configured in adjacent sun-resources.xml -->
-      <jta-data-source>jdbc/arquillian</jta-data-source>
-      <class>org.jboss.seam.examples.booking.model.User</class>
-      <class>org.jboss.seam.examples.booking.model.Hotel</class>
-      <class>org.jboss.seam.examples.booking.model.Booking</class>
-      <exclude-unlisted-classes/>
-      <properties>
-         <!-- Properties for EclipseLink (default provider for GlassFish) -->
-         <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-         <property name="eclipselink.logging.level" value="FINE"/>
-      </properties>
-   </persistence-unit>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
+    version="2.0">
+    <persistence-unit name="booking">
+        <!-- DataSource configured in adjacent sun-resources.xml -->
+        <jta-data-source>jdbc/arquillian</jta-data-source>
+        <class>org.jboss.seam.examples.booking.model.User</class>
+        <class>org.jboss.seam.examples.booking.model.Hotel</class>
+        <class>org.jboss.seam.examples.booking.model.Booking</class>
+        <exclude-unlisted-classes/>
+        <properties>
+            <!-- Properties for EclipseLink (default provider for GlassFish) -->
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+        </properties>
+    </persistence-unit>
 </persistence>
