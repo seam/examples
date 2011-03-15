@@ -1,23 +1,18 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
- * Copyright 2010, Red Hat, Inc., and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.jboss.seam.examples.booking.account;
 
@@ -36,45 +31,43 @@ import org.jboss.seam.international.status.Messages;
 /**
  * The view controller for changing the user password
  * 
- * @author Dan Allen
+ * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
-@Stateful @Model
-public class PasswordManager
-{
-	@PersistenceContext
-	private EntityManager em;
+@Stateful
+@Model
+public class PasswordManager {
+    @PersistenceContext
+    private EntityManager em;
 
-	@Inject
-	private Messages messages;
+    @Inject
+    private Messages messages;
 
-	@Inject @Authenticated
-	private User user;
+    @Inject
+    @Authenticated
+    private User user;
 
-	@NotNull @Size(min = 5, max = 15)
-	private String confirmPassword;
-	
-	private boolean changed;
+    @NotNull
+    @Size(min = 5, max = 15)
+    private String confirmPassword;
 
-	public void changePassword()
-	{
-		em.merge(user);
-		messages.info(new DefaultBundleKey("account_passwordChanged")).defaults("Password successfully updated.");
-		changed = true;
-	}
+    private boolean changed;
 
-	public boolean isChanged()
-	{
-		return changed;
-	}
+    public void changePassword() {
+        em.merge(user);
+        messages.info(new DefaultBundleKey("account_passwordChanged")).defaults("Password successfully updated.");
+        changed = true;
+    }
 
-	public void setConfirmPassword(final String password)
-	{
-		confirmPassword = password;
-	}
+    public boolean isChanged() {
+        return changed;
+    }
 
-	public String getConfirmPassword()
-	{
-		return confirmPassword;
-	}
+    public void setConfirmPassword(final String password) {
+        confirmPassword = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 
 }

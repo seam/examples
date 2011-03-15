@@ -27,7 +27,7 @@
                   <h:link id="search" outcome="/search.xhtml" value="#{bundles.messages.template_linkHotels}"/>
                   <h:panelGroup rendered="#{not identity.loggedIn}">
                      #{' | '}
-	                  <pretty:link mappingId="home">#{bundles.messages.template_linkLogin}</pretty:link>
+                     <pretty:link mappingId="home">#{bundles.messages.template_linkLogin}</pretty:link>
                   </h:panelGroup>
                   <h:panelGroup rendered="#{identity.loggedIn}">
                      #{' | '}

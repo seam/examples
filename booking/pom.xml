@@ -16,417 +16,417 @@
   limitations under the License.
 --> 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>org.jboss.seam.examples</groupId>
-      <artifactId>seam-examples-parent</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
-      <relativePath>../pom.xml</relativePath>
-   </parent>
-   <groupId>org.jboss.seam.examples</groupId>
-   <artifactId>seam-booking</artifactId>
-   <packaging>war</packaging>
-   <name>Seam Booking Example</name>
-   <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
-   <url>http://seamframework.org/Seam3</url>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss.seam.examples</groupId>
+        <artifactId>seam-examples-parent</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <groupId>org.jboss.seam.examples</groupId>
+    <artifactId>seam-booking</artifactId>
+    <packaging>war</packaging>
+    <name>Seam Booking Example</name>
+    <description>The Seam booking example using the simplified Java EE 6 programming model and packaging structure (i.e., web archive)</description>
+    <url>http://seamframework.org/Seam3</url>
 
-   <properties>
-      <webapp.directory>src/main/webapp</webapp.directory>
-      <jboss.home>${env.JBOSS_HOME}</jboss.home>
-      <jboss.domain>default</jboss.domain>
-      <arquillian.version>1.0.0.Alpha3</arquillian.version>
-      <glassfish.version>3.1</glassfish.version>
-      <jpamodelgen.version>1.1.1.Final</jpamodelgen.version>
-      <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
-      <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
-      <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
-   </properties>
+    <properties>
+        <webapp.directory>src/main/webapp</webapp.directory>
+        <jboss.home>${env.JBOSS_HOME}</jboss.home>
+        <jboss.domain>default</jboss.domain>
+        <arquillian.version>1.0.0.Alpha3</arquillian.version>
+        <glassfish.version>3.1</glassfish.version>
+        <jpamodelgen.version>1.1.1.Final</jpamodelgen.version>
+        <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
+        <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
+        <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
+    </properties>
 
-   <dependencies>
-      <!-- Annotation processor for generating typed loggers -->
-      <dependency>
-         <groupId>org.jboss.seam.solder</groupId>
-         <artifactId>seam-solder-tooling</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-         <scope>provided</scope>
-         <optional>true</optional>
-      </dependency>
+    <dependencies>
+        <!-- Annotation processor for generating typed loggers -->
+        <dependency>
+            <groupId>org.jboss.seam.solder</groupId>
+            <artifactId>seam-solder-tooling</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.solder</groupId>
-         <artifactId>seam-solder</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.solder</groupId>
+            <artifactId>seam-solder</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
 
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-jpamodelgen</artifactId>
-         <version>${jpamodelgen.version}</version>
-         <scope>provided</scope>
-         <!-- Excluded Hibernate-provided JPA API because it's provided by the Java EE 6 dependencies -->
-         <exclusions>
-            <exclusion>
-               <groupId>org.hibernate.javax.persistence</groupId>
-               <artifactId>hibernate-jpa-2.0-api</artifactId>
-            </exclusion>
-         </exclusions>
-      </dependency>
-   
-      <dependency>
-         <groupId>org.jboss.seam.faces</groupId>
-         <artifactId>seam-faces</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.international</groupId>
-         <artifactId>seam-international</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.servlet</groupId>
-         <artifactId>seam-servlet</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.catch</groupId>
-         <artifactId>seam-catch</artifactId>
-      </dependency>
-      
-      <!--<dependency>
-         <groupId>org.jboss.seam.mail</groupId>
-         <artifactId>seam-mail-api</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-      </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-jpamodelgen</artifactId>
+            <version>${jpamodelgen.version}</version>
+            <scope>provided</scope>
+            <!-- Excluded Hibernate-provided JPA API because it's provided by the Java EE 6 dependencies -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate.javax.persistence</groupId>
+                    <artifactId>hibernate-jpa-2.0-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.jboss.seam.faces</groupId>
+            <artifactId>seam-faces</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.international</groupId>
+            <artifactId>seam-international</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.servlet</groupId>
+            <artifactId>seam-servlet</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.catch</groupId>
+            <artifactId>seam-catch</artifactId>
+        </dependency>
+        
+        <!--<dependency>
+            <groupId>org.jboss.seam.mail</groupId>
+            <artifactId>seam-mail-api</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.seam.mail</groupId>
-         <artifactId>seam-mail-impl</artifactId>
-         <version>3.0.0-SNAPSHOT</version>
-         <scope>runtime</scope>
-      </dependency>-->
-      
-      <dependency>
-         <groupId>com.ocpsoft</groupId>
-         <artifactId>ocpsoft-pretty-time</artifactId>
-         <version>1.0.6</version>
-      </dependency>
+        <dependency>
+            <groupId>org.jboss.seam.mail</groupId>
+            <artifactId>seam-mail-impl</artifactId>
+            <version>3.0.0-SNAPSHOT</version>
+            <scope>runtime</scope>
+        </dependency>-->
+        
+        <dependency>
+            <groupId>com.ocpsoft</groupId>
+            <artifactId>ocpsoft-pretty-time</artifactId>
+            <version>1.0.6</version>
+        </dependency>
 
-      <dependency>
-         <groupId>com.ocpsoft</groupId>
-         <artifactId>prettyfaces-jsf2</artifactId>
-         <version>3.0.1</version>
-      </dependency>
-      
-      <dependency>
-       <groupId>commons-digester</groupId>
-       <artifactId>commons-digester</artifactId>
-       <version>2.1</version>
-      </dependency>
-      
-      <!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
-      <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
-      <!-- TODO Move Hibernate Validator to app server specific sections -->
-      <dependency>
-         <groupId>org.hibernate.</groupId>
-         <artifactId>hibernate-validator</artifactId>
-         <version>4.1.0.Final</version>
-         <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>com.ocpsoft</groupId>
+            <artifactId>prettyfaces-jsf2</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        
+        <dependency>
+         <groupId>commons-digester</groupId>
+         <artifactId>commons-digester</artifactId>
+         <version>2.1</version>
+        </dependency>
+        
+        <!-- Bean Validation Implementation; provides portable constraints @NotEmpty, @Email and @Url -->
+        <!-- Hibernate Validator is the only JSR-303 implementation at the moment, so we can assume it's provided -->
+        <!-- TODO Move Hibernate Validator to app server specific sections -->
+        <dependency>
+            <groupId>org.hibernate.</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.1.0.Final</version>
+            <scope>provided</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>joda-time</groupId>
-         <artifactId>joda-time</artifactId>
-      </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
 
-      <dependency>
-         <groupId>javax.enterprise</groupId>
-         <artifactId>cdi-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>${junit.version}</version>
-         <scope>test</scope>
-      </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-      <dependency>
-         <groupId>org.jboss.arquillian</groupId>
-         <artifactId>arquillian-junit</artifactId>
-         <version>${arquillian.version}</version>
-         <scope>test</scope>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.spec</groupId>
-         <artifactId>jboss-javaee-6.0</artifactId>
-         <version>${jboss-javaee6-spec.version}</version>
-         <type>pom</type>
-         <scope>provided</scope>
-      </dependency>     
+        <dependency>
+            <groupId>org.jboss.arquillian</groupId>
+            <artifactId>arquillian-junit</artifactId>
+            <version>${arquillian.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.spec</groupId>
+            <artifactId>jboss-javaee-6.0</artifactId>
+            <version>${jboss-javaee6-spec.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>      
 
-      <!--
-      <dependency>
-         <groupId>org.codehaus.groovy.maven.runtime</groupId>
-         <artifactId>gmaven-runtime-1.6</artifactId>
-         <version>1.0</version>
-         <scope>test</scope>
-      </dependency>
-      -->
-
-   </dependencies>
-
-   <build>
-      <defaultGoal>package</defaultGoal>
-      <finalName>${project.artifactId}</finalName>
-      <plugins>
-
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-               <!-- activate only when you need to generate the metamodel -->
-               <!--
-               <compilerArgument>-proc:none</compilerArgument>
-               -->
-            </configuration>
-         </plugin>
-
-         <!--
-         <plugin>
-            <groupId>org.codehaus.groovy.maven</groupId>
-            <artifactId>gmaven-plugin</artifactId>
+        <!--
+        <dependency>
+            <groupId>org.codehaus.groovy.maven.runtime</groupId>
+            <artifactId>gmaven-runtime-1.6</artifactId>
             <version>1.0</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>testCompile</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-         -->
+            <scope>test</scope>
+        </dependency>
+        -->
 
-         <plugin>
-            <artifactId>maven-eclipse-plugin</artifactId>
-            <version>2.9</version>
-            <configuration>
-               <additionalBuildcommands>
-                  <!--
-                     annoyingly creates a bin directory <buildCommand>
-                     <name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
-                     </buildCommand>
-                  -->
-                  <buildCommand>
-                     <name>org.jboss.tools.common.verification.verifybuilder</name>
-                  </buildCommand>
-               </additionalBuildcommands>
-               <additionalConfig>
-                  <file>
-                     <name>.settings/org.maven.ide.eclipse.prefs</name>
-                     <content>activeProfiles=jdk6
-                        eclipse.preferences.version=1
-                        fullBuildGoals=process-test-resources
-                        includeModules=false
-                        resolveWorkspaceProjects=true
-                        resourceFilterGoals=process-resources
-                        resources\:testResources
-                        skipCompilerPlugin=true
-                        version=1</content>
-                  </file>
-               </additionalConfig>
-               <additionalProjectFacets>
-                  <jst.jsf>2.0</jst.jsf>
-               </additionalProjectFacets>
-               <additionalProjectnatures>
-                  <projectnature>org.eclipse.wst.jsdt.core.jsNature</projectnature>
-                  <projectnature>org.jboss.tools.jsf.jsfnature</projectnature>
-               </additionalProjectnatures>
-               <workspace>${user.home}/.eclipse/workspace</workspace>
-               <wtpdefaultserver>JBossAS</wtpdefaultserver>
-               <wtpversion>2.0</wtpversion>
-               <!--
-               <downloadSources>true</downloadSources>
-               <downloadJavadocs>true</downloadJavadocs>
-               -->
-            </configuration>
-         </plugin>
-      
-      </plugins>
-   </build>
-   <profiles>
+    </dependencies>
 
-      <profile>
-         <id>distribution</id>
-         <activation>
-            <property>
-               <name>release</name>
-            </property>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-assembly-plugin</artifactId>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>   
-   
-      <profile>
-         <id>default</id>
-         <activation>
-            <activeByDefault>true</activeByDefault>
-         </activation>
-         <build>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <configuration>
-                     <skip>true</skip>
-                  </configuration>
-               </plugin>
-               <plugin>
-                  <groupId>org.codehaus.mojo</groupId>
-                  <artifactId>jboss-maven-plugin</artifactId>
-                  <!-- only version 1.4.1 supports hard deploying multiple files -->
-                  <version>1.4.1</version>
-                  <configuration>
-                     <jbossHome>${jboss.home}</jbossHome>
-                     <serverName>${jboss.domain}</serverName>
-                     <fileNames>
-                        <param>src/main/resources-jbossas/booking-ds.xml</param>
-                        <param>${project.build.directory}/${project.build.finalName}.war</param>
-                     </fileNames>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
+    <build>
+        <defaultGoal>package</defaultGoal>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
 
-      <profile>
-         <id>jbossas-remote-6</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-jbossas-remote-6</artifactId>
-               <version>${arquillian.version}</version>
-               <scope>test</scope>
-            </dependency>
-            <dependency>
-               <groupId>org.jboss.spec</groupId>
-               <artifactId>jboss-javaee-6.0</artifactId>
-               <version>${jboss-javaee6-spec.version}</version>
-               <type>pom</type>
-               <scope>provided</scope>
-            </dependency>
-            <!-- need for org.jnp.interfaces.NamingContextFactory -->
-            <dependency>
-               <groupId>org.jboss.jbossas</groupId>
-               <artifactId>jboss-as-client</artifactId>
-               <version>${jboss-as-client.version}</version>
-               <type>pom</type>
-               <scope>test</scope>
-            </dependency>
-         </dependencies>
-         <build>
-            <testResources>
-               <testResource>
-                  <directory>src/test/resources</directory>
-               </testResource>
-               <testResource>
-                  <directory>src/test/resources-jbossas</directory>
-               </testResource>
-            </testResources>
-         </build>
-      </profile>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!-- activate only when you need to generate the metamodel -->
+                    <!--
+                    <compilerArgument>-proc:none</compilerArgument>
+                    -->
+                </configuration>
+            </plugin>
 
-      <profile>
-         <id>glassfish-embedded-3</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-glassfish-embedded-3</artifactId>
-               <version>${arquillian.version}</version>
-               <scope>test</scope>
-            </dependency>
-            <dependency>
-               <groupId>org.glassfish.extras</groupId>
-               <artifactId>glassfish-embedded-all</artifactId>
-               <version>${glassfish.version}</version>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
-         <build>
-            <testResources>
-               <testResource>
-                  <directory>src/test/resources</directory>
-               </testResource>
-               <testResource>
-                  <directory>src/test/resources-glassfish-embedded</directory>
-               </testResource>
-            </testResources>
-            <plugins>
-               <plugin>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <!-- don't use version 2.5 as it creates seperate test suites per class -->
-                  <version>2.4.3</version>
-                  <configuration>
-                     <systemProperties>
-                        <!-- This optional property fixes an annoyance with Glassfish that puts derby.log in the project root -->
-                        <property>
-                           <name>derby.stream.error.file</name>
-                           <!-- If you save the log in target it is less likely to get committed in your project -->
-                           <value>target/derby.log</value>
-                        </property>
-                     </systemProperties>
-                  </configuration>
-               </plugin>
-            </plugins>
-         </build>
-      </profile>
+            <!--
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            -->
 
-      <!--
-      <profile>
-         <id>glassfish-remote-3</id>
-         <dependencies>
-            <dependency>
-               <groupId>org.jboss.arquillian.container</groupId>
-               <artifactId>arquillian-glassfish-remote-3</artifactId>
-               <version>${arquillian.version}</version>
-               <scope>test</scope>
-            </dependency>
-            <dependency>
-               <groupId>org.glassfish.extras</groupId>
-               <artifactId>glassfish-embedded-all</artifactId>
-               <version>${glassfish.version}</version>
-               <scope>provided</scope>
-            </dependency>
-         </dependencies>
-         <build>
-            <testResources>
-               <testResource>
-                  <directory>src/test/resources</directory>
-               </testResource>
-               <testResource>
-                  <directory>src/test/resources-glassfish-remote</directory>
-               </testResource>
-            </testResources>
-         </build>
-      </profile>
-      -->
-   </profiles>
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalBuildcommands>
+                        <!--
+                            annoyingly creates a bin directory <buildCommand>
+                            <name>org.eclipse.wst.jsdt.core.javascriptValidator</name>
+                            </buildCommand>
+                        -->
+                        <buildCommand>
+                            <name>org.jboss.tools.common.verification.verifybuilder</name>
+                        </buildCommand>
+                    </additionalBuildcommands>
+                    <additionalConfig>
+                        <file>
+                            <name>.settings/org.maven.ide.eclipse.prefs</name>
+                            <content>activeProfiles=jdk6
+                                eclipse.preferences.version=1
+                                fullBuildGoals=process-test-resources
+                                includeModules=false
+                                resolveWorkspaceProjects=true
+                                resourceFilterGoals=process-resources
+                                resources\:testResources
+                                skipCompilerPlugin=true
+                                version=1</content>
+                        </file>
+                    </additionalConfig>
+                    <additionalProjectFacets>
+                        <jst.jsf>2.0</jst.jsf>
+                    </additionalProjectFacets>
+                    <additionalProjectnatures>
+                        <projectnature>org.eclipse.wst.jsdt.core.jsNature</projectnature>
+                        <projectnature>org.jboss.tools.jsf.jsfnature</projectnature>
+                    </additionalProjectnatures>
+                    <workspace>${user.home}/.eclipse/workspace</workspace>
+                    <wtpdefaultserver>JBossAS</wtpdefaultserver>
+                    <wtpversion>2.0</wtpversion>
+                    <!--
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                    -->
+                </configuration>
+            </plugin>
+        
+        </plugins>
+    </build>
+    <profiles>
 
-   <scm>
-      <connection>scm:git:git://github.com/seam/examples.git</connection>
-      <developerConnection>scm:git:git@github.com:seam/examples.git</developerConnection>
-      <url>http://github.com/seam</url>
-   </scm>
+        <profile>
+            <id>distribution</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>    
+    
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jboss-maven-plugin</artifactId>
+                        <!-- only version 1.4.1 supports hard deploying multiple files -->
+                        <version>1.4.1</version>
+                        <configuration>
+                            <jbossHome>${jboss.home}</jbossHome>
+                            <serverName>${jboss.domain}</serverName>
+                            <fileNames>
+                                <param>src/main/resources-jbossas/booking-ds.xml</param>
+                                <param>${project.build.directory}/${project.build.finalName}.war</param>
+                            </fileNames>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jbossas-remote-6</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-jbossas-remote-6</artifactId>
+                    <version>${arquillian.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.spec</groupId>
+                    <artifactId>jboss-javaee-6.0</artifactId>
+                    <version>${jboss-javaee6-spec.version}</version>
+                    <type>pom</type>
+                    <scope>provided</scope>
+                </dependency>
+                <!-- need for org.jnp.interfaces.NamingContextFactory -->
+                <dependency>
+                    <groupId>org.jboss.jbossas</groupId>
+                    <artifactId>jboss-as-client</artifactId>
+                    <version>${jboss-as-client.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources-jbossas</directory>
+                    </testResource>
+                </testResources>
+            </build>
+        </profile>
+
+        <profile>
+            <id>glassfish-embedded-3</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-embedded-3</artifactId>
+                    <version>${arquillian.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                    <version>${glassfish.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources-glassfish-embedded</directory>
+                    </testResource>
+                </testResources>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <!-- don't use version 2.5 as it creates seperate test suites per class -->
+                        <version>2.4.3</version>
+                        <configuration>
+                            <systemProperties>
+                                <!-- This optional property fixes an annoyance with Glassfish that puts derby.log in the project root -->
+                                <property>
+                                    <name>derby.stream.error.file</name>
+                                    <!-- If you save the log in target it is less likely to get committed in your project -->
+                                    <value>target/derby.log</value>
+                                </property>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+        <profile>
+            <id>glassfish-remote-3</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-glassfish-remote-3</artifactId>
+                    <version>${arquillian.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.glassfish.extras</groupId>
+                    <artifactId>glassfish-embedded-all</artifactId>
+                    <version>${glassfish.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>src/test/resources-glassfish-remote</directory>
+                    </testResource>
+                </testResources>
+            </build>
+        </profile>
+        -->
+    </profiles>
+
+    <scm>
+        <connection>scm:git:git://github.com/seam/examples.git</connection>
+        <developerConnection>scm:git:git@github.com:seam/examples.git</developerConnection>
+        <url>http://github.com/seam</url>
+    </scm>
 
 </project>

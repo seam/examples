@@ -50,16 +50,16 @@
                      <f:selectItem itemLabel="Smoking" itemValue="true"/>
                      <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
                   </h:selectOneRadio>
-			   </p:input>
+               </p:input>
                
                <p:input id="creditCardName" label="CreditCard Name">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
-				</p:input>
-        	    <p:input id="creditCardNumber" label="CreditCard Number">
+             </p:input>
+             <p:input id="creditCardNumber" label="CreditCard Number">
                   <h:inputText id="input" value="#{booking.creditCardNumber}"/>
-				</p:input>
-				<p:input id="creditCardType" label="CreditCard Type">
-				 <h:selectOneMenu id="type" value="#{booking.creditCardType}">
+             </p:input>
+             <p:input id="creditCardType" label="CreditCard Type">
+                <h:selectOneMenu id="type" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
                   </h:selectOneMenu>
@@ -72,7 +72,7 @@
                   <h:selectOneMenu id="year" value="#{booking.creditCardExpiryYear}">
                      <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
                   </h:selectOneMenu>
-				</p:input>
+                </p:input>
                <div class="buttonBox">
                   <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validate}"/>
                   #{' '}
@@ -82,8 +82,8 @@
             </fieldset>
             
             <!-- 
-            	TODO validator system.
-            	<s:validateForm validatorId="reservationDateRange" fields="startDate=checkInDate:input endDate=checkOutDate:input" />
+               TODO validator system.
+               <s:validateForm validatorId="reservationDateRange" fields="startDate=checkInDate:input endDate=checkOutDate:input" />
              -->
          </h:form>
       </div>

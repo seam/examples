@@ -1,23 +1,18 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
- * Copyright 2010, Red Hat, Inc., and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.jboss.seam.examples.booking.security;
 
@@ -34,46 +29,40 @@ import javax.servlet.http.HttpSession;
  */
 @Named
 @SessionScoped
-public class Identity implements Serializable
-{
-	private static final long serialVersionUID = 4488275906698680752L;
+public class Identity implements Serializable {
+    private static final long serialVersionUID = 4488275906698680752L;
 
-	private boolean loggedIn;
+    private boolean loggedIn;
 
-	@Inject
-	private ExternalContext externalContext;
+    @Inject
+    private ExternalContext externalContext;
 
-	@Inject
-	private Authenticator authenticator;
+    @Inject
+    private Authenticator authenticator;
 
-	@Inject
-	private Credentials credentials;
+    @Inject
+    private Credentials credentials;
 
-	public String getUsername()
-	{
-		return credentials.getUsername();
-	}
+    public String getUsername() {
+        return credentials.getUsername();
+    }
 
-	public boolean isLoggedIn()
-	{
-		return loggedIn;
-	}
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
 
-	public void login()
-	{
-		if (authenticator.authenticate())
-		{
-			loggedIn = true;
-			credentials.setPassword(null);
-		}
-	}
+    public void login() {
+        if (authenticator.authenticate()) {
+            loggedIn = true;
+            credentials.setPassword(null);
+        }
+    }
 
-	public String logout()
-	{
-		loggedIn = false;
-		HttpSession session = (HttpSession) externalContext.getSession(true);
-		session.invalidate();
-		return "home?faces-redirect=true";
-	}
+    public String logout() {
+        loggedIn = false;
+        HttpSession session = (HttpSession) externalContext.getSession(true);
+        session.invalidate();
+        return "home?faces-redirect=true";
+    }
 
 }

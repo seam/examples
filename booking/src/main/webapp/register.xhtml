@@ -47,8 +47,8 @@
                <p:input id="email" label="Email" ajax="blur">
                   <h:inputText id="input" value="#{newUser.email}"/>
                </p:input>
-			   
-			   	<p:input id="password" label="Password" ajax="blur">
+
+               <p:input id="password" label="Password" ajax="blur">
                   <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
                </p:input>
 
@@ -59,7 +59,7 @@
                         render="confirmPassword :registrationForm:password"/>
                   </h:inputSecret>
                </p:input>
-			   
+
                <ui:remove><!--
                <p:input id="confirmPassword">
                   <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true">
@@ -77,9 +77,9 @@
 
             </fieldset>
 
-            <s:validateForm id="passwordCheck" validatorId="confirmPassword"	
-            	fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
-			
+            <s:validateForm id="passwordCheck" validatorId="confirmPassword"
+               fields="newPassword=password:input confirmPassword=confirmPassword:input"/>
+
          </h:form>
              
       </div>
