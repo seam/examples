@@ -60,6 +60,17 @@ Alternatively, you can deploy the application using asadmin:
     mvn package
     $GLASSFISH_HOME/bin/asadmin deploy target/seam-booking.war
 
+### Known issues (QA, please read)
+
+Something changed in Mojarra 2.1 (since 2.0) that causes input elements within
+composite components to not be able to locate their parent form, resulting in
+this message:
+
+> The form component needs to have a UIForm in its ancestry. Suggestion:
+> enclose the necessary components within <h:form>
+
+It hasn't been determined whether or not this is a bug in booking or in Mojarra 2.1.
+
 ### A note about JavaDB
 
 You'll need to start JavaDB to make the application run on GlassFish. Unlike
