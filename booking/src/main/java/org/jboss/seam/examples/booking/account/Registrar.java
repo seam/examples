@@ -52,8 +52,6 @@ public class Registrar {
 
     private UIInput usernameInput;
 
-    private UIInput confirmPasswordInput;
-
     private final User newUser = new User();
 
     @NotNull
@@ -122,14 +120,6 @@ public class Registrar {
 
     public void setUsernameInput(final UIInput usernameInput) {
         this.usernameInput = usernameInput;
-    }
-
-    public UIInput getConfirmPasswordInput() {
-        return confirmPasswordInput;
-    }
-
-    public void setConfirmPasswordInput(final UIInput confirmPasswordInput) {
-        this.confirmPasswordInput = confirmPasswordInput;
     }
 
     private boolean verifyUsernameIsAvailable() {

@@ -9,10 +9,12 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         -->
         <jta-data-source>jdbc/__default</jta-data-source>
+        <!--
         <class>org.jboss.seam.examples.booking.model.User</class>
         <class>org.jboss.seam.examples.booking.model.Hotel</class>
         <class>org.jboss.seam.examples.booking.model.Booking</class>
         <exclude-unlisted-classes/>
+        -->
         <properties>
             <!-- Properties for Hibernate (default provider for JBoss AS) -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>

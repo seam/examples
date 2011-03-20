@@ -29,30 +29,27 @@ import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
- * Validate that both the password fields contain the same value. Implements the classic pasword change validation.
+ * Validate that both the password fields contain the same value. Implements the classic password change validation.
  * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator("confirmPasswordValidator")
+@FacesValidator("confirmPassword")
 public class ConfirmPasswordValidator implements Validator {
     @Inject
     private BundleTemplateMessage messageBuilder;
 
-    @Inject
-    @InputField
-    private String newPassword;
+    @Inject @InputField
+    private String password;
 
-    @Inject
-    @InputField
+    @Inject @InputField
     private String confirmPassword;
 
     public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException {
-
-        if (newPassword == null || confirmPassword == null) {
-            throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("null_fields"))
-                    .defaults("null fields is forbidden").build().getText()));
+        if (password == null || confirmPassword == null) {
+            return;
         }
-        if ((newPassword != null) && !newPassword.equals(confirmPassword)) {
+        
+        if (!password.equals(confirmPassword)) {
             throw new ValidatorException(new FacesMessage(messageBuilder
                     .key(new DefaultBundleKey("account_passwordsDoNotMatch")).defaults("Passwords do not match").build()
                     .getText()));
