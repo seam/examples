@@ -6,22 +6,6 @@
     
     <name>SeamBooking</name>
     
-    <!-- Validator definitions required on JBoss AS because it fails to scan for annotations -->
-    <validator>
-        <validator-id>confirmPassword</validator-id>
-        <validator-class>org.jboss.seam.examples.booking.account.ConfirmPasswordValidator</validator-class>
-    </validator>
-
-    <validator>
-        <validator-id>currentPassword</validator-id>
-        <validator-class>org.jboss.seam.examples.booking.account.CurrentPasswordValidator</validator-class>
-    </validator>
-
-    <validator>
-        <validator-id>reservationDateRange</validator-id>
-        <validator-class>org.jboss.seam.examples.booking.booking.ReservationDateRangeValidator</validator-class>
-    </validator>
-
     <navigation-rule>
         <from-view-id>*</from-view-id>
 
