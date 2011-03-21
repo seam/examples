@@ -1,23 +1,18 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
- * Copyright 2010, Red Hat, Inc., and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.jboss.seam.examples.booking.booking;
 
@@ -40,46 +35,39 @@ import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
- * A cross-field validator that validates the start date is in the future and
- * before the end date.
+ * A cross-field validator that validates the start date is in the future and before the end date.
  * 
- * @author Dan Allen
+ * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @FacesValidator("reservationDateRange")
-public class ReservationDateRangeValidator implements Validator
-{
-	@Inject
-	@InputField
-	private Date startDate;
+public class ReservationDateRangeValidator implements Validator {
+    @Inject
+    @InputField
+    private Date startDate;
 
-	@Inject
-	@InputField
-	private Date endDate;
+    @Inject
+    @InputField
+    private Date endDate;
 
-	@Inject
-	private Instance<BundleTemplateMessage> messageBuilder;
+    @Inject
+    private Instance<BundleTemplateMessage> messageBuilder;
 
+    public void validate(final FacesContext ctx, final UIComponent form, final Object value) throws ValidatorException {
+        @SuppressWarnings("unchecked")
+        Map<String, UIInput> fieldMap = (Map<String, UIInput>) value;
 
-	public void validate(final FacesContext ctx, final UIComponent form, final Object value) throws ValidatorException
-	{
-		@SuppressWarnings("unchecked")
-		Map<String, UIInput> fieldMap = (Map<String, UIInput>) value;
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_MONTH, -1);
-		if (startDate.before(calendar.getTime()))
-		{
-			String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkInNotFutureDate"))
-			// FIXME the component should come through via injection
-			.targets(fieldMap.get("beginDate").getClientId()).build().getText();
-			throw new ValidatorException(new FacesMessage(message));
-		}
-		else if (!startDate.before(endDate))
-		{
-			String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkOutBeforeCheckIn"))
-			// FIXME the component should come through via injection
-			.targets(fieldMap.get("endDate").getClientId()).build().getText();
-			throw new ValidatorException(new FacesMessage(message));
-		}
-	}
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        if (startDate.before(calendar.getTime())) {
+            String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkInNotFutureDate"))
+            // FIXME the component should come through via injection
+                    .targets(fieldMap.get("beginDate").getClientId()).build().getText();
+            throw new ValidatorException(new FacesMessage(message));
+        } else if (!startDate.before(endDate)) {
+            String message = messageBuilder.get().key(new DefaultBundleKey("booking_checkOutBeforeCheckIn"))
+            // FIXME the component should come through via injection
+                    .targets(fieldMap.get("endDate").getClientId()).build().getText();
+            throw new ValidatorException(new FacesMessage(message));
+        }
+    }
 }

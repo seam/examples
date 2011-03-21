@@ -1,23 +1,18 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
- * Copyright 2010, Red Hat, Inc., and individual contributors
+ * Copyright 2010, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
  * full listing of individual contributors.
  *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.jboss.seam.examples.booking.account;
 
@@ -34,42 +29,31 @@ import org.jboss.seam.faces.validation.InputField;
 import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
- * Validate that both the password fields contain the same value. Implements the
- * classic pasword change validation.
+ * Validate that both the password fields contain the same value. Implements the classic password change validation.
  * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@FacesValidator("confirmPasswordValidator")
-public class ConfirmPasswordValidator implements Validator
-{
-	@Inject
-	private BundleTemplateMessage messageBuilder;
+@FacesValidator("confirmPassword")
+public class ConfirmPasswordValidator implements Validator {
+    @Inject
+    private BundleTemplateMessage messageBuilder;
 
-	@Inject @InputField
-	private String newPassword;
+    @Inject @InputField
+    private String password;
 
-	@Inject @InputField
-	private String confirmPassword;
+    @Inject @InputField
+    private String confirmPassword;
 
-
-
-	public void validate(final FacesContext ctx, final UIComponent form, final Object components) 
-	throws ValidatorException{
-
-		if (newPassword == null || confirmPassword == null) {
-			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("null_fields"))
-					.defaults("null fields is forbidden")
-					.build().getText()));
-		}
-		if ((newPassword != null) && !newPassword.equals(confirmPassword))
-		{
-			throw new ValidatorException(new FacesMessage(messageBuilder.key(new DefaultBundleKey("account_passwordsDoNotMatch"))
-					.defaults("Passwords do not match")
-					.build().getText()));
-		}
-	}
-
-
-
+    public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException {
+        if (password == null || confirmPassword == null) {
+            return;
+        }
+        
+        if (!password.equals(confirmPassword)) {
+            throw new ValidatorException(new FacesMessage(messageBuilder
+                    .key(new DefaultBundleKey("account_passwordsDoNotMatch")).defaults("Passwords do not match").build()
+                    .getText()));
+        }
+    }
 
 }

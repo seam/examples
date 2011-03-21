@@ -8,10 +8,12 @@
    xmlns:m="http://java.sun.com/jsf/composite/components/model"
    template="/WEB-INF/layout/template.xhtml">
 
-   <f:metadata>
-      <f:viewParam name="id" value="#{_hotelId}"/>
-      <s:viewAction action="#{bookingAgent.selectHotel(_hotelId)}"/>
-   </f:metadata>
+   <ui:define name="metadata">
+      <f:metadata>
+         <f:viewParam name="id" value="#{_hotelId}"/>
+         <s:viewAction action="#{bookingAgent.selectHotel(_hotelId)}"/>
+      </f:metadata>
+   </ui:define>
 
    <ui:define name="content">
 
@@ -38,7 +40,7 @@
    </ui:define>
 
    <ui:define name="sidebar">
-	<div class="content">
+   <div class="content">
       <h1>Don't kill your database</h1>
       <p>
          Keeping conversational state in memory in the middle tier is a great

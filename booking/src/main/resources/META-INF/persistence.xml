@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" 
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
-   version="2.0">
-   <persistence-unit name="booking">
-      <!--
-      <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-      <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      -->
-      <jta-data-source>jdbc/__default</jta-data-source>
-      <class>org.jboss.seam.examples.booking.model.User</class>
-      <class>org.jboss.seam.examples.booking.model.Hotel</class>
-      <class>org.jboss.seam.examples.booking.model.Booking</class>
-      <exclude-unlisted-classes/>
-      <properties>
-         <!-- Properties for Hibernate (default provider for JBoss AS) -->
-         <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-         <property name="hibernate.show_sql" value="true"/>
-         <!-- Only format when you need to debug, because it slows things down -->
-         <property name="hibernate.format_sql" value="false"/>
-         <property name="hibernate.show_sql" value="false" />
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
+    version="2.0">
+    <persistence-unit name="booking">
+        <!--
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        -->
+        <jta-data-source>jdbc/__default</jta-data-source>
+        <!--
+        <class>org.jboss.seam.examples.booking.model.User</class>
+        <class>org.jboss.seam.examples.booking.model.Hotel</class>
+        <class>org.jboss.seam.examples.booking.model.Booking</class>
+        <exclude-unlisted-classes/>
+        -->
+        <properties>
+            <!-- Properties for Hibernate (default provider for JBoss AS) -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <!-- Only format when you need to debug, because it slows things down -->
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.show_sql" value="false" />
 
-         <!-- Properties for EclipseLink (default provider for GlassFish)
-         <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-         <property name="eclipselink.logging.level" value="FINE"/>-->
-      </properties>
-   </persistence-unit>
+            <!-- Properties for EclipseLink (default provider for GlassFish) -->
+            <!-- Uncomment only when using EclipseLink! These properties cause Hibernate EntityManager to break -->
+            <!--
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            -->
+        </properties>
+    </persistence-unit>
 </persistence>
