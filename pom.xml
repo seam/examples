@@ -30,13 +30,13 @@
 
    <dependencyManagement>
       <dependencies>
-	    <dependency>
-			<groupId>org.jboss.seam</groupId>
-		    <artifactId>seam-bom</artifactId>
-		    <version>${seam.version}</version>
-		    <scope>import</scope>
-	        <type>pom</type>
-		</dependency>
+         <dependency>
+	    <groupId>org.jboss.seam</groupId>
+	       <artifactId>seam-bom</artifactId>
+	       <version>${seam.version}</version>
+	       <scope>import</scope>
+	       <type>pom</type>
+	    </dependency>
        </dependencies>
    </dependencyManagement>
 
