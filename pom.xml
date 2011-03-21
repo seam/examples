@@ -24,57 +24,6 @@
       <seam.version>3.0.0.CR1</seam.version>
    </properties>
 
-   <developers>
-      <developer>
-         <name>Pete Muir</name>
-         <roles>
-            <role>Project Lead</role>
-         </roles>
-         <email>pete.muir@jboss.org</email>
-         <organization>JBoss, a division of Red Hat</organization>
-         <url>http://in.relation.to/Bloggers/Pete</url>
-      </developer>
-
-      <developer>
-         <name>Gavin King</name>
-         <roles>
-            <role>Project Founder</role>
-         </roles>
-         <url>http://in.relation.to/Bloggers/Gavin</url>
-         <organization>JBoss, a division of Red Hat</organization>
-      </developer>
-
-      <developer>
-         <name>Norman Richards</name>
-         <roles>
-            <role>Core Developer</role>
-         </roles>
-         <url>http://in.relation.to/Bloggers/Norman</url>
-         <organization>JBoss, a division of Red Hat</organization>
-      </developer>
-
-      <developer>
-         <name>Shane Bryzak</name>
-         <roles>
-            <role>Core Developer</role>
-         </roles>
-         <url>http://in.relation.to/Bloggers/Shane</url>
-         <organization>JBoss, a division of Red Hat</organization>
-      </developer>
-
-      <developer>
-         <name>Dan Allen</name>
-         <roles>
-            <role>Core Developer</role>
-         </roles>
-         <url>http://in.relation.to/Bloggers/Dan</url>
-         <organization>JBoss, a division of Red Hat</organization>
-      </developer>
-
-      <!-- TODO continue adding core developers -->
-
-   </developers>
-
    <dependencyManagement>
       <dependencies>
 	    <dependency>
@@ -86,10 +35,6 @@
 		</dependency>
        </dependencies>
    </dependencyManagement>
-
-   <modules>
-      <module>booking</module>
-   </modules>
 
    <build>
       <defaultGoal>package</defaultGoal>
