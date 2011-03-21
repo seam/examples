@@ -1,8 +1,0 @@
-<Beans xmlns="urn:java:ee"
-   xmlns:faces="urn:java:org.jboss.seam.faces">
-   <Deploy>
-      <Standard/>
-      <Production/>
-      <faces:Faces/>
-   </Deploy>
-</Beans>
