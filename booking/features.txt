@@ -37,7 +37,8 @@ Solder
 
 Seam 3 
 
-   * Inter-component validator (cross-field validation) (register.xhtml, password.xhtml, book.xhtml) 
+   * Inter-component validator (cross-field validation) using InputField (register.xhtml, password.xhtml)
+   * Inter-component validator (cross-field validation) using InputElement (book.xhtml) 
    * Cross-field validation with Ajax (register.xhtml) 
    * Validator/Converter @Inject and @*Scoped support - namely CurrentPasswordValidator
    * View technology-agnostic status messages with i18n support (BookingAgent.java, etc.) 
@@ -54,11 +55,13 @@ Seam 3
    * Relative timestamps with PrettyTime - when a booking is confirmed, displays time until check-in. 
    * JSF system event to CDI event bridge (ApplicationInitializer.java)
    * XML configuration (seam-beans.xml)
-   * (new) Handling exceptions through Catch (GeneralExceptionHandler.java)
-   * sending email (TODO)
+   * Handling exceptions through Catch (ConversationExceptionHandler.java, GeneralExceptionHandler.java)
+   * Authentication using seam-security (BookingAuthenticator.java)
+   
 
 Best practices (draft)
 
    * Be careful using a @Named @RequestScoped producer, variable doesn't get updated after the action is executed w/o a redirect
    * Prefer EL variable producing methods to be @Dependent scope, expose state
    * If form uses <f:ajax/> for blur validation, submit button should use ajax (or somehow cancel the current events)
+   * Use seam-catch to capture exceptions and redirect them to a pretty page instead of stacktrace.
