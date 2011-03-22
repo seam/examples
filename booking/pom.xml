@@ -43,13 +43,28 @@
         <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
         <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
     </properties>
-
+    <repositories>
+        <repository>
+          <id>jboss-public-repository-group</id>
+          <name>JBoss Public Maven Repository Group</name>
+          <url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
+    </repositories>
+    
     <dependencies>
         <!-- Annotation processor for generating typed loggers -->
         <dependency>
             <groupId>org.jboss.seam.solder</groupId>
             <artifactId>seam-solder-tooling</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
             <scope>provided</scope>
             <optional>true</optional>
             <exclusions>
@@ -63,7 +78,6 @@
         <dependency>
             <groupId>org.jboss.seam.solder</groupId>
             <artifactId>seam-solder</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -83,19 +97,26 @@
         <dependency>
             <groupId>org.jboss.seam.faces</groupId>
             <artifactId>seam-faces</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
         </dependency>
         
         <dependency>
             <groupId>org.jboss.seam.international</groupId>
             <artifactId>seam-international</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
         </dependency>
         
         <dependency>
             <groupId>org.jboss.seam.servlet</groupId>
             <artifactId>seam-servlet</artifactId>
-            <version>3.0.0-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.security</groupId>
+            <artifactId>seam-security</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.config</groupId>
+            <artifactId>seam-config-xml</artifactId>
         </dependency>
         
         <dependency>

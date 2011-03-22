@@ -21,7 +21,7 @@
    <url>http://www.seamframework.org/Seam3</url>
 
    <properties>
-      <seam.version>3.0.0.CR1</seam.version>
+      <seam.version>3.0.0.CR9</seam.version>
    </properties>
 
    <developers>

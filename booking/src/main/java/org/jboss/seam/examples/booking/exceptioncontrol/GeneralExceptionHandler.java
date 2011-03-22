@@ -30,8 +30,7 @@ import org.jboss.seam.exception.control.HandlesExceptions;
 public class GeneralExceptionHandler {
 
     public void printExceptionMessage(@Handles CaughtException<Throwable> event, Logger log) {
-        log.info("Something bad happened: " + event.getException().getMessage());
+        log.info("Exception logged by seam-catch catcher: " + event.getException().getMessage());
         event.rethrow();
     }
-
 }

@@ -9,6 +9,11 @@
         <pattern value="/"></pattern>
         <view-id>/home.xhtml</view-id>
     </url-mapping>
+    
+    <url-mapping id="conversation_ended">
+        <pattern value="/conversation_ended"></pattern>
+        <view-id>/conversation_ended.xhtml</view-id>
+    </url-mapping>
 
     <url-mapping id="logout">
         <pattern value="/logout"></pattern>
