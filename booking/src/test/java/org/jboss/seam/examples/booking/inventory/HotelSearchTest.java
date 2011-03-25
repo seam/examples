@@ -54,11 +54,11 @@ public class HotelSearchTest {
                 .addPackage(HotelSearch.class.getPackage())
                 .addPackage(Hotel.class.getPackage())
                 .addClasses(NoOpLogger.class)
-                .addLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
+                .addAsLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
                         MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
                         MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1"))
-                .addWebResource("test-persistence.xml", "classes/META-INF/persistence.xml")
-                .addWebResource(new StringAsset(""), "beans.xml");
+                .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+                .addAsWebInfResource(new StringAsset(""), "beans.xml");
         return war;
     }
 
