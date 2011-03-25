@@ -52,7 +52,7 @@ public class BookingAgentTest {
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackage(Hotel.class.getPackage())
-                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class, TestAuthenticatedUserProducer.class)
+                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class, AuthenticatedUserProducer.class)
                 .addPackage(BookingLog.class.getPackage())
                 .addAsLibraries(
                         MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),

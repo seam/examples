@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.model.User;
 
-public class TestAuthenticatedUserProducer {
+public class AuthenticatedUserProducer {
     @PersistenceContext
     EntityManager em;
     
