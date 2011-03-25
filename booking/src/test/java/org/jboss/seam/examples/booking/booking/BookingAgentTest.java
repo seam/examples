@@ -19,8 +19,6 @@ package org.jboss.seam.examples.booking.booking;
 import java.util.HashMap;
 
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.BeanManager;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -54,17 +52,15 @@ public class BookingAgentTest {
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackage(Hotel.class.getPackage())
-                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class)
+                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class, TestAuthenticatedUserProducer.class)
                 .addPackage(BookingLog.class.getPackage())
                 .addAsLibraries(
+                        MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
                         MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
                         MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
                 .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-
-    @Inject
-    BeanManager beanManager;
 
     @Inject
     UserTransaction utx;
@@ -119,11 +115,5 @@ public class BookingAgentTest {
                 ctx.dissociate(storage);
             }
         }
-    }
-
-    @Produces
-    @Authenticated
-    User getRegisteredUser() {
-        return em.find(User.class, "ike");
     }
 }

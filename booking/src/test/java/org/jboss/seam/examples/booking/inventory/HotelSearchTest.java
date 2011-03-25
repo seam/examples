@@ -46,6 +46,7 @@ public class HotelSearchTest {
                 .addPackage(HotelSearch.class.getPackage())
                 .addPackage(Hotel.class.getPackage())
                 .addAsLibraries(
+                        MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
                         MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
                         MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
                 .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
