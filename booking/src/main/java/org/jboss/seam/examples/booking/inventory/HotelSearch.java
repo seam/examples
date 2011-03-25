@@ -112,9 +112,5 @@ public class HotelSearch {
         }
         log.info(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
                 .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
-        /*
-         * System.out.println(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
-         * .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
-         */
     }
 }

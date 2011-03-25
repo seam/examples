@@ -17,7 +17,6 @@
 package org.jboss.seam.examples.booking.booking;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
@@ -37,7 +36,6 @@ import org.jboss.seam.examples.booking.model.CreditCardType;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
-import org.jboss.seam.examples.booking.support.NoOpLogger;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -56,7 +54,7 @@ public class BookingAgentTest {
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackage(Hotel.class.getPackage())
-                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, NoOpLogger.class, DefaultBundleKey.class)
+                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class)
                 .addPackage(BookingLog.class.getPackage())
                 .addAsLibraries(
                         MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
