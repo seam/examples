@@ -303,7 +303,7 @@
         </profile>
 
         <profile>
-            <id>jbossas-remote-6</id>
+            <id>itest-jbossas-remote</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
@@ -384,7 +384,6 @@
             </build>
         </profile>
 
-        <!--
         <profile>
             <id>glassfish-remote-3</id>
             <dependencies>
@@ -412,7 +411,6 @@
                 </testResources>
             </build>
         </profile>
-        -->
     </profiles>
 
     <scm>

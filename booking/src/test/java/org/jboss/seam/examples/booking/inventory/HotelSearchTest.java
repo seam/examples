@@ -16,6 +16,7 @@
  */
 package org.jboss.seam.examples.booking.inventory;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.enterprise.inject.Instance;
@@ -33,6 +34,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.weld.Container;
+import org.jboss.weld.context.bound.BoundConversationContext;
+import org.jboss.weld.context.bound.BoundRequest;
+import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,9 +59,9 @@ public class HotelSearchTest {
                 .addPackage(HotelSearch.class.getPackage())
                 .addPackage(Hotel.class.getPackage())
                 .addClasses(NoOpLogger.class)
-                .addAsLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1"))
+                .addAsLibraries(
+                        MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
+                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
                 .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
                 .addAsWebInfResource(new StringAsset(""), "beans.xml");
         return war;
@@ -84,17 +89,29 @@ public class HotelSearchTest {
     @Test
     public void testSearch() throws Exception {
         prepareSeedData();
+        BoundConversationContext ctx = null;
+        BoundRequest storage = new MutableBoundRequest(new HashMap<String, Object>(), new HashMap<String, Object>());
+        try {
+            ctx = Container.instance().deploymentManager().instance().select(BoundConversationContext.class).get();
+            ctx.associate(storage);
+            ctx.activate();
+            criteria.setQuery("atlanta");
+            hotelSearch.find();
+            List<Hotel> hotels = hotelsInstance.get();
+            Assert.assertEquals(1, hotels.size());
+            Assert.assertEquals(hotels.get(0).getName(), "Doubletree Atlanta-Buckhead");
 
-        criteria.setQuery("atlanta");
-        hotelSearch.find();
-        List<Hotel> hotels = hotelsInstance.get();
-        Assert.assertEquals(1, hotels.size());
-        Assert.assertEquals(hotels.get(0).getName(), "Doubletree Atlanta-Buckhead");
-
-        criteria.setQuery("boston");
-        hotelSearch.find();
-        hotels = hotelsInstance.get();
-        Assert.assertEquals(0, hotels.size());
+            criteria.setQuery("boston");
+            hotelSearch.find();
+            hotels = hotelsInstance.get();
+            Assert.assertEquals(0, hotels.size());
+        }
+        finally {
+            if (ctx != null && ctx.isActive()) {
+                ctx.deactivate();
+                ctx.dissociate(storage);
+            }
+        }
     }
 
 }
