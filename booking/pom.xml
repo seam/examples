@@ -164,7 +164,7 @@
 
     <build>
         <defaultGoal>package</defaultGoal>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>seam-booking</finalName>
         <plugins>
 
             <plugin>
