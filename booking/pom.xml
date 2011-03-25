@@ -430,6 +430,26 @@
                 </testResources>
             </build>
         </profile>
+        
+        <profile>
+            <id>glassfish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources-glassfish</directory>
+                                 </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
     </profiles>
 
     <scm>
