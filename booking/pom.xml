@@ -40,6 +40,7 @@
         <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
         <jboss-javaee6-spec.version>1.0.0.Final</jboss-javaee6-spec.version>
         <jboss-server-manager.version>1.0.3.GA</jboss-server-manager.version>
+        <jersey.version>1.5</jersey.version>
     </properties>
 
     <dependencies>
@@ -311,6 +312,7 @@
                     <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
+                <!--
                 <dependency>
                     <groupId>org.jboss.spec</groupId>
                     <artifactId>jboss-javaee-6.0</artifactId>
@@ -318,6 +320,7 @@
                     <type>pom</type>
                     <scope>provided</scope>
                 </dependency>
+                -->
                 <!-- need for org.jnp.interfaces.NamingContextFactory -->
                 <dependency>
                     <groupId>org.jboss.jbossas</groupId>
@@ -384,21 +387,26 @@
             </build>
         </profile>
 
-        <!--
         <profile>
             <id>glassfish-remote-3</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-glassfish-remote-3</artifactId>
+                    <artifactId>arquillian-glassfish-remote-3.1</artifactId>
                     <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
                 <dependency>
-                    <groupId>org.glassfish.extras</groupId>
-                    <artifactId>glassfish-embedded-all</artifactId>
-                    <version>${glassfish.version}</version>
-                    <scope>provided</scope>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-bundle</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.sun.jersey.contribs</groupId>
+                    <artifactId>jersey-multipart</artifactId>
+                    <version>${jersey.version}</version>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
             <build>
@@ -412,7 +420,6 @@
                 </testResources>
             </build>
         </profile>
-        -->
     </profiles>
 
     <scm>
