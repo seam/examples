@@ -34,7 +34,7 @@
         <webapp.directory>src/main/webapp</webapp.directory>
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
         <jboss.domain>default</jboss.domain>
-        <arquillian.version>1.0.0.Alpha3</arquillian.version>
+        <arquillian.version>1.0.0.Alpha5</arquillian.version>
         <glassfish.version>3.1</glassfish.version>
         <jpamodelgen.version>1.1.1.Final</jpamodelgen.version>
         <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
@@ -141,6 +141,12 @@
             <artifactId>arquillian-junit</artifactId>
             <version>${arquillian.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+           <groupId>org.jboss.weld</groupId>
+           <artifactId>weld-core</artifactId>
+           <scope>test</scope>
         </dependency>
         
         <dependency>

@@ -16,7 +16,6 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,16 +30,21 @@ import javax.transaction.UserTransaction;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
+import org.jboss.seam.examples.booking.log.BookingLog;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.CreditCardType;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.seam.examples.booking.support.NoOpLogger;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.weld.Container;
+import org.jboss.weld.context.bound.BoundConversationContext;
+import org.jboss.weld.context.bound.BoundRequest;
+import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,17 +52,17 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class BookingAgentTest {
     @Deployment
-    public static Archive<?> createTestArchive() {
-        WebArchive war = ShrinkWrap
+    public static WebArchive createDeployment() {
+        return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackage(Hotel.class.getPackage())
-                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, NoOpLogger.class)
-                .addLibraries(MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international-api:3.0.0.Alpha1"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.Alpha1"))
-                .addWebResource("test-persistence.xml", "classes/META-INF/persistence.xml")
-                .addWebResource(new StringAsset(""), "beans.xml");
-        return war;
+                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, NoOpLogger.class, DefaultBundleKey.class)
+                .addPackage(BookingLog.class.getPackage())
+                .addAsLibraries(
+                        MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
+                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
+                .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Inject
@@ -91,24 +95,32 @@ public class BookingAgentTest {
     public void testBookHotel() throws Exception {
         prepareSeedData();
 
-        // we have to depend on the Weld API to setup the conversation scope
-        /*
-         * TODO uncomment here ConversationContext cc = new ConversationContext(); cc.setBeanStore(new HashMapBeanStore());
-         * cc.setActive(true); ((BeanManagerImpl) beanManager).addContext(cc);
-         */
+        BoundConversationContext ctx = null;
+        BoundRequest storage = new MutableBoundRequest(new HashMap<String, Object>(), new HashMap<String, Object>());
+        try {
+            ctx = Container.instance().deploymentManager().instance().select(BoundConversationContext.class).get();
+            ctx.associate(storage);
+            ctx.activate();
 
-        bookingAgent.selectHotel(1l);
-        bookingAgent.bookHotel();
-        Booking booking = bookingInstance.get();
-        booking.setCreditCardNumber("1111222233334444");
-        booking.setCreditCardExpiryMonth(1);
-        booking.setCreditCardExpiryYear(2012);
-        booking.setCreditCardType(CreditCardType.VISA);
-        booking.setBeds(1);
-        booking.setSmoking(false);
-        bookingAgent.confirm();
-
-        Assert.assertEquals(1, em.createQuery("select b from Booking b").getResultList().size());
+            bookingAgent.selectHotel(1l);
+            bookingAgent.bookHotel();
+            Booking booking = bookingInstance.get();
+            booking.setCreditCardNumber("1111222233334444");
+            booking.setCreditCardExpiryMonth(1);
+            booking.setCreditCardExpiryYear(2012);
+            booking.setCreditCardType(CreditCardType.VISA);
+            booking.setBeds(1);
+            booking.setSmoking(false);
+            bookingAgent.confirm();
+    
+            Assert.assertEquals(1, em.createQuery("select b from Booking b").getResultList().size());
+        }
+        finally {
+            if (ctx != null && ctx.isActive()) {
+                ctx.dissociate(storage);
+                ctx.deactivate();
+            }
+        }
     }
 
     @Produces
@@ -116,13 +128,4 @@ public class BookingAgentTest {
     User getRegisteredUser() {
         return em.find(User.class, "ike");
     }
-    /*
-     * TODO uncomment here public static class HashMapBeanStore extends AbstractMapBackedBeanStore implements Serializable {
-     * 
-     * protected Map<String, ContextualInstance<? extends Object>> delegate;
-     * 
-     * public HashMapBeanStore() { delegate = new HashMap<String, ContextualInstance<? extends Object>>(); }
-     * 
-     * @Override protected Map<String, ContextualInstance<? extends Object>> delegate() { return delegate; } }
-     */
 }
