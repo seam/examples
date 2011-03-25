@@ -343,7 +343,7 @@
         </profile>
 
         <profile>
-            <id>glassfish-embedded-3</id>
+            <id>itest-glassfish-embedded</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
@@ -388,7 +388,7 @@
         </profile>
 
         <profile>
-            <id>glassfish-remote-3</id>
+            <id>itest-glassfish-remote</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
