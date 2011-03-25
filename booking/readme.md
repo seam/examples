@@ -97,7 +97,7 @@ Create a database connection to the following database
 * Username: APP
 * Password: APP
 
-## Installing Hibernate 3.5 (JPA 2) on GlassFish 3
+### Installing Hibernate 3.5 (JPA 2) on GlassFish 3
 
 We recommend that you switch from EclipseLink to Hibernate. If you want to 
 run the application on GlassFish 3.0.1, you'll need to use Hibernate to work
@@ -109,3 +109,16 @@ around several bugs in that version of EclipseLink.
 * ./bin/updatetool (may have to run it twice if it's not already installed)
 * GlassFish Server Open Source Edition > Available Add-ons > Hibernate JPA
 * Install
+
+## Running integration tests
+
+The integration tests are based on Arquillian (http://arquillian.org)
+
+With JBoss AS started, you can run the tests using the following command:
+
+    mvn test -Pitest-jbossas-remote
+
+With GlassFish 3.1 started, you can run the tests using the following command:
+
+    mvn test -Pitest-glassfish-remote
+

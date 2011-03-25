@@ -342,12 +342,14 @@
             </build>
         </profile>
 
+        <!-- Arquillian's Embedded GlassFish 3.1 adapter is not working correctly -->
+        <!--
         <profile>
             <id>itest-glassfish-embedded</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-glassfish-embedded-3</artifactId>
+                    <artifactId>arquillian-glassfish-embedded-3.1</artifactId>
                     <version>${arquillian.version}</version>
                     <scope>test</scope>
                 </dependency>
@@ -370,14 +372,11 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <!-- don't use version 2.5 as it creates seperate test suites per class -->
                         <version>2.4.3</version>
                         <configuration>
                             <systemProperties>
-                                <!-- This optional property fixes an annoyance with Glassfish that puts derby.log in the project root -->
                                 <property>
                                     <name>derby.stream.error.file</name>
-                                    <!-- If you save the log in target it is less likely to get committed in your project -->
                                     <value>target/derby.log</value>
                                 </property>
                             </systemProperties>
@@ -386,6 +385,7 @@
                 </plugins>
             </build>
         </profile>
+        -->
 
         <profile>
             <id>itest-glassfish-remote</id>
