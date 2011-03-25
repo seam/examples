@@ -117,8 +117,8 @@ public class BookingAgentTest {
         }
         finally {
             if (ctx != null && ctx.isActive()) {
-                ctx.dissociate(storage);
                 ctx.deactivate();
+                ctx.dissociate(storage);
             }
         }
     }
