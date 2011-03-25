@@ -34,30 +34,23 @@ You can undeploy using this command:
 
 You'll need GlassFish 3.1 or better to run this application on GlassFish.
 
-Before running the application, you need to make a change to the persistence
-unit configuration. Uncomment the eclipselink.* properties in the following
-file:
-
-    src/main/resources/META-INF/persistence.xml
-
-Now you are ready to run.
-
 The simplest way to run the application on GlassFish is to:
 
 1. Start NetBeans 6.8 or later
 2. Open the project folder (it will autodetect the Maven project)
-3. Right click on the project
-4. Select the Run option
+3. Enable "glassfish" maven profile
+4. Right click on the project
+5. Select the Run option
 
 If you are not using NetBeans, you can start GlassFish and JavaDB using these commands:
 
     $GLASSFISH_HOME/bin/asadmin start-database
     $GLASSFISH_HOME/bin/asadmin start-domain domain1
 
-Then you can package the project (mvn package) and deploy the WAR using the admin console.
+Then you can package the project (mvn package -Pglassfish) and deploy the WAR using the admin console.
 Alternatively, you can deploy the application using asadmin:
 
-    mvn package
+    mvn package -Pglassfish
     $GLASSFISH_HOME/bin/asadmin deploy target/seam-booking.war
 
 ### Known issues (QA, please read)

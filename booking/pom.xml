@@ -244,6 +244,13 @@
                     -->
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         
         </plugins>
     </build>
@@ -262,12 +269,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
                     </plugin>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>                    
                 </plugins>
             </build>
         </profile>    
@@ -279,12 +280,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>jboss-maven-plugin</artifactId>
@@ -304,7 +299,7 @@
         </profile>
 
         <profile>
-            <id>itest-jbossas-remote</id>
+            <id>jbossas-remote-6</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
@@ -339,6 +334,14 @@
                         <directory>src/test/resources-jbossas</directory>
                     </testResource>
                 </testResources>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
 
@@ -388,7 +391,7 @@
         -->
 
         <profile>
-            <id>itest-glassfish-remote</id>
+            <id>glassfish-remote-3.1</id>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.arquillian.container</groupId>
@@ -414,6 +417,7 @@
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
+                            <skip>false</skip>
                            <excludes>
                                <exclude>org/jboss/seam/examples/booking/booking/BookingAgentTest.java</exclude>
                            </excludes>
@@ -430,6 +434,26 @@
                 </testResources>
             </build>
         </profile>
+        
+        <profile>
+            <id>glassfish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources-glassfish</directory>
+                                 </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
     </profiles>
 
     <scm>
