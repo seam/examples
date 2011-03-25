@@ -410,6 +410,16 @@
                 </dependency>
             </dependencies>
             <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                           <excludes>
+                               <exclude>org/jboss/seam/examples/booking/booking/BookingAgentTest.java</exclude>
+                           </excludes>
+                        </configuration>
+                    </plugin>                    
+                </plugins>
                 <testResources>
                     <testResource>
                         <directory>src/test/resources</directory>

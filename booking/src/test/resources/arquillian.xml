@@ -2,20 +2,17 @@
 <arquillian xmlns="http://jboss.com/arquillian"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:jbossas-remote="urn:arq:org.jboss.arquillian.container.jbossas.remote_6"
-   xmlns:glassfish-remote="urn:arq:org.jboss.arquillian.container.glassfish.remote_3"
    xmlns:glassfish-embedded="urn:arq:org.jboss.arquillian.container.glassfish.embedded_3">
 
+   <!--
    <engine>
-      <deploymentExportPath>/tmp/</deploymentExportPath>
+      <deploymentExportPath>target</deploymentExportPath>
    </engine>
+   -->
 
    <jbossas-remote:container>
       <jbossas-remote:remoteServerHttpPort>8080</jbossas-remote:remoteServerHttpPort>
    </jbossas-remote:container>
-   
-   <glassfish-remote:container>
-      <glassfish-remote:remoteServerHttpPort>7070</glassfish-remote:remoteServerHttpPort>
-   </glassfish-remote:container>
 
    <glassfish-embedded:container>
       <glassfish-embedded:bindHttpPort>7070</glassfish-embedded:bindHttpPort>
