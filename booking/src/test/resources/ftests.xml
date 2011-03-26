@@ -4,15 +4,5 @@
       <packages>
         <package name="org.jboss.seam.examples.booking.ftest" />
       </packages>
-      
-      <!-- SEAM-33 -->
-      <classes>
-         <class name="org.jboss.seam.examples.booking.ftest.RegistrationTest">
-            <methods>
-               <exclude name="testRegistration"/>
-               <exclude name="testPasswordValidation"/>
-            </methods>
-         </class>
-      </classes>
    </test>
 </suite>
