@@ -92,6 +92,11 @@
         </dependency>
 
         <dependency>
+           <groupId>org.jboss.seam.config</groupId>
+           <artifactId>seam-config-xml</artifactId>
+        </dependency>
+
+        <dependency>
            <groupId>org.jboss.seam.security</groupId>
            <artifactId>seam-security</artifactId>
         </dependency>
