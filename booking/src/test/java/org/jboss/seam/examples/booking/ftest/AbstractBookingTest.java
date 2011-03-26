@@ -55,11 +55,8 @@ public abstract class AbstractBookingTest extends AbstractTestCase
 
    public void login(String username, String password)
    {
-      if (!selenium.isElementPresent(LOGIN_SUBMIT))
-      {
-         selenium.click(MENU_HOME);
-         selenium.waitForPageToLoad();
-      }
+      selenium.click(MENU_HOME);
+      selenium.waitForPageToLoad();
       
       selenium.type(LOGIN_USERNAME, username);
       selenium.type(LOGIN_PASSWORD, password);
