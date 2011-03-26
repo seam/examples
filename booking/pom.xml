@@ -465,10 +465,13 @@
             </build>
         </profile>
         
+<<<<<<< HEAD
+=======
         <profile>
             <id>ftest</id>
         </profile>
         
+>>>>>>> 8057fd0acec08e07c69818085ae22111d6a01d87
     </profiles>
 
     <scm>
