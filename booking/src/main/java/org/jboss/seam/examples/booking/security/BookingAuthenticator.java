@@ -19,6 +19,7 @@ package org.jboss.seam.examples.booking.security;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -27,15 +28,21 @@ import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.security.Authenticator;
+import org.jboss.seam.security.BaseAuthenticator;
+import org.jboss.seam.security.Credentials;
+import org.picketlink.idm.impl.api.PasswordCredential;
+import org.picketlink.idm.impl.api.model.SimpleUser;
 
 /**
- * This implementation of <strong>Authenticator</strong> cross references the values of the user's credentials against the
- * database.
+ * This implementation of a <strong>Authenticator</strong> that uses Seam security.
  * 
- * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
+ * @author <a href="http://community.jboss.org/people/spinner)">Jose Rodolfo freitas</a>
  */
 @Stateless
-public class Authenticator {
+@Named("bookingAuthenticator")
+public class BookingAuthenticator extends BaseAuthenticator implements Authenticator {
+	
     @Inject
     private Logger log;
 
@@ -52,23 +59,27 @@ public class Authenticator {
     @Authenticated
     private Event<User> loginEventSrc;
 
-    public boolean authenticate() {
+    public void authenticate() {
         log.info("Logging in " + credentials.getUsername());
-        if ((credentials.getUsername() == null) || (credentials.getPassword() == null)) {
+        if ((credentials.getUsername() == null) || (credentials.getCredential() == null)) {
             messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
-            return false;
+            setStatus(AuthenticationStatus.FAILURE);
         }
-
         User user = em.find(User.class, credentials.getUsername());
-        if ((user != null) && user.getPassword().equals(credentials.getPassword())) {
-            loginEventSrc.fire(user);
-            messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
-                    .params(user.getName());
-            return true;
-        } else {
-            messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
-            return false;
-        }
+        if (user != null && credentials.getCredential() instanceof PasswordCredential){
+        	if(user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
+	            loginEventSrc.fire(user);
+	            messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
+	                    .params(user.getName());
+	            setStatus(AuthenticationStatus.SUCCESS);
+	            setUser(new SimpleUser(user.getUsername())); //TODO confirm the need for this set method
+	            return;
+        	}
+        } 
+            
+        messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
+        setStatus(AuthenticationStatus.FAILURE);
+        
     }
 
 }

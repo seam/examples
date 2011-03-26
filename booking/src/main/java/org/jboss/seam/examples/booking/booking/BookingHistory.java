@@ -43,8 +43,8 @@ import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Booking_;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.examples.booking.model.User_;
-import org.jboss.seam.examples.booking.security.Identity;
 import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.security.Identity;
 
 /**
  * The booking history exposes the current users existing bookings

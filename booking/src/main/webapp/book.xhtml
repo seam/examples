@@ -52,13 +52,13 @@
                   </h:selectOneRadio>
                </p:input>
                
-               <p:input id="creditCardName" label="CreditCard Name">
+               <p:input id="creditCardName" label="Credit Card Name">
                   <h:inputText id="input" value="#{booking.creditCardName}"/>
              </p:input>
-             <p:input id="creditCardNumber" label="CreditCard Number">
+             <p:input id="creditCardNumber" label="Credit Card Number">
                   <h:inputText id="input" value="#{booking.creditCardNumber}"/>
              </p:input>
-             <p:input id="creditCardType" label="CreditCard Type">
+             <p:input id="creditCardType" label="Credit Card Type">
                 <h:selectOneMenu id="type" value="#{booking.creditCardType}">
                      <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
                      <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
@@ -81,10 +81,8 @@
                
             </fieldset>
             
-            <!-- 
-               TODO validator system.
-               <s:validateForm validatorId="reservationDateRange" fields="startDate=checkInDate:input endDate=checkOutDate:input" />
-             -->
+               <s:validateForm validatorId="reservationDateRange" fields="startDateElement=checkInDate:input endDateElement=checkOutDate:input" />
+             
          </h:form>
       </div>
 
