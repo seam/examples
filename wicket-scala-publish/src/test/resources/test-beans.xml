@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The contents of this file is permitted to be empty. The schema definition 
+    is provided for your convenience. -->
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:weld="http://jboss.org/schema/weld/beans"
+    xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee       
+      http://java.sun.com/xml/ns/javaee/beans_1_0.xsd
+      http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
+
+    <!-- 
+    <alternatives>
+        <class>org.jboss.seam.wicket.example.publish.scala.test.MockDataRepositoryProducer</class>
+    </alternatives>
+    -->
+
+</beans>
