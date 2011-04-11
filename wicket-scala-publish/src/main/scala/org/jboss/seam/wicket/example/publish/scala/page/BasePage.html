@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
+    lang="en">
+
+<wicket:head>
+    <title>Seam Wicket, Scala and CDI example</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="stylesheet/screen.css" />
+    <script src="script/jquery-1.4.4.min.js"></script>
+    <script src="script/jquery-ui-1.8.6.custom.min.js"></script>
+    <script src="script/centreIt-1.1.5-compressed.js"></script>
+    <script src="script/jquery.cleditor.min.js"></script>
+</wicket:head>
+
+<body>
+    <div id="container">
+        <div id="content">
+            <div id="sidebar">
+                <div style="clear: both;">
+                    <h3>Site links</h3>
+                    <div id="header">
+                        <ul>
+                            <li><a href="#" wicket:id="Home">Home</a></li>
+                            <li><a href="#" wicket:id="Admin">Administration</a></li>
+                        </ul>
+                        <h3>Find out more</h3>
+                        <ul>
+                            <li><a href="http://seamframework.org/Seam3">Seam 3</a></li>
+                            <li><a href="http://seamframework.org/Weld/Documentation">Weld Project</a></li>
+                            <li><a href="http://seamframework.org/Seam3/Solder">Seam Solder Project</a></li>
+                            <li><a href="http://seamframework.org/Seam3/WicketModule">Seam Wicket Project</a></li>
+                            <li><a href="http://seamframework.org/Seam3/ServletModule">Seam Servlet Project</a></li>
+                            <li><a href="http://seamframework.org/Seam3/PersistenceModule">Seam Persistence Project</a></li>
+                            <li><a href="http://www.scala-lang.org">Scala Language</a></li>
+                            <li><a href="http://scala-tools.org">Scala Tools</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <wicket:child />
+        </div>
+
+        <div id="footer">
+            <img src="stylesheet/images/weld.png" alt="Weld logo" />
+            <p>This project is part of Seam Wicket examples and make
+                use of Seam Solder, Wicket, Servlet and Persistence and
+                Scala.It's maintained by the Seam team. Weld is the
+                reference implementation of CDI, released under the
+                Apache License, Version 2.0.</p>
+        </div>
+    </div>
+</body>
+
+</html>

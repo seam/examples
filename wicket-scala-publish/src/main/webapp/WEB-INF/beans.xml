@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The contents of this file is permitted to be empty. The schema definition 
+    is provided for your convenience. -->
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:s="urn:java:ee"
+    xmlns:t="urn:java:org.jboss.seam.persistence.transaction"
+    xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee 
+      http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+
+    <!-- The TransactionInterceptor won't load due to init exception
+    <t:SeSynchronizations>
+        <s:modifies />
+    </t:SeSynchronizations>
+
+    <t:EntityTransaction>
+        <s:modifies />
+    </t:EntityTransaction>
+
+    <interceptors>
+        <class>org.jboss.seam.persistence.transaction.TransactionInterceptor</class>
+    </interceptors>
+    -->
+
+    <alternatives>
+        <class>org.jboss.seam.wicket.example.publish.scala.bootstrap.ApplicationInitializer</class>
+    </alternatives>
+
+</beans>
