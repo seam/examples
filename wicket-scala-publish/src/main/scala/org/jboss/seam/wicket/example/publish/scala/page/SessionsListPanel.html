@@ -1,0 +1,29 @@
+<wicket:panel xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <div style="padding-top: 1em;">
+        <div>
+            <table width="100%" border="0" summary="Server Session List">
+                <caption>Http Sessions caputured by the
+                    HttpSession observer</caption>
+                <colgroup width="50%" />
+                <colgroup id="colgroup" class="colgroup" align="center"
+                    valign="middle" title="title" width="50%"
+                    style="background: #fff;" />
+                <thead>
+                    <tr>
+                        <th scope="col" style="background: #eee;">Session Id</th>
+                        <th scope="col" style="background: #eee;">Created On</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr wicket:id="sessionsList">
+                        <td wicket:id="id">[Some ID]</td>
+                        <td wicket:id="createdOn">[Some Date]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</wicket:panel>

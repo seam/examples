@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.com/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jetty="urn:arq:org.jboss.arquillian.container.jetty.embedded_6_1">
+
+    <!-- Uncomment to have test archives exported to the file system for 
+        inspection -->
+    <engine>
+        <deploymentExportPath>target/</deploymentExportPath>
+    </engine>
+
+    <jetty:container>
+        <jetty:bindHttpPort>9090</jetty:bindHttpPort>
+    </jetty:container>
+
+
+</arquillian>

@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.jboss.seam.wicket</groupId>
+        <artifactId>seam-wicket-parent</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>seam-wicket-example-publish</artifactId>
+    <packaging>war</packaging>
+    <name>Seam for Apache Wicket Publish example</name>
+    <url>${project.parent.url}</url>
+
+    <properties>
+        <jboss.home>${env.JBOSS_HOME}</jboss.home>
+        <jboss.domain>default</jboss.domain>
+
+        <scala.version>2.8.1</scala.version>
+
+        <hsql.version>1.8.0.7</hsql.version>
+        <jta.version>1.1</jta.version>
+        <hibernate-entityManager.version>3.6.0.Final</hibernate-entityManager.version>
+        <wicket-extensions.version>1.4.9</wicket-extensions.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.wicket</groupId>
+            <artifactId>seam-wicket</artifactId>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.solder</groupId>
+            <artifactId>seam-solder</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.servlet</groupId>
+            <artifactId>seam-servlet</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.config</groupId>
+            <artifactId>seam-config-xml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.catch</groupId>
+            <artifactId>seam-catch</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.persistence</groupId>
+            <artifactId>seam-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <version>${wicket-extensions.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>jboss.web</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>3.0.0-beta-2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>${hsql.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>jta</artifactId>
+            <version>${jta.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate-entityManager.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian</groupId>
+            <artifactId>arquillian-junit</artifactId>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium.client-drivers</groupId>
+            <artifactId>selenium-java-client-driver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.seam.wicket</groupId>
+            <artifactId>seam-wicket-mock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>wicket-publish</finalName>
+
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/scala</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.scala</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>jetty-env.xml</exclude>
+                    <exclude>jetty-config.xml</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <filtering>false</filtering>
+                <directory>src/test/scala</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.scala</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.scala-tools</groupId>
+                    <artifactId>maven-scala-plugin</artifactId>
+                    <version>2.15.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.scala-tools</groupId>
+                <artifactId>maven-scala-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!-- <configuration> <scalaVersion>${scala.version}</scalaVersion> 
+                    <args> <arg>-target:jvm-1.5</arg> to support mix java/scala only <arg>-make:transitivenocp</arg> 
+                    <arg>-dependencyfile</arg> <arg>${project.build.directory}/.scala_dependencies</arg> 
+                    </args> </configuration> -->
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <includes>
+                                <include>**/beans.xml</include>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>distribution</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- mvn clean test -Pitest-jetty-embedded -->
+        <profile>
+            <id>itest-jetty-embedded</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-jetty-embedded-7</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-webapp</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-plus</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.spec.javax.servlet.jsp</groupId>
+                    <artifactId>jboss-jsp-api_2.2_spec</artifactId>
+                    <scope>test</scope>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <excludes>
+                                <exclude>org/jboss/seam/wicket/example/publish/scala/ftest/*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                <testResources>
+                    <testResource>
+                        <directory>${project.basedir}/src/main/webapp/WEB-INF</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>${project.basedir}/src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>${project.basedir}/src/test/resources-jetty</directory>
+                    </testResource>
+                </testResources>
+            </build>
+        </profile>
+
+        <!-- mvn clean test -Pitest-jbossas-remote -->
+        <profile>
+            <id>itest-jbossas-remote</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.arquillian.container</groupId>
+                    <artifactId>arquillian-jbossas-remote-6</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.jbossas</groupId>
+                    <artifactId>jboss-as-client</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.weld</groupId>
+                    <artifactId>weld-core</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                            <excludes>
+                                <exclude>org/jboss/seam/wicket/example/publish/ftest/*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+                <testResources>
+                    <testResource>
+                        <directory>${project.basedir}/src/main/webapp/WEB-INF</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>${project.basedir}/src/test/resources</directory>
+                    </testResource>
+                    <testResource>
+                        <directory>${project.basedir}/src/test/resources-jbossas</directory>
+                    </testResource>
+                </testResources>
+            </build>
+        </profile>
+
+        <!-- mvn -Pjbossas jboss:hard-deploy -->
+        <profile>
+            <id>jbossas</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jboss-maven-plugin</artifactId>
+                        <configuration>
+                            <jbossHome>${jboss.home}</jbossHome>
+                            <serverName>${jboss.domain}</serverName>
+                            <fileNames>
+                                <fileName>${project.build.directory}/${project.build.finalName}.war</fileName>
+                            </fileNames>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- mvn -Pjetty jetty:run -->
+        <profile>
+            <id>jetty</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.spec.javax.annotation</groupId>
+                    <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Dependencies for launching Jetty from within IDE -->
+                <dependency>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jsp-2.1-jetty</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty-naming</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.mortbay.jetty</groupId>
+                    <artifactId>jetty-plus</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>process-sources</phase>
+                                <configuration>
+                                    <sources>
+                                        <source>${project.basedir}/src/jetty/java</source>
+                                    </sources>
+                                </configuration>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>maven-jetty-plugin</artifactId>
+                        <!-- TODO move version to parent -->
+                        <version>6.1.26</version>
+                        <configuration>
+                            <overrideWebXml>src/main/webapp/WEB-INF/jetty-web-fragment.xml</overrideWebXml>
+                            <jettyEnvXml>src/main/webapp/WEB-INF/jetty-env.xml</jettyEnvXml>
+                            <scanIntervalSeconds>3</scanIntervalSeconds>
+                            <connectors>
+                                <connector
+                                    implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                    <!-- Host>127.0.0.1</Host -->
+                                    <port>9090</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- mvn -Pjetty7 jetty:run -->
+        <profile>
+            <id>jetty7</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.weld.servlet</groupId>
+                    <artifactId>weld-servlet</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.jboss.spec.javax.annotation</groupId>
+                    <artifactId>jboss-annotations-api_1.1_spec</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+
+                <!-- Dependencies for launching Jetty from within IDE -->
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-webapp</artifactId>
+                    <version>${eclipse.jetty.version}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-server</artifactId>
+                    <version>${eclipse.jetty.version}</version>
+                </dependency>
+                
+                <!-- Not available for Jetty 8.x
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-jsp-2.1</artifactId>
+                    <version>${eclipse.jetty.version}</version>
+                </dependency>
+                -->
+
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-jndi</artifactId>
+                    <version>${eclipse.jetty.version}</version>
+                </dependency>
+                
+                <dependency>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-plus</artifactId>
+                    <version>${eclipse.jetty.version}</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <!-- 
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <phase>process-sources</phase>
+                                <configuration>
+                                    <sources>
+                                        <source>${project.basedir}/src/jetty/java</source>
+                                    </sources>
+                                </configuration>
+                                <goals>
+                                    <goal>add-source</goal>
+                                </goals>
+                            </execution>
+                        </executions>S
+                    </plugin>
+                    -->
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <!-- TODO move version to parent -->
+                        <version>${eclipse.jetty.version}</version>
+                        <configuration>
+                            <webAppConfig>
+                                <contextPath>/seam-wicket-example-publish</contextPath>
+                                <jettyEnvXml>${basedir}/src/main/webapp/WEB-INF/jetty-env.xml</jettyEnvXml>
+                            </webAppConfig>
+<!--                             <overrideWebXml>src/main/webapp/WEB-INF/jetty-web-fragment.xml</overrideWebXml> -->
+                            
+                            <scanIntervalSeconds>3</scanIntervalSeconds>
+                            <connectors>
+                                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                                    <!-- Host>127.0.0.1</Host -->
+                                    <port>9090</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>ftest</id>
+        </profile>
+    </profiles>
+
+</project>
