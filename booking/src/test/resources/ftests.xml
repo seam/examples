@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="Seam Tasks example" verbose="2" parallel="false">
+   <test name="Seam Tasks">
+      <packages>
+        <package name="org.jboss.seam.examples.booking.ftest" />
+      </packages>
+   </test>
+</suite>

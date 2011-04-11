@@ -90,6 +90,8 @@ public class BookingAgent {
 
     @Begin
     public void selectHotel(final Long id) {
+    	conversation.setTimeout(600000); //10 * 60 * 1000 (10 minutes)
+    	
         // NOTE get a fresh reference that's managed by the extended persistence context
         hotelSelection = em.find(Hotel.class, id);
         if (hotelSelection != null) {
