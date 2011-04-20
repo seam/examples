@@ -360,6 +360,10 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
+                            <testNGArtifactName>none:none</testNGArtifactName>
+                            <excludes>
+                                <exclude>**/ftest/**</exclude>
+                            </excludes>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -439,8 +443,10 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
-                           <excludes>
-                               <exclude>org/jboss/seam/examples/booking/booking/BookingAgentTest.java</exclude>
+                            <testNGArtifactName>none:none</testNGArtifactName>
+                            <excludes>
+                                <exclude>**/ftest/**</exclude>
+                                <exclude>org/jboss/seam/examples/booking/booking/BookingAgentTest.java</exclude>
                            </excludes>
                         </configuration>
                     </plugin>                    

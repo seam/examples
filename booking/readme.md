@@ -109,11 +109,11 @@ The integration tests are based on Arquillian (http://arquillian.org)
 
 With JBoss AS started, you can run the tests using the following command:
 
-    mvn test -Pitest-jbossas-remote
+    mvn test -Pjbossas-remote-6
 
 With GlassFish 3.1 started, you can run the tests using the following command:
 
-    mvn test -Pitest-glassfish-remote
+    mvn test -Pglassfish-remote-3.1
 
 ## Functional tests
 
