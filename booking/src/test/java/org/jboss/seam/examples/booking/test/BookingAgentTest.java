@@ -14,7 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.seam.examples.booking.booking;
+package org.jboss.seam.examples.booking.test;
+
+import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
+import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
+import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
 
 import java.util.HashMap;
 
@@ -27,13 +31,14 @@ import javax.transaction.UserTransaction;
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.examples.booking.account.Authenticated;
+import org.jboss.seam.examples.booking.booking.BookingAgent;
+import org.jboss.seam.examples.booking.booking.Confirmed;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.log.BookingLog;
 import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.CreditCardType;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
-import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -52,12 +57,10 @@ public class BookingAgentTest {
         return ShrinkWrap
                 .create(WebArchive.class, "test.war")
                 .addPackage(Hotel.class.getPackage())
-                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class, DefaultBundleKey.class, AuthenticatedUserProducer.class)
-                .addPackage(BookingLog.class.getPackage())
-                .addAsLibraries(
-                        MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
+                .addClasses(BookingAgent.class, BookingAgent.class, Confirmed.class, Authenticated.class,
+                        DefaultBundleKey.class, AuthenticatedUserProducer.class).addPackage(BookingLog.class.getPackage())
+                .addAsLibraries(SOLDER).addAsLibraries(JODA_TIME)
+                .addAsLibraries(INTERNATIONAL)
                 .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -106,10 +109,9 @@ public class BookingAgentTest {
             booking.setBeds(1);
             booking.setSmoking(false);
             bookingAgent.confirm();
-    
+
             Assert.assertEquals(1, em.createQuery("select b from Booking b").getResultList().size());
-        }
-        finally {
+        } finally {
             if (ctx != null && ctx.isActive()) {
                 ctx.deactivate();
                 ctx.dissociate(storage);

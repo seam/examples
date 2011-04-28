@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.seam.examples.booking.inventory;
+package org.jboss.seam.examples.booking.test;
 
-import java.util.HashMap;
+import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
+import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
+import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
+
 import java.util.List;
 
 import javax.enterprise.inject.Instance;
@@ -27,8 +30,9 @@ import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.seam.examples.booking.inventory.HotelSearch;
+import org.jboss.seam.examples.booking.inventory.SearchCriteria;
 import org.jboss.seam.examples.booking.model.Hotel;
-import org.jboss.seam.examples.booking.support.MavenArtifactResolver;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -41,31 +45,25 @@ import org.junit.runner.RunWith;
 public class HotelSearchTest {
     @Deployment
     public static Archive<?> createTestArchive() {
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "test.war")
-                .addPackage(HotelSearch.class.getPackage())
-                .addPackage(Hotel.class.getPackage())
-                .addAsLibraries(
-                        MavenArtifactResolver.resolve("joda-time:joda-time:1.6"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.solder:seam-solder:3.0.0.CR4"),
-                        MavenArtifactResolver.resolve("org.jboss.seam.international:seam-international:3.0.0.CR4"))
-                .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+        WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war").addPackage(HotelSearch.class.getPackage())
+                .addPackage(Hotel.class.getPackage()).addAsLibraries(SOLDER).addAsLibraries(JODA_TIME)
+                .addAsLibraries(INTERNATIONAL).addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
                 .addAsWebInfResource(new StringAsset(""), "beans.xml");
         return war;
     }
 
     @Inject
     UserTransaction utx;
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     @Inject
     SearchCriteria criteria;
-    
+
     @Inject
     HotelSearch hotelSearch;
-    
+
     @Inject
     Instance<List<Hotel>> hotelsInstance;
 
