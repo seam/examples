@@ -1,4 +1,4 @@
-package org.jboss.seam.examples.booking.booking;
+package org.jboss.seam.examples.booking.test;
 
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
