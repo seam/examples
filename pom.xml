@@ -83,19 +83,6 @@
 
    <profiles>
       <profile>
-         <id>jdk5</id>
-         <activation>
-            <jdk>1.6</jdk>
-         </activation>
-         <dependencies><!--
-            <dependency>
-               <groupId>javax.annotation</groupId>
-               <artifactId>jsr250-api</artifactId>
-               <scope>provided</scope>
-            </dependency>
-         --></dependencies>
-      </profile>
-      <profile>
          <id>jboss-public-repository</id>
          <activation>
             <property>
