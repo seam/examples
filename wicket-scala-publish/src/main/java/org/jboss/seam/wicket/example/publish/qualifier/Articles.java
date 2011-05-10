@@ -27,9 +27,8 @@ import javax.inject.Qualifier;
  * @author oranheim
  */
 @Qualifier
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER })
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Articles
-{
+public @interface Articles {
 
 }

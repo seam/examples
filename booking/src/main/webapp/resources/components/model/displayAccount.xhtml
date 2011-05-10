@@ -1,19 +1,19 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
-   xmlns:cc="http://java.sun.com/jsf/composite">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://http://java.sun.com/jsf/composite/components/property"
+                xmlns:cc="http://java.sun.com/jsf/composite">
 
-   <cc:interface>
-      <cc:attribute name="value" required="true"/>
-      <cc:attribute name="showEmail" required="false" default="false"/>
-   </cc:interface>
+    <cc:interface>
+        <cc:attribute name="value" required="true"/>
+        <cc:attribute name="showEmail" required="false" default="false"/>
+    </cc:interface>
 
-   <cc:implementation>
-      <p:output label="Full name" value="#{cc.attrs.value.name}"/>
-      <p:output label="Username" value="#{cc.attrs.value.username}"/>
-      <p:output label="Email address" value="#{cc.attrs.value.email}" rendered="#{cc.attrs.showEmail}"/>
-   </cc:implementation>
+    <cc:implementation>
+        <p:output label="Full name" value="#{cc.attrs.value.name}"/>
+        <p:output label="Username" value="#{cc.attrs.value.username}"/>
+        <p:output label="Email address" value="#{cc.attrs.value.email}" rendered="#{cc.attrs.showEmail}"/>
+    </cc:implementation>
 
 </ui:composition>

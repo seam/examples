@@ -1,52 +1,52 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:m="http://http://java.sun.com/jsf/composite/components/model"
-   template="/WEB-INF/layout/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:m="http://http://java.sun.com/jsf/composite/components/model"
+                template="/WEB-INF/layout/template.xhtml">
 
-   <ui:define name="content">
+    <ui:define name="content">
 
-      <div class="section">
-         <h1>Your Account</h1>
-      </div>
-      
-      <div class="section">
+        <div class="section">
+            <h1>Your Account</h1>
+        </div>
 
-         <div class="errors">
-            <h:messages id="messages" globalOnly="true"/>
-         </div>
+        <div class="section">
 
-         <m:displayAccount value="#{currentUser}" showEmail="true"/>
+            <div class="errors">
+                <h:messages id="messages" globalOnly="true"/>
+            </div>
 
-         <div class="buttonBox">
-            <h:button id="changePassword" value="Change password" outcome="/password.xhtml"/>
-         </div>
-      </div>
+            <m:displayAccount value="#{currentUser}" showEmail="true"/>
 
-   </ui:define>
-   
-   <ui:define name="sidebar">          
+            <div class="buttonBox">
+                <h:button id="changePassword" value="Change password" outcome="/password.xhtml"/>
+            </div>
+        </div>
 
-      <!--
-      <h1>Producing variables</h1>
-      <p>
-         You shouldn't need to write accessor methods (getters and setters) on a backing bean just to get at your data.
-         Rather, you should be able to expose data as a top-level variable. The logic necessary to load the data should
-         be produced on demand. That's the role of a @Producer method on a bean, which you can leverage in a Seam
-         application. Here, the user's account is loaded into the session as the variable 'user' when this page is
-         accessed. Once the variable has been produced, it doesn't need to happen again, another cycle-saving benefit of
-         this pattern.
-      </p>
-      <p>
-         <a href="#" onclick="window.open('exp/FIXME.html','exp','width=752,height=500,scrollbars=yes');">
-            What happens when this page loads?
-         </a>
-      </p>
-      -->
-      
-   </ui:define>
+    </ui:define>
+
+    <ui:define name="sidebar">
+
+        <!--
+        <h1>Producing variables</h1>
+        <p>
+           You shouldn't need to write accessor methods (getters and setters) on a backing bean just to get at your data.
+           Rather, you should be able to expose data as a top-level variable. The logic necessary to load the data should
+           be produced on demand. That's the role of a @Producer method on a bean, which you can leverage in a Seam
+           application. Here, the user's account is loaded into the session as the variable 'user' when this page is
+           accessed. Once the variable has been produced, it doesn't need to happen again, another cycle-saving benefit of
+           this pattern.
+        </p>
+        <p>
+           <a href="#" onclick="window.open('exp/FIXME.html','exp','width=752,height=500,scrollbars=yes');">
+              What happens when this page loads?
+           </a>
+        </p>
+        -->
+
+    </ui:define>
 
 </ui:composition>

@@ -1,4 +1,4 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -24,105 +24,91 @@
 package org.jboss.seam.examples.permalink;
 
 import java.util.Date;
+
 import javax.annotation.Named;
 import javax.context.RequestScoped;
 
 public
 @Named
 @RequestScoped
-class Comment
-{
-   private Long id;
+class Comment {
+    private Long id;
 
-   private BlogEntry entry;
+    private BlogEntry entry;
 
-   private Date postDate;
+    private Date postDate;
 
-   private String author;
+    private String author;
 
-   private String body;
+    private String body;
 
-   public Comment()
-   {
-   }
+    public Comment() {
+    }
 
-   public Comment(Long id, BlogEntry entry, String author, Date postDate, String body)
-   {
-      this.id = id;
-      this.entry = entry;
-      this.author = author;
-      this.postDate = postDate;
-      this.body = body;
-   }
+    public Comment(Long id, BlogEntry entry, String author, Date postDate, String body) {
+        this.id = id;
+        this.entry = entry;
+        this.author = author;
+        this.postDate = postDate;
+        this.body = body;
+    }
 
-   public Comment(Comment other)
-   {
-      this.id = other.getId();
-      this.entry = other.getEntry();
-      this.author = other.getAuthor();
-      this.postDate = other.getPostDate();
-      this.body = other.getBody();
-   }
+    public Comment(Comment other) {
+        this.id = other.getId();
+        this.entry = other.getEntry();
+        this.author = other.getAuthor();
+        this.postDate = other.getPostDate();
+        this.body = other.getBody();
+    }
 
-   public BlogEntry getEntry()
-   {
-      return entry;
-   }
+    public BlogEntry getEntry() {
+        return entry;
+    }
 
-   public void setEntry(BlogEntry entry)
-   {
-      this.entry = entry;
-   }
+    public void setEntry(BlogEntry entry) {
+        this.entry = entry;
+    }
 
-   public Date getPostDate()
-   {
-      return postDate;
-   }
+    public Date getPostDate() {
+        return postDate;
+    }
 
-   public void setPostDate(Date postDate)
-   {
-      this.postDate = postDate;
-   }
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
 
-   public String getAuthor()
-   {
-      return author;
-   }
+    public String getAuthor() {
+        return author;
+    }
 
-   public void setAuthor(String author)
-   {
-      this.author = author;
-   }
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-   public String getBody()
-   {
-      return body;
-   }
+    public String getBody() {
+        return body;
+    }
 
-   public void setBody(String body)
-   {
-      this.body = body;
-   }
+    public void setBody(String body) {
+        this.body = body;
+    }
 
-   public Long getId()
-   {
-      return id;
-   }
+    public Long getId() {
+        return id;
+    }
 
-   public void setId(Long id)
-   {
-      this.id = id;
-   }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   @Override
-   public String toString()
-   {
-      StringBuilder sb = new StringBuilder();
-      sb.append("Comment@").append(hashCode()).append("{");
-      sb.append("id=").append(id).append("; ");
-      sb.append("author=").append(author).append("; ");
-      sb.append("body=").append(body);
-      sb.append("}");
-      return sb.toString();
-   }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Comment@").append(hashCode()).append("{");
+        sb.append("id=").append(id).append("; ");
+        sb.append("author=").append(author).append("; ");
+        sb.append("body=").append(body);
+        sb.append("}");
+        return sb.toString();
+    }
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * JBoss, Home of Professional Open Source
  * Copyright 2009, Red Hat Middleware LLC, and individual contributors
  * by the @authors tag. See the copyright.txt in the distribution for a
@@ -26,36 +26,37 @@ package org.jboss.seam.examples.permalink;
 import javax.annotation.Named;
 import javax.context.RequestScoped;
 import javax.inject.Current;
+
 import org.jboss.seam.international.StatusMessages;
 
 public
 @Named
 @RequestScoped
-class CommentBoard
-{
-   @Current BlogEntryRepository repository;
+class CommentBoard {
+    @Current
+    BlogEntryRepository repository;
 
-   @Current Comment comment;
+    @Current
+    Comment comment;
 
-   @Current Blog blog;
+    @Current
+    Blog blog;
 
-   @Current StatusMessages statusMessages;
+    @Current
+    StatusMessages statusMessages;
 
-   public Boolean post()
-   {
-      if (comment == null || blog == null)
-      {
-         return null;
-      }
+    public Boolean post() {
+        if (comment == null || blog == null) {
+            return null;
+        }
 
-      BlogEntry entry = repository.getEntry(blog.getEntryId());
-      if (entry == null)
-      {
-         return null;
-      }
+        BlogEntry entry = repository.getEntry(blog.getEntryId());
+        if (entry == null) {
+            return null;
+        }
 
-      repository.addComment(comment, entry);
-      statusMessages.add("Thanks for leaving a comment!");
-      return true;
-   }
+        repository.addComment(comment, entry);
+        statusMessages.add("Thanks for leaving a comment!");
+        return true;
+    }
 }

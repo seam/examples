@@ -1,61 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:pretty="http://ocpsoft.com/prettyfaces"
-   xmlns:f="http://java.sun.com/jsf/core"><f:view>
-   <ui:insert name="metadata"/>
-   <h:head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-      <title>#{bundles.messages.template_title}</title>
-      <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
-      
-      <h:outputStylesheet library="css" name="booking.css"/>
-      <ui:insert name="head"/>
-   </h:head>
-   <h:body styleClass="#{empty pageClass ? 'page' : 'home'}">
-      <div id="document">
-         <div id="header">
-            <div id="title"><h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites banner"/></div>
-            <h:form id="menuForm">
-               <div id="status">
-                  <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
-                  #{' '}
-                  <pretty:link mappingId="home">#{bundles.messages.template_linkHome}</pretty:link>
-                  #{' | '}
-                  <h:link id="search" outcome="/search.xhtml" value="#{bundles.messages.template_linkHotels}"/>
-                  <h:panelGroup rendered="#{not identity.loggedIn}">
-                     #{' | '}
-                     <pretty:link mappingId="home">#{bundles.messages.template_linkLogin}</pretty:link>
-                  </h:panelGroup>
-                  <h:panelGroup rendered="#{identity.loggedIn}">
-                     #{' | '}
-                     <pretty:link mappingId="account">#{bundles.messages.template_linkAccount}</pretty:link>
-                     #{' | '}
-                     <pretty:link mappingId="logout">#{bundles.messages.template_linkLogout}</pretty:link>
-                  </h:panelGroup>
-                  <h:panelGroup rendered="#{facesContext.application.projectStage == 'Development'}">
-                     #{' | '}
-                     <h:commandLink action="pretty:home" actionListener="#{facesContext.externalContext.invalidateSession}" value="#{bundles.messages.template_linkReset}"/>
-                  </h:panelGroup>
-               </div>
-            </h:form>
-         </div>
-         <div id="container">
-            <div id="sidebar">
-               <ui:insert name="sidebar"/>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pretty="http://ocpsoft.com/prettyfaces"
+      xmlns:f="http://java.sun.com/jsf/core">
+<f:view>
+    <ui:insert name="metadata"/>
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>#{bundles.messages.template_title}</title>
+        <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+
+        <h:outputStylesheet library="css" name="booking.css"/>
+        <ui:insert name="head"/>
+    </h:head>
+    <h:body styleClass="#{empty pageClass ? 'page' : 'home'}">
+        <div id="document">
+            <div id="header">
+                <div id="title">
+                    <h:graphicImage value="/img/hdr.title.gif" alt="JBoss Suites banner"/>
+                </div>
+                <h:form id="menuForm">
+                    <div id="status">
+                        <h:outputText value="(#{currentUser.name})" rendered="#{identity.loggedIn}" styleClass="user"/>
+                        #{' '}
+                        <pretty:link mappingId="home">#{bundles.messages.template_linkHome}</pretty:link>
+                        #{' | '}
+                        <h:link id="search" outcome="/search.xhtml" value="#{bundles.messages.template_linkHotels}"/>
+                        <h:panelGroup rendered="#{not identity.loggedIn}">
+                            #{' | '}
+                            <pretty:link mappingId="home">#{bundles.messages.template_linkLogin}</pretty:link>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{identity.loggedIn}">
+                            #{' | '}
+                            <pretty:link mappingId="account">#{bundles.messages.template_linkAccount}</pretty:link>
+                            #{' | '}
+                            <pretty:link mappingId="logout">#{bundles.messages.template_linkLogout}</pretty:link>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{facesContext.application.projectStage == 'Development'}">
+                            #{' | '}
+                            <h:commandLink action="pretty:home"
+                                           actionListener="#{facesContext.externalContext.invalidateSession}"
+                                           value="#{bundles.messages.template_linkReset}"/>
+                        </h:panelGroup>
+                    </div>
+                </h:form>
             </div>
-            <div id="content">
-               <ui:insert name="content"/>
+            <div id="container">
+                <div id="sidebar">
+                    <ui:insert name="sidebar"/>
+                </div>
+                <div id="content">
+                    <ui:insert name="content"/>
+                </div>
             </div>
-         </div>
-         <div id="footer">
-            #{bundles.messages.template_createdWith}<br/>
-            #{bundles.messages.template_projectStage}: #{initParam['javax.faces.PROJECT_STAGE']}
-            #{' | '}
-            #{bundles.messages.template_currentConversation}: #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
-         </div>
-      </div>
-   </h:body>
-</f:view></html>
+            <div id="footer">
+                #{bundles.messages.template_createdWith}<br/>
+                #{bundles.messages.template_projectStage}: #{initParam['javax.faces.PROJECT_STAGE']}
+                #{' | '}
+                #{bundles.messages.template_currentConversation}:
+                #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
+            </div>
+        </div>
+    </h:body>
+</f:view>
+</html>

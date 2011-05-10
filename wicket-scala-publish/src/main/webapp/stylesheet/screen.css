@@ -1,5 +1,4 @@
 @import url("cupertino/jquery-ui-1.8.6.custom.css");
-
 @import url("jquery.cleditor.css");
 
 body {
@@ -15,7 +14,7 @@ body {
     padding: 0 20px 10px 20px;
     border: 1px solid #666666;
     width: 865px; /* subtract 40px from banner width for padding */
-    background: #FFFFFF url(images/banner2.png) no-repeat;    
+    background: #FFFFFF url(images/banner2.png) no-repeat;
     padding-top: 110px;
 }
 

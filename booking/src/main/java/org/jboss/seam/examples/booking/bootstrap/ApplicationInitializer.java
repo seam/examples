@@ -38,7 +38,7 @@ import org.jboss.seam.servlet.event.Initialized;
 
 /**
  * An alternative bean used to import seed data into the database when the application is being initialized.
- * 
+ *
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */

@@ -36,13 +36,13 @@ import org.picketlink.idm.impl.api.model.SimpleUser;
 
 /**
  * This implementation of a <strong>Authenticator</strong> that uses Seam security.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/spinner)">Jose Rodolfo freitas</a>
  */
 @Stateless
 @Named("bookingAuthenticator")
 public class BookingAuthenticator extends BaseAuthenticator implements Authenticator {
-	
+
     @Inject
     private Logger log;
 
@@ -66,20 +66,20 @@ public class BookingAuthenticator extends BaseAuthenticator implements Authentic
             setStatus(AuthenticationStatus.FAILURE);
         }
         User user = em.find(User.class, credentials.getUsername());
-        if (user != null && credentials.getCredential() instanceof PasswordCredential){
-        	if(user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
-	            loginEventSrc.fire(user);
-	            messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
-	                    .params(user.getName());
-	            setStatus(AuthenticationStatus.SUCCESS);
-	            setUser(new SimpleUser(user.getUsername())); //TODO confirm the need for this set method
-	            return;
-        	}
-        } 
-            
+        if (user != null && credentials.getCredential() instanceof PasswordCredential) {
+            if (user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
+                loginEventSrc.fire(user);
+                messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
+                        .params(user.getName());
+                setStatus(AuthenticationStatus.SUCCESS);
+                setUser(new SimpleUser(user.getUsername())); //TODO confirm the need for this set method
+                return;
+            }
+        }
+
         messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");
         setStatus(AuthenticationStatus.FAILURE);
-        
+
     }
 
 }

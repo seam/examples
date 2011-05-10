@@ -10,7 +10,7 @@ import org.jboss.seam.examples.booking.model.User;
 public class AuthenticatedUserProducer {
     @PersistenceContext
     EntityManager em;
-    
+
     @Produces
     @Authenticated
     public User getRegisteredUser() {

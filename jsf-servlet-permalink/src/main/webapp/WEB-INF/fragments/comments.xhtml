@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
 
-                        <ul id="comments" class="post-comments clear">
-                            <h3>#{_entry.numComments} Comment#{_entry.numComments != 1 ? 's' : ''}</h3>
-                            <ui:repeat var="_comment" varStatus="it" value="#{_entry.comments}">
-                            <li class="comment clear #{it.even ? 'alt' : ''}">
-                                <cite class="comment-author">#{_comment.author}</cite>
-                                <div class="comment-content"><p>#{_comment.body}</p></div>
-                            </li>
-                            </ui:repeat>
-                        </ul>
-                        <h3>Any thoughts?</h3>
-                        <h:form id="comment" prependId="false">
-                            <p>
-                                <h:inputText id="author" value="#{comment.author}" size="20" tabindex="1" required="true" label="Author"/>
-                                <h:outputLabel for="author" value="Name (required)"/>
-                                <br/>
-                                <h:message for="author" style="color: #FF0000;"/>
-                            </p>
-                            <p>
-                                <h:inputTextarea id="body" value="#{comment.body}" cols="60" rows="7" tabindex="2" required="true" label="Comment text"/>
-                                <h:message for="body" style="color: #FF0000;"/>
-                            </p>
-                            <p>
-                                <h:commandButton id="post" action="#{commentBoard.post}" tabindex="3" value="Submit"/>
-                            </p>
-                        </h:form>
+    <ul id="comments" class="post-comments clear">
+        <h3>#{_entry.numComments} Comment#{_entry.numComments != 1 ? 's' : ''}</h3>
+        <ui:repeat var="_comment" varStatus="it" value="#{_entry.comments}">
+            <li class="comment clear #{it.even ? 'alt' : ''}">
+                <cite class="comment-author">#{_comment.author}</cite>
+
+                <div class="comment-content"><p>#{_comment.body}</p></div>
+            </li>
+        </ui:repeat>
+    </ul>
+    <h3>Any thoughts?</h3>
+    <h:form id="comment" prependId="false">
+        <p>
+            <h:inputText id="author" value="#{comment.author}" size="20" tabindex="1" required="true" label="Author"/>
+            <h:outputLabel for="author" value="Name (required)"/>
+            <br/>
+            <h:message for="author" style="color: #FF0000;"/>
+        </p>
+        <p>
+            <h:inputTextarea id="body" value="#{comment.body}" cols="60" rows="7" tabindex="2" required="true"
+                             label="Comment text"/>
+            <h:message for="body" style="color: #FF0000;"/>
+        </p>
+        <p>
+            <h:commandButton id="post" action="#{commentBoard.post}" tabindex="3" value="Submit"/>
+        </p>
+    </h:form>
 
 </ui:composition>

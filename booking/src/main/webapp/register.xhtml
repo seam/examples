@@ -1,91 +1,93 @@
-	<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:s="http://jboss.org/seam/faces"
-   xmlns:p="http://java.sun.com/jsf/composite/components/property"
-   template="/WEB-INF/layout/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:s="http://jboss.org/seam/faces"
+                xmlns:p="http://java.sun.com/jsf/composite/components/property"
+                template="/WEB-INF/layout/template.xhtml">
 
-   <ui:param name="pageClass" value="home"/>
+    <ui:param name="pageClass" value="home"/>
 
-   <ui:define name="metadata">
-      <f:metadata>
-         <f:event type="preRenderView" listener="#{registrar.notifyIfRegistrationIsInvalid}"/>
-      </f:metadata>
-   </ui:define>
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{registrar.notifyIfRegistrationIsInvalid}"/>
+        </f:metadata>
+    </ui:define>
 
-   <ui:define name="content">
-      
-      <div class="section">
-         <h1>Register</h1>
-      </div>
-      
-      <div class="section">
-             
-         <div class="errors">
-            <h:messages id="messages" globalOnly="true"/>
-         </div>
+    <ui:define name="content">
 
-         <h:form id="regForm" prependId="false">
-        
-            <fieldset>
-               <p:input id="name" label="Full name">
-                  <h:inputText id="input" value="#{newUser.name}"/>
-               </p:input>
+        <div class="section">
+            <h1>Register</h1>
+        </div>
 
-               <p:input id="username" label="Username">
-                  <h:inputText id="input" value="#{newUser.username}"
-                     binding="#{registrar.usernameInput}"/>
-               </p:input>
+        <div class="section">
 
-               <p:input id="email" label="Email">
-                  <h:inputText id="input" value="#{newUser.email}"/>
-               </p:input>
+            <div class="errors">
+                <h:messages id="messages" globalOnly="true"/>
+            </div>
 
-               <p:input id="password" label="Password">
-                  <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
-               </p:input>
+            <h:form id="regForm" prependId="false">
 
-               <p:input id="confirmPassword" label="Confirm password">
-                  <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true"/>
-               </p:input>
-               
-               <div class="buttonBox">
-                  <h:commandButton id="register" value="Register" action="#{registrar.register}"/>
-                  #{' '}
-                  <h:button id="cancel" value="Cancel" outcome="/home.xhtml"/>
-               </div>
+                <fieldset>
+                    <p:input id="name" label="Full name">
+                        <h:inputText id="input" value="#{newUser.name}"/>
+                    </p:input>
 
-            </fieldset>
+                    <p:input id="username" label="Username">
+                        <h:inputText id="input" value="#{newUser.username}"
+                                     binding="#{registrar.usernameInput}"/>
+                    </p:input>
 
-            <s:validateForm id="passwordCheck" validatorId="confirmPassword"
-               fields="password=password:input confirmPassword=confirmPassword:input"/>
+                    <p:input id="email" label="Email">
+                        <h:inputText id="input" value="#{newUser.email}"/>
+                    </p:input>
 
-         </h:form>
-             
-      </div>
+                    <p:input id="password" label="Password">
+                        <h:inputSecret id="input" value="#{newUser.password}" redisplay="true"/>
+                    </p:input>
 
-   </ui:define>
-   
-   <ui:define name="sidebar">          
-	<div class="content">
-      <h1>Integrated multi-layer validation</h1>
-      <p>
-         Robust applications need data validation in several different places. Seam integrates Hibernate Validator, a
-         set of annotations for expressing data model constraints in your domain model classes. Then, these constraints
-         are applied almost completely transparently at three levels of the application: by Seam when the user first
-         enters data, by EJB before persisting data to the database, and, if you use Hibernate to generate your database
-         schema, by the database constraints themselves. Multi-layer validation hardens your application and protects
-         your data. Even better, it's self-documenting, and easy to change when your business rules change.
-      </p>
-      <p>
-         <a href="#" onclick="window.open('exp/registerExp.html','exp','width=752,height=500,scrollbars=yes');">
-            What happens when I register?
-         </a>
-      </p>
-     </div> 
-   </ui:define>
+                    <p:input id="confirmPassword" label="Confirm password">
+                        <h:inputSecret id="input" value="#{registrar.confirmPassword}" redisplay="true"/>
+                    </p:input>
+
+                    <div class="buttonBox">
+                        <h:commandButton id="register" value="Register" action="#{registrar.register}"/>
+                        #{' '}
+                        <h:button id="cancel" value="Cancel" outcome="/home.xhtml"/>
+                    </div>
+
+                </fieldset>
+
+                <s:validateForm id="passwordCheck" validatorId="confirmPassword"
+                                fields="password=password:input confirmPassword=confirmPassword:input"/>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+    <ui:define name="sidebar">
+        <div class="content">
+            <h1>Integrated multi-layer validation</h1>
+
+            <p>
+                Robust applications need data validation in several different places. Seam integrates Hibernate Validator, a
+                set of annotations for expressing data model constraints in your domain model classes. Then, these constraints
+                are applied almost completely transparently at three levels of the application: by Seam when the user first
+                enters data, by EJB before persisting data to the database, and, if you use Hibernate to generate your database
+                schema, by the database constraints themselves. Multi-layer validation hardens your application and protects
+                your data. Even better, it's self-documenting, and easy to change when your business rules change.
+            </p>
+
+            <p>
+                <a href="#" onclick="window.open('exp/registerExp.html','exp','width=752,height=500,scrollbars=yes');">
+                    What happens when I register?
+                </a>
+            </p>
+        </div>
+    </ui:define>
 
 </ui:composition>

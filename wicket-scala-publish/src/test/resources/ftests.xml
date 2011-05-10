@@ -2,7 +2,7 @@
 <suite name="Seam Tasks example" verbose="2" parallel="false">
     <test name="Seam Tasks">
         <packages>
-            <package name="org.jboss.seam.wicket.example.numberguess.ftest" />
+            <package name="org.jboss.seam.wicket.example.numberguess.ftest"/>
         </packages>
     </test>
 </suite>

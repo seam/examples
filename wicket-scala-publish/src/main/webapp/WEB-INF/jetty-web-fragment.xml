@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
       http://java.sun.com/xml/ns/j2ee
       http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
@@ -27,8 +27,8 @@
         <filter-name>Servlet Event Bridge Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
-    <!-- The catch filter casues exeption upon startup with  jetty 6.x      
+
+    <!-- The catch filter casues exeption upon startup with  jetty 6.x
     <filter>
         <filter-name>Catch Exception Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.CatchExceptionFilter</filter-class>
@@ -38,7 +38,7 @@
         <filter-name>Catch Exception Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    -->    
+    -->
 
     <resource-env-ref>
         <description>Object factory for the CDI Bean Manager</description>

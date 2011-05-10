@@ -16,8 +16,6 @@
  */
 package org.jboss.seam.examples.booking.booking;
 
-import static javax.persistence.PersistenceContextType.EXTENDED;
-
 import java.util.Locale;
 
 import javax.ejb.Stateful;
@@ -34,6 +32,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.ocpsoft.pretty.time.PrettyTime;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.log.BookingLog;
@@ -46,7 +45,7 @@ import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
 import org.jboss.seam.solder.logging.TypedCategory;
 
-import com.ocpsoft.pretty.time.PrettyTime;
+import static javax.persistence.PersistenceContextType.EXTENDED;
 
 /**
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
@@ -90,8 +89,8 @@ public class BookingAgent {
 
     @Begin
     public void selectHotel(final Long id) {
-    	conversation.setTimeout(600000); //10 * 60 * 1000 (10 minutes)
-    	
+        conversation.setTimeout(600000); //10 * 60 * 1000 (10 minutes)
+
         // NOTE get a fresh reference that's managed by the extended persistence context
         hotelSelection = em.find(Hotel.class, id);
         if (hotelSelection != null) {

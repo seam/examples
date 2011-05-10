@@ -30,7 +30,7 @@ import org.jboss.seam.international.status.Messages;
 
 /**
  * The view controller for changing the user password
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @Stateful

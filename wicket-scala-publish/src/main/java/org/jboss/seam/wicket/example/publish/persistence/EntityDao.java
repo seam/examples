@@ -25,10 +25,8 @@ import org.jboss.seam.wicket.example.publish.qualifier.ConversationalDataReposit
 
 /**
  * @author oranheim
- * 
  */
-public class EntityDao implements Serializable
-{
+public class EntityDao implements Serializable {
 
     private static final long serialVersionUID = 8882687308482165893L;
 
@@ -36,40 +34,34 @@ public class EntityDao implements Serializable
     @ConversationalDataRepository
     private EntityManager em;
 
-    final public EntityManager getEntityManager()
-    {
+    final public EntityManager getEntityManager() {
         return em;
     }
 
-    public void create(Object entity)
-    {
+    public void create(Object entity) {
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();
     }
 
-    public <T> T update(T entity)
-    {
+    public <T> T update(T entity) {
         em.getTransaction().begin();
         entity = em.merge(entity);
         em.getTransaction().commit();
         return entity;
     }
 
-    public void delete(Object entity)
-    {
+    public void delete(Object entity) {
         em.getTransaction().begin();
         em.remove(entity);
         em.getTransaction().commit();
     }
 
-    public void refresh(Object entity)
-    {
+    public void refresh(Object entity) {
         em.refresh(entity);
     }
 
-    public <T> T find(Class<T> clazz, Long id)
-    {
+    public <T> T find(Class<T> clazz, Long id) {
         return em.find(clazz, id);
     }
 

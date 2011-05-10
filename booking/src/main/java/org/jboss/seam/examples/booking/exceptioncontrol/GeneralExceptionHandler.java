@@ -23,7 +23,7 @@ import org.jboss.seam.exception.control.HandlesExceptions;
 
 /**
  * Logs all exceptions and allows the to propagate
- * 
+ *
  * @author <a href="http://community.jboss.org/people/spinner">Jose Freitas</a>
  */
 @HandlesExceptions

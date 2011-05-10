@@ -1,6 +1,7 @@
 package org.jboss.seam.examples.booking.model;
 
 import java.util.Date;
+
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 

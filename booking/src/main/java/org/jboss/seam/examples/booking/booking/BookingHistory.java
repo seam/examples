@@ -48,7 +48,7 @@ import org.jboss.seam.security.Identity;
 
 /**
  * The booking history exposes the current users existing bookings
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @Stateful

@@ -16,10 +16,6 @@
  */
 package org.jboss.seam.examples.booking.test;
 
-import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
-import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
-import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
-
 import java.util.HashMap;
 
 import javax.enterprise.inject.Instance;
@@ -49,6 +45,10 @@ import org.jboss.weld.context.bound.MutableBoundRequest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
+import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
+import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
 
 @RunWith(Arquillian.class)
 public class BookingAgentTest {

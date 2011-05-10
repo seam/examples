@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pretty-config xmlns="http://ocpsoft.com/prettyfaces/2.0.4" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/2.0.4"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="
         http://ocpsoft.com/prettyfaces/2.0.4
         http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-2.0.4.xsd">
 
@@ -9,7 +9,7 @@
         <pattern value="/"></pattern>
         <view-id>/home.xhtml</view-id>
     </url-mapping>
-    
+
     <url-mapping id="conversation_ended">
         <pattern value="/conversation_ended"></pattern>
         <view-id>/conversation_ended.xhtml</view-id>

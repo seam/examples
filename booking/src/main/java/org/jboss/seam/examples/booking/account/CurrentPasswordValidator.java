@@ -31,7 +31,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * A JSF Validator, used to check that the password the user submits matches that on record.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @FacesValidator("currentPassword")

@@ -42,7 +42,7 @@ import org.jboss.seam.solder.core.Veto;
  * <p>
  * <strong>Booking</strong> is the model/entity class that represents a hotel booking.
  * </p>
- * 
+ *
  * @author Gavin King
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
@@ -174,7 +174,7 @@ public class Booking implements Serializable {
 
     /**
      * The credit card expiration month, represented using a 1-based numeric value (i.e., Jan = 1, Feb = 2, ...).
-     * 
+     *
      * @return 1-based numeric month value
      */
     public int getCreditCardExpiryMonth() {
@@ -187,7 +187,7 @@ public class Booking implements Serializable {
 
     /**
      * The credit card expiration year.
-     * 
+     *
      * @return numberic year value
      */
     public int getCreditCardExpiryYear() {
@@ -217,9 +217,9 @@ public class Booking implements Serializable {
 
     /**
      * Initialize the check-in and check-out dates.
-     * 
+     *
      * @param daysFromNow Number of days the stay will begin from now
-     * @param nights Length of the stay in number of nights
+     * @param nights      Length of the stay in number of nights
      */
     public void setReservationDates(int daysFromNow, int nights) {
         Calendar refDate = Calendar.getInstance();

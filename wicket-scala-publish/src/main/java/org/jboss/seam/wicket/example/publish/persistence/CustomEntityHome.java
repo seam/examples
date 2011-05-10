@@ -24,12 +24,10 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.wicket.example.publish.scala.model.BaseEntity;
 
 /**
- * @author oranheim
- * 
  * @param <T>
+ * @author oranheim
  */
-abstract public class CustomEntityHome<T extends BaseEntity> implements Serializable
-{
+abstract public class CustomEntityHome<T extends BaseEntity> implements Serializable {
 
     private static final long serialVersionUID = 664187882684237542L;
 
@@ -41,8 +39,7 @@ abstract public class CustomEntityHome<T extends BaseEntity> implements Serializ
 
     abstract public T loadInstance();
 
-    protected T findInstance(EntityManager em, Long id)
-    {
+    protected T findInstance(EntityManager em, Long id) {
         return em.find(getClassType(), id);
     }
 
@@ -59,8 +56,7 @@ abstract public class CustomEntityHome<T extends BaseEntity> implements Serializ
     abstract public String delete();
 
     @SuppressWarnings("unchecked")
-    protected Class<T> getClassType()
-    {
+    protected Class<T> getClassType() {
         ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
         return (Class<T>) parameterizedType.getActualTypeArguments()[0];
     }

@@ -30,7 +30,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * Validate that both the password fields contain the same value. Implements the classic password change validation.
- * 
+ *
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @FacesValidator("confirmPassword")
@@ -38,17 +38,19 @@ public class ConfirmPasswordValidator implements Validator {
     @Inject
     private BundleTemplateMessage messageBuilder;
 
-    @Inject @InputField
+    @Inject
+    @InputField
     private String password;
 
-    @Inject @InputField
+    @Inject
+    @InputField
     private String confirmPassword;
 
     public void validate(final FacesContext ctx, final UIComponent form, final Object components) throws ValidatorException {
         if (password == null || confirmPassword == null) {
             return;
         }
-        
+
         if (!password.equals(confirmPassword)) {
             throw new ValidatorException(new FacesMessage(messageBuilder
                     .key(new DefaultBundleKey("account_passwordsDoNotMatch")).defaults("Passwords do not match").build()

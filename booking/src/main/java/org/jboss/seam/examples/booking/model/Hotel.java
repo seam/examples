@@ -36,7 +36,7 @@ import org.jboss.seam.solder.core.Veto;
  * <p>
  * <strong>Hotel</strong> is the model/entity class that represents a hotel.
  * </p>
- * 
+ *
  * @author Gavin King
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
@@ -58,7 +58,7 @@ public class Hotel implements Serializable {
     }
 
     public Hotel(final String name, final String address, final String city, final String state, final String zip,
-            final String country) {
+                 final String country) {
         this.name = name;
         this.address = address;
         this.city = city;
@@ -68,7 +68,7 @@ public class Hotel implements Serializable {
     }
 
     public Hotel(final int price, final int stars, final String name, final String address, final String city,
-            final String state, final String zip, final String country) {
+                 final String state, final String zip, final String country) {
         this.price = new BigDecimal(price);
         this.stars = stars;
         this.name = name;

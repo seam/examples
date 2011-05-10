@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.inject.Named;
 import javax.enterprise.inject.Produces;
+import javax.inject.Named;
 
 /**
  * Produces calendar-oriented reference data to be used in user-interface forms. The user's locale is honored when producing
  * name-based data.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 public class CalendarReferenceProducer {

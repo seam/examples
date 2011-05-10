@@ -34,7 +34,7 @@ import org.jboss.seam.international.status.builder.BundleTemplateMessage;
 
 /**
  * A cross-field validator that validates the start date is in the future and before the end date.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @FacesValidator("reservationDateRange")
@@ -51,7 +51,7 @@ public class ReservationDateRangeValidator implements Validator {
     public void validate(final FacesContext ctx, final UIComponent form, final Object value) throws ValidatorException {
         Date startDate = startDateElement.getValue();
         Date endDate = endDateElement.getValue();
-        
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, -1);
         if (startDate.before(calendar.getTime())) {

@@ -1,14 +1,14 @@
 package org.jboss.seam.example.gwt.helloworld.client;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
 import org.jboss.errai.cdi.client.api.Event;
 import org.jboss.errai.ioc.client.api.EntryPoint;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
 /**
  * Welcome to Errai CDI!

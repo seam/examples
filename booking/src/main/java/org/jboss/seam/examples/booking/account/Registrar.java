@@ -35,7 +35,7 @@ import org.jboss.seam.international.status.builder.BundleKey;
 
 /**
  * The view controller for registering a new user
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @Stateful
@@ -84,7 +84,7 @@ public class Registrar {
      * <p>
      * Invoked by:
      * </p>
-     * 
+     * <p/>
      * <pre>
      * &lt;f:event type="preRenderView" listener="#{registrar.notifyIfRegistrationIsInvalid}"/>
      * </pre>

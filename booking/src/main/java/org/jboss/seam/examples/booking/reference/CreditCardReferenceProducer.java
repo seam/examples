@@ -22,14 +22,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
-import javax.inject.Named;
 import javax.enterprise.inject.Produces;
+import javax.inject.Named;
 
 import org.jboss.seam.examples.booking.model.CreditCardType;
 
 /**
  * A bean that produces credit card reference data for user-interface forms.
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 public class CreditCardReferenceProducer {

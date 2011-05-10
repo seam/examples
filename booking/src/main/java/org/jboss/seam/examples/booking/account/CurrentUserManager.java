@@ -27,7 +27,7 @@ import org.jboss.seam.examples.booking.model.User;
 
 /**
  * Exposes the currently logged in user
- * 
+ *
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
  */
 @Stateful

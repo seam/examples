@@ -14,18 +14,18 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
---> 
+-->
 <beans xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ee="urn:java:ee" 
-	xmlns:ss="urn:java:org.jboss.seam.security"
-    xsi:schemaLocation="
-        http://java.sun.com/xml/ns/javaee 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ee="urn:java:ee"
+       xmlns:ss="urn:java:org.jboss.seam.security"
+       xsi:schemaLocation="
+        http://java.sun.com/xml/ns/javaee
         http://docs.jboss.org/cdi/beans_1_0.xsd">
 
     <ss:IdentityImpl>
-    	<ee:modifies />
-    	<ss:authenticatorName>bookingAuthenticator</ss:authenticatorName>
+        <ee:modifies/>
+        <ss:authenticatorName>bookingAuthenticator</ss:authenticatorName>
     </ss:IdentityImpl>
-    	
+
 </beans>

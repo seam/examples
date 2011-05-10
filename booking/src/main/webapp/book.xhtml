@@ -1,109 +1,111 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:s="http://jboss.org/seam/faces"
-   xmlns:m="http://java.sun.com/jsf/composite/components/model"
-   xmlns:p="http://java.sun.com/jsf/composite/components/property"
-   template="/WEB-INF/layout/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:s="http://jboss.org/seam/faces"
+                xmlns:m="http://java.sun.com/jsf/composite/components/model"
+                xmlns:p="http://java.sun.com/jsf/composite/components/property"
+                template="/WEB-INF/layout/template.xhtml">
 
-   <ui:define name="content">
-      <div class="section">
-         <h1>Book Hotel</h1>
-      </div>
+    <ui:define name="content">
+        <div class="section">
+            <h1>Book Hotel</h1>
+        </div>
 
-      <div class="section">
-         <div class="errors">
-            <h:messages id="messages" globalOnly="true"/>
-         </div>
-      
-         <m:displayHotel value="#{hotel}"/>
-         <div style="clear: both;"/>
-      
-         <h:form id="bookingForm">
-            <fieldset>
-               <p:input id="checkInDate" label="Check-in Date">
-                  <h:inputText id="input" value="#{booking.checkinDate}">
-                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
-                  </h:inputText>
-               </p:input>
-              
-                <p:input id="checkOutDate" label="Check-out Date">
-                  <h:inputText id="input" value="#{booking.checkoutDate}">
-                     <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
-                  </h:inputText>
-                </p:input>
-             
-              
-                <p:input id="roomPreference" label="Room Preference">
-                  <h:selectOneMenu id="input" value="#{booking.beds}">
-                     <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
-                     <f:selectItem itemLabel="Two double beds" itemValue="2"/>
-                     <f:selectItem itemLabel="Three beds" itemValue="3"/>
-                  </h:selectOneMenu>
-               </p:input>
-               <br />
-               <p:input id="smokingPreference" label="Smoking Preference" >
-                  <h:selectOneRadio  id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
-                     <f:selectItem itemLabel="Smoking" itemValue="true"/>
-                     <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
-                  </h:selectOneRadio>
-               </p:input>
-               
-               <p:input id="creditCardName" label="Credit Card Name">
-                  <h:inputText id="input" value="#{booking.creditCardName}"/>
-             </p:input>
-             <p:input id="creditCardNumber" label="Credit Card Number">
-                  <h:inputText id="input" value="#{booking.creditCardNumber}"/>
-             </p:input>
-             <p:input id="creditCardType" label="Credit Card Type">
-                <h:selectOneMenu id="type" value="#{booking.creditCardType}">
-                     <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
-                     <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
-                  </h:selectOneMenu>
-                 </p:input>
-                <br />
-                <p:input id="creditCardExpiration" inputs="2" label="Expiration Date">
-                  <h:selectOneMenu id="month" value="#{booking.creditCardExpiryMonth}">
-                     <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}" itemLabel="#{_month.shortName}"/>
-                  </h:selectOneMenu>
-                  <h:selectOneMenu id="year" value="#{booking.creditCardExpiryYear}">
-                     <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
-                  </h:selectOneMenu>
-                </p:input>
-               <div class="buttonBox">
-                  <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validate}"/>
-                  #{' '}
-                  <h:commandButton id="cancel" value="Cancel" action="#{bookingAgent.cancel}" immediate="true"/>
-               </div>
-               
-            </fieldset>
-            
-               <s:validateForm validatorId="reservationDateRange" fields="startDateElement=checkInDate:input endDateElement=checkOutDate:input" />
-             
-         </h:form>
-      </div>
+        <div class="section">
+            <div class="errors">
+                <h:messages id="messages" globalOnly="true"/>
+            </div>
 
-   </ui:define>
+            <m:displayHotel value="#{hotel}"/>
+            <div style="clear: both;"/>
 
-   <ui:define name="sidebar">
+            <h:form id="bookingForm">
+                <fieldset>
+                    <p:input id="checkInDate" label="Check-in Date">
+                        <h:inputText id="input" value="#{booking.checkinDate}">
+                            <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                        </h:inputText>
+                    </p:input>
 
-      <!--
-      <h1>Workspace management</h1>
-      <p>
-         As you can see, Seam makes it easy to work in multiple windows or multiple browser tabs. But you can even
-         switch between multiple tasks inside a single browser tab!  The "Workspaces" section showcases this advanced
-         feature.
-      </p>
-      <p>
-         <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
-            How does the workspace list work?
-         </a>
-      </p>
-      -->
+                    <p:input id="checkOutDate" label="Check-out Date">
+                        <h:inputText id="input" value="#{booking.checkoutDate}">
+                            <f:convertDateTime type="date" pattern="MM/dd/yyyy"/>
+                        </h:inputText>
+                    </p:input>
 
-   </ui:define>
+
+                    <p:input id="roomPreference" label="Room Preference">
+                        <h:selectOneMenu id="input" value="#{booking.beds}">
+                            <f:selectItem itemLabel="One king-size bed" itemValue="1"/>
+                            <f:selectItem itemLabel="Two double beds" itemValue="2"/>
+                            <f:selectItem itemLabel="Three beds" itemValue="3"/>
+                        </h:selectOneMenu>
+                    </p:input>
+                    <br/>
+                    <p:input id="smokingPreference" label="Smoking Preference">
+                        <h:selectOneRadio id="input" value="#{booking.smoking}" layout="pageDirection" styleClass="radio">
+                            <f:selectItem itemLabel="Smoking" itemValue="true"/>
+                            <f:selectItem itemLabel="Non Smoking" itemValue="false"/>
+                        </h:selectOneRadio>
+                    </p:input>
+
+                    <p:input id="creditCardName" label="Credit Card Name">
+                        <h:inputText id="input" value="#{booking.creditCardName}"/>
+                    </p:input>
+                    <p:input id="creditCardNumber" label="Credit Card Number">
+                        <h:inputText id="input" value="#{booking.creditCardNumber}"/>
+                    </p:input>
+                    <p:input id="creditCardType" label="Credit Card Type">
+                        <h:selectOneMenu id="type" value="#{booking.creditCardType}">
+                            <f:selectItem itemValue="#{null}" itemLabel="Select..." noSelectionOption="true"/>
+                            <f:selectItems value="#{creditCardTypes}" var="_type" itemValue="#{_type}"/>
+                        </h:selectOneMenu>
+                    </p:input>
+                    <br/>
+                    <p:input id="creditCardExpiration" inputs="2" label="Expiration Date">
+                        <h:selectOneMenu id="month" value="#{booking.creditCardExpiryMonth}">
+                            <f:selectItems value="#{months}" var="_month" itemValue="#{_month.number}"
+                                           itemLabel="#{_month.shortName}"/>
+                        </h:selectOneMenu>
+                        <h:selectOneMenu id="year" value="#{booking.creditCardExpiryYear}">
+                            <f:selectItems value="#{creditCardExpiryYears}" var="_year" itemValue="#{_year}"/>
+                        </h:selectOneMenu>
+                    </p:input>
+                    <div class="buttonBox">
+                        <h:commandButton id="proceed" value="Proceed" action="#{bookingAgent.validate}"/>
+                        #{' '}
+                        <h:commandButton id="cancel" value="Cancel" action="#{bookingAgent.cancel}" immediate="true"/>
+                    </div>
+
+                </fieldset>
+
+                <s:validateForm validatorId="reservationDateRange"
+                                fields="startDateElement=checkInDate:input endDateElement=checkOutDate:input"/>
+
+            </h:form>
+        </div>
+
+    </ui:define>
+
+    <ui:define name="sidebar">
+
+        <!--
+        <h1>Workspace management</h1>
+        <p>
+           As you can see, Seam makes it easy to work in multiple windows or multiple browser tabs. But you can even
+           switch between multiple tasks inside a single browser tab!  The "Workspaces" section showcases this advanced
+           feature.
+        </p>
+        <p>
+           <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
+              How does the workspace list work?
+           </a>
+        </p>
+        -->
+
+    </ui:define>
 
 </ui:composition>
