@@ -111,7 +111,7 @@
         <dependency>
             <groupId>com.ocpsoft</groupId>
             <artifactId>prettyfaces-jsf2</artifactId>
-            <version>3.0.1</version>
+            <version>3.2.0</version>
         </dependency>
         
         <dependency>
@@ -302,24 +302,59 @@
         </profile>    
     
         <profile>
-            <id>default</id>
+            <id>jboss6</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>jboss-maven-plugin</artifactId>
-                        <!-- only version 1.4.1 supports hard deploying multiple files -->
-                        <version>1.4.1</version>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
                         <configuration>
-                            <jbossHome>${jboss.home}</jbossHome>
-                            <serverName>${jboss.domain}</serverName>
-                            <fileNames>
-                                <param>src/main/resources-jbossas/booking-ds.xml</param>
-                                <param>${project.build.directory}/${project.build.finalName}.war</param>
-                            </fileNames>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources-jbossas6</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jboss7</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources-jbossas7</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>glassfish</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources-glassfish</directory>
+                                 </resource>
+                            </webResources>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -466,25 +501,6 @@
                         <directory>src/test/resources-glassfish-remote</directory>
                     </testResource>
                 </testResources>
-            </build>
-        </profile>
-        
-        <profile>
-            <id>glassfish</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <configuration>
-                            <webResources>
-                                <resource>
-                                    <directory>src/main/resources-glassfish</directory>
-                                 </resource>
-                            </webResources>
-                        </configuration>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
         
