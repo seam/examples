@@ -4,7 +4,7 @@ This is the classic Seam Booking example ported to Java EE 6 infused with Seam
 3 portable extensions.  It's also been given a fresh new look. See features.txt
 for a list of features that are demonstrated by this example.
 
-## Running on JBoss AS
+## Running on JBoss AS 6
 
 You'll need JBoss AS 6.0.0.Final or better to run this application on JBoss AS.
 
@@ -20,7 +20,7 @@ You deploy the application using this command:
 
     mvn package jboss:hard-deploy
 
-That command will deploy two files, booking-ds.xml and booking.war.
+That command will deploy seam-booking.war.
 
 Now visit this URL in the browser:
 
@@ -29,6 +29,22 @@ Now visit this URL in the browser:
 You can undeploy using this command:
 
      mvn jboss:hard-undeploy
+
+## Running on JBoss AS 7
+
+You need to use the jboss7 build profile, which includes a modified 
+persistence.xml that uses the example datasource provided by JBoss AS7.
+
+   mvn clean package -Pjboss7
+
+Now you can deploy the the application using the jboss-admin:
+
+    $JBOSS_HOME/bin/jboss-admin.sh --connect
+    deploy target/faces-shortly.war
+
+Now visit this URL in the browser:
+
+    http://localhost:8080/seam-booking
 
 ## Running on GlassFish
 

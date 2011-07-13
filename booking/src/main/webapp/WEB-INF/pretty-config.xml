@@ -27,7 +27,7 @@
     </url-mapping>
 
     <url-mapping>
-        <pattern value="/hotel/#{/\d+/ id}"></pattern>
+        <pattern value="/hotel/#{/\\d+/ id }"></pattern>
         <view-id>/hotel.xhtml</view-id>
     </url-mapping>
 
