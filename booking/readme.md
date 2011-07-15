@@ -40,7 +40,7 @@ persistence.xml that uses the example datasource provided by JBoss AS7.
 Now you can deploy the the application using the jboss-admin:
 
     $JBOSS_HOME/bin/jboss-admin.sh --connect
-    deploy target/faces-shortly.war
+    deploy target/seam-booking.war
 
 Now visit this URL in the browser:
 
