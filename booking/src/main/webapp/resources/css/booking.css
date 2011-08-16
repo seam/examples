@@ -341,3 +341,14 @@ td.action {
 #javax_faces_developmentstage_messages {
     display: none;
 }
+#advancedSearchForm label{
+	width:50px;
+    margin-right: 5px;
+    float:none;
+    line-height:16px;
+}
+
+#advancedSearchForm input{
+	margin-right: 2px;
+    
+}

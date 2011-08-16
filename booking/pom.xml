@@ -57,6 +57,12 @@
             <groupId>org.jboss.seam.solder</groupId>
             <artifactId>seam-solder</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.jboss.seam.persistence</groupId>
+            <artifactId>seam-persistence</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>

@@ -4,15 +4,17 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.jboss.test.selenium.locator.JQueryLocator;
+import org.jboss.test.selenium.locator.XpathLocator;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class RegistrationTest extends AbstractBookingTest {
-    public static final JQueryLocator LOGIN_REGISTER = jq("[id='login:register']");
+	public static final XpathLocator LOGIN_REGISTER = xp("//a[contains(@name,'login:register')]");
     public static final JQueryLocator LOGIN_MESSAGES = jq("[id='login:messages']");
     public static final JQueryLocator REGISTER_USERNAME = jq("[id='username:input']");
     public static final JQueryLocator REGISTER_USERNAME_MESSAGE = jq("[id='username:message1']");
