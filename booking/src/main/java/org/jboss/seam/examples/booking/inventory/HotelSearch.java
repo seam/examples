@@ -20,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -35,9 +37,11 @@ import org.jboss.logging.Logger;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.Hotel_;
 import org.jboss.seam.international.status.builder.TemplateMessage;
+import org.jboss.seam.solder.core.ExtensionManaged;
 
 /**
  * @author <a href="http://community.jboss.org/people/dan.j.allen">Dan Allen</a>
+ * @author <a href="mailto:tremes@redhat.com"> Tomas Remes </a>
  */
 @Named
 @Stateful
@@ -47,8 +51,14 @@ public class HotelSearch {
     @Inject
     private Logger log;
 
-    @PersistenceContext
-    private EntityManager em;
+    @ExtensionManaged
+    @Produces
+    @PersistenceUnit
+    @ConversationScoped
+    static EntityManagerFactory producerField;
+
+    @Inject
+    private EntityManager entityManager;
 
     @Inject
     private SearchCriteria criteria;
@@ -59,6 +69,36 @@ public class HotelSearch {
     private boolean nextPageAvailable = false;
 
     private List<Hotel> hotels = new ArrayList<Hotel>();
+
+    private boolean advancedSearch = false;
+
+    private Hotel hotel = new Hotel();
+
+    private String location;
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setAdvancedSearch(boolean advancedSearch) {
+        this.advancedSearch = advancedSearch;
+    }
+
+    public boolean isAdvancedSearch() {
+        return advancedSearch;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 
     public void find() {
         criteria.firstPage();
@@ -90,19 +130,33 @@ public class HotelSearch {
     }
 
     private void queryHotels(final SearchCriteria criteria) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
-        Root<Hotel> hotel = cquery.from(Hotel.class);
-        // QUESTION can like create the pattern for us?
-        cquery.select(hotel).where(
-                builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()),
-                        builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()),
-                        builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()),
-                        builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
+        List<Hotel> results;
 
-        List<Hotel> results = em.createQuery(cquery).setMaxResults(criteria.getFetchSize())
-                .setFirstResult(criteria.getFetchOffset()).getResultList();
+        if (isAdvancedSearch()) {
 
+            results = entityManager
+                    .createQuery(
+                            "from Hotel h where locate(coalesce(#{hotelSearch.hotel.name},''), h.name) > 0 "
+                                    + " and locate(coalesce(#{hotelSearch.hotel.address},''), h.address) > 0 "
+                                    + " and (locate(coalesce(#{hotelSearch.location},''),h.city) > 0 "
+                                    + " or locate(coalesce(#{hotelSearch.location},''),h.state) > 0 "
+                                    + " or locate(coalesce(#{hotelSearch.location},''),h.country) > 0 )")
+                    .setMaxResults(criteria.getFetchSize()).setFirstResult(criteria.getFetchOffset()).getResultList();
+
+        } else {
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Hotel> cquery = builder.createQuery(Hotel.class);
+            Root<Hotel> hotel = cquery.from(Hotel.class);
+            // QUESTION can like create the pattern for us?
+            cquery.select(hotel).where(
+                    builder.or(builder.like(builder.lower(hotel.get(Hotel_.name)), criteria.getSearchPattern()),
+                            builder.like(builder.lower(hotel.get(Hotel_.city)), criteria.getSearchPattern()),
+                            builder.like(builder.lower(hotel.get(Hotel_.zip)), criteria.getSearchPattern()),
+                            builder.like(builder.lower(hotel.get(Hotel_.address)), criteria.getSearchPattern())));
+
+            results = entityManager.createQuery(cquery).setMaxResults(criteria.getFetchSize())
+                    .setFirstResult(criteria.getFetchOffset()).getResultList();
+        }
         nextPageAvailable = results.size() > criteria.getPageSize();
         if (nextPageAvailable) {
             // NOTE create new ArrayList since subList creates unserializable list
@@ -113,4 +167,5 @@ public class HotelSearch {
         log.info(messageBuilder.get().text("Found {0} hotel(s) matching search term [ {1} ] (limit {2})")
                 .textParams(hotels.size(), criteria.getQuery(), criteria.getPageSize()).build().getText());
     }
+
 }

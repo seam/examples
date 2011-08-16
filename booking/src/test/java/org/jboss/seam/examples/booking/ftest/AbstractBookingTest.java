@@ -2,10 +2,12 @@ package org.jboss.seam.examples.booking.ftest;
 
 import org.jboss.test.selenium.AbstractTestCase;
 import org.jboss.test.selenium.locator.JQueryLocator;
+import org.jboss.test.selenium.locator.XpathLocator;
 import org.testng.annotations.BeforeMethod;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
+import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.*;
 import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static org.testng.AssertJUnit.assertTrue;
 
 
@@ -19,16 +21,23 @@ public abstract class AbstractBookingTest extends AbstractTestCase {
     public static final JQueryLocator LOGIN_USERNAME = jq("[id='login:username']");
     public static final JQueryLocator LOGIN_PASSWORD = jq("[id='login:password']");
     public static final JQueryLocator LOGIN_SUBMIT = jq("[id='login:login']");
-    public static final JQueryLocator LOGOUT = jq("[href^='/seam-booking/logout']");
+    public static final JQueryLocator LOGOUT = jq("a:contains('Logout')");
 
-    public static final JQueryLocator MENU_FIND = jq("[href^='/seam-booking/search']");
+    public static final JQueryLocator MENU_FIND = jq("a:contains('Find a Hotel')");
     public static final JQueryLocator MENU_HOME = jq("a:contains('Home')");
-    public static final JQueryLocator MENU_ACCOUNT = jq("[href^='/seam-booking/account']");
-    public static final JQueryLocator SEARCH_QUERY = jq("#query");
+    public static final JQueryLocator MENU_ACCOUNT = jq("a:contains('Account')");
+    public static final XpathLocator ADVANCED_SEARCH = xp("//a[contains(@id,'advancedSearch')]");
+    public static final XpathLocator COMMON_SEARCH = xp("//a[contains(@id,'commonSearch')]");
+    public static final XpathLocator SEARCH_QUERY = xp("//input[contains(@name,'query')]");
     public static final JQueryLocator SEARCH_NO_RESULTS = jq("#noHotelsMsg");
     public static final JQueryLocator SEARCH_PAGE_SIZE = jq("#pageSize");
-    public static final JQueryLocator SEARCH_RESULT_TABLE_FIRST_ROW_LINK = jq("[id='hotelSelectionForm:hotels:0:view']");
-
+    public static final XpathLocator SEARCH_NAME = xp("//input[contains(@name,'name')]");
+    public static final XpathLocator SEARCH_ADDRESS = xp("//input[contains(@name,'address')]");
+    public static final XpathLocator SEARCH_LOCATION = xp("//input[contains(@name,'location')]");
+    public static final XpathLocator SEARCH_STATE = xp("//input[contains(@name,'state')]");
+    public static final XpathLocator SEARCH_COUNTRY = xp("//input[contains(@name,'country')]");
+    public static final XpathLocator SEARCH_RESULT_TABLE_FIRST_ROW_LINK = xp("//a[contains(@name,'hotelSelectionForm:hotels:0:view')]");
+    
     private final String DEFAULT_USERNAME = "jose";
     private final String DEFAULT_PASSWORD = "brazil";
 
@@ -75,5 +84,15 @@ public abstract class AbstractBookingTest extends AbstractTestCase {
     public void enterSearchQuery(String query) {
         selenium.type(SEARCH_QUERY, query);
         waitXhr(selenium).keyUp(SEARCH_QUERY, " ");
+    }
+    
+    public void enterAdvancedSearchValues(String name,String address, String location){
+        selenium.type(SEARCH_NAME, name);
+        waitXhr(selenium).keyUp(SEARCH_NAME, " ");
+        selenium.type(SEARCH_ADDRESS, address);
+        waitXhr(selenium).keyUp(SEARCH_ADDRESS, " ");
+        selenium.type(SEARCH_LOCATION, location);
+        waitXhr(selenium).keyUp(SEARCH_LOCATION, " ");
+
     }
 }

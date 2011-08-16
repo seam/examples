@@ -16,7 +16,7 @@
                     document.getElementById('spinner').style.display = 'none';
                 }
             }
-        </script>
+       </script>
     </ui:define>
 
     <ui:define name="content">
@@ -31,7 +31,22 @@
 
             <h:form id="searchForm" prependId="false">
                 <fieldset>
-                    <h:inputText id="query" value="#{searchCriteria.query}" style="width: 165px;" autocomplete="off">
+                	<h:panelGroup id="advancedSearchForm" rendered="#{hotelSearch.advancedSearch}">
+                		<h:outputLabel for="name" value="Name:"/>
+	                    <h:inputText id="name" value="#{hotelSearch.hotel.name}" style="width: 165px;" autocomplete="off">
+	                      <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
+	                    </h:inputText>
+	             		<h:outputLabel for="address" value="Address:"/>
+	                    <h:inputText id="address" value="#{hotelSearch.hotel.address}" style="width: 165px;" autocomplete="off">
+	                   	 <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
+	                    </h:inputText>
+	              		 <h:outputLabel for="city" value="Location:"/>
+	                    <h:inputText id="location" value="#{hotelSearch.location}" style="width: 165px;" autocomplete="off" >
+	                   	 <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
+	         			</h:inputText>
+	               </h:panelGroup>
+                	
+                    <h:inputText id="query" value="#{searchCriteria.query}" style="width: 165px;" autocomplete="off" rendered="#{!hotelSearch.advancedSearch}">
                         <f:ajax event="keyup" listener="#{hotelSearch.find}" render=":searchResults" onevent="controlSpinner"/>
                     </h:inputText>
                     #{' '}
@@ -42,7 +57,10 @@
                         <f:selectItem itemLabel="20 hotels per page" itemValue="20"/>
                     </h:selectOneMenu>
                     #{' '}
-                    <span id="activity"><h:graphicImage id="spinner" value="/img/spinner.gif" style="display: none;"/></span>
+                      <h:commandLink id="advancedSearch" value="Advanced Search" action="#{hotelSearch.setAdvancedSearch('true')}" rendered="#{!hotelSearch.advancedSearch}"/>                    
+                      <h:commandLink id="commonSearch" value="Common Search" action="#{hotelSearch.setAdvancedSearch('false')}" rendered="#{hotelSearch.advancedSearch}"/>
+                     
+                     <span id="activity"><h:graphicImage id="spinner" value="/img/spinner.gif" style="display: none;"/></span>
                 </fieldset>
             </h:form>
         </div>

@@ -1,17 +1,19 @@
 package org.jboss.seam.examples.booking.ftest;
 
 import org.jboss.test.selenium.locator.JQueryLocator;
+import org.jboss.test.selenium.locator.XpathLocator;
 import org.jboss.test.selenium.locator.option.OptionLocator;
 import org.jboss.test.selenium.locator.option.OptionValueLocator;
 import org.testng.annotations.Test;
 
 import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
 import static org.jboss.test.selenium.locator.LocatorFactory.jq;
+import static org.jboss.test.selenium.locator.LocatorFactory.xp;
 import static org.testng.AssertJUnit.*;
 
 /**
  * This class tests booking functionality of the example.
- *
+ * 
  * @author jbalunas
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
@@ -19,7 +21,7 @@ public class BookingTest extends AbstractBookingTest {
 
     public static final JQueryLocator BUTTON_BOOK = jq("[id='actions:bookHotel']");
     public static final JQueryLocator BUTTON_PROCEED = jq("[id='bookingForm:proceed']");
-    public static final JQueryLocator BUTTON_CONFIRM = jq("[id='confirmForm:confirm']");
+    public static final XpathLocator BUTTON_CONFIRM = xp("//input[contains(@name,'confirmForm:confirm')]");
     public static final JQueryLocator BUTTON_CANCEL = jq("[id='confirmForm:cancel']");
     public static final JQueryLocator BUTTON_REVISE = jq("[id='confirmForm:revise']");
     public static final String BOOKING_MESSAGE = "You're booked to stay at the";
@@ -57,8 +59,36 @@ public class BookingTest extends AbstractBookingTest {
     }
 
     @Test
+    public void testAdvancedSearch() {
+        selenium.click(ADVANCED_SEARCH);
+        selenium.waitForPageToLoad();
+        enterAdvancedSearchValues("Marriot", "Tower Place", "Atlanta");
+        assertFalse(selenium.isElementPresent(SEARCH_NO_RESULTS));
+        assertEquals(1, selenium.getCount(COUNT_HOTEL));
+        
+        enterAdvancedSearchValues("nonExistingHotel", "Tower Place", "Atlanta");
+        assertTrue(selenium.isElementPresent(SEARCH_NO_RESULTS));
+        
+        enterAdvancedSearchValues("Marriot", "", "");
+        assertFalse(selenium.isElementPresent(SEARCH_NO_RESULTS));
+        assertEquals(2, selenium.getCount(COUNT_HOTEL));
+
+        enterAdvancedSearchValues("", "Market Street", "");
+        assertFalse(selenium.isElementPresent(SEARCH_NO_RESULTS));
+        assertEquals(1, selenium.getCount(COUNT_HOTEL));
+        
+        enterAdvancedSearchValues("", "", "San Francisco");
+        assertFalse(selenium.isElementPresent(SEARCH_NO_RESULTS));
+        assertEquals(3, selenium.getCount(COUNT_HOTEL));
+               
+        //returning to common search
+        selenium.click(COMMON_SEARCH);
+        selenium.waitForPageToLoad();
+    }
+
+    @Test
     public void testSearchPageSize() {
-        int[] values = {5, 10, 20};
+        int[] values = { 5, 10, 20 };
 
         selenium.type(SEARCH_QUERY, "a");
 
@@ -123,7 +153,7 @@ public class BookingTest extends AbstractBookingTest {
 
     @Test
     public void testBookingCanceling() {
-        String[] hotelNames = new String[]{"Hilton Diagonal Mar", "Parc 55", "Ritz-Carlton Montreal", "Parc 55"};
+        String[] hotelNames = new String[] { "Hilton Diagonal Mar", "Parc 55", "Ritz-Carlton Montreal", "Parc 55" };
         int bookingCount = selenium.getCount(COUNT_BOOKING);
 
         // make 3 bookings
@@ -182,10 +212,7 @@ public class BookingTest extends AbstractBookingTest {
     }
 
     private enum CreditCardType {
-        VISA("VISA"),
-        MASTERCARD("MasterCard"),
-        AMEX("AMEX"),
-        DISCOVER("Discover");
+        VISA("VISA"), MASTERCARD("MasterCard"), AMEX("AMEX"), DISCOVER("Discover");
 
         private String name;
 
