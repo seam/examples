@@ -34,8 +34,8 @@
         <webapp.directory>src/main/webapp</webapp.directory>
         <jboss.home>${env.JBOSS_HOME}</jboss.home>
         <jboss.domain>default</jboss.domain>
-        <arquillian.version>1.0.0.Alpha5</arquillian.version>
-        <shrinkwrap.version>1.0.0-alpha-12</shrinkwrap.version>
+<!--         <arquillian.version>1.0.0.Alpha5</arquillian.version> -->
+<!--         <shrinkwrap.version>1.0.0-alpha-12</shrinkwrap.version> -->
         <glassfish.version>3.1</glassfish.version>
         <jpamodelgen.version>1.1.1.Final</jpamodelgen.version>
         <jboss-as-client.version>6.0.0.Final</jboss-as-client.version>
@@ -100,6 +100,13 @@
         <dependency>
            <groupId>org.jboss.seam.security</groupId>
            <artifactId>seam-security</artifactId>
+           <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.picketlink.idm</groupId>
+            <artifactId>picketlink-idm-core</artifactId>
+            <version>1.5.0.Alpha02</version>
         </dependency>
         
         <dependency>
@@ -142,42 +149,42 @@
         </dependency>
         
         <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium.client-drivers</groupId>
-            <artifactId>selenium-java-client-driver</artifactId>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.seleniumhq.selenium.client-drivers</groupId> -->
+<!--             <artifactId>selenium-java-client-driver</artifactId> -->
+<!--         </dependency> -->
 
-        <dependency>
-            <groupId>org.jboss.test</groupId>
-            <artifactId>richfaces-selenium</artifactId>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.test</groupId> -->
+<!--             <artifactId>richfaces-selenium</artifactId> -->
+<!--         </dependency> -->
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>junit</groupId> -->
+<!--             <artifactId>junit</artifactId> -->
+<!--             <version>${junit.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
 
-        <dependency>
-            <groupId>org.jboss.arquillian</groupId>
-            <artifactId>arquillian-junit</artifactId>
-            <version>${arquillian.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.arquillian</groupId> -->
+<!--             <artifactId>arquillian-junit</artifactId> -->
+<!--             <version>${arquillian.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
         
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <version>${shrinkwrap.version}</version>
-            <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.shrinkwrap.resolver</groupId> -->
+<!--             <artifactId>shrinkwrap-resolver-impl-maven</artifactId> -->
+<!--             <version>${shrinkwrap.version}</version> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
 
-        <dependency>
-           <groupId>org.jboss.weld</groupId>
-           <artifactId>weld-core</artifactId>
-           <scope>test</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--            <groupId>org.jboss.weld</groupId> -->
+<!--            <artifactId>weld-core</artifactId> -->
+<!--            <scope>test</scope> -->
+<!--         </dependency> -->
         
         <dependency>
             <groupId>org.jboss.spec</groupId>

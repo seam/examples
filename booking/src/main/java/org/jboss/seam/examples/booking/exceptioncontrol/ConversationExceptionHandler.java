@@ -6,7 +6,7 @@ import javax.enterprise.context.NonexistentConversationException;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import org.jboss.logging.Logger;
+import org.jboss.seam.logging.Logger;
 import org.jboss.seam.exception.control.CaughtException;
 import org.jboss.seam.exception.control.Handles;
 import org.jboss.seam.exception.control.HandlesExceptions;
