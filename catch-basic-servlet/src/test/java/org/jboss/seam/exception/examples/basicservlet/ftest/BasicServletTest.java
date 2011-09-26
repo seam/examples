@@ -16,30 +16,59 @@
  */
 package org.jboss.seam.exception.examples.basicservlet.ftest;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.jboss.test.selenium.locator.XpathLocator;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitHttp;
-import static org.jboss.test.selenium.locator.LocatorFactory.xp;
-import static org.testng.Assert.assertTrue;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.XPathLocator;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.jboss.arquillian.ajocado.Ajocado.waitForHttp;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.xp;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A functional test for the Basic Servlet example
  *
  * @author Martin Gencur
+ * @author Jozef Hartinger
  */
-public class BasicServletTest extends AbstractTestCase {
-    protected XpathLocator NULLPOINTER_LINK = xp("//a[contains(@href,'NullPointerException')]");
-    protected XpathLocator ASSERTIONERROR_LINK = xp("//a[contains(@href,'AssertionError')]");
-    protected XpathLocator WRAPPEDILLEGALARG_LINK = xp("//a[contains(@href,'WrappedIllegalArg')]");
-    protected XpathLocator IOEXCEPTION_LINK = xp("//a[contains(@href,'IOException')]");
+@RunWith(Arquillian.class)
+public class BasicServletTest {
+    public static final String ARCHIVE_NAME = "catch-basic-servlet.war";
+    public static final String BUILD_DIRECTORY = "target";
+    public static final String MAIN_PAGE = "/catch-basic-servlet/index.jsp";
+    
+    protected XPathLocator NULLPOINTER_LINK = xp("//a[contains(@href,'NullPointerException')]");
+    protected XPathLocator ASSERTIONERROR_LINK = xp("//a[contains(@href,'AssertionError')]");
+    protected XPathLocator WRAPPEDILLEGALARG_LINK = xp("//a[contains(@href,'WrappedIllegalArg')]");
+    protected XPathLocator IOEXCEPTION_LINK = xp("//a[contains(@href,'IOException')]");
+    
+    @Drone
+    AjaxSelenium selenium;
 
-    @BeforeMethod
+    @ArquillianResource
+    URL contextPath;
+    
+    
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.create(ZipImporter.class, ARCHIVE_NAME).importFrom(new File(BUILD_DIRECTORY + '/' + ARCHIVE_NAME))
+                .as(WebArchive.class);
+    }
+
+    @Before
     public void openStartUrl() throws MalformedURLException {
         selenium.setSpeed(100);
         selenium.open(new URL(contextPath.toString()));
@@ -47,18 +76,16 @@ public class BasicServletTest extends AbstractTestCase {
 
     @Test
     public void testNullPointerException() {
-        waitHttp(selenium).click(NULLPOINTER_LINK);
-        assertTrue(selenium.isTextPresent("using handler throwableHandler marking exception with markHandled " +
-                "message: Null pointer thrown"),
-                "The information about using throwableHandler should appear");
-        assertTrue(selenium.isTextPresent("using handler nullPointerHandler marking exception with handled " +
-                "message: Null pointer thrown"),
-                "The information about using nullPointerHandler should appear");
+        waitForHttp(selenium).click(NULLPOINTER_LINK);
+        assertTrue("The information about using throwableHandler should appear", selenium.isTextPresent("using handler throwableHandler marking exception with markHandled " +
+                "message: Null pointer thrown"));
+        assertTrue("The information about using nullPointerHandler should appear", selenium.isTextPresent("using handler nullPointerHandler marking exception with handled " +
+                "message: Null pointer thrown"));
     }
 
     @Test
     public void testAssertionError() {
-        waitHttp(selenium).click(ASSERTIONERROR_LINK);
+        waitForHttp(selenium).click(ASSERTIONERROR_LINK);
         assertTrue(selenium.isTextPresent("javax.enterprise.event.ObserverException"));
         assertTrue(selenium.isTextPresent("javax.servlet.ServletException: java.lang.AssertionError: Assertion Error"));
         assertTrue(selenium.isTextPresent("java.lang.AssertionError: Assertion Error"));
@@ -66,23 +93,20 @@ public class BasicServletTest extends AbstractTestCase {
 
     @Test
     public void testIllegalStateException() {
-        waitHttp(selenium).click(WRAPPEDILLEGALARG_LINK);
-        assertTrue(selenium.isTextPresent("using handler throwableHandler marking exception with markHandled message: " +
-                "Inner IAE"), "The information about using throwableHandler should appear");
-        assertTrue(selenium.isTextPresent("using handler illegalArgumentBreadthFirstHandler marking exception with " +
-                "dropCause message: Inner IAE"),
-                "The information about using illegalArgumentBreadthFirstHandler should appear");
-        assertTrue(selenium.isTextPresent("using handler throwableHandler marking exception with markHandled message: " +
-                "Wrapping IllegalStateException"),
-                "The information about using throwableHandler should appear");
-        assertTrue(selenium.isTextPresent("using handler illegalStateHandler marking exception with abort message: " +
-                "Wrapping IllegalStateException"),
-                "The information about using illegalStateHandler should appear");
+        waitForHttp(selenium).click(WRAPPEDILLEGALARG_LINK);
+        assertTrue("The information about using throwableHandler should appear", selenium.isTextPresent("using handler throwableHandler marking exception with markHandled message: " +
+                "Inner IAE"));
+        assertTrue("The information about using illegalArgumentBreadthFirstHandler should appear", selenium.isTextPresent("using handler illegalArgumentBreadthFirstHandler marking exception with " +
+                "dropCause message: Inner IAE"));
+        assertTrue("The information about using throwableHandler should appear", selenium.isTextPresent("using handler throwableHandler marking exception with markHandled message: " +
+                "Wrapping IllegalStateException"));
+        assertTrue("The information about using illegalStateHandler should appear", selenium.isTextPresent("using handler illegalStateHandler marking exception with abort message: " +
+                "Wrapping IllegalStateException"));
     }
 
     @Test
     public void testIOException() {
-        waitHttp(selenium).click(IOEXCEPTION_LINK);
-        assertTrue(selenium.isTextPresent("java.lang.ArithmeticException: Re-thrown"), "An exception should have been thrown");
+        waitForHttp(selenium).click(IOEXCEPTION_LINK);
+        assertTrue("An exception should have been thrown", selenium.isTextPresent("java.lang.ArithmeticException: Re-thrown"));
     }
 }
