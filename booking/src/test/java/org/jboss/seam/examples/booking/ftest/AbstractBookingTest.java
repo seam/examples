@@ -1,12 +1,25 @@
 package org.jboss.seam.examples.booking.ftest;
 
-import org.jboss.test.selenium.AbstractTestCase;
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.testng.annotations.BeforeMethod;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.testng.AssertJUnit.assertTrue;
+import java.io.File;
+import java.net.URL;
+
+import org.jboss.arquillian.ajocado.dom.Event;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.importer.ZipImporter;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -14,7 +27,8 @@ import static org.testng.AssertJUnit.assertTrue;
  *
  * @author <a href="http://community.jboss.org/people/jharting">Jozef Hartinger</a>
  */
-public abstract class AbstractBookingTest extends AbstractTestCase {
+@RunWith(Arquillian.class)
+public abstract class AbstractBookingTest {
     public static final String TITLE = "JBoss Suites: Seam Framework Demo";
     public static final JQueryLocator LOGIN_USERNAME = jq("[id='login:username']");
     public static final JQueryLocator LOGIN_PASSWORD = jq("[id='login:password']");
@@ -29,10 +43,26 @@ public abstract class AbstractBookingTest extends AbstractTestCase {
     public static final JQueryLocator SEARCH_PAGE_SIZE = jq("#pageSize");
     public static final JQueryLocator SEARCH_RESULT_TABLE_FIRST_ROW_LINK = jq("[id='hotelSelectionForm:hotels:0:view']");
 
+    public static final String ARCHIVE_NAME = "seam-booking.war";
+    public static final String BUILD_DIRECTORY = "target";
+    
     private final String DEFAULT_USERNAME = "jose";
     private final String DEFAULT_PASSWORD = "brazil";
 
-    @BeforeMethod
+    @Drone
+    AjaxSelenium selenium;
+
+    @ArquillianResource
+    URL contextPath;
+    
+    
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        return ShrinkWrap.create(ZipImporter.class, ARCHIVE_NAME).importFrom(new File(BUILD_DIRECTORY + '/' + ARCHIVE_NAME))
+                .as(WebArchive.class);
+    }
+    
+    @Before
     public void setUp() {
         selenium.open(contextPath);
         selenium.waitForPageToLoad();
@@ -74,6 +104,6 @@ public abstract class AbstractBookingTest extends AbstractTestCase {
 
     public void enterSearchQuery(String query) {
         selenium.type(SEARCH_QUERY, query);
-        waitXhr(selenium).keyUp(SEARCH_QUERY, " ");
+        waitForXhr(selenium).fireEvent(SEARCH_QUERY, Event.KEYUP);
     }
 }

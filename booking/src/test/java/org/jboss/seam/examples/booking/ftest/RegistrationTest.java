@@ -1,16 +1,23 @@
 package org.jboss.seam.examples.booking.ftest;
 
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Date;
 
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.testng.AssertJUnit.assertTrue;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.junit.Assert.assertTrue;
 
+@RunWith(Arquillian.class)
 public class RegistrationTest extends AbstractBookingTest {
     public static final JQueryLocator LOGIN_REGISTER = jq("[id='login:register']");
     public static final JQueryLocator LOGIN_MESSAGES = jq("[id='login:messages']");
@@ -33,17 +40,23 @@ public class RegistrationTest extends AbstractBookingTest {
     public static final String MESSAGE_EMAIL_INCORRECT = "not a well-formed email address";
     public static final String MESSAGE_USERNAME_DUPLICATE = "The username ''{0}'' is already taken. Please choose another username.";
 
-    private String usernameSuffix;
+    private static String usernameSuffix;
+    
+    @Drone
+    AjaxSelenium selenium;
+
+    @ArquillianResource
+    URL contextPath;
 
     @BeforeClass
-    public void generateUsernameSuffix() {
+    public static void generateUsernameSuffix() {
         Date date = new Date();
         // suffix is needed to allow tests to be run repeatedly
         usernameSuffix = Long.toString(date.getTime() % 10000000);
     }
 
     @Override
-    @BeforeMethod
+    @Before
     public void setUp() {
         selenium.open(contextPath);
         selenium.waitForPageToLoad();

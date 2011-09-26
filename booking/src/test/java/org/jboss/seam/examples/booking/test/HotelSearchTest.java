@@ -16,6 +16,10 @@
  */
 package org.jboss.seam.examples.booking.test;
 
+import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
+import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
+import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
+
 import java.util.List;
 
 import javax.enterprise.inject.Instance;
@@ -24,22 +28,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.UserTransaction;
 
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.seam.examples.booking.inventory.HotelSearch;
 import org.jboss.seam.examples.booking.inventory.SearchCriteria;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.jboss.seam.examples.booking.test.Dependencies.INTERNATIONAL;
-import static org.jboss.seam.examples.booking.test.Dependencies.JODA_TIME;
-import static org.jboss.seam.examples.booking.test.Dependencies.SOLDER;
 
 @RunWith(Arquillian.class)
 public class HotelSearchTest {
@@ -47,8 +47,9 @@ public class HotelSearchTest {
     public static Archive<?> createTestArchive() {
         WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war").addPackage(HotelSearch.class.getPackage())
                 .addPackage(Hotel.class.getPackage()).addAsLibraries(SOLDER).addAsLibraries(JODA_TIME)
-                .addAsLibraries(INTERNATIONAL).addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
-                .addAsWebInfResource(new StringAsset(""), "beans.xml");
+                .addAsLibraries(INTERNATIONAL)
+                .addAsWebInfResource("test-persistence.xml", "classes/META-INF/persistence.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         return war;
     }
 

@@ -4,47 +4,24 @@ This is the classic Seam Booking example ported to Java EE 6 infused with Seam
 3 portable extensions.  It's also been given a fresh new look. See features.txt
 for a list of features that are demonstrated by this example.
 
-## Running on JBoss AS 6
-
-You'll need JBoss AS 6.0.0.Final or better to run this application on JBoss AS.
+## Running on JBoss AS 7
+You'll need JBoss AS 7.0.0.Final or better to run this application on JBoss AS.
 
     http://jboss.org/jbossas
 
 Extract the zip and set the JBOSS_HOME environment variable.
 
-Now you can start JBoss AS:
-
-    ./bin/run.sh
-
-You deploy the application using this command:
-
-    mvn package jboss:hard-deploy
-
-That command will deploy seam-booking.war.
+Run:
+mvn clean package arquillian:run -Darquillian=jbossas-managed-7
 
 Now visit this URL in the browser:
 
     http://localhost:8080/seam-booking
-
-You can undeploy using this command:
-
-     mvn jboss:hard-undeploy
 
 ## Running on JBoss AS 7
 
-You need to use the jboss7 build profile, which includes a modified 
-persistence.xml that uses the example datasource provided by JBoss AS7.
-
-   mvn clean package -Pjboss7
-
-Now you can deploy the the application using the jboss-admin:
-
-    $JBOSS_HOME/bin/jboss-admin.sh --connect
-    deploy target/seam-booking.war
-
-Now visit this URL in the browser:
-
-    http://localhost:8080/seam-booking
+Run:
+mvn clean package arquillian:run -Darquillian=jbossas-managed-6
 
 ## Running on GlassFish
 
@@ -63,11 +40,9 @@ If you are not using NetBeans, you can start GlassFish and JavaDB using these co
     $GLASSFISH_HOME/bin/asadmin start-database
     $GLASSFISH_HOME/bin/asadmin start-domain domain1
 
-Then you can package the project (mvn package -Pglassfish) and deploy the WAR using the admin console.
-Alternatively, you can deploy the application using asadmin:
+Then you can package and deploy the project by running:
 
-    mvn package -Pglassfish
-    $GLASSFISH_HOME/bin/asadmin deploy target/seam-booking.war
+mvn clean package arquillian:run -Darquillian=glassfish-remote-3.1
 
 ### Known issues (QA, please read)
 
@@ -132,22 +107,14 @@ With GlassFish 3.1 started, you can run the tests using the following command:
     mvn test -Pglassfish-remote-3.1
 
 ## Functional tests
-
 To run functional tests for the booking example, follow these steps:
+The following configurations are supported:
+mvn clean verify -Darquillian=jbossas-managed-6
+mvn clean verify -Darquillian=jbossas-managed-7
+mvn clean verify -Darquillian=glassfish-remote-3.1
 
-1.) Build and deploy the application to a prefered server following instructions above
-2.) run "mvn verify -Pftest"
+mvn clean verify -Pjbossas6 -Darquillian=jbossas-remote-6
+mvn clean verify -Pjbossas7 -Darquillian=jbossas-remote-7
 
-### Running functional tests from Eclipse
-
-You can run the functional tests directly from Eclipse. 
-Firstly,start the selenium server.
-
-java -jar ~/.m2/repository/org/seleniumhq/selenium/server/selenium-server/1.0.3/selenium-server-1.0.3-standalone.jar -port 14444
-
-Then, run the test using Eclipse TestNG plugin.
-It will fail at the first run. Modify the run configuration of the test
-Test -> Run As -> Run Configurations and add the following VM 
-arguments in the arguments tab:
-
--Dmethod=* -Dbrowser=*firefoxproxy -Dcontext.root=http://localhost:8080/ -Dcontext.path=/seam-javaee-booking/ -Dselenium.host=localhost -Dselenium.port=14444 -Dselenium.debug=false -Dselenium.maximize=false -Dselenium.timeout.default=30000 -Dselenium.timeout.gui=5000 -Dselenium.timeout.ajax=15000 -Dselenium.timeout.model=30000 -Dselenium.speed=0 -Dselenium.timeout=3000 -Dbasedir=.
+Note that you need to set the JBOSS_HOME environment variable properly for the managed configurations.
+Make sure that the application is not deployed before running the functional test.

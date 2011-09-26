@@ -1,13 +1,17 @@
 package org.jboss.seam.examples.booking.ftest;
 
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.jboss.test.selenium.locator.option.OptionLocator;
-import org.jboss.test.selenium.locator.option.OptionValueLocator;
-import org.testng.annotations.Test;
+import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import static org.jboss.test.selenium.guard.request.RequestTypeGuardFactory.waitXhr;
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.testng.AssertJUnit.*;
+import org.jboss.arquillian.ajocado.dom.Event;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.option.OptionLocator;
+import org.jboss.arquillian.ajocado.locator.option.OptionValueLocator;
+import org.junit.Test;
 
 /**
  * This class tests booking functionality of the example.
@@ -58,14 +62,14 @@ public class BookingTest extends AbstractBookingTest {
 
     @Test
     public void testSearchPageSize() {
-        int[] values = {5, 10, 20};
+        int[] values = {20, 10, 5};
 
         selenium.type(SEARCH_QUERY, "a");
+        waitForXhr(selenium).fireEvent(SEARCH_QUERY, Event.KEYUP);
 
         for (int pageSize : values) {
-            selenium.select(SEARCH_PAGE_SIZE, new OptionValueLocator(String.valueOf(pageSize)));
-            waitXhr(selenium).keyUp(SEARCH_QUERY, " ");
-            assertEquals(selenium.getCount(COUNT_HOTEL), pageSize);
+            waitForXhr(selenium).select(SEARCH_PAGE_SIZE, new OptionValueLocator(String.valueOf(pageSize)));
+            assertEquals(pageSize, selenium.getCount(COUNT_HOTEL));
         }
     }
 

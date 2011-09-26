@@ -21,12 +21,12 @@
  */
 package org.jboss.seam.examples.booking.ftest;
 
-import org.jboss.test.selenium.locator.JQueryLocator;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.jboss.test.selenium.locator.LocatorFactory.jq;
-import static org.testng.AssertJUnit.*;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.junit.Assert.*;
 
 /**
  * This class tests change password funcionality.
@@ -57,7 +57,7 @@ public class ChangePasswordTest extends AbstractBookingTest {
 
 
     @Override
-    @BeforeMethod
+    @Before
     public void setUp() {
         selenium.open(contextPath);
         selenium.waitForPageToLoad();
