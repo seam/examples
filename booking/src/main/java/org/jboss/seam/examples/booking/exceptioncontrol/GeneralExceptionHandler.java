@@ -16,10 +16,10 @@
  */
 package org.jboss.seam.examples.booking.exceptioncontrol;
 
-import org.jboss.seam.logging.Logger;
-import org.jboss.seam.exception.control.CaughtException;
-import org.jboss.seam.exception.control.Handles;
-import org.jboss.seam.exception.control.HandlesExceptions;
+import org.jboss.solder.logging.Logger;
+import org.jboss.solder.exception.control.CaughtException;
+import org.jboss.solder.exception.control.Handles;
+import org.jboss.solder.exception.control.HandlesExceptions;
 
 /**
  * Logs all exceptions and allows the to propagate

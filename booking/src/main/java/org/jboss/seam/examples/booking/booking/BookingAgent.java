@@ -43,7 +43,7 @@ import org.jboss.seam.faces.context.conversation.Begin;
 import org.jboss.seam.faces.context.conversation.End;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
-import org.jboss.seam.logging.TypedCategory;
+import org.jboss.solder.logging.TypedCategory;
 
 import static javax.persistence.PersistenceContextType.EXTENDED;
 

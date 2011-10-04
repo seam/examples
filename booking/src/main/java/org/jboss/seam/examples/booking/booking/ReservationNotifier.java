@@ -22,7 +22,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-import org.jboss.seam.logging.Logger;
+import org.jboss.solder.logging.Logger;
 import org.jboss.seam.examples.booking.model.Booking;
 
 //@MessageDriven(activationConfig = {
