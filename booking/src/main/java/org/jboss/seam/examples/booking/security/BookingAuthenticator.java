@@ -66,15 +66,14 @@ public class BookingAuthenticator extends BaseAuthenticator implements Authentic
             setStatus(AuthenticationStatus.FAILURE);
         }
         User user = em.find(User.class, credentials.getUsername());
-        if (user != null && credentials.getCredential() instanceof PasswordCredential) {
-            if (user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
-                loginEventSrc.fire(user);
-                messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
-                        .params(user.getName());
-                setStatus(AuthenticationStatus.SUCCESS);
-                setUser(new SimpleUser(user.getUsername())); //TODO confirm the need for this set method
-                return;
-            }
+        if (user != null && credentials.getCredential() instanceof PasswordCredential && 
+            user.getPassword().equals(((PasswordCredential) credentials.getCredential()).getValue())) {
+            loginEventSrc.fire(user);
+            messages.info(new DefaultBundleKey("identity_loggedIn"), user.getName()).defaults("You're signed in as {0}")
+                    .params(user.getName());
+            setStatus(AuthenticationStatus.SUCCESS);
+            setUser(new SimpleUser(user.getUsername())); //TODO confirm the need for this set method
+            return;
         }
 
         messages.error(new DefaultBundleKey("identity_loginFailed")).defaults("Invalid username or password");

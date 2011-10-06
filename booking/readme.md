@@ -18,7 +18,7 @@ Now visit this URL in the browser:
 
     http://localhost:8080/seam-booking
 
-## Running on JBoss AS 7
+## Running on JBoss AS 6
 
 Run:
 mvn clean package arquillian:run -Darquillian=jbossas-managed-6
