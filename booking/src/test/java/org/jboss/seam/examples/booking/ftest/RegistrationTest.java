@@ -1,5 +1,9 @@
 package org.jboss.seam.examples.booking.ftest;
 
+import static org.jboss.arquillian.ajocado.Ajocado.waitForHttp;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.junit.Assert.assertTrue;
+
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Date;
@@ -13,9 +17,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 public class RegistrationTest extends AbstractBookingTest {
@@ -120,8 +121,7 @@ public class RegistrationTest extends AbstractBookingTest {
 
         // test duplicate username
         populateRegistrationFields("shane", "shane", "shane@example.com", "password", "password");
-        selenium.click(REGISTER_SUBMIT);
-        selenium.waitForPageToLoad();
+        waitForHttp(selenium).click(REGISTER_SUBMIT);
         assertTrue(selenium.getText(REGISTER_USERNAME_MESSAGE).contains(MessageFormat.format(MESSAGE_USERNAME_DUPLICATE, "shane")));
     }
 

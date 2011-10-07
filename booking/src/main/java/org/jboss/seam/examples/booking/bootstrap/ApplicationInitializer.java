@@ -99,6 +99,11 @@ public class ApplicationInitializer {
         // use manual transaction control since this is a managed bean
         try {
             utx.begin();
+            // AS7-2045
+            entityManager.createQuery("delete from Booking").executeUpdate();
+            entityManager.createQuery("delete from Hotel").executeUpdate();
+            entityManager.createQuery("delete from User").executeUpdate();
+            
             persist(users);
             persist(hotels);
             utx.commit();
