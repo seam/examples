@@ -16,14 +16,13 @@
  */
 package org.jboss.seam.examples.booking.security;
 
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.solder.logging.Logger;
 import org.jboss.seam.examples.booking.account.Authenticated;
 import org.jboss.seam.examples.booking.i18n.DefaultBundleKey;
 import org.jboss.seam.examples.booking.model.User;
@@ -31,6 +30,7 @@ import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Authenticator;
 import org.jboss.seam.security.BaseAuthenticator;
 import org.jboss.seam.security.Credentials;
+import org.jboss.solder.logging.Logger;
 import org.picketlink.idm.impl.api.PasswordCredential;
 import org.picketlink.idm.impl.api.model.SimpleUser;
 
@@ -39,7 +39,7 @@ import org.picketlink.idm.impl.api.model.SimpleUser;
  *
  * @author <a href="http://community.jboss.org/people/spinner)">Jose Rodolfo freitas</a>
  */
-@Stateless
+@Stateful
 @Named("bookingAuthenticator")
 public class BookingAuthenticator extends BaseAuthenticator implements Authenticator {
 
