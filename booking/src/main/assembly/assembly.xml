@@ -17,6 +17,7 @@
                 <exclude>.classpath</exclude>
                 <exclude>.project</exclude>
                 <exclude>.settings/**</exclude>
+                <exclude>.gitignore</exclude>
                 <exclude>src/main/assembly/**</exclude>
             </excludes>
         </fileSet>
