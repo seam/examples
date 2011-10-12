@@ -29,6 +29,7 @@ import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -40,6 +41,7 @@ import org.jboss.seam.examples.booking.model.Booking;
 import org.jboss.seam.examples.booking.model.Hotel;
 import org.jboss.seam.examples.booking.model.User;
 import org.jboss.seam.faces.context.conversation.Begin;
+import org.jboss.seam.faces.context.conversation.ConversationBoundaryInterceptor;
 import org.jboss.seam.faces.context.conversation.End;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.international.status.builder.TemplateMessage;
@@ -53,6 +55,7 @@ import static javax.persistence.PersistenceContextType.EXTENDED;
 @Stateful
 @ConversationScoped
 @Named
+@Interceptors(ConversationBoundaryInterceptor.class) // not necessary, this is a temporary workaround for GLASSFISH-17184
 public class BookingAgent {
     @Inject
     @TypedCategory(BookingAgent.class)

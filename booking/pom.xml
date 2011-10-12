@@ -65,6 +65,7 @@
         <dependency>
             <groupId>org.jboss.seam.faces</groupId>
             <artifactId>seam-faces</artifactId>
+            <scope>compile</scope><!-- Temporary workaround for GLASSFISH-17184 -->
         </dependency>
         
         <dependency>
