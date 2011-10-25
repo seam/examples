@@ -27,7 +27,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.exception.control.ExceptionToCatch;
+import org.jboss.solder.exception.control.ExceptionToCatch;
+
 
 /**
  * Navigation rules based on Seam Servlet events.
