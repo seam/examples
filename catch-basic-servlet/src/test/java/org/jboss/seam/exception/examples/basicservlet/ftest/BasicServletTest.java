@@ -46,7 +46,7 @@ import static org.junit.Assert.assertTrue;
  */
 @RunWith(Arquillian.class)
 public class BasicServletTest {
-    public static final String ARCHIVE_NAME = "catch-basic-servlet.war";
+    public static final String ARCHIVE_NAME = "solder-basic-servlet.war";
     public static final String BUILD_DIRECTORY = "target";
     public static final String MAIN_PAGE = "/catch-basic-servlet/index.jsp";
     
