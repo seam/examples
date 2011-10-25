@@ -26,10 +26,11 @@ import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.exception.control.CaughtException;
-import org.jboss.seam.exception.control.Handles;
-import org.jboss.seam.exception.control.HandlesExceptions;
-import org.jboss.seam.exception.control.TraversalMode;
+import org.jboss.solder.exception.control.CaughtException;
+import org.jboss.solder.exception.control.Handles;
+import org.jboss.solder.exception.control.HandlesExceptions;
+import org.jboss.solder.exception.control.TraversalMode;
+
 
 /**
  * A sample Exception Handler container, using the typical means of declaring handlers.
