@@ -35,6 +35,12 @@
             <redirect/>
         </navigation-case>
 
+        <navigation-case>
+            <from-action>#{identity.login}</from-action>
+            <from-outcome>failed</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+        </navigation-case>
+
     </navigation-rule>
 
     <navigation-rule>
