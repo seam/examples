@@ -4,7 +4,7 @@
    <parent>
       <groupId>org.jboss.seam</groupId>
       <artifactId>seam-parent</artifactId>
-      <version>16</version>
+      <version>17</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
@@ -20,11 +20,12 @@
    <url>http://www.seamframework.org/Seam3</url>
 
    <properties>
-      <seam.version>3.1.0.Beta4</seam.version>
+      <seam.version>3.1.0.Beta5</seam.version>
    </properties>
 
    <modules>
       <module>booking</module>
+      <module>timeanddate</module>
    </modules>
 
    <dependencyManagement>
