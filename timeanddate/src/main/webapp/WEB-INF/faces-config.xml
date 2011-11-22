@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+              version="2.0">
+    <application>
+        <resource-bundle>
+            <base-name>resources</base-name>
+            <var>resources</var>
+        </resource-bundle>
+    </application>
+    <converter>
+        <description>Converter used to convert DateTime to a String date patterned in "HH:mm:ss MM/dd/YYYY"</description>
+        <converter-id>jodaDateTimeToStringDateConverter</converter-id>
+        <converter-class>org.jboss.seam.international.examples.timeanddate.converters.JodaDateTimeToStringDateConverter
+        </converter-class>
+    </converter>
+    <converter>
+        <description>Converter used to convert DateTimeZone to a String date patterned in "HH:mm:ss MM/dd/YYYY"</description>
+        <converter-id>jdkDateTimeZoneToStringDateConverter</converter-id>
+        <converter-class>org.jboss.seam.international.examples.timeanddate.converters.JdkDateTimeZoneToStringDateConverter
+        </converter-class>
+    </converter>
+</faces-config>

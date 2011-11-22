@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view 
+	  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      locale="#{localeBean.userLocale}">
+        
+<html>
+
+<h:head>
+    <title>
+        <h:outputText value="#{resources['title']}"/>
+    </title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    
+</h:head>
+
+<h:body>
+    
+    <div id="top">
+        <div align="right"><span><h:outputText value="#{resources['header.text']}"/></span></div>
+    </div>    
+
+    <div id="menu">
+        <h:link value="#{resources['menu.home']}" outcome="index"/>
+        <h:link value="#{resources['menu.worldsclock']}" outcome="worldsclock"/>
+
+		<div id="locale">
+			<h:form>
+				<h:outputLabel for="selectLocale" value="#{resources['menu.selectlocale']}"/>
+				<h:selectOneMenu id="selectLocale" value="#{localeBean.userLocale}">				
+					<f:selectItems value="#{localeBean.availableLocales}" var="locale" itemLabel="#{locale.getDisplayName(localeBean.userLocale)}" itemValue="#{locale}" />
+					<f:converter converterId="localeConverter" />	
+					<f:ajax event="change" render="@all"/>			
+				</h:selectOneMenu>
+			</h:form>
+		</div>
+    </div>
+
+    <div id="content">
+    	
+    	<h:messages/>
+    
+        <ui:insert name="body"/>
+    </div>
+
+</h:body>
+
+</html>
+
+</f:view>

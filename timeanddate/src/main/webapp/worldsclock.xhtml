@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="template.xhtml">
+
+    <ui:define name="body">
+        <div id="bodyDiv">
+
+                <h:form>
+
+                    <div id="menuworldsclock">
+                        <!-- TODO change region links by enum with EL -->
+                        <h:link value="Africa" outcome="worldsclock">
+                            <f:param name="region" value="Africa"/>
+                        </h:link>
+
+                        <h:link value="America" outcome="worldsclock">
+                            <f:param name="region" value="America"/>
+                        </h:link>
+
+                        <h:link value="Asia" outcome="worldsclock">
+                            <f:param name="region" value="Asia"/>
+                        </h:link>
+
+                        <h:link value="Atlantic" outcome="worldsclock">
+                            <f:param name="region" value="Atlantic"/>
+                        </h:link>
+
+                        <h:link value="Australia" outcome="worldsclock">
+                            <f:param name="region" value="Australia"/>
+                        </h:link>
+
+                        <h:link value="Europe" outcome="worldsclock">
+                            <f:param name="region" value="Europe"/>
+                        </h:link>
+
+                        <h:link value="Pacific" outcome="worldsclock">
+                            <f:param name="region" value="Pacific"/>
+                        </h:link>
+
+                    </div>
+                    <br/>
+		<span style="margin-auto;">
+		<h:outputText value="#{resources['default.time.zone']}"/>:
+				<h:outputText value="#{defaultTimeZone.ID}"/> -
+				<h:outputText value="#{defaultTimeZone}">
+                    <f:converter converterId="jdkDateTimeZoneToStringDateConverter"/>
+                </h:outputText>
+
+		</span>
+                    <br/>
+                    <hr/>
+                    <hr/>
+                    <div class="worldsclockdiv">
+                        <h:dataTable columnClasses="first, second" class="worldsclocktable" headerClass="worldsclocktableheader"
+                                     var="dateTime" value="#{availableDateTimesFromTimeZones}">
+                            <f:facet name="header">
+                                <h:outputText value="#{resources['table.worldsclock.title']}"/>
+                            </f:facet>
+                            <h:column headerClass="worldsclockcolumnheader">
+                                <f:facet name="header">
+                                    <h:outputText value="#{resources['table.worldsclock.column.zone']}"/>
+                                </f:facet>
+                                <h:outputText value="#{dateTime.zone.ID}"/>
+
+                            </h:column>
+                            <h:column headerClass="worldsclockcolumnheader">
+                                <f:facet name="header">
+                                    <h:outputText value="#{resources['table.worldsclock.column.hour']}"/>
+                                </f:facet>
+                                <h:outputText value="#{dateTime}">
+                                    <f:converter converterId="jodaDateTimeToStringDateConverter"/>
+                                </h:outputText>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:form>
+            </div>
+    </ui:define>
+</ui:composition>

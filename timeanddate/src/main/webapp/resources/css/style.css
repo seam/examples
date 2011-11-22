@@ -1,0 +1,74 @@
+#top {
+    position: relative;
+    background-color: #F7BE81;
+    color: white;
+    font-family: Helvetica, sans-serif;
+    font-size: medium;
+    font-weight: bold;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#menu {
+    position: relative;
+    background-color: #F6E3CE;
+    color: black;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#menu a {
+    margin: 10px;
+}
+
+#locale {
+	float: right;
+}
+
+#menuworldsclock a {
+    margin: 10px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #c2dfef;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+.worldsclockdiv {
+    border: solid 1px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+}
+
+.worldsclocktable {
+    font-family: Helvetica, sans-serif;
+    font-size: small;
+    width: 100%;
+}
+
+.worldsclocktableheader {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #F6E3CE;
+}
+
+.worldsclockcolumnheader {
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    background-color: #FAAC58;
+    text-align: "center";
+}
+
+.first {
+    text-align: left;
+
+}
+
+.second {
+    text-align: right;
+    width: 120px;
+    font-weight: lighter;
+}
