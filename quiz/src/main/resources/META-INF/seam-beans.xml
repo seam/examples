@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:s="urn:java:ee" 
+    xmlns:q="urn:java:org.jboss.seam.examples.quiz"
+    xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://docs.jboss.org/cdi/beans_1_0.xsd">
+
+    <q:QuizQualifier>
+        <s:Qualifier/>
+    </q:QuizQualifier>
+     
+    <q:QuizManager>
+     <s:modifies/>
+     <s:SessionScoped/>
+     <s:Named/>
+     <q:geographicQuiz>
+        <s:Inject/>
+        <q:QuizQualifier value="geoQuiz"/>
+	    <s:Exact>org.jboss.seam.examples.quiz.GeographicQuiz</s:Exact>        
+     </q:geographicQuiz>
+      <q:historicQuiz> 
+        <s:Inject/>
+      </q:historicQuiz>
+    </q:QuizManager>
+    
+    <!-- Quiz definitions -->
+    
+    <q:GeographicQuiz>
+     <s:modifies/>
+     <s:SessionScoped/>
+     <q:messages>
+       <s:Inject/>
+     </q:messages>
+     <q:QuizQualifier>geoQuiz</q:QuizQualifier>
+     <q:questions>
+         <s:value>
+           <q:Question>
+              <q:questionText>1) What is the longest river in the world?</q:questionText>
+              <q:answers>
+                <q:QuizQualifier>geographicQuestion1</q:QuizQualifier>
+                <s:Inject/>
+              </q:answers>
+           </q:Question>
+         </s:value>
+         <s:value>
+          <q:Question>
+           <q:questionText>2) What country has the largest population in the world?</q:questionText>
+             <q:answers>
+               <q:QuizQualifier>geographicQuestion2</q:QuizQualifier>
+               <s:Inject/>
+              </q:answers>
+          </q:Question>
+         </s:value>
+         <s:value>
+          <q:Question>
+           <q:questionText>3) What is the largest country in the world?</q:questionText>
+             <q:answers>
+               <q:QuizQualifier>geographicQuestion3</q:QuizQualifier>
+               <s:Inject/>
+              </q:answers>
+          </q:Question>
+         </s:value>
+     </q:questions>
+    </q:GeographicQuiz>
+    
+    <q:HistoricQuiz>
+     <s:modifies/>
+     <s:SessionScoped/>
+     <q:messages>
+       <s:Inject/>
+     </q:messages>
+     <s:parameters>
+       <s:Instance>
+         <q:QuizQualifier value="historicQuiz"/>
+       </s:Instance>
+     </s:parameters>
+    </q:HistoricQuiz>
+    
+    <!-- Question definitions -->
+    
+    <q:Question>
+        <q:QuizQualifier>historicQuiz</q:QuizQualifier>
+        <s:SessionScoped/>
+        <q:id>1</q:id>
+        <q:questionText>1) What is the latest state to join the United States, bringing the number to 50?</q:questionText>
+        <q:setAnswers>
+            <s:Inject/>
+            <s:parameters>
+                <s:Instance>
+                   <q:QuizQualifier value="historicQuestion1"/>
+                </s:Instance>
+            </s:parameters>
+        </q:setAnswers>
+    </q:Question>
+    
+    <q:Question>
+        <q:QuizQualifier>historicQuiz</q:QuizQualifier>
+        <s:SessionScoped/>
+        <q:id>2</q:id>
+        <q:questionText>2) John F. Kennedy was assassinated in </q:questionText>
+        <q:setAnswers>
+            <s:Inject/>
+            <s:parameters>
+                <s:Instance>
+                   <q:QuizQualifier value="historicQuestion2"/>
+                </s:Instance>
+            </s:parameters>
+        </q:setAnswers>
+    </q:Question>
+    
+    <q:Question>
+        <q:QuizQualifier>historicQuiz</q:QuizQualifier>
+        <s:SessionScoped/>
+        <q:id>3</q:id>
+        <q:questionText>3) What was the first capital of ancient Egypt?</q:questionText>
+        <q:setAnswers>
+            <s:Inject/>
+            <s:parameters>
+                <s:Instance>
+                   <q:QuizQualifier value="historicQuestion3"/>
+                </s:Instance>
+            </s:parameters>
+        </q:setAnswers>
+    </q:Question>
+    
+    <!-- Answers definitions -->
+    
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion1"/>
+        <q:id>1</q:id>
+        <q:answerText>Nile River</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion1"/>
+        <q:id>2</q:id>
+        <q:answerText>Mississippi River</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion1"/>
+        <q:id>3</q:id>
+        <q:answerText>Amazon River</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+      <q:Answer>
+        <q:QuizQualifier value="geographicQuestion2"/>
+        <q:id>1</q:id>
+        <q:answerText>India</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion2"/>
+        <q:id>2</q:id>
+         <q:answerText>China</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion2"/>
+        <q:id>3</q:id>
+        <q:answerText>USA</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion3"/>
+        <q:id>1</q:id>
+        <q:answerText>Canada</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion3"/>
+        <q:id>2</q:id>
+        <q:answerText>China</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="geographicQuestion3"/>
+        <q:id>3</q:id>
+        <q:answerText>Russia</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion1"/>
+        <q:id>1</q:id>
+        <q:answerText>Hawaii</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion1"/>
+        <q:id>2</q:id>
+        <q:answerText>Guantanamo</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion1"/>
+        <q:id>3</q:id>
+        <q:answerText>Alaska</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion2"/>
+        <q:id>1</q:id>
+        <q:answerText>Dallas</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion2"/>
+        <q:id>2</q:id>
+        <q:answerText>Austin</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion2"/>
+        <q:id>3</q:id>
+        <q:answerText>New Orleans</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion3"/>
+        <q:id>1</q:id>
+        <q:answerText>Thebes</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion3"/>
+        <q:id>2</q:id>
+        <q:answerText>Alexandria</q:answerText>
+        <q:isCorrect>false</q:isCorrect>
+    </q:Answer>
+    <q:Answer>
+        <q:QuizQualifier value="historicQuestion3"/>
+        <q:id>3</q:id>
+        <q:answerText>Memphis</q:answerText>
+        <q:isCorrect>true</q:isCorrect>
+    </q:Answer>
+</beans>
