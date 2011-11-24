@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    
+    
+    
+    <ui:define name="content">
+    	<h:form id="linkForm">
+    		<h:commandLink id="home" value="Home" action="#{quizManager.geographicQuiz.resetQuiz}"/>
+    	</h:form>
+    	<h:panelGroup rendered="#{quizManager.geographicQuiz.nextQuestionAvailable}">
+      	<h:outputText value="#{quizManager.geographicQuiz.actualQuestion.questionText}"/>
+        	
+        	<h:form id="questionForm">
+    	  		<h:selectOneRadio id="answers" value="#{quizManager.geographicQuiz.selectedAnswer}" layout="pageDirection">
+		   			<f:selectItems value="#{quizManager.geographicQuiz.actualQuestion.answers}" var="a" itemLabel="#{a.answerText}" itemValue="#{a.id}" />
+   				</h:selectOneRadio>
+   				<h:messages/>	
+   				<h:commandButton id="save" value="Save" action="#{quizManager.geographicQuiz.saveQuestion}" rendered="#{!quizManager.geographicQuiz.actualQuestion.saved}"/>
+   				<h:commandButton id="next" value="Next" action="#{quizManager.geographicQuiz.nextQuestion}"/>
+   		 	</h:form>
+   		 	
+    	</h:panelGroup>
+    	<h:panelGroup rendered="#{!quizManager.geographicQuiz.nextQuestionAvailable}">
+    	  <h:outputText value="Quiz is finished. "/>
+    	  <h:outputText value="Your score is #{quizManager.geographicQuiz.score} points. "/>
+    	</h:panelGroup>
+    </ui:define>
+</ui:composition>
