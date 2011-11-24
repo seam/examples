@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:s="urn:java:ee"
+       xmlns:p="urn:java:org.jboss.seam.examples.princessrescue"
+       xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://docs.jboss.org/cdi/beans_1_0.xsd">
+
+    <!-- Makes the Room annotation a qualifier -->
+    <p:Room>
+        <s:Qualifier/>
+    </p:Room>
+
+    <p:GameManager>
+        <s:modifies/>
+        <p:allRooms>
+            <s:Any/>
+            <s:Inject/>
+        </p:allRooms>
+        <p:emptyRoomShootMessage>Your arrow does not appear to hit anything.</p:emptyRoomShootMessage>
+        <p:startMessage>You enter the dungeon, with you bow in your hand and your heart in your mouth.</p:startMessage>
+        <p:startRoom>
+            <!-- Inject the starting room -->
+            <s:Inject/>
+            <p:Room>startRoom</p:Room>
+        </p:startRoom>
+    </p:GameManager>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room value="startRoom"/>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom1</p:Room>
+        </p:north>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom1</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom3</p:Room>
+        </p:north>
+        <p:west>
+            <s:Inject/>
+            <p:Room>dwarfRoom</p:Room>
+        </p:west>
+        <p:east>
+            <s:Inject/>
+            <p:Room>pitRoom1</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>startRoom</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>dwarfRoom</p:Room>
+        <p:roomType>MONSTER</p:roomType>
+        <p:shootEffect>KILL</p:shootEffect>
+        <p:adjacentMessage>You hear drunken singing.</p:adjacentMessage>
+        <p:message>You find a drunken dwarven miner. He belches in your direction, falls over, then seems to forget you
+            are there.
+        </p:message>
+        <p:shootMessage>You hear a 'Thud', followed by a surprised yell.</p:shootMessage>
+        <p:killedRoomMessage>You find a dead dwarven miner with something that looks suspiciously like one of your
+            arrows sticking out of his chest. Probably best you don't mention this to anyone...
+        </p:killedRoomMessage>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom1</p:Room>
+        </p:east>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>pitRoom1</p:Room>
+        <p:roomType>GAMEOVER</p:roomType>
+        <p:adjacentMessage>You feel a breeze.</p:adjacentMessage>
+        <p:message>You fall into a bottomless pit. Game Over.</p:message>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom1</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom2</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom4</p:Room>
+        </p:north>
+        <p:west>
+            <s:Inject/>
+            <p:Room>pitRoom1</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom3</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>pitRoom2</p:Room>
+        </p:north>
+        <p:east>
+            <s:Inject/>
+            <p:Room>batRoom</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom1</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>batRoom</p:Room>
+        <p:adjacentMessage>You hear a screeching noise.</p:adjacentMessage>
+        <p:message>A swarm of bats lands on you and tries to pick you up. They fail miserably. You swat them away with
+            your bow.
+        </p:message>
+        <p:shootMessage>You seem to have disturbed some bats, they fly past your head in the dark.</p:shootMessage>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom6</p:Room>
+        </p:north>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom4</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>pitRoom1</p:Room>
+        </p:south>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom3</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom4</p:Room>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom5</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom2</p:Room>
+        </p:south>
+        <p:west>
+            <s:Inject/>
+            <p:Room>batRoom</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom5</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom7</p:Room>
+        </p:north>
+        <p:east>
+            <s:Inject/>
+            <p:Room>dragonRoom</p:Room>
+        </p:east>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom4</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>dragonRoom</p:Room>
+        <p:adjacentMessage>You hear a snoring noise. With every snore you see a flickering light, as if something were
+            breathing flames from its nostrils.
+        </p:adjacentMessage>
+        <p:roomType>GAMEOVER</p:roomType>
+        <p:message>The dragon wakes up as you enter. Then it eats you.</p:message>
+        <p:shootEffect>ANNOY</p:shootEffect>
+        <p:shootMessage>Your arrow wakes up the dragon, without appearing to do any real damage. The last moments of
+            your life are spent running from an angry dragon.
+        </p:shootMessage>
+        <p:north>
+            <s:Inject/>
+            <p:Room>princessRoom</p:Room>
+        </p:north>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom5</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>pitRoom2</p:Room>
+        <p:roomType>GAMEOVER</p:roomType>
+        <p:adjacentMessage>You feel a breeze.</p:adjacentMessage>
+        <p:message>You fall into a bottomless pit. Game Over.</p:message>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom3</p:Room>
+        </p:south>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom6</p:Room>
+        </p:east>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom6</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom8</p:Room>
+        </p:north>
+        <p:west>
+            <s:Inject/>
+            <p:Room>pitRoom2</p:Room>
+        </p:west>
+        <p:south>
+            <s:Inject/>
+            <p:Room>batRoom</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom7</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>emptyRoom10</p:Room>
+        </p:north>
+        <p:east>
+            <s:Inject/>
+            <p:Room>princessRoom</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom5</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>princessRoom</p:Room>
+        <p:adjacentMessage>You hear a sobbing noise.</p:adjacentMessage>
+        <p:roomType>GAMEOVER</p:roomType>
+        <p:message>You find the princess and quickly free her, and then escape from the dungeon. You both live happily
+            ever after.
+        </p:message>
+        <p:shootEffect>ANNOY</p:shootEffect>
+        <p:shootMessage>Your arrow clatters against the wall. You hear a cry 'Help i'm being shot at'. The cry wakes the
+            dragon in the room next door, which promptly eats you.
+        </p:shootMessage>
+        <p:south>
+            <s:Inject/>
+            <p:Room>dragonRoom</p:Room>
+        </p:south>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom7</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom8</p:Room>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom9</p:Room>
+        </p:east>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom6</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom9</p:Room>
+        <p:north>
+            <s:Inject/>
+            <p:Room>wumpusRoom</p:Room>
+        </p:north>
+        <p:east>
+            <s:Inject/>
+            <p:Room>emptyRoom10</p:Room>
+        </p:east>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom8</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:Room>emptyRoom10</p:Room>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom7</p:Room>
+        </p:south>
+        <p:west>
+            <s:Inject/>
+            <p:Room>emptyRoom9</p:Room>
+        </p:west>
+    </p:GameRoom>
+
+    <p:GameRoom>
+        <s:SessionScoped/>
+        <p:roomType>MONSTER</p:roomType>
+        <p:adjacentMessage>You smell a Wumpus</p:adjacentMessage>
+        <p:shootMessage>You hear a 'Thud', followed by a roar of pain.</p:shootMessage>
+        <p:killedRoomMessage>You stumbe accross a dead Wumpus. Well that wasn't so hard...</p:killedRoomMessage>
+        <p:message>You find a Wumpus. It eats you.</p:message>
+        <p:shootEffect>KILL</p:shootEffect>
+        <p:Room>wumpusRoom</p:Room>
+        <p:south>
+            <s:Inject/>
+            <p:Room>emptyRoom9</p:Room>
+        </p:south>
+    </p:GameRoom>
+
+    <p:GameMessage>
+        <s:modifies/>
+    </p:GameMessage>
+
+
+</beans>

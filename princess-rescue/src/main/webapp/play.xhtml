@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Princess Rescue</h1>
+
+        <p>
+            <h:outputText value="#{gameMessage.message}"/>
+        </p>
+        <h:form id="bv">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="3"><b>Move</b></td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="movenorth"
+                                                     disabled="#{gameManager.currentRoom.north == null or gameManager.gameOver}"
+                                                     action="#{gameManager.moveNorth}" value="North"/>
+                                </td>
+                                <td/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton id="movewest"
+                                                     disabled="#{gameManager.currentRoom.west == null or gameManager.gameOver}"
+                                                     action="#{gameManager.moveWest}" value="West"/>
+                                </td>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="moveeast"
+                                                     disabled="#{gameManager.currentRoom.east == null or gameManager.gameOver}"
+                                                     action="#{gameManager.moveEast}" value="East"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="movesouth"
+                                                     disabled="#{gameManager.currentRoom.south == null or gameManager.gameOver}"
+                                                     action="#{gameManager.moveSouth}" value="South"/>
+                                </td>
+                                <td/>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="3"><b>Shoot</b></td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="shotnorth"
+                                                     disabled="#{gameManager.currentRoom.north == null or gameManager.gameOver}"
+                                                     action="#{gameManager.shootNorth}" value="North"/>
+                                </td>
+                                <td/>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandButton id="shotwest"
+                                                     disabled="#{gameManager.currentRoom.west == null or gameManager.gameOver}"
+                                                     action="#{gameManager.shootWest}" value="West"/>
+                                </td>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="shoteast"
+                                                     disabled="#{gameManager.currentRoom.east == null or gameManager.gameOver}"
+                                                     action="#{gameManager.shootEast}" value="East"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td>
+                                    <h:commandButton id="shotsouth"
+                                                     disabled="#{gameManager.currentRoom.south == null or gameManager.gameOver}"
+                                                     action="#{gameManager.shootSouth}" value="South"/>
+                                </td>
+                                <td/>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <h:commandButton value="New Game" id="next" action="home"/>
+        </h:form>
+    </ui:define>
+</ui:composition>
