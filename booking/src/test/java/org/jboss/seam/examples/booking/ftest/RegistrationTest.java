@@ -1,7 +1,7 @@
 package org.jboss.seam.examples.booking.ftest;
 
 import static org.jboss.arquillian.ajocado.Ajocado.waitForHttp;
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
@@ -10,6 +10,7 @@ import java.util.Date;
 
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.XPathLocator;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -20,8 +21,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class RegistrationTest extends AbstractBookingTest {
-    public static final JQueryLocator LOGIN_REGISTER = jq("[id='login:register']");
-    public static final JQueryLocator LOGIN_MESSAGES = jq("[id='login:messages']");
+	public static final XPathLocator LOGIN_REGISTER = xp("//a[contains(@name,'login:register')]");
+	public static final JQueryLocator LOGIN_MESSAGES = jq("[id='login:messages']");
     public static final JQueryLocator REGISTER_USERNAME = jq("[id='username:input']");
     public static final JQueryLocator REGISTER_USERNAME_MESSAGE = jq("[id='username:message1']");
     public static final JQueryLocator REGISTER_NAME = jq("[id='name:input']");
