@@ -1,0 +1,13 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/PageTemplate.xhtml">
+        <h1>Configuration</h1>
+        <h:panelGrid columns="2" columnClasses="propertyName, propertyValue">
+            <h:outputText value="XRDS URL"/>
+            <h:outputText value="#{configuration.xrdsURL}"/>
+        </h:panelGrid>
+
+    </ui:composition>
+</f:view>

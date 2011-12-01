@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="sidebar">
+        <ui:include src="menu.xhtml"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div id="contentMain">
+
+            <h2>Add New Role</h2>
+
+            <h:messages globalOnly="true"/>
+
+            <h:form id="role">
+
+                <div class="formRow">
+                    <h:outputLabel for="roleType" value="Role type" styleClass="formLabel"/>
+                    <h:selectOneMenu id="roleType" value="#{userAction.roleType}">
+                        <f:selectItems value="#{userAction.roleTypes}" var="roleType" itemLabel="#{roleType.name}"/>
+                        <f:converter converterId="roleTypeConverter"/>
+                    </h:selectOneMenu>
+
+                    <div class="validationError"><h:message for="roleType"/></div>
+                </div>
+
+                <div class="formRow">
+                    <h:outputLabel for="roleGroup" value="Role group" styleClass="formLabel"/>
+                    <h:selectOneMenu id="roleGroup" value="#{userAction.roleGroup}">
+                        <f:selectItems value="#{userAction.roleGroups}" var="group" itemLabel="#{group.name}"/>
+                        <f:converter converterId="groupConverter"/>
+                    </h:selectOneMenu>
+
+                    <div class="validationError"><h:message for="roleGroup"/></div>
+                </div>
+
+                <div class="formButtons">
+                    <h:commandButton id="add" value="Add role" action="#{userAction.roleSave}" styleClass="formButton"/>
+                    <h:button id="cancel" value="Cancel" outcome="cancel" styleClass="formButton"/>
+                </div>
+
+                <br class="clear"/>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+

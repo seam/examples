@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   The contents of this file is permitted to be empty.
+   The schema definition is provided for your convenience.
+-->
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:plidm="urn:java:org.jboss.seam.security.management.picketlink"
+       xmlns:security="urn:java:org.jboss.seam.security.permission"
+       xmlns:s="urn:java:ee"
+       xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
+
+    <interceptors>
+        <class>org.jboss.seam.security.SecurityInterceptor</class>
+    </interceptors>
+
+</beans>

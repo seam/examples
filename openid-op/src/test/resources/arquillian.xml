@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arquillian xmlns="http://jboss.com/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:jbossas-remote="urn:arq:org.jboss.arquillian.container.jbossas.remote_6"
+            xmlns:glassfish-embedded="urn:arq:org.jboss.arquillian.container.glassfish.embedded_3">
+
+    <!-- Uncomment to have test archives exported to the file system for inspection -->
+    <!--
+    <engine>
+       <deploymentExportPath>target/</deploymentExportPath>
+    </engine>
+    -->
+
+    <!-- Required configuration for an embedded GlassFish instance -->
+    <glassfish-embedded:container>
+        <glassfish-embedded:bindHttpPort>7070</glassfish-embedded:bindHttpPort>
+        <glassfish-embedded:sunResourcesXml>src/test/resources-glassfish-embedded/sun-resources.xml
+        </glassfish-embedded:sunResourcesXml>
+    </glassfish-embedded:container>
+
+    <!-- Example configuration for a remote JBoss AS instance -->
+    <jbossas-remote:container>
+        <jbossas-remote:remoteServerHttpPort>8080</jbossas-remote:remoteServerHttpPort>
+    </jbossas-remote:container>
+
+</arquillian>

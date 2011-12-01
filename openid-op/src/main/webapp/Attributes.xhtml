@@ -1,0 +1,40 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:event type="preRenderView"
+                 listener="#{opIdentity.redirectToLoginIfNotLoggedIn}"/>
+    </f:metadata>
+    <ui:composition template="/PageTemplate.xhtml">
+
+        <h1>Attributes</h1>
+
+        <h:form>
+            <h:dataTable value="#{attributes.attributeVOs}" var="attributeVO">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Alias"/>
+                    </f:facet>
+                    <h:outputText value="#{attributeVO.requestedAttribute.alias}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Required"/>
+                    </f:facet>
+                    <h:selectBooleanCheckbox
+                            value="#{attributeVO.requestedAttribute.required}" disabled="true"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Value"/>
+                    </f:facet>
+                    <h:inputText value="#{attributeVO.attributeValue}"/>
+                </h:column>
+            </h:dataTable>
+            <h:commandButton value="OK" action="#{attributes.confirm}"/>
+        </h:form>
+
+    </ui:composition>
+</f:view>

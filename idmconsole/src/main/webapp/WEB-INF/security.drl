@@ -1,0 +1,53 @@
+package IDMConsolePermissions;
+
+dialect 'mvel'
+
+import org.jboss.seam.security.permission.PermissionCheck;
+import org.picketlink.idm.api.Role;
+
+# Allow all users to read the available roles
+
+rule ReadRoles
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(resource == "seam.role", permission == "read", granted == false)
+  Role(roleType.name == "user")
+then
+  check.grant();
+end
+
+rule CreateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(resource == "seam.account", permission == "create", granted == false)
+  Role(roleType.name == "admin")
+then
+  check.grant();
+end
+
+/*****************************************************************************************
+
+  The Following Rules are for Identity Management
+  
+******************************************************************************************/
+
+rule ManageIdentities
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(resource == "seam.identity", granted == false)
+  Role(roleType.name == "admin")
+then
+  check.grant();
+end
+
+rule ManageRelationships
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(resource == "seam.relationship", granted == false)
+then
+  check.grant();
+end

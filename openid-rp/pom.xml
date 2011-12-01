@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>org.jboss.seam.security</groupId>
+   <artifactId>seam-security-example-openid-rp</artifactId>
+   <packaging>war</packaging>
+   <name>OpenID Relying Party</name>
+
+   <parent>
+      <groupId>org.jboss.seam.security</groupId>
+      <artifactId>seam-security-parent</artifactId>
+      <version>3.1.0-SNAPSHOT</version>
+      <relativePath>../../pom.xml</relativePath>
+   </parent>
+
+   <build>
+      <finalName>security-openid-rp</finalName>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+               <skip>true</skip>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+   <dependencies>
+
+      <dependency>
+         <groupId>org.jboss.seam.security</groupId>
+         <artifactId>seam-security-external</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.jboss.seam.security</groupId>
+         <artifactId>seam-security</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>joda-time</groupId>
+         <artifactId>joda-time</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <!-- This is necessary until a new JSF-API is published to central -->
+         <groupId>javax.faces</groupId>
+         <artifactId>jsf-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.slf4j</groupId>
+         <artifactId>slf4j-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <!-- Required until the Servlet 3.0 API can be resolved in Central -->
+         <groupId>org.jboss.spec.javax.servlet</groupId>
+         <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+         <scope>provided</scope>
+      </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Arquillian Drone support in Arquillian tests -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Support for Selenium in Arquillian Drone -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Support for Selenium Server in Arquillian Drone -->
+        <!-- Required only if you want Arquillian to control Selenium Server life cycle -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-selenium-server</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Selenium Server -->
+        <!-- Required only if you want Arquillian to control Selenium Server life cycle -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-server</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.arquillian.ajocado</groupId>
+            <artifactId>arquillian-ajocado-junit</artifactId>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+   </dependencies>
+
+    <profiles>
+        <profile>
+            <id>glassfish</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>glassfish-remote-3.1</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <!-- Functional test profiles -->
+        <profile>
+            <id>ftest</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>jbossas-managed-6</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-6</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>jbossas-managed-6</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>jbossas-remote-6</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-remote-6</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>jbossas-remote-6</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jbossas-remote-7</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-remote-7</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>jbossas-remote-7</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>jbossas-managed-7</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>jbossas-managed-7</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>jbossas-managed-7</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>glassfish-remote-3.1</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>glassfish-remote-3.1</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>glassfish-remote-3.1</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>openshift-express</id>
+            <activation>
+                <property>
+                    <name>arquillian</name>
+                    <value>openshift-express</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.jboss.seam.test</groupId>
+                    <artifactId>openshift-express</artifactId>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>distribution</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>   
+   
+</project>

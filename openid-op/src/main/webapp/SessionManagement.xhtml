@@ -1,0 +1,24 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:event type="preRenderView"
+                 listener="#{opIdentity.redirectToLoginIfNotLoggedIn}"/>
+    </f:metadata>
+    <ui:composition template="/PageTemplate.xhtml">
+
+        <h1>Session Info</h1>
+
+        <h2>Logged in user</h2>
+
+        <h:panelGrid columns="2" columnClasses="propertyName, propertyValue">
+            <h:outputText value="User name"/>
+            <h:outputText value="#{opIdentity.userName}"/>
+            <h:outputText value="User's OpenID"/>
+            <h:outputText value="#{opIdentity.opLocalIdentifier}"/>
+        </h:panelGrid>
+
+    </ui:composition>
+</f:view>

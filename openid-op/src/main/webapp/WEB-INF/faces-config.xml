@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+    <name>openidop</name>
+
+    <application>
+        <view-handler>org.jboss.seam.security.examples.openid.DialogueAwareViewHandler</view-handler>
+    </application>
+
+    <navigation-rule>
+        <from-view-id>/Login.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{login.login}</from-action>
+            <from-outcome>LOCAL_LOGIN</from-outcome>
+            <to-view-id>/SessionManagement.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+</faces-config>

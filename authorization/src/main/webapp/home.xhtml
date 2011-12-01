@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+  <ui:define name="content">
+
+    <h:messages id="messages" globalOnly="true"
+                style="border: 1px solid #999999;background-color:#ffffee;padding:6px;font-weight:bold"
+                errorStyle="color:#ff0000;font-weight:bold" layout="table"/>
+
+      <p>This example demonstrates Seam's typesafe authorization features</p>
+
+      <p>Use the following form to log in:</p>
+
+      <h:form id="loginForm" rendered="#{not identity.loggedIn}">
+
+        <div class="loginRow">
+          <h:outputLabel for="name" value="Username" styleClass="loginLabel"/>
+          <h:inputText id="name" value="#{credentials.username}"/>
+        </div>
+
+        <div class="buttons">
+          <h:commandButton id="login" value="LOGIN" action="#{identity.login}" styleClass="loginButton"/>
+        </div>
+      </h:form>
+
+      <p>
+        <b>Tip:</b> you can log in with any username (no password is required)
+      </p>
+
+      <p>
+        <i>However</i>, using the following usernames will grant you the specified role or group:
+      </p>
+
+      <table>
+        <tr>
+          <td><b>demo</b></td>
+          <td>Role 'admin' in group 'USERS'</td>
+        </tr>
+        <tr>
+          <td><b>user</b></td>
+          <td>Member of group 'USERS'</td>
+        </tr>
+      </table>
+
+      <hr/>
+
+      <p>
+        The following command buttons all invoke actions that are secured with security binding type 
+        annotations, i.e. an annotation that is meta-annotated with <code>@SecurityBindingType</code>.
+      </p>
+
+      <h:form>
+
+        <p>
+          The <code>doSomethingRestricted()</code> method is annotated with the <code>@Admin</code> 
+          security binding type, which requires that the current user is granted the 'admin' role 
+          in the 'USERS' group.
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doSomethingRestricted()" action="#{privilegedActions.doSomethingRestricted}"/>
+        </div>
+
+        <p>
+          The <code>doFooAbc()</code> method is annotated with 
+          <code>@Foo(bar = "abc", zzz="nonbindingvalue")</code>. The authorizer method matching this 
+          security binding type always returns true (i.e. the action is <i>always</i> allowed).
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doFooAbc()" action="#{privilegedActions.doFooAbc}"/>
+        </div>
+
+        <p>
+          The <code>doFooDef()</code> method is annotated with <code>@Foo(bar = "def")</code>. The
+          authorizer method matching this security binding type always returns false (i.e. the action is
+          <i>never</i> allowed).
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doFooDef()" action="#{privilegedActions.doFooDef}"/>
+        </div>
+
+        <p>
+          The <code>doLoggedIn()</code> method is annotated with Seam Security's only built-in 
+          security binding type, <code>@LoggedIn</code>. This binding type allows a method to be 
+          invoked if the current user is logged in. See the <code>IdentityImpl</code> class in 
+          the Seam Security source code.
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doLoggedIn()" action="#{privilegedActions.doLoggedIn}"/>
+        </div>
+
+        <p>
+          The <code>doUserAction()</code> method is annotated with the <code>@User</code> security 
+          binding type. The matching authorizer method returns true if the current user is a member 
+          of the 'USERS' group.
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doUserAction()" action="#{privilegedActions.doUserAction}"/>
+        </div>
+        
+        <p>
+          The <code>doDemoUserRuleAction()</code> method is annotated with <code>@Foo(bar = "demo")</code>.
+          The matching authorizer for this security binding actually uses a rule-based permission (see
+          security.drl in the example source code) and will return true if the current user is the demo
+          user.
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doDemoUserRuleAction()" action="#{privilegedActions.doDemoUserRuleAction}"/>
+        </div>        
+        
+        <p>
+          The <code>doInUserGroupRuleAction()</code> method is annotated with <code>@Foo(bar = "user")</code>.
+          The authorizer for this security binding also uses a rule-based permission (see
+          security.drl in the example source code) and will return true if the current user is a member
+          of the USERS group. (So user 'demo' will fail, and user 'user' will pass).
+        </p>
+
+        <div class="buttons">
+          <h:commandButton value="Invoke doInUserGroupRuleAction()" action="#{privilegedActions.doInUserGroupRuleAction}"/>
+        </div>  
+        
+      </h:form>
+
+      <hr/>
+
+      <p>
+        <b>So how does it work?</b>
+      </p>
+
+      <p>
+        It's simple! There's three easy steps to using typesafe security annotations in your project.
+      </p>
+
+      <p>
+        <b>Step One - Create a security binding type</b>.
+      </p>
+
+      <p>
+        This is simply an annotation, that is itself annotated with the <code>@SecurityBindingType</code>
+        annotation:
+      </p>
+
+      <pre><code>
+          @SecurityBindingType
+          @Retention(RetentionPolicy.RUNTIME)
+          @Target({ElementType.TYPE, ElementType.METHOD})
+          public @interface Admin { }
+      </code></pre>
+
+      <p>
+          <b>Step Two - Create an authorizer method</b>
+      </p>
+
+      <p>
+        An authorizer method is responsible for performing the logic for your authorization check. 
+        It should return a <code>boolean</code> value to indicate whether the authorization check 
+        was successful or not, and only one authorizer method should be defined for each unique 
+        security binding type.
+      </p>
+
+      <p>
+        The authorizer method can be placed in any bean class, and must be annotated with the 
+        <code>@Secures</code> annotation. Any parameters declared by the authorizer method are 
+        treated as injection points.
+      </p>
+
+      <pre><code>
+          public class Restrictions {
+
+          public @Secures @Admin boolean isAdmin(Identity identity)
+          {
+          return identity.hasRole("admin", "USERS", "GROUP");
+          }
+          }
+      </code></pre>
+
+      <p>
+        It is also possible for a security binding type annotation to declare members. In this case, 
+        the authorizer method must match each of the member values exactly, unless the member is annotated 
+        with <code>@Nonbinding</code>.
+      </p>
+
+      <pre><code>
+          public @Secures @Foo(bar = "abc") boolean isFooAbc()
+          {
+          return true;
+          }
+      </code></pre>
+
+      <p>
+        <b>Step Three - Apply the security binding annotation to your methods</b>
+      </p>
+
+      <p>
+        Now that you've created the security binding type and the authorizer method, all that's left is 
+        to apply the security binding type annotation to the methods that you wish to secure.
+      </p>
+
+      <pre><code>
+         @Admin
+         public void doSomethingRestricted()
+         {
+         facesContext.addMessage(null, new FacesMessage("doSomethingRestricted() invoked"));
+         }
+      </code></pre>
+
+      <p>
+        It is also possible to apply multiple security bindings to the same method, allowing greater
+        flexibility in restricting methods.
+      </p>      
+
+    </ui:define>
+</ui:composition>

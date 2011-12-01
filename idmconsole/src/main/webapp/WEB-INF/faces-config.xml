@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0"
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="
+      http://java.sun.com/xml/ns/javaee
+      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+    <name>idmconsole</name>
+
+    <navigation-rule>
+        <from-view-id>/manageusers.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{userAction.createUser}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/userdetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{userAction.editUser(user.username)}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/userdetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{userAction.deleteUser(user.username)}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/manageusers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/userdetail.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{userAction.save}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/manageusers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{userAction.cancel}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/manageusers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{userAction.addRole}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/roledetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/roledetail.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{userAction.roleSave}</from-action>
+            <from-outcome>success</from-outcome>
+            <if>#{true}</if>
+            <to-view-id>/userdetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/userdetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/roletypedetail.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{roleAction.save}</from-action>
+            <from-outcome>success</from-outcome>
+            <if>#{true}</if>
+            <to-view-id>/manageroletypes.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/manageroletypes.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/managegroups.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{groupAction.createGroup}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/groupdetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{groupAction.deleteGroup(group.name, group.groupType)}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/managegroups.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/manageroletypes.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{roleAction.createRoleType}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/roletypedetail.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{roleAction.deleteRoleType(role)}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/manageroletypes.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+    </navigation-rule>
+
+
+    <navigation-rule>
+        <from-view-id>/groupdetail.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{groupAction.save}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/managegroups.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-action>#{groupAction.cancel}</from-action>
+            <if>#{true}</if>
+            <to-view-id>/managegroups.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/changepassword.xhtml</from-view-id>
+
+        <navigation-case>
+            <from-action>#{changePasswordAction.changePassword}</from-action>
+            <from-outcome>success</from-outcome>
+            <if>#{true}</if>
+            <to-view-id>/home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+        <navigation-case>
+            <from-outcome>cancel</from-outcome>
+            <to-view-id>/home.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+
+    </navigation-rule>
+
+
+</faces-config>

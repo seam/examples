@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:body>
+    <h:panelGroup layout="block" styleClass="page">
+
+        <h:head>
+            <link type="text/css" rel="stylesheet" href="styles.css"/>
+        </h:head>
+
+        <h:panelGroup layout="block" styleClass="menu">
+            <ui:include src="/Menu.xhtml"/>
+        </h:panelGroup>
+
+        <h:messages/>
+
+        <h:panelGroup layout="block" styleClass="content">
+            <ui:insert/>
+        </h:panelGroup>
+
+    </h:panelGroup>
+</h:body>
+</html>

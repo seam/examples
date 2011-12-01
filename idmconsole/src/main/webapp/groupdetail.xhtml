@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="sidebar">
+        <ui:include src="menu.xhtml"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div id="contentMain">
+
+            <h2>Group Details</h2>
+
+            <h:messages globalOnly="true"/>
+
+            <h:form id="group">
+
+                <div class="formRow">
+                    <h:outputLabel for="groupname" value="Group name" styleClass="formLabel"/>
+                    <h:inputText id="groupname" value="#{groupAction.groupName}"/>
+
+                    <div class="validationError"><h:message for="groupname"/></div>
+                </div>
+
+                <div class="formButtons">
+                    <h:commandButton id="save" value="Save" action="#{groupAction.save}" styleClass="formButton"/>
+                    <h:commandButton id="cancel" value="Cancel" action="#{groupAction.cancel}" styleClass="formButton"/>
+                </div>
+
+                <br class="clear"/>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+

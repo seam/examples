@@ -1,0 +1,24 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <!--f:metadata>
+         <f:event type="preRenderView"
+             listener="#{identity.redirectToLoginIfNotLoggedIn}" />
+     </f:metadata-->
+    <ui:composition template="/PageTemplate.xhtml">
+
+        <h1>User info</h1>
+
+        <h:panelGrid columns="2" columnClasses="propertyName, propertyValue">
+            <h:outputText value="Verified User Identifier"/>
+            <h:outputText value="#{identity.user.id}"/>
+            <h:outputText value="OpenID Provider"/>
+            <h:outputText value="#{identity.user.provider}"/>
+            <h:outputText value="Email"/>
+            <h:outputText value="#{identity.user.getAttribute('email')}"/>
+        </h:panelGrid>
+
+    </ui:composition>
+</f:view>

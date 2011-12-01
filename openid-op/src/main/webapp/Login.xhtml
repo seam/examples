@@ -1,0 +1,38 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:viewParam name="realm" value="#{login.realm}"/>
+        <f:viewParam name="userName" value="#{login.userNameReceivedFromRp}"/>
+    </f:metadata>
+    <ui:composition template="/PageTemplate.xhtml">
+        <h:messages/>
+        <c:choose>
+            <c:when test="#{login.dialogueActive}">
+                <h1>Login at #{login.realm}</h1>
+            </c:when>
+            <c:otherwise>
+                <h1>Login</h1>
+            </c:otherwise>
+        </c:choose>
+        <h:form>
+            <h:panelGrid columns="2" columnClasses="propertyName, propertyValue">
+                <h:outputText value="User name"/>
+                <c:choose>
+                    <c:when test="#{login.userNameReceivedFromRp == null}">
+                        <h:inputText value="#{login.userName}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <h:outputText value="#{login.userNameReceivedFromRp}"/>
+                    </c:otherwise>
+                </c:choose>
+            </h:panelGrid>
+
+            <p><h:commandButton action="#{login.login}" value="Login"/> <h:commandButton
+                    action="#{login.cancel}" value="Cancel"
+                    rendered="#{login.dialogueActive}"/></p>
+        </h:form>
+    </ui:composition>
+</f:view>

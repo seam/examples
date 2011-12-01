@@ -1,0 +1,23 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core">
+    <ui:composition template="/PageTemplate.xhtml">
+
+        <h1>Login</h1>
+
+        <h:form>
+            Either choose a pre-configured OpenID provider:
+
+            <h:selectOneRadio value="#{openIdAuthenticator.providerCode}">
+                <f:selectItems value="#{openIdAuthenticator.providers}" var="p" itemValue="#{p.code}" itemLabel="#{p.name}"/>
+            </h:selectOneRadio>
+
+            If you have selected the Custom OpenID provider, please provide a URL:
+            <p><h:inputText value="#{customOpenIdProvider.url}"/></p>
+
+            <h:commandButton action="#{identity.login}" value="login"/>
+        </h:form>
+
+    </ui:composition>
+</f:view>

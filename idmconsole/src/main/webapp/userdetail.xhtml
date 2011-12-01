@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+
+    <ui:define name="sidebar">
+        <ui:include src="menu.xhtml"/>
+    </ui:define>
+
+    <ui:define name="content">
+
+        <div id="contentMain">
+
+            <h2>User Details</h2>
+
+            <h:messages globalOnly="true"/>
+
+            <h:form id="user">
+
+                <!--div class="formRow">
+                  <h:outputLabel for="firstname" value="First name" styleClass="formLabel"/>
+                  <h:inputText id="firstname" value="#{userAction.firstname}"/>
+                  <div class="validationError"><h:message for="firstname"/></div>
+                </div>
+
+                <div class="formRow">
+                  <h:outputLabel for="lastname" value="Last name" styleClass="formLabel"/>
+                  <h:inputText id="lastname" value="#{userAction.lastname}"/>
+                  <div class="validationError"><h:message for="lastname"/></div>
+                </div-->
+
+                <div class="formRow">
+                    <h:outputLabel for="username" value="Username" styleClass="formLabel"/>
+                    <h:inputText id="username" value="#{userAction.username}"/>
+
+                    <div class="validationError"><h:message for="username"/></div>
+                </div>
+
+                <div class="formRow">
+                    <h:outputLabel for="password" value="Password" styleClass="formLabel"/>
+                    <h:inputSecret id="password" value="#{userAction.password}"/>
+
+                    <div class="validationError"><h:message for="password"/></div>
+                </div>
+
+                <div class="formRow">
+                    <h:outputLabel for="confirm" value="Confirm password" styleClass="formLabel"/>
+                    <h:inputSecret id="confirm" value="#{userAction.confirm}"/>
+                </div>
+
+                <div class="formRow">
+                    <h:outputLabel for="enabled" value="Account enabled" styleClass="formLabel"/>
+                    <h:selectBooleanCheckbox id="enabled" value="#{userAction.enabled}"/>
+                </div>
+
+                <h4>Role Memberships</h4>
+
+                <div class="formRow">
+                    <ui:repeat value="#{userAction.roles}" var="role">
+                        <b>#{role.roleType.name}</b><span> in group </span><b>#{role.group.name}</b><br/>
+                    </ui:repeat>
+                </div>
+
+                <div>
+                    <h:commandButton id="addRole" value="Add new role" action="#{userAction.addRole}" styleClass="formButton"/>
+                </div>
+
+                <div class="formButtons">
+                    <h:commandButton id="save" value="Save" action="#{userAction.save}" styleClass="formButton"/>
+                    <h:commandButton id="cancel" value="Cancel" action="#{userAction.cancel}" styleClass="formButton"/>
+                </div>
+
+                <br class="clear"/>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+
