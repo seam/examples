@@ -36,6 +36,7 @@
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security</artifactId>
+	 <scope>compile</scope>
       </dependency>
 
       <dependency>
