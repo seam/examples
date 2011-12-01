@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Welcome to Princess Rescue</h1>
+
+        <p>The princess has been kidnaped by a dragon, and you are the only one who can save her. Armed only with your
+            trusty bow you bravely head into the dragon's lair, who know what horrors you will encounter, some say the
+            caves are even home to the dreaded Wumpus.</p>
+
+        <h:form id="bv">
+            <h:commandButton id="next" action="#{gameManager.newGame}" value="Play Game"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

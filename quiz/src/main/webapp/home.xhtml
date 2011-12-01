@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+    
+    	<h1>Quiz</h1>
+    	<p>Welcome to seam-config quiz example. You can run following quizzes and earn 10 points for every correct answer.</p>
+    	<p>
+       		<h:link id="geoQuiz" outcome="/geographicQuiz.xhtml" value="Geographical quiz"/><br/>
+      		<h:link id="historicQuiz" outcome="/historicQuiz.xhtml" value="Historical quiz"/>    
+       		       		
+        </p>
+        
+    </ui:define>
+    
+</ui:composition>

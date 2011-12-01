@@ -7,6 +7,7 @@ import java.net.URL;
 import org.jboss.arquillian.ajocado.dom.Event;
 import org.jboss.arquillian.ajocado.framework.AjaxSelenium;
 import org.jboss.arquillian.ajocado.locator.JQueryLocator;
+import org.jboss.arquillian.ajocado.locator.XPathLocator;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -18,9 +19,8 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 import static org.jboss.arquillian.ajocado.Ajocado.waitForXhr;
-import static org.jboss.arquillian.ajocado.locator.LocatorFactory.jq;
+import static org.jboss.arquillian.ajocado.locator.LocatorFactory.*;
 import static org.junit.Assert.assertTrue;
-
 
 /**
  * Utility methods for the booking example.
@@ -33,16 +33,17 @@ public abstract class AbstractBookingTest {
     public static final JQueryLocator LOGIN_USERNAME = jq("[id='login:username']");
     public static final JQueryLocator LOGIN_PASSWORD = jq("[id='login:password']");
     public static final JQueryLocator LOGIN_SUBMIT = jq("[id='login:login']");
-    public static final JQueryLocator LOGOUT = jq("[href^='/seam-booking/logout']");
-
-    public static final JQueryLocator MENU_FIND = jq("[href^='/seam-booking/search']");
+    public static final JQueryLocator LOGOUT = jq("a:contains('Logout')");
+    
+    public static final JQueryLocator MENU_FIND = jq("a:contains('Find a Hotel')");
     public static final JQueryLocator MENU_HOME = jq("a:contains('Home')");
-    public static final JQueryLocator MENU_ACCOUNT = jq("[href^='/seam-booking/account']");
-    public static final JQueryLocator SEARCH_QUERY = jq("#query");
+    public static final JQueryLocator MENU_ACCOUNT = jq("a:contains('Account')");
+    public static final XPathLocator SEARCH_QUERY = xp("//input[contains(@name,'query')]");
     public static final JQueryLocator SEARCH_NO_RESULTS = jq("#noHotelsMsg");
     public static final JQueryLocator SEARCH_PAGE_SIZE = jq("#pageSize");
-    public static final JQueryLocator SEARCH_RESULT_TABLE_FIRST_ROW_LINK = jq("[id='hotelSelectionForm:hotels:0:view']");
+    public static final XPathLocator SEARCH_RESULT_TABLE_FIRST_ROW_LINK = xp("//a[contains(@name,'hotelSelectionForm:hotels:0:view')]");
 
+    
     public static final String ARCHIVE_NAME = "seam-booking.war";
     public static final String BUILD_DIRECTORY = "target";
     
@@ -87,7 +88,7 @@ public abstract class AbstractBookingTest {
         selenium.type(LOGIN_PASSWORD, password);
         selenium.click(LOGIN_SUBMIT);
         selenium.waitForPageToLoad();
-
+       
         assertTrue("Login failed.", isLoggedIn());
     }
 
