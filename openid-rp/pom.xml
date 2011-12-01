@@ -50,13 +50,6 @@
       </dependency>
 
       <dependency>
-         <!-- This is necessary until a new JSF-API is published to central -->
-         <groupId>javax.faces</groupId>
-         <artifactId>jsf-api</artifactId>
-         <scope>provided</scope>
-      </dependency>
-
-      <dependency>
          <groupId>org.slf4j</groupId>
          <artifactId>slf4j-api</artifactId>
          <scope>provided</scope>
