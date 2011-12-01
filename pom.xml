@@ -26,6 +26,10 @@
    <modules>
       <module>booking</module>
       <module>timeanddate</module>
+      <module>authorization</module>
+      <module>simple</module>
+      <module>openid-rp</module>
+      <module>idmconsole</module>
    </modules>
 
    <dependencyManagement>
