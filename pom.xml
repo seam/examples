@@ -30,6 +30,8 @@
       <module>simple</module>
       <module>openid-rp</module>
       <module>idmconsole</module>
+      <module>princess-rescue</module>
+      <module>quiz</module>
    </modules>
 
    <dependencyManagement>
