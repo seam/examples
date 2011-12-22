@@ -27,7 +27,12 @@
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security</artifactId>
-	 <scope>compile</scope>
+         <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jboss.solder</groupId>
+         <artifactId>solder-impl</artifactId>
       </dependency>
 
       <!-- Required for Glassfish -->
