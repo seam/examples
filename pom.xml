@@ -4,7 +4,7 @@
    <parent>
       <groupId>org.jboss.seam</groupId>
       <artifactId>seam-parent</artifactId>
-      <version>17</version>
+      <version>19</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
@@ -20,7 +20,7 @@
    <url>http://www.seamframework.org/Seam3</url>
 
    <properties>
-      <seam.version>3.1.0.CR1</seam.version>
+      <seam.version>3.1.0.Final</seam.version>
    </properties>
 
    <modules>
