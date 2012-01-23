@@ -41,9 +41,10 @@ class GroupAction implements Serializable {
 
     public
     @Transactional
-    void deleteGroup(String name, String groupType) throws IdentityException {
+    String deleteGroup(String name, String groupType) throws IdentityException {
         Group group = new GroupImpl(name, groupType);
         identitySession.getPersistenceManager().removeGroup(group, true);
+        return "succes";
     }
 
     public
