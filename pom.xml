@@ -4,7 +4,7 @@
    <parent>
       <groupId>org.jboss.seam</groupId>
       <artifactId>seam-parent</artifactId>
-      <version>19</version>
+      <version>20-SNAPSHOT</version>
    </parent>
 
    <groupId>org.jboss.seam.examples</groupId>
