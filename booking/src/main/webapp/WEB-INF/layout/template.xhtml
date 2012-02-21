@@ -60,7 +60,7 @@
                 #{bundles.messages.template_projectStage}: #{initParam['javax.faces.PROJECT_STAGE']}
                 #{' | '}
                 #{bundles.messages.template_currentConversation}:
-                #{conversation.transient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
+                #{conversation.isTransient ? 'transient' : 'long-running, id: '.concat(conversation.id)}
             </div>
         </div>
     </h:body>
