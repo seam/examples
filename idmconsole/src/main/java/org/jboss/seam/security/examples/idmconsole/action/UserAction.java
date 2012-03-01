@@ -35,6 +35,11 @@ class UserAction implements Serializable {
     private static final long serialVersionUID = 5820385095080724087L;
 
     private static final String ATTRIBUTE_NAME_USER_ENABLED = "USER_ENABLED";
+    
+    public static final String ATTRIBUTE_NAME_FIRST_NAME = "FIRST_NAME";
+    public static final String ATTRIBUTE_NAME_LAST_NAME = "LAST_NAME";
+    
+    
 
     private String firstname;
     private String lastname;
@@ -77,6 +82,11 @@ class UserAction implements Serializable {
 
         Attribute enabledAttr = identitySession.getAttributesManager().getAttribute(username,
                 ATTRIBUTE_NAME_USER_ENABLED);
+                
+        Attribute firstNameAttr = identitySession.getAttributesManager().getAttribute(username, ATTRIBUTE_NAME_FIRST_NAME);
+    
+	    Attribute lastNameAttr = identitySession.getAttributesManager().getAttribute(username, ATTRIBUTE_NAME_LAST_NAME);
+	        
 
         if (enabledAttr != null) {
             Object value = enabledAttr.getValue();
@@ -92,6 +102,41 @@ class UserAction implements Serializable {
         } else {
             enabled = true;
         }
+
+
+if (firstNameAttr != null) {
+        Object value = firstNameAttr.getValue();
+	    if (value != null) {
+		if (String.class.isAssignableFrom(value.getClass())) {
+		    firstname = (String) firstNameAttr.getValue();
+		} else {
+		    firstname = String.valueOf((String) value);
+		}
+	    } else {
+		firstname = "";
+	    }
+	} else {
+	    firstname = "";
+	}
+	
+	if (lastNameAttr != null) {
+	    Object value = lastNameAttr.getValue();
+	    if (value != null) {
+		if (String.class.isAssignableFrom(value.getClass())) {
+		    lastname = (String) lastNameAttr.getValue();
+		} else {
+		    lastname = String.valueOf((String) value);
+		}
+	    } else {
+		lastname = "";
+	    }
+	} else {
+	    lastname = "";
+	}
+
+	newUserFlag = false;
+	
+     }
 
 
         newUserFlag = false;
@@ -139,6 +184,11 @@ class UserAction implements Serializable {
 
         User user = identitySession.getPersistenceManager().createUser(username);
         identitySession.getAttributesManager().updatePassword(user, password);
+
+        identitySession.getAttributesManager().updateAttributes(user, new Attribute[] { 
+        	new SimpleAttribute(ATTRIBUTE_NAME_FIRST_NAME, firstname),
+		    new SimpleAttribute(ATTRIBUTE_NAME_LAST_NAME, lastname)			
+	    });
 
         for (Role role : roles) {
             identitySession.getRoleManager().createRole(role.getRoleType(), user, role.getGroup());
