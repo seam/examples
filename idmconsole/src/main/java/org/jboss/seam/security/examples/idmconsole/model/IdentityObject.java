@@ -25,6 +25,8 @@ public class IdentityObject implements Serializable {
 
     private Long id;
     @IdentityProperty(PropertyType.NAME) private String name;
+    @IdentityProperty(attributeName = FIRST_NAME, value = PropertyType.ATTRIBUTE)
+    @IdentityProperty(attributeName = LAST_NAME, value = PropertyType.ATTRIBUTE)
     private IdentityObjectType type;
 
     @Id
@@ -55,6 +57,22 @@ public class IdentityObject implements Serializable {
 
     public void setType(IdentityObjectType type) {
         this.type = type;
+    }
+    
+     public String getFirstName() {
+    return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+	this.firstName = firstName;
+    }
+
+    public String getLastName() {
+	return lastName;
+    }
+
+    public void setLastName(String lastName) {
+	this.lastName = lastName;
     }
 
 }
